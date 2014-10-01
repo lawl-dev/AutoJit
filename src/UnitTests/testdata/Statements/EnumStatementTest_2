@@ -1,0 +1,7 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+Local Enum $eVariant1 = 1, $eVariant2, $eVariant3 = 5, $eVariant4
+Return $eVariant1 + $eVariant2 + $eVariant3 + $eVariant4
+EndFunc

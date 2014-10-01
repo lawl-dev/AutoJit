@@ -1,0 +1,93 @@
+Func Chalange($a, $b, $c = "hallo", $d = 123)
+	If $a > $b Then
+		Switch $d
+			Case 1 To $a
+			Case $b To $a
+			Case $c To $d
+			Case Else
+		EndSwitch
+	ElseIf $b > $c Or $a > $b Then
+		If $a > $b Then
+			Switch $d
+				Case 1 To $a
+				Case $b To $a
+				Case $c To $d
+				Case Else
+			EndSwitch
+		ElseIf $b > $c Or $a > $b Then
+			Return True
+		EndIf
+	Else
+		Switch $d
+			Case 1 To $a
+				For $i = 5 To 1 Step -1
+					For $b = 5 To 1 Step -1
+						For $ff In $a
+							For $dd In $ff
+								$sString = $dd & $ff & @CRLF
+							Next
+						Next
+						For $c = 5 To 1 Step -1
+							Return 4
+						Next
+						While True
+							While False
+								$a *= 1
+							WEnd
+						WEnd
+						Return 4
+					Next
+					Return 4
+				Next
+				Switch $d
+					Case 1 To $a
+						Select
+							Case $a
+								Do
+									Do
+										Do
+
+										Until True
+
+									Until True
+
+								Until True
+								Select
+									Case $a
+									Case 1 = 2 And 3 = 4
+									Case True
+									Case Else
+								EndSelect
+
+							Case 1 = 2 And 3 = 4
+							Case True
+								Select
+									Case $a
+									Case 1 = 2 And 3 = 4
+									Case True
+									Case Else
+								EndSelect
+							Case Else
+						EndSelect
+					Case $b To $a
+					Case $c To $d
+					Case Else
+				EndSwitch
+			Case $b To $a
+				Switch $d
+					Case 1 To $a
+					Case $b To $a
+					Case $c To $d
+					Case Else
+				EndSwitch
+			Case $c To $d
+				Switch $d
+					Case 1 To $a
+					Case $b To $a
+					Case $c To $d
+					Case Else
+				EndSwitch
+			Case Else
+		EndSwitch
+	EndIf
+EndFunc   ;==>Chalange

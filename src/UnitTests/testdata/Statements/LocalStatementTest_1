@@ -1,0 +1,23 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+
+if not @Compiled Then
+   Exit ExpressionReturner()
+EndIf
+
+Func ExpressionReturner()
+Local $arrVar[10] = [123, GetInt(1, GetInt(1, 2)), 5], $intVar = 1, $stringVar = "123, 123312"
+Local $res = 0
+For $item In $arrVar
+$res += $item;
+Next
+$res *= $intVar
+Return $res
+EndFunc
+
+Func GetInt($in, $in2)
+   Return $in * $in2
+EndFunc
+
+

@@ -1,0 +1,12 @@
+$i = 0
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+	SetIToOne()
+	Return $i;
+EndFunc
+
+Func SetIToOne()
+$i = 1
+EndFunc

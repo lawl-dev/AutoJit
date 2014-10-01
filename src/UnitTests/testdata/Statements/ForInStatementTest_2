@@ -1,0 +1,18 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+
+
+Func ExpressionReturner()
+   Return GetResult()
+EndFunc
+
+Func GetResult()
+$string = "12345"
+$res = 0
+For $part In $string
+   $res += Int($part);
+Next
+
+Return $res;
+EndFunc

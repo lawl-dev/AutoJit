@@ -1,0 +1,42 @@
+If Not @Compiled Then
+	Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+	$i = 0
+	While $i = "level1"
+	ContinueLoop 1
+		While $i = "level2"
+			ContinueLoop 2
+		Wend
+		While $i = "level2"
+		ContinueLoop 2
+		Wend
+	Wend
+	
+	While $i = "level1"
+	ContinueLoop 1
+		While $i = "level2"
+		ContinueLoop 2
+			While $i = "level3"
+				ContinueLoop 3
+			Wend
+		Wend
+		
+		While $i = "level2"
+			While $i = "level3"
+			Wend
+		Wend
+	Wend
+	
+	While $i = "level1"
+	Wend
+	
+	While $i = "level1"
+	Wend
+	Return $i
+EndFunc   ;==>ExpressionReturner
+
+
+Func Marker($param)
+Return
+EndFunc

@@ -1,0 +1,10 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+$result = 0
+For $i = 5 To 1 Step -1
+    $result += $i;
+Next
+Return $result
+EndFunc

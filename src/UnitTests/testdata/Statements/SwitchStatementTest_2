@@ -1,0 +1,20 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+$sMsg = ""
+Switch @HOUR
+    Case 6 To 11
+        $sMsg = "Good Morning"
+		ContinueCase
+    Case 12 To 17
+        $sMsg = "Good Afternoon"
+		ContinueCase
+    Case 18 To 21
+        $sMsg = "Good Evening"
+		ContinueCase
+    Case Else
+        $sMsg = "What are you still doing up?"
+EndSwitch
+Return $sMsg
+EndFunc

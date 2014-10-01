@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{214CCAE7-ED76-4F22-85B6-1F0AD95798D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AutoJIT.CSharpConverter</RootNamespace>
+    <AssemblyName>AutoJIT.CSharpConverter</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeAnalysis, Version=0.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=0.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic, Version=0.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.20.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.1.20-beta\lib\portable-net45+win8\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reflection.Context" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutojitCheck\InvalidSemanticException.cs" />
+    <Compile Include="AutojitCheck\SemanticCheckerVisitor.cs" />
+    <Compile Include="AutojitCheck\SyntaxPrintVisitor.cs" />
+    <Compile Include="AutojitCheck\SyntaxRewriterBase.cs" />
+    <Compile Include="AutojitCheck\SyntaxRewriterTest.cs" />
+    <Compile Include="AutojitCheck\SyntaxVisitorBase.cs" />
+    <Compile Include="ConversionModule\AutoitToCSharpConverter.cs" />
+    <Compile Include="ConversionModule\Context.cs" />
+    <Compile Include="ConversionModule\ContextService.cs" />
+    <Compile Include="ConversionModule\ConversionBootStrapper.cs" />
+    <Compile Include="ConversionModule\CSharpSkeletonFactory.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitArrayExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitArrayInitExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitBinaryExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitBooleanNegateExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitCallExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitDefaultExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitExpressionConverterBase.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitFalseLiteralExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitInvocationExpressionConverterBase.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitMacroExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitNegateExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitNullExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitNumericLiteralExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitStringLiteralExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitTernaryExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitTrueLiteralExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitUserfunctionCallExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitVariableExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\Interface\IAutoitExpressionConverter.cs" />
+    <Compile Include="ConversionModule\IAutoitToCSharpConverter.cs" />
+    <Compile Include="ConversionModule\IContext.cs" />
+    <Compile Include="ConversionModule\IContextService.cs" />
+    <Compile Include="ConversionModule\ICSharpSkeletonFactory.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitAssignStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitContinueCaseStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitContinueloopStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitDimStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitDoUntilStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitEnumDeclarationStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitExitloopStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitExitStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitForInStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitForToNextStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitFunctionCallStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitFunctionConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitGlobalDeclarationStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitIfElseStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitInitDefaultParameterStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitLocalDeclarationStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitRedimStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitReturnStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitSelectCaseStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitStatementConverterBase.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitSwitchCaseStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitWhileStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\Interface\IAutoitFunctionConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\Interface\IAutoitStatementConverter.cs" />
+    <Compile Include="ConversionModule\Visitor\AutoJITScriptConversionVisitor.cs" />
+    <Compile Include="ConversionModule\Visitor\ExpressionConverterVisitor.cs" />
+    <Compile Include="ConversionModule\Visitor\FunctionVisitor.cs" />
+    <Compile Include="ConversionModule\Visitor\StatementConverterVisitor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoitFunctionLibrary\AutoJIT.Runtime.csproj">
+      <Project>{f0e90f7f-f287-423b-ae31-bda2ff7532fd}</Project>
+      <Name>AutoJIT.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Parser\AutoJIT.Parser.csproj">
+      <Project>{62DDB9A0-7AA3-411F-B0C3-DA4DFE22299B}</Project>
+      <Name>AutoJIT.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lawlframework\Lawl\Lawl.csproj">
+      <Project>{EB175476-1118-44F9-858F-98DA74E5495A}</Project>
+      <Name>Lawl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

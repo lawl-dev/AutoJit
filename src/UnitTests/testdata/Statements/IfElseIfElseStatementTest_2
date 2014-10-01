@@ -1,0 +1,16 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+
+Func ExpressionReturner()
+$i = 0;
+if 0x01 > 0x02 or 4 >= 3 Then
+$i += 0x02
+elseif 0x02 > 0x01 Then
+$i += 0x01
+else
+$i += 0x00
+endif
+
+Return $i
+EndFunc

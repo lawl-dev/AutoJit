@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{62DDB9A0-7AA3-411F-B0C3-DA4DFE22299B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AutoJIT.Parser</RootNamespace>
+    <AssemblyName>AutoJIT.Parser</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.1.20-beta\lib\portable-net45+win8\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AST\AutoitScriptRootNode.cs" />
+    <Compile Include="AST\Expressions\ArrayExpression.cs" />
+    <Compile Include="AST\Expressions\ArrayInitExpression.cs" />
+    <Compile Include="AST\Expressions\BinaryExpression.cs" />
+    <Compile Include="AST\Expressions\BinaryExpressionBase.cs" />
+    <Compile Include="AST\Expressions\BooleanNegateExpression.cs" />
+    <Compile Include="AST\Expressions\CallExpression.cs" />
+    <Compile Include="AST\Expressions\DefaultExpression.cs" />
+    <Compile Include="AST\Expressions\ExpressionBase.cs" />
+    <Compile Include="AST\Expressions\FalseLiteralExpression.cs" />
+    <Compile Include="AST\Expressions\Interface\IExpressionNode.cs" />
+    <Compile Include="AST\Expressions\LiteralExpression.cs" />
+    <Compile Include="AST\Expressions\MacroExpression.cs" />
+    <Compile Include="AST\Expressions\NegateExpression.cs" />
+    <Compile Include="AST\Expressions\NullExpression.cs" />
+    <Compile Include="AST\Expressions\NumericLiteralExpression.cs" />
+    <Compile Include="AST\Expressions\StringLiteralExpression.cs" />
+    <Compile Include="AST\Expressions\TernaryExpression.cs" />
+    <Compile Include="AST\Expressions\TrueLiteralExpression.cs" />
+    <Compile Include="AST\Expressions\UserfunctionCallExpression.cs" />
+    <Compile Include="AST\Expressions\VariableExpression.cs" />
+    <Compile Include="AST\FunctionNode.cs" />
+    <Compile Include="AST\ISyntaxNode.cs" />
+    <Compile Include="AST\Parser\ExpressionParseBase.cs" />
+    <Compile Include="AST\Parser\ExpressionParser.cs" />
+    <Compile Include="AST\Parser\Interface\IExpressionParser.cs" />
+    <Compile Include="AST\Parser\Interface\IOperatorPrecedenceService.cs" />
+    <Compile Include="AST\Parser\Interface\IScriptParser.cs" />
+    <Compile Include="AST\Parser\Interface\IStatementParser.cs" />
+    <Compile Include="AST\Parser\OperatorPrecedenceService.cs" />
+    <Compile Include="AST\Parser\ParserBase.cs" />
+    <Compile Include="AST\Parser\ScriptParser.cs" />
+    <Compile Include="AST\Parser\StatementParser.cs" />
+    <Compile Include="AST\Parser\StatementParserBase.cs" />
+    <Compile Include="AST\Parser\Strategy\AssignStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\ContinueCaseStatementStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\ContinueLoopStatementStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\DimStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\DoUntilStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\ExitLoopStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\ExitStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\ForInStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\ForToNextStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\FunctionCallStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\GlobalStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\IfStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\Interface\IStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\Interface\IStatementParserStrategyResolver.cs" />
+    <Compile Include="AST\Parser\Strategy\LocalStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\RedimStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\ReturnStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\SelectStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\StatementParserStrategyBase.cs" />
+    <Compile Include="AST\Parser\Strategy\StatementParserStrategyResolver.cs" />
+    <Compile Include="AST\Parser\Strategy\SwitchCaseStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\WhileStatementParserStrategy.cs" />
+    <Compile Include="AST\PragmaOptions.cs" />
+    <Compile Include="AST\Statements\AssignStatement.cs" />
+    <Compile Include="AST\Statements\ContinueCaseStatement.cs" />
+    <Compile Include="AST\Statements\ContinueloopStatement.cs" />
+    <Compile Include="AST\Statements\DimStatement.cs" />
+    <Compile Include="AST\Statements\DoUntilStatement.cs" />
+    <Compile Include="AST\Statements\EnumDeclarationStatement.cs" />
+    <Compile Include="AST\Statements\ExitloopStatement.cs" />
+    <Compile Include="AST\Statements\ExitStatement.cs" />
+    <Compile Include="AST\Statements\Factory\AutoitStatementFactory.cs" />
+    <Compile Include="AST\Statements\Factory\CSharpStatementFactory.cs" />
+    <Compile Include="AST\Statements\Factory\IAutoitStatementFactory.cs" />
+    <Compile Include="AST\Statements\Factory\ICSharpStatementFactory.cs" />
+    <Compile Include="AST\Statements\ForInStatement.cs" />
+    <Compile Include="AST\Statements\ForToNextStatement.cs" />
+    <Compile Include="AST\Statements\FunctionCallStatement.cs" />
+    <Compile Include="AST\Statements\GlobalDeclarationStatement.cs" />
+    <Compile Include="AST\Statements\IfElseStatement.cs" />
+    <Compile Include="AST\Statements\InitDefaultParameterStatement.cs" />
+    <Compile Include="AST\Statements\Interface\IStatementNode.cs" />
+    <Compile Include="AST\Statements\Interface\StatementBase.cs" />
+    <Compile Include="AST\Statements\LocalDeclarationStatement.cs" />
+    <Compile Include="AST\Statements\ReDimStatement.cs" />
+    <Compile Include="AST\Statements\ReturnStatement.cs" />
+    <Compile Include="AST\Statements\SelectCaseStatement.cs" />
+    <Compile Include="AST\Statements\SwitchCaseStatement.cs" />
+    <Compile Include="AST\Statements\WhileStatement.cs" />
+    <Compile Include="AST\SyntaxNodeBase.cs" />
+    <Compile Include="AST\Visitor\IExpressionSyntaxVisitor.cs" />
+    <Compile Include="AST\Visitor\IExpressionVisitor.cs" />
+    <Compile Include="AST\Visitor\IFunctionSyntaxVisitor.cs" />
+    <Compile Include="AST\Visitor\IFunctionVisitor.cs" />
+    <Compile Include="AST\Visitor\IStatementVisitor.cs" />
+    <Compile Include="AST\Visitor\ISyntaxVisitor.cs" />
+    <Compile Include="AutoitParameterInfo.cs" />
+    <Compile Include="Collection\TokenCollection.cs" />
+    <Compile Include="Collection\TokenQueue.cs" />
+    <Compile Include="Exceptions\EmitException.cs" />
+    <Compile Include="Exceptions\InvalidParseException.cs" />
+    <Compile Include="Exceptions\SyntaxTreeException.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\ExpressionSyntaxExtensions.cs" />
+    <Compile Include="Extensions\GenericExtensions.cs" />
+    <Compile Include="Extensions\IntExtensions.cs" />
+    <Compile Include="Extensions\QueueExtensions.cs" />
+    <Compile Include="Extensions\StackExtensions.cs" />
+    <Compile Include="Extensions\StatementSyntaxExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Helper\CompilerHelper.cs" />
+    <Compile Include="Helper\CSharpParameterInfo.cs" />
+    <Compile Include="Keywords.cs" />
+    <Compile Include="Lex\Interface\ILexer.cs" />
+    <Compile Include="Lex\Interface\IPragmaParser.cs" />
+    <Compile Include="Lex\Interface\ITokenFactory.cs" />
+    <Compile Include="Lex\Lexer.cs" />
+    <Compile Include="Lex\PragmaParser.cs" />
+    <Compile Include="Lex\Token.cs" />
+    <Compile Include="Lex\TokenFactory.cs" />
+    <Compile Include="Lex\TokenType.cs" />
+    <Compile Include="Lex\TokenValue.cs" />
+    <Compile Include="Optimizer\IOptimizer.cs" />
+    <Compile Include="Optimizer\Optimizer.cs" />
+    <Compile Include="ParserBootStrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\IInjectionService.cs" />
+    <Compile Include="Service\InjectionService.cs" />
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoitFunctionLibrary\AutoJIT.Runtime.csproj">
+      <Project>{f0e90f7f-f287-423b-ae31-bda2ff7532fd}</Project>
+      <Name>AutoJIT.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\lawlframework\Lawl\Lawl.csproj">
+      <Project>{EB175476-1118-44F9-858F-98DA74E5495A}</Project>
+      <Name>Lawl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,7 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+Dim $result[12][12]
+Return $result
+EndFunc

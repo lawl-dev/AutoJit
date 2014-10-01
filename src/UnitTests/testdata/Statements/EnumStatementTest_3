@@ -1,0 +1,7 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+Local Enum Step *2 $eFoo1, $eFoo2, $eFoo3, $eFoo4
+Return $eFoo1 + $eFoo2 + $eFoo3 + $eFoo4
+EndFunc

@@ -1,0 +1,23 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+
+Func GetIntFromString($string)
+   Return Int(StringToBinary($string))
+EndFunc
+
+
+Func ExpressionReturner()
+   Return GetIntFromString(GetResult())
+EndFunc
+
+Func GetResult()
+$string = "Hallo liebe omi!"
+$split = StringSplit($string, " ")
+$res = "";
+For $part In $split
+   $res &= $part;
+Next
+
+Return $res;
+EndFunc

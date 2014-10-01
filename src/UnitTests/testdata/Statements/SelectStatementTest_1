@@ -1,0 +1,66 @@
+if NOT @Compiled Then
+Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+    $iValue = @MIN
+    Select
+        Case $iValue = 1
+            Return $iValue
+		Case $iValue = 2
+            Return $iValue;
+		Case $iValue = 3
+            Return $iValue;
+		Case $iValue = 4
+            Return $iValue;
+		Case $iValue = 5
+            Return $iValue;
+		Case $iValue = 6
+            Return $iValue;
+		Case $iValue = 7
+            Return $iValue;
+		Case $iValue = 8
+            Return $iValue;
+		Case $iValue = 9
+            Return $iValue;
+		Case $iValue = 10
+            Return $iValue;
+		Case $iValue = 11
+            Return $iValue;
+		Case $iValue = 12
+            Return $iValue;
+		Case $iValue = 13
+            Return $iValue;
+		Case $iValue = 14
+            Return $iValue;
+        Case $iValue = 15
+            Return $iValue
+		Case $iValue = 16
+            Return $iValue;
+		Case $iValue = 17
+            Return $iValue;
+		Case $iValue = 18
+            Return $iValue;
+		Case $iValue = 19
+            Return $iValue;
+		Case $iValue = 20
+            Return $iValue;
+		Case $iValue = 21
+            Return $iValue;
+		Case $iValue = 22
+            Return $iValue;
+		Case $iValue = 23
+            Return $iValue;
+		Case $iValue = 24
+            Return $iValue;
+		Case $iValue = 25
+            Return $iValue;
+		Case $iValue = 26
+            Return $iValue;
+		Case $iValue = 27
+            Return $iValue;
+		Case $iValue = 28
+            Return $iValue;
+		Case Else ; If nothing matches then execute the following.
+            Return 1337
+    EndSelect
+EndFunc   ;==>Example

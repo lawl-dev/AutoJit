@@ -1,0 +1,3 @@
+[submodule "lawlframework"]
+	path = lawlframework
+	url = https://lawl-dev@bitbucket.org/lawl-dev/lawlframework.git

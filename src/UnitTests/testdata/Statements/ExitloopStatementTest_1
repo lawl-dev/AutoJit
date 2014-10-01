@@ -1,0 +1,71 @@
+If Not @Compiled Then
+	Exit ExpressionReturner()
+EndIf
+Func ExpressionReturner()
+	$i = 0
+	For $a = 1 To 10 ;count 1;
+		;level 1
+		For $b = 1 To 10 ;count 2;
+			;level 2
+			For $c = 1 To 10 ;count 3;
+				;level 3
+				$d = 1
+				While $d < 5 ;count 4; 
+					;level 4
+					If $d == 2 Then ExitLoop 2
+					$d += 1
+					;level 4
+				WEnd				
+				;level 3
+				While $d < 5 ;count 5; 
+					;level 4
+					If $d == 2 Then ExitLoop 2
+					$d += 1
+					;level 4
+				WEnd
+				;level 3
+			Next
+			;level 2 <-- 
+			Marker("level2")
+			If $d == 2 Then
+				For $c = 1 To 10 ;count 6; 
+					;level 3
+					$d = 1
+					While $d < 5 ;count 7; 
+						;level 4
+						If $d == 3 Then ExitLoop 1
+						$d += 1
+						;level 4
+					WEnd
+					
+					While $d < 5 ;count 7; 
+						;level 4
+						If $d == 3 Then ExitLoop 2
+						$d += 1
+						;level 4
+					WEnd
+					
+					While $d < 5 ;count 7; 
+						;level 4
+						If $d == 3 Then ExitLoop 3
+						$d += 1
+						;level 4
+					WEnd
+					
+					;level 3
+				Next
+				;level 2 <--
+				Marker("level2")				
+				If $d == 3 Then Return 1337
+			EndIf
+		Next
+		Marker("levelq")	
+		;level 1
+	Next
+	Return $i
+EndFunc   ;==>ExpressionReturner
+
+
+Func Marker($param)
+Return
+EndFunc
