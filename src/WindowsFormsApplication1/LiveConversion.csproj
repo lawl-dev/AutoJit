@@ -93,13 +93,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Autoit.NET\AutoJIT.CSharpConverter.csproj">
-      <Project>{214ccae7-ed76-4f22-85b6-1f0ad95798d1}</Project>
-      <Name>AutoJIT.CSharpConverter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Compiler\AutoJIT.Compiler.csproj">
       <Project>{A702CB78-13EA-414A-AFBE-C9CD3126DB77}</Project>
       <Name>AutoJIT.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.ConversionModule\AutoJIT.CSharpConverter.csproj">
+      <Project>{214CCAE7-ED76-4F22-85B6-1F0AD95798D1}</Project>
+      <Name>AutoJIT.CSharpConverter</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Parser\AutoJIT.Parser.csproj">
       <Project>{62DDB9A0-7AA3-411F-B0C3-DA4DFE22299B}</Project>

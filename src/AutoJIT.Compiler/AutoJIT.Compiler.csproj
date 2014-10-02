@@ -78,17 +78,17 @@
     <Compile Include="CompilerBootStrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Autoit.NET\AutoJIT.CSharpConverter.csproj">
-      <Project>{214ccae7-ed76-4f22-85b6-1f0ad95798d1}</Project>
+    <ProjectReference Include="..\AutoJIT.ConversionModule\AutoJIT.CSharpConverter.csproj">
+      <Project>{214CCAE7-ED76-4F22-85B6-1F0AD95798D1}</Project>
       <Name>AutoJIT.CSharpConverter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AutoitFunctionLibrary\AutoJIT.Runtime.csproj">
-      <Project>{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}</Project>
-      <Name>AutoJIT.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Parser\AutoJIT.Parser.csproj">
       <Project>{62ddb9a0-7aa3-411f-b0c3-da4dfe22299b}</Project>
       <Name>AutoJIT.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
+      <Project>{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}</Project>
+      <Name>AutoJIT.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="..\lawlframework\Lawl\Lawl.csproj">
       <Project>{EB175476-1118-44F9-858F-98DA74E5495A}</Project>

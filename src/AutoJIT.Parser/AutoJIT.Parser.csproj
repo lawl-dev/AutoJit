@@ -175,7 +175,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoitFunctionLibrary\AutoJIT.Runtime.csproj">
+    <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
       <Project>{f0e90f7f-f287-423b-ae31-bda2ff7532fd}</Project>
       <Name>AutoJIT.Runtime</Name>
     </ProjectReference>

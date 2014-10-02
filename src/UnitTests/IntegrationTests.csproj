@@ -85,14 +85,6 @@
     <Compile Include="WinApiDllTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Autoit.NET\AutoJIT.CSharpConverter.csproj">
-      <Project>{214ccae7-ed76-4f22-85b6-1f0ad95798d1}</Project>
-      <Name>AutoJIT.CSharpConverter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AutoitFunctionLibrary\AutoJIT.Runtime.csproj">
-      <Project>{f0e90f7f-f287-423b-ae31-bda2ff7532fd}</Project>
-      <Name>AutoJIT.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Compiler\AutoJIT.Compiler.csproj">
       <Project>{A702CB78-13EA-414A-AFBE-C9CD3126DB77}</Project>
       <Name>AutoJIT.Compiler</Name>
@@ -100,6 +92,10 @@
     <ProjectReference Include="..\AutoJIT.Parser\AutoJIT.Parser.csproj">
       <Project>{62DDB9A0-7AA3-411F-B0C3-DA4DFE22299B}</Project>
       <Name>AutoJIT.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
+      <Project>{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}</Project>
+      <Name>AutoJIT.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="..\lawlframework\Lawl\Lawl.csproj">
       <Project>{eb175476-1118-44f9-858f-98da74e5495a}</Project>
