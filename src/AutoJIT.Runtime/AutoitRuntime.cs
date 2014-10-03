@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace AutoJITRuntime
@@ -1542,9 +1546,20 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant ProcessExists(Variant process)
-        {
-            throw new NotImplementedException();
+        public Variant ProcessExists(Variant process) {
+            var processesByName = Process.GetProcessesByName( process ).SingleOrDefault();
+            if ( processesByName != null ) {
+                return processesByName.Id;
+            }
+
+
+            try {
+                var byId = Process.GetProcessById(process);
+                return byId.Id;
+            }
+            catch (Exception) {
+                return 0;
+            }
         }
 
         public Variant ProcessGetStats(Variant process = null, Variant type = null)
@@ -1588,13 +1603,23 @@ namespace AutoJITRuntime
         }
 
         public Variant Ptr(Variant expression) {
-            var intptr = Marshal.AllocHGlobal( Marshal.SizeOf( expression.GetValue() ) );
-            Marshal.StructureToPtr( expression.GetValue(), intptr, true );
-            return intptr;
+            return new IntPtr(expression);
         }
 
         public Variant Random(Variant Min = null, Variant Max = null, Variant Flag = null)
         {
+            if ( Min == null ) {
+                Min = 0;
+            }
+
+            if ( Max == null ) {
+                Max = 1;
+            }
+
+            if ( Flag == null ) {
+                Flag = 0;
+            }
+
             throw new NotImplementedException();
         }
 
@@ -1625,7 +1650,11 @@ namespace AutoJITRuntime
 
         public Variant Round(Variant expression, Variant decimalplaces = null)
         {
-            throw new NotImplementedException();
+            if ( decimalplaces == null ) {
+                decimalplaces = 0;
+            }
+
+            return Math.Round( (double) expression, decimalplaces );
         }
 
         public Variant Run(Variant program, Variant workingdir = null, Variant showflag = null, Variant opt_flag = null)
@@ -1680,19 +1709,84 @@ namespace AutoJITRuntime
         }
 
         public Variant SetError(Variant code, Variant extended = null, Variant returnvalue = null) {
+            if (returnvalue == null)
+            {
+                returnvalue = 0;
+            }
+            
             _context.Error = code;
             _context.Extended = extended;
             return returnvalue;
         }
 
-        public Variant SetExtended(Variant code, Variant returnvalue = null)
-        {
-            throw new NotImplementedException();
+        public Variant SetExtended(Variant code, Variant returnvalue = null) {
+            if (returnvalue == null)
+            {
+                returnvalue = 0;
+            }
+
+            _context.Extended = code.GetInt();
+
+
+            return returnvalue;
         }
 
-        public Variant ShellExecute(Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null)
-        {
-            throw new NotImplementedException();
+        public Variant ShellExecute(Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null) {
+            if ( parameters == null ) {
+                parameters = string.Empty;
+            }
+
+            if ( workingdir == null ) {
+                workingdir = string.Empty;
+            }
+
+            if ( verb == null ) {
+                verb = string.Empty;
+            }
+
+            if ( showflag == null ) {
+                showflag = _context.SW_SHOW;
+            }
+
+
+            var startInfo = new ProcessStartInfo(filename);
+            if ( verb != string.Empty ) {
+                startInfo.Verb = verb;
+            }
+
+            if ( workingdir != string.Empty ) {
+                startInfo.WorkingDirectory = workingdir;
+            }
+
+            if ( parameters != string.Empty ) {
+                startInfo.Arguments = parameters;
+            }
+
+            var flag = showflag.GetInt();
+            if ( flag == _context.SW_HIDE ) {
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            }
+            else if ( flag == _context.SW_MINIMIZE ) {
+                startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            }
+            else if ( flag == _context.SW_MAXIMIZE ) {
+                startInfo.WindowStyle = ProcessWindowStyle.Maximized;
+            }
+            startInfo.UseShellExecute = true;
+
+            try {
+                Process.Start( startInfo );
+            }
+            catch (Win32Exception exception) {
+                _context.Error = exception.NativeErrorCode;
+
+            }
+            catch (Exception) {
+                _context.Error = 1;
+                return false;
+            }
+
+            return true;
         }
 
         public Variant ShellExecuteWait(Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null)
@@ -1705,14 +1799,14 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant Sin(Variant expression)
-        {
-            throw new NotImplementedException();
+        public Variant Sin(Variant expression) {
+            return Math.Sin( expression );
         }
 
         public Variant Sleep(Variant delay)
         {
-            throw new NotImplementedException();
+            Thread.Sleep( delay );
+            return 0;
         }
 
         public Variant SoundPlay(Variant filename, Variant wait = null)
@@ -1757,9 +1851,8 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant Sqrt(Variant expression)
-        {
-            throw new NotImplementedException();
+        public Variant Sqrt(Variant expression) {
+            return Math.Sqrt( expression );
         }
 
         public Variant StatusbarGetText(Variant title, Variant text = null, Variant part = null)
@@ -1787,14 +1880,12 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant String(Variant expression)
-        {
-            throw new NotImplementedException();
+        public Variant String(Variant expression) {
+            return expression.GetString();
         }
 
-        public Variant StringAddCR(Variant @string)
-        {
-            throw new NotImplementedException();
+        public Variant StringAddCR(Variant @string) {
+            return @string.GetString().Replace( "\n", "\r\n" );
         }
 
         public Variant StringCompare(Variant string1, Variant string2, Variant casesense = null)
@@ -1823,9 +1914,8 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant StringIsASCII(Variant @string)
-        {
-            throw new NotImplementedException();
+        public Variant StringIsASCII(Variant @string) {
+            return @string.GetString().All( c => (c > -1 && c < 128) );
         }
 
         public Variant StringIsAlNum(Variant @string)
@@ -1833,14 +1923,12 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant StringIsAlpha(Variant @string)
-        {
-            throw new NotImplementedException();
+        public Variant StringIsAlpha(Variant @string) {
+            return @string.GetString().All( char.IsLetter );
         }
 
-        public Variant StringIsDigit(Variant @string)
-        {
-            throw new NotImplementedException();
+        public Variant StringIsDigit(Variant @string) {
+            return @string.GetString().All( char.IsDigit );
         }
 
         public Variant StringIsFloat(Variant @string)
@@ -1853,38 +1941,39 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant StringIsLower(Variant @string)
-        {
-            throw new NotImplementedException();
+        public Variant StringIsLower(Variant @string) {
+            return @string.GetString().All( char.IsLower );
         }
 
-        public Variant StringIsSpace(Variant @string)
-        {
-            throw new NotImplementedException();
+        public Variant StringIsSpace(Variant @string) {
+            return @string.GetString().All( char.IsWhiteSpace );
         }
 
         public Variant StringIsUpper(Variant @string)
         {
-            throw new NotImplementedException();
+            return @string.GetString().All(char.IsUpper);
         }
 
-        public Variant StringIsXDigit(Variant @string)
-        {
+        public Variant StringIsXDigit(Variant @string) {
             throw new NotImplementedException();
         }
 
         public Variant StringLeft(Variant @string, Variant count)
         {
-            throw new NotImplementedException();
+            var fullString = @string.GetString();
+            if (fullString.Length <= count)
+            {
+                return fullString;
+            }
+            return fullString.Substring(0,  count);
         }
 
         public Variant StringLen(Variant @string) {
             return @string.ToString().Length;
         }
 
-        public Variant StringLower(Variant @string)
-        {
-            throw new NotImplementedException();
+        public Variant StringLower(Variant @string) {
+            return @string.GetString().ToLower();
         }
 
         public Variant StringMid(Variant @string, Variant start, Variant count = null)
@@ -1912,9 +2001,12 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant StringRight(Variant @string, Variant count)
-        {
-            throw new NotImplementedException();
+        public Variant StringRight(Variant @string, Variant count) {
+            var fullString = @string.GetString();
+            if ( fullString.Length <= count ) {
+                return fullString;
+            }
+            return fullString.Substring( count, fullString.Length-count );
         }
 
         public Variant StringSplit(Variant @string, Variant delimiters, Variant flag = null)
@@ -1922,19 +2014,51 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant StringStripCR(Variant @string)
-        {
-            throw new NotImplementedException();
+        public Variant StringStripCR(Variant @string) {
+            return @string.GetString().Replace( "\r", string.Empty );
         }
 
-        public Variant StringStripWS(Variant @string, Variant flag)
-        {
-            throw new NotImplementedException();
+        public Variant StringStripWS(Variant @string, Variant flag) {
+            return @string.GetString().Replace( " ", string.Empty );
         }
 
         public Variant StringToASCIIArray(Variant @string, Variant start = null, Variant end = null, Variant encoding = null)
         {
-            throw new NotImplementedException();
+            var toConvert = @string.GetString();
+            
+            if ( start == null ) {
+                start = 0;
+            }
+
+            if ( end == null ) {
+                end = toConvert.Length;
+            }
+
+            if ( encoding == null ) {
+                encoding = 0;
+            }
+
+            if ( start+end >= toConvert.Length ) {
+                return string.Empty;
+            }
+
+            byte[] bytes;
+
+            switch (encoding.GetInt()) {
+                case 0:
+                    bytes = Encoding.Unicode.GetBytes(toConvert.Substring( start, end ));
+                    break;
+                case 1:
+                    bytes = Encoding.Default.GetBytes( toConvert.Substring( start, end ) );
+                    break;
+                case 2:
+                    bytes = Encoding.UTF8.GetBytes( toConvert.Substring( start, end ) );
+                    break;
+                default:
+                    return string.Empty;
+            }
+
+            return bytes.Select( x => Variant.Create( (int) x ) ).ToArray();
         }
 
         public Variant StringToBinary(Variant expression, Variant flag = null)
@@ -1944,12 +2068,20 @@ namespace AutoJITRuntime
 
         public Variant StringTrimLeft(Variant @string, Variant count)
         {
-            throw new NotImplementedException();
+            var toTrim = @string.GetString();
+            if (toTrim.Length - count <= 0)
+            {
+                return string.Empty;
+            }
+            return toTrim.Substring(count, toTrim.Length - count);
         }
 
-        public Variant StringTrimRight(Variant @string, Variant count)
-        {
-            throw new NotImplementedException();
+        public Variant StringTrimRight(Variant @string, Variant count) {
+            var toTrim = @string.GetString();
+            if ( toTrim.Length-count <= 0 ) {
+                return string.Empty;
+            }
+            return toTrim.Substring( 0, toTrim.Length-count );
         }
 
         public Variant StringUpper(Variant @string) {
@@ -2011,19 +2143,16 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant Tan(Variant expression)
-        {
-            throw new NotImplementedException();
+        public Variant Tan(Variant expression) {
+            return Math.Tan( expression );
         }
 
-        public Variant TimerDiff(Variant handle)
-        {
-            throw new NotImplementedException();
+        public Variant TimerDiff(Variant handle) {
+            return new TimeSpan(Stopwatch.GetTimestamp() - handle).TotalMilliseconds;
         }
 
-        public Variant TimerInit()
-        {
-            throw new NotImplementedException();
+        public Variant TimerInit() {
+            return Stopwatch.GetTimestamp();
         }
 
         public Variant ToolTip(Variant text, Variant x = null, Variant y = null, Variant title = null, Variant icon = null, Variant options = null)
@@ -2148,8 +2277,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant
-            VarGetType(Variant expression)
+        public Variant VarGetType(Variant expression)
         {
             throw new NotImplementedException();
         }
