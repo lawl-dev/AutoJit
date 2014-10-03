@@ -32,7 +32,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             toReturn.Add(
                 SyntaxFactory.DoStatement(
                     block.ToBlock(),
-                    Convert(statement.Condition, context) ) );
+                    SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, Convert( statement.Condition, context ) ) ) );
 
             toReturn.Add( SyntaxFactory.LabeledStatement( exitLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
