@@ -35,8 +35,8 @@ namespace AutoJIT.Compiler
             script = _pragmaParser.IncludeDependenciesAndResolvePragmas(script, pragmaOptions);
 
             var autoJITScript = _scriptParser.ParseScript(script, pragmaOptions);
+           
 
-            
             var cSharpTree = _autoitToCSharpConverter.Convert( autoJITScript );
 
             var compilationUnit = SyntaxFactory.CompilationUnit()

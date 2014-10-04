@@ -57,8 +57,10 @@ namespace AutoJIT.Parser.AST.Statements
         public override object Clone() {
             return new IfElseStatement(
                 (IExpressionNode) Condition.Clone(), IfBlock.Select( x => (IStatementNode) x.Clone() ),
-                ElseIfConditions.Select( x => (IExpressionNode) x.Clone() ), ElseIfBlocks.Select( x => x.Select( y => (IStatementNode) y.Clone() ) ),
-                ElseBlock.Select( x => (IStatementNode) x.Clone() ) );
+                CloneEnumerableAs<IExpressionNode>( ElseIfConditions ), ElseIfBlocks != null
+                    ? ElseIfBlocks.Select( CloneEnumerableAs<IStatementNode> )
+                    : null,
+                CloneEnumerableAs<IStatementNode>( ElseBlock ) );
         }
 
         public override IEnumerable<ISyntaxNode> Children

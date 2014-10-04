@@ -6,15 +6,19 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class ArrayExpression : VariableExpression
     {
-        public readonly List<IExpressionNode> AccessParameter;
+        public readonly IEnumerable<IExpressionNode> AccessParameter;
 
-        public ArrayExpression( string identifierName, List<IExpressionNode> accessParameter ) : base( identifierName ) {
+        public ArrayExpression( string identifierName, IEnumerable<IExpressionNode> accessParameter ) : base( identifierName ) {
             AccessParameter = accessParameter;
             Initialize();
         }
 
         public override string ToSource() {
             return string.Format( "${0}{1}", IdentifierName, AccessParameter.Select( x => string.Format( "[{0}]", x.ToSource() ) ) );
+        }
+
+        public override object Clone() {
+            return new ArrayExpression( (string) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
         }
 
         public override IEnumerable<ISyntaxNode> Children

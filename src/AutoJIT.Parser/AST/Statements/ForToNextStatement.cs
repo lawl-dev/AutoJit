@@ -45,7 +45,7 @@ namespace AutoJIT.Parser.AST.Statements
         public override object Clone() {
             return new ForToNextStatement(
                 (VariableExpression) VariableExpression.Clone(), (IExpressionNode) StartExpression.Clone(), (IExpressionNode) EndExpression.Clone(),
-                (IExpressionNode) StepExpression.Clone(), Block.Select( x => (IStatementNode) x.Clone() ) );
+                CloneAs<IExpressionNode>(  StepExpression), Block.Select( x => (IStatementNode) x.Clone() ) );
         }
 
         public override IEnumerable<ISyntaxNode> Children

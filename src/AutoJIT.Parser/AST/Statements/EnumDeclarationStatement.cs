@@ -31,7 +31,7 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override object Clone() {
             return new EnumDeclarationStatement(
-                (VariableExpression) VariableExpression.Clone(), (IExpressionNode) UserInitExpression.Clone(), (IExpressionNode) AutoInitExpression.Clone(),
+                (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( UserInitExpression), CloneAs<IExpressionNode>( AutoInitExpression),
                 IsGlobal );
         }
 

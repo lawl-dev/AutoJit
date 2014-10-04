@@ -25,7 +25,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new DimStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) InitExpression.Clone() );
+            return new DimStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>(InitExpression) );
         }
 
         public override IEnumerable<ISyntaxNode> Children

@@ -29,7 +29,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new LocalDeclarationStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) InitExpression.Clone(), IsConst, IsStatic );
+            return new LocalDeclarationStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression), IsConst, IsStatic );
         }
 
         public override IEnumerable<ISyntaxNode> Children

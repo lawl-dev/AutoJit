@@ -19,6 +19,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoJIT.CSharpConverter", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoJIT.Runtime", "AutoJIT.Runtime\AutoJIT.Runtime.csproj", "{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoJIT.CompilerApplication", "AutoJIT.CompilerApplication\AutoJIT.CompilerApplication.csproj", "{948112E9-BC5F-4EDA-8801-0D0E2779C728}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{47DAC42D-5F94-429A-A3A3-5FA3C653B0D7}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +172,22 @@ Global
 		{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}.Release|Win32.ActiveCfg = Release|Any CPU
 		{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}.Release|x64.ActiveCfg = Release|Any CPU
 		{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}.Release|x86.ActiveCfg = Release|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Release|ARM.ActiveCfg = Release|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Release|Win32.ActiveCfg = Release|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Release|x64.ActiveCfg = Release|Any CPU
+		{948112E9-BC5F-4EDA-8801-0D0E2779C728}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

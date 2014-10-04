@@ -39,7 +39,7 @@ namespace AutoJIT.Parser.AST
         }
 
         public override object Clone() {
-            return new FunctionNode( (string) Name.Clone(), Parameter );
+            return new FunctionNode( (string) Name.Clone(), Parameter ){Statements = Statements.Select( x=>(IStatementNode)x.Clone() ).ToList()};
         }
 
         public override IEnumerable<ISyntaxNode> Children

@@ -18,7 +18,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ReturnStatement( (IExpressionNode) ReturnExpression.Clone() );
+            return new ReturnStatement(CloneAs<IExpressionNode>(ReturnExpression));
         }
 
         public override IEnumerable<ISyntaxNode> Children
