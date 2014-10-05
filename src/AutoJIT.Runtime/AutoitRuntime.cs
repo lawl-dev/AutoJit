@@ -730,9 +730,8 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant Floor(Variant expression)
-        {
-            throw new NotImplementedException();
+        public Variant Floor(Variant expression) {
+            return Math.Floor( (double) expression );
         }
 
         public Variant FtpSetProxy(Variant mode = null, Variant proxyport = null, Variant username = null, Variant password = null)
@@ -1346,7 +1345,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant IsAdmin(Variant expression)
+        public Variant IsAdmin()
         {
             throw new NotImplementedException();
         }
@@ -1368,9 +1367,8 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant IsDllStruct(Variant variable)
-        {
-            throw new NotImplementedException();
+        public Variant IsDllStruct(Variant variable) {
+            return variable.IsStruct;
         }
 
         public Variant IsFloat(Variant variable) {
@@ -1513,9 +1511,11 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant Ping(Variant addresshostname, Variant timeout = null)
-        {
-            throw new NotImplementedException();
+        public Variant Ping(Variant addresshostname, Variant timeout = null) {
+            if ( timeout == null ) {
+                timeout = 4000;
+            }
+            return new System.Net.NetworkInformation.Ping().Send( addresshostname, timeout ).RoundtripTime;
         }
 
         public Variant PixelChecksum(Variant left, Variant top, Variant right, Variant bottom, Variant step = null, Variant hwnd = null, Variant mode = null)
@@ -1955,7 +1955,7 @@ namespace AutoJITRuntime
         }
 
         public Variant StringIsXDigit(Variant @string) {
-            throw new NotImplementedException();
+            return @string.GetString().All( c => ( ( c >= 0 && c <= 9 ) || ( ( c >= 'a' || c >= 'A' ) && ( c <= 'F' || c <= 'f' ) ) ) );
         }
 
         public Variant StringLeft(Variant @string, Variant count)
@@ -1998,7 +1998,10 @@ namespace AutoJITRuntime
 
         public Variant StringReverse(Variant @string, Variant flag = null)
         {
-            throw new NotImplementedException();
+            if ( flag == null ) {
+                flag = 0;
+            }
+            return new String(@string.GetString().Reverse().ToArray());
         }
 
         public Variant StringRight(Variant @string, Variant count) {
