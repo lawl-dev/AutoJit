@@ -70,10 +70,6 @@
       <Project>{EB175476-1118-44F9-858F-98DA74E5495A}</Project>
       <Name>Lawl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UnitTests\IntegrationTests.csproj">
-      <Project>{6c5a2e42-eee7-482e-9097-a3bc2c0529a1}</Project>
-      <Name>IntegrationTests</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

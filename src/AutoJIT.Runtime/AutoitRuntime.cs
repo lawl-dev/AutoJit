@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Win32.SafeHandles;
 
 namespace AutoJITRuntime
 {
@@ -133,7 +135,7 @@ namespace AutoJITRuntime
 
         public Variant BitAND(Variant value1, Variant value2, params Variant[] valuen)
         {
-            var res = (int)value1 & (int)value1;
+            var res = (int)value1 & (int)value2;
             foreach (var variant in valuen)
             {
                 res &= variant;
@@ -146,7 +148,7 @@ namespace AutoJITRuntime
         }
 
         public Variant BitOR(Variant value1, Variant value2, params Variant[] valuen) {
-            var res = (int)value1 | (int)value1;
+            var res = (int)value1 | (int)value2;
             foreach (var variant in valuen) {
                 res |= variant;
             }
@@ -159,15 +161,15 @@ namespace AutoJITRuntime
         }
 
         public Variant BitShift(Variant value, Variant shift) {
-            var intValue = (int)value;
-            if ( intValue > 0 ) {
-                return intValue >> (int) shift;
+            if (shift > 0)
+            {
+                return value >> shift.GetInt();
             }
-            return intValue << (int)shift;
+            return value << -shift.GetInt();
         }
 
         public Variant BitXOR(Variant value1, Variant value2, params Variant[] valuen) {
-            var res = (int)value1 ^ (int)value1;
+            var res = (int)value1 ^ (int)value2;
             foreach (var variant in valuen)
             {
                 res ^= variant;
@@ -720,9 +722,23 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant FileWrite(Variant filehandlefilename, Variant textdata)
-        {
-            throw new NotImplementedException();
+        public Variant FileWrite(Variant filehandlefilename, Variant textdata) {
+            try {
+                FileStream fileStream;
+                if (filehandlefilename.IsPtr)
+                {
+                    fileStream = new FileStream(new SafeFileHandle(filehandlefilename, true), FileAccess.Write);
+                }
+                else
+                {
+                    fileStream = new FileStream(filehandlefilename.GetString(), FileMode.Open, FileAccess.Write);
+                }
+                fileStream.Write(textdata.GetBinary(), 0, textdata.GetBinary().Length);
+            }
+            catch (Exception) {
+                return false;
+            }
+            return true;
         }
 
         public Variant FileWriteLine(Variant filehandlefilename, Variant line)
@@ -1422,7 +1438,12 @@ namespace AutoJITRuntime
 
         public Variant Mod(Variant value1, Variant value2)
         {
-            throw new NotImplementedException();
+            if(value1.IsInt32 || value2.IsInt32)
+            {
+                return value1.GetInt()&value2.GetInt();
+            }
+
+            return value1.GetDouble() % value2.GetDouble();
         }
 
         public Variant MouseClick(Variant button, Variant x = null, Variant y = null, Variant clicks = null, Variant speed = null)
@@ -1976,9 +1997,22 @@ namespace AutoJITRuntime
             return @string.GetString().ToLower();
         }
 
-        public Variant StringMid(Variant @string, Variant start, Variant count = null)
-        {
-            throw new NotImplementedException();
+        public Variant StringMid(Variant @string, Variant start, Variant count = null) {
+            var toMid = @string.GetString();
+            if ( count == null ) {
+                count = toMid.Length-start;
+            }
+
+            if ( start < 1 ||
+                 start-1 > toMid.Length ) {
+                return string.Empty;
+            }
+
+            if ( start-1+count > toMid.Length) {
+                return toMid.Substring( start-1, toMid.Length-(start-1) );
+            }
+
+            return toMid.Substring( start-1, count );
         }
 
         public Variant StringRegExp(Variant test, Variant pattern, Variant flag = null, Variant offset = null)
@@ -2009,7 +2043,7 @@ namespace AutoJITRuntime
             if ( fullString.Length <= count ) {
                 return fullString;
             }
-            return fullString.Substring( count, fullString.Length-count );
+            return fullString.Substring(fullString.Length-count, count);
         }
 
         public Variant StringSplit(Variant @string, Variant delimiters, Variant flag = null)

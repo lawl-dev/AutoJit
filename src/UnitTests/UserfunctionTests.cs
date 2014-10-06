@@ -4,9 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Windows.Forms.VisualStyles;
-using AutoJIT;
 using AutoJIT.Compiler;
+using AutoJITScript;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
@@ -103,10 +102,35 @@ namespace UnitTests
             });
 
         }
+        
+        
+        [TestCase("DES.au3")]
+        public void Test_compile_DES(string file)
+        {
+            var path = string.Format("{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file);
+            var script = File.ReadAllText(path);
+
+            Assert.DoesNotThrow(() =>
+            {
+                var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
+                File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe", assemblyBytes);
+                
+                var process = Process.Start( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe" );
+                while ( !process.HasExited ) {
+                    Thread.Sleep( 1000 );
+                }
+                Debug.Write(process.ExitCode);
+            });
+
+        }
 
         [Test]
         public void Foo() {
-            //var timestamp = ;
+            Console.WriteLine(1111 << 1);
+            Console.WriteLine(1111 >> -1);
+
+            var autoJITScriptClass = new AutoJITScriptClass();
+
         }
     }
 }

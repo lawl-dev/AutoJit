@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms.VisualStyles;
 
 namespace AutoJITRuntime
 {
@@ -44,7 +45,10 @@ namespace AutoJITRuntime
             if ( _start < _to ) {
                 return ( a, b ) => a <= _to;
             }
-            throw new NotImplementedException();
+            if ( _start == _to ) {
+                return ( a, b ) => a == b;
+            }
+            throw new NotImplementedException("_start " + _start + "to " +  _to + "step " + _step);
         } 
     }
 }

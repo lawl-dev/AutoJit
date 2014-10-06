@@ -95,7 +95,7 @@ namespace AutoJITRuntime
         }
 
         public Variant @CR {
-            get { throw new NotImplementedException(); }
+            get { return "\r"; }
         }
 
         public Variant @TAB {

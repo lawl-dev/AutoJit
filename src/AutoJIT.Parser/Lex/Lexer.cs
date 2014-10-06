@@ -345,7 +345,7 @@ namespace AutoJIT.Parser.Lex
                 return true;
             }
 
-            var function = typeof (AutoitRuntime<>).GetMethods().FirstOrDefault( m => m.Name.Equals( functionOrKeyword ) );
+            var function = typeof (AutoitRuntime<>).GetMethods().FirstOrDefault( m => m.Name.Equals( functionOrKeyword, StringComparison.InvariantCultureIgnoreCase ) );
 
             if ( function != null ) {
                 token.Add( _tokenFactory.CreateFunction( function.Name, pos, lineNum ) );
