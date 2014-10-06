@@ -22,7 +22,7 @@ Maxim Brunnmeier
 * see [LICENSE](https://github.com/lawl-dev/AutoJit/blob/master/LICENSE.md) file
 
 ## How-to use this code
-* see [INSTRUCTIONS](https://github.com/lawl-dev/AutoJit/blob/master/INSTRUCTIONS.md) file
+
 
 ## Contact
 #### Developer/Company
