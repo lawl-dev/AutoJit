@@ -16,13 +16,13 @@ Maxim Brunnmeier
 * [Contributors](https://github.com/lawl-dev/AutoJit/graphs/contributors)
 
 ### Third party libraries
-* see [LIBRARIES](https://github.com/username/sw-name/blob/master/LIBRARIES.md) files
+* see [LIBRARIES](https://github.com/lawl-dev/AutoJit/LIBRARIES.md) files
 
 ## License 
-* see [LICENSE](https://github.com/username/sw-name/blob/master/LICENSE.md) file
+* see [LICENSE](https://github.com/lawl-dev/AutoJit/LICENSE.md) file
 
 ## How-to use this code
-* see [INSTRUCTIONS](https://github.com/username/sw-name/blob/master/INSTRUCTIONS.md) file
+* see [INSTRUCTIONS](https://github.com/lawl-dev/AutoJit/INSTRUCTIONS.md) file
 
 ## Contact
 #### Developer/Company
