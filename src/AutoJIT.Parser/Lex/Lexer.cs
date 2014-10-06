@@ -284,7 +284,13 @@ namespace AutoJIT.Parser.Lex
         }
 
         private bool IsSpecialTokenType( Queue<char> line ) {
-            foreach (TokenType suit in Enum.GetValues(typeof(TokenType))) {
+            var specialKeywords = new List<TokenType>() {
+                TokenType.AND,
+                TokenType.OR,
+                TokenType.NOT,
+                TokenType.Null
+            };
+            foreach (TokenType suit in specialKeywords) {
                 if ( new String( line.Take( suit.ToString().Length ).ToArray() ).Equals( suit.ToString(), StringComparison.InvariantCultureIgnoreCase ) ) {
                     return true;
                 }
