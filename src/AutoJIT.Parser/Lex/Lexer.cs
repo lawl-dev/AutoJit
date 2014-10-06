@@ -284,36 +284,12 @@ namespace AutoJIT.Parser.Lex
         }
 
         private bool IsSpecialTokenType( Queue<char> line ) {
-            bool a1 = false;
-            bool n2 = false;
-            bool o1 = false;
-            bool r2 = false;
-            bool d3 = false;
-            bool n1 = false;
-            bool o2 = false;
-            bool t3 = false;
-            bool u2 = false;
-            bool l3 = false;
-            bool l4 = false;
-
-            if ( line.Count > 1 ) {
-                a1 = line.Peek() == 'A' || line.Peek() == 'a';
-                o1 = line.Peek() == 'O' || line.Peek() == 'o';
-                n1 = line.Peek() == 'N' || line.Peek() == 'n';
-                n2 = line.Skip( 1 ).First() == 'N' || line.Skip( 1 ).First() == 'n';
-                r2 = line.Skip( 1 ).First() == 'R' || line.Skip( 1 ).First() == 'r';
-                o2 = line.Skip( 1 ).First() == 'O' || line.Skip( 1 ).First() == 'o';
-                u2 = line.Skip( 1 ).First() == 'U' || line.Skip( 1 ).First() == 'u';
+            foreach (TokenType suit in Enum.GetValues(typeof(TokenType))) {
+                if ( new String( line.Take( suit.ToString().Length ).ToArray() ).Equals( suit.ToString(), StringComparison.InvariantCultureIgnoreCase ) ) {
+                    return true;
+                }
             }
-            if ( line.Count > 2 ) {
-                d3 = line.Skip( 2 ).First() == 'D' || line.Skip( 2 ).First() == 'd';
-                t3 = line.Skip( 2 ).First() == 'T' || line.Skip( 2 ).First() == 't';
-                l3 = line.Skip( 2 ).First() == 'L' || line.Skip( 2 ).First() == 'l';
-            }
-            if ( line.Count > 4 ) {
-                l4 = line.Skip( 3 ).First() == 'L' || line.Skip( 3 ).First() == 'l';
-            }
-            return ( a1 && n2 && d3 ) || ( o1 && r2 ) || ( n1 && o2 && t3 ) || ( n1 && u2 && l3 && l4 );
+            return false;
         }
 
         private void HandleMacro( Queue<char> tokenQueue, IList<Token> lineTokens, int pos, int lineNum ) {
