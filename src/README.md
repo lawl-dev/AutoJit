@@ -1,29 +1,30 @@
-# README #
+AutoJIT
+======
+**AutoJIT** is a library to lex, parse and compile autoit to .NET.
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Download
+* https://github.com/lawl-dev/AutoJit/archive/master.zip)
 
-### What is this repository for? ###
+## Usage
+```$ git clone https://github.com/lawl-dev/AutoJit.git
+...```
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Contributors
+Maxim Brunnmeier
 
-### How do I get set up? ###
+### Contributors on GitHub
+* [Contributors](https://github.com/lawl-dev/AutoJit/graphs/contributors)
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### Third party libraries
+* see [LIBRARIES](https://github.com/username/sw-name/blob/master/LIBRARIES.md) files
 
-### Contribution guidelines ###
+## License 
+* see [LICENSE](https://github.com/username/sw-name/blob/master/LICENSE.md) file
 
-* Writing tests
-* Code review
-* Other guidelines
+## How-to use this code
+* see [INSTRUCTIONS](https://github.com/username/sw-name/blob/master/INSTRUCTIONS.md) file
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+## Contact
+#### Developer/Company
+* Homepage: lawl-dev.com / autojit.de
+* e-mail: lawl@posteo.de
