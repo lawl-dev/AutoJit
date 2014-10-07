@@ -61,7 +61,19 @@ namespace AutoJIT.Parser.AST.Statements.Factory
         }
 
         private ExpressionSyntax CreateNullExpression() {
-            return SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression );
+            return SyntaxFactory.InvocationExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
+                    SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) ) ) )
+                .WithArgumentList(
+                    SyntaxFactory.ArgumentList(
+                        SyntaxFactory.Argument(
+                            SyntaxFactory.CastExpression(
+                                SyntaxFactory.PredefinedType(
+                                    SyntaxFactory.Token(
+                                        SyntaxKind.ObjectKeyword ) ),
+                                SyntaxFactory.LiteralExpression(
+                                    SyntaxKind.NullLiteralExpression ) ) ).ToSeparatedSyntaxList() ) );
         }
 
         public FieldDeclarationSyntax CreateFieldDeclarationStatement( VariableDeclarationSyntax variableDeclarationSyntax ) {

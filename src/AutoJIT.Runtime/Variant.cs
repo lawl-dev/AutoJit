@@ -57,7 +57,7 @@ namespace AutoJITRuntime
         
         public static Variant Create( object @object ) {
             if ( @object == null ) {
-                return new NullVariabt();
+                return new NullVariant();
             }
             var variant = @object as Variant;
             if ( variant != null) {

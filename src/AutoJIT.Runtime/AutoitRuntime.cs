@@ -122,15 +122,57 @@ namespace AutoJITRuntime
         }
 
         public Variant BinaryToString(Variant expression, Variant flag = null) {
-            if ( flag == null ) {
+            if (flag == null)
+            {
                 flag = 1;
             }
 
-            switch (flag.GetInt()) {
-                case 1:
-                    return expression.GetString();
+            var @string = expression.GetString();
+
+            if ( @string.Length % 2 != 0 ) {
+                _context.Error = 2;
+                return string.Empty;
             }
-            throw new NotImplementedException();
+            if ( @string.Length == 0 ) {
+                _context.Error = 1;
+                return string.Empty;
+            }
+
+            Encoding encoding;
+            switch (flag.GetInt())
+            {
+                case 1:
+                    encoding = Encoding.Default;
+                    break;
+                case 2:
+                    encoding = Encoding.Unicode;
+                    break;
+                case 3:
+                    encoding = Encoding.BigEndianUnicode;
+                    break;
+                default:
+                    encoding = Encoding.UTF8;
+                    break;
+            }
+
+            if (@string.StartsWith("0x", StringComparison.InvariantCultureIgnoreCase) &&
+                 @string.Skip(2).All(
+                     c => (c >= '0' && c <= '9') ||
+                          (c >= 'a' && c <= 'f') ||
+                          (c >= 'A' && c <= 'F')))
+            {
+                var hex = @string.Substring( 2, @string.Length-2 );
+                var raw = new byte[hex.Length / 2];
+                for (int i = 0; i < raw.Length; i++)
+                {
+                    raw[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
+                }
+                return encoding.GetString(raw);
+            }
+
+
+
+            return encoding.GetString( expression.GetBinary() );
         }
 
         public Variant BitAND(Variant value1, Variant value2, params Variant[] valuen)
@@ -1263,6 +1305,45 @@ namespace AutoJITRuntime
 
         public Variant Hex(Variant expression, Variant length = null)
         {
+            if ( expression.IsInt32 ) {
+                if ( length == null ||
+                     length.IsDefault ) {
+                    return expression.GetInt().ToString( "x8" ).ToUpper();
+                }
+                if ( length > 16 ) {
+                    length = 16;
+                }
+                return expression.GetInt().ToString( "x"+length ).ToUpper();
+            }
+            if ( expression.IsInt64 ) {
+                if ( length == null ||
+                     length.IsDefault ) {
+                    return expression.GetInt64().ToString( "x16" ).ToUpper();
+                }
+                if (length > 16)
+                {
+                    length = 16;
+                }
+                return expression.GetInt().ToString("x" + length).ToUpper();
+            }
+            if ( expression.IsPtr ) {
+                var intPtr = expression.GetIntPtr();
+                var size = IntPtr.Size * 2;
+                return intPtr.ToString("x" + size);
+            }
+
+            if ( expression.IsBinary ) {
+                var bytes = expression.GetBinary();
+                var c = new char[bytes.Length * 2];
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    int b = bytes[i] >> 4;
+                    c[i * 2] = (char)(55 + b + (((b - 10) >> 31) & -7));
+                    b = bytes[i] & 0xF;
+                    c[i * 2 + 1] = (char)(55 + b + (((b - 10) >> 31) & -7));
+                }
+                return new string(c).ToUpper();
+            }
             throw new NotImplementedException();
         }
 
@@ -1440,7 +1521,7 @@ namespace AutoJITRuntime
         {
             if(value1.IsInt32 || value2.IsInt32)
             {
-                return value1.GetInt()&value2.GetInt();
+                return value1.GetInt()%value2.GetInt();
             }
 
             return value1.GetDouble() % value2.GetDouble();
@@ -2098,9 +2179,30 @@ namespace AutoJITRuntime
             return bytes.Select( x => Variant.Create( (int) x ) ).ToArray();
         }
 
-        public Variant StringToBinary(Variant expression, Variant flag = null)
-        {
-            throw new NotImplementedException();
+        public Variant StringToBinary(Variant expression, Variant flag = null) {
+            if ( flag == null ) {
+                flag = 1;
+            }
+
+            var @string = expression.GetString();
+
+            Encoding encoding;
+            switch (flag.GetInt()) {
+                case 1:
+                    encoding = Encoding.Default;
+                    break;
+                case 2:
+                    encoding = Encoding.Unicode;
+                    break;
+                case 3:
+                    encoding = Encoding.BigEndianUnicode;
+                    break;
+                default:
+                    encoding = Encoding.UTF8;
+                    break;
+            }
+
+            return encoding.GetBytes( expression.GetString() );
         }
 
         public Variant StringTrimLeft(Variant @string, Variant count)

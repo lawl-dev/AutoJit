@@ -14,7 +14,11 @@ namespace AutoJITRuntime
         protected override DataType DataType {
             get { return DataType.Binary; }
         }
-        
+
+        public override bool IsBinary {
+            get { return true; }
+        }
+
         public override object GetValue() {
             return _value;
         }

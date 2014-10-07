@@ -2,7 +2,7 @@ using System;
 
 namespace AutoJITRuntime
 {
-    public sealed class NullVariabt : Variant
+    public sealed class NullVariant : Variant
     {
         protected override DataType DataType {
             get { return DataType.Null; }
@@ -13,31 +13,31 @@ namespace AutoJITRuntime
         }
 
         public override string GetString() {
-            throw new NotImplementedException();
+            return string.Empty;
         }
 
         public override bool GetBool() {
-            throw new NotImplementedException();
+            return true;
         }
 
         public override double GetDouble() {
-            throw new NotImplementedException();
+            return 0.0d;
         }
 
         public override long GetInt64() {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public override int GetInt() {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public override IntPtr GetIntPtr() {
-            throw new NotImplementedException();
+            return new IntPtr(0);
         }
 
         public override byte[] GetBinary() {
-            throw new NotImplementedException();
+            return new byte[] { 0x00, 0x00, 0x00, 0x00 };
         }
 
         public override Type GetRealType() {

@@ -290,12 +290,10 @@ namespace AutoJIT.Parser.Lex
                 TokenType.NOT,
                 TokenType.Null
             };
-            foreach (TokenType suit in specialKeywords) {
-                if ( new String( line.Take( suit.ToString().Length ).ToArray() ).Equals( suit.ToString(), StringComparison.InvariantCultureIgnoreCase ) ) {
-                    return true;
-                }
-            }
-            return false;
+
+            return
+                specialKeywords.Any(
+                    suit => new String( line.Take( suit.ToString().Length ).ToArray() ).Equals( suit.ToString(), StringComparison.InvariantCultureIgnoreCase ) );
         }
 
         private void HandleMacro( Queue<char> tokenQueue, IList<Token> lineTokens, int pos, int lineNum ) {

@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using AutoJIT.Compiler;
+using AutoJITRuntime;
 using AutoJITScript;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
@@ -123,14 +125,48 @@ namespace UnitTests
             });
 
         }
+        
+        
+        [TestCase("RC4.au3")]
+        public void Test_compile_RC4(string file)
+        {
+            var path = string.Format("{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file);
+            var script = File.ReadAllText(path);
+
+            Assert.DoesNotThrow(() =>
+            {
+                var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
+                
+
+                File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe", assemblyBytes);
+                
+                var process = Process.Start( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe" );
+                while ( !process.HasExited ) {
+                    Thread.Sleep( 1000 );
+                }
+                Debug.Write(process.ExitCode);
+            });
+
+        }
 
         [Test]
         public void Foo() {
-            Console.WriteLine(1111 << 1);
-            Console.WriteLine(1111 >> -1);
+            var runtime = new AutoJITRuntime.AutoitRuntime<object>(new AutoitContext<object>( new object() ));
 
-            var autoJITScriptClass = new AutoJITScriptClass();
+            var notimplements = new List<string>();
+            foreach (var methodInfo in runtime.GetType().GetMethods()) {
+                try {
+                    methodInfo.Invoke( runtime, methodInfo.GetParameters().Select( x => x.GetType().GetDefaultValue() ).ToArray() );
+                }
+                catch (Exception ex) {
+                    if(ex.InnerException is NotImplementedException) notimplements.Add( methodInfo.Name );
+                }
+                
+            }
 
+            foreach (var notimplement in notimplements) {
+                Console.WriteLine(notimplement);
+            }
         }
     }
 }
