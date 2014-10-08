@@ -20,11 +20,18 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         public IExpressionNode ParseBlock( TokenCollection block, bool prepareExpression ) {
-            if ( prepareExpression ) {
-                var prepared = _operatorPrecedenceService.PrepareOperatorPrecedence( block );
-                return ParseBlock( prepared );
+            var queue = prepareExpression
+                ? new TokenQueue(_operatorPrecedenceService.PrepareOperatorPrecedence( block ))
+                : new TokenQueue(block);
+            
+            IExpressionNode res = ParseBlock( queue );
+            
+            if (queue.Any())
+            {
+                throw new InvalidOperationException(queue.ToString());
             }
-            return ParseBlock( block );
+
+            return res;
         }
 
         public IExpressionNode ParseBlock( TokenQueue block ) {
