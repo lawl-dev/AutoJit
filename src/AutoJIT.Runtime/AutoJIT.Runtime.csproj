@@ -35,6 +35,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lawl">
+      <HintPath>..\lib\Lawl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -80,12 +83,6 @@
     <Compile Include="Variant.cs" />
     <Compile Include="VariantEnumerator.cs" />
     <Compile Include="WinApiCalls.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\lawlframework\Lawl\Lawl.csproj">
-      <Project>{EB175476-1118-44F9-858F-98DA74E5495A}</Project>
-      <Name>Lawl</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Variant\" />

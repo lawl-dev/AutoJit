@@ -19,7 +19,7 @@ namespace AutoJITRuntime
 
         public AutoitContext( T context ) {
             Context = context;
-            MethodStore = context.GetType().GetMethods().ToDictionary( x => x.Name, x => x );
+            MethodStore = context.GetType().GetMethods().Where( x=>x.ReturnType == typeof(Variant)).ToDictionary( x => x.Name, x => x );
             @Error = 0;
             @Extended = 0;
         }

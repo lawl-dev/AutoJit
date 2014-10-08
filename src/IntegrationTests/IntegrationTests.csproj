@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CD7B7EEB-CDB0-4A84-904F-2DB028D3BBB2}</ProjectGuid>
+    <ProjectGuid>{6C5A2E42-EEE7-482E-9097-A3BC2C0529A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IntegrationTests</RootNamespace>
-    <AssemblyName>IntegrationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>UnitTests</RootNamespace>
+    <AssemblyName>UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,24 +30,27 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoitFunctionLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\backup\AutoitFunctionLibrary.dll</HintPath>
+    <Reference Include="Lawl">
+      <HintPath>..\lib\Lawl.dll</HintPath>
     </Reference>
-    <Reference Include="aöwdw, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.CodeAnalysis, Version=0.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\backup\aöwdw.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=0.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable">
@@ -58,21 +63,46 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoitFunctionTestBase.cs" />
+    <Compile Include="AutoitFunctionTests.cs" />
+    <Compile Include="AutoitMacroTests.cs" />
+    <Compile Include="AutoitTypeBridgeTests.cs" />
+    <Compile Include="CompilerTests.cs" />
+    <Compile Include="ExpressionParserTestsStatic.cs" />
+    <Compile Include="ExpressionTreeTests.cs" />
+    <Compile Include="Foo.cs" />
+    <Compile Include="ForToNextLooperTests.cs" />
+    <Compile Include="LexerTests.cs" />
+    <Compile Include="MyClass.cs" />
+    <Compile Include="NumberPerformanceTest.cs" />
+    <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatementTests.cs" />
+    <Compile Include="OperatorPrecedenceServiceTests.cs" />
+    <Compile Include="UserfunctionTests.cs" />
+    <Compile Include="VariantTests.cs" />
+    <Compile Include="WinApiDllTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoJIT.Compiler\AutoJIT.Compiler.csproj">
+      <Project>{A702CB78-13EA-414A-AFBE-C9CD3126DB77}</Project>
+      <Name>AutoJIT.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Parser\AutoJIT.Parser.csproj">
+      <Project>{62DDB9A0-7AA3-411F-B0C3-DA4DFE22299B}</Project>
+      <Name>AutoJIT.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
+      <Project>{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}</Project>
+      <Name>AutoJIT.Runtime</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Autoit.NET\AutoJIT.csproj">
-      <Project>{214CCAE7-ED76-4F22-85B6-1F0AD95798D1}</Project>
-      <Name>AutoJIT</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

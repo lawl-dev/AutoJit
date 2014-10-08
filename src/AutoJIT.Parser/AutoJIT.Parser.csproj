@@ -33,6 +33,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lawl">
+      <HintPath>..\lib\Lawl.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -179,10 +182,6 @@
     <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
       <Project>{f0e90f7f-f287-423b-ae31-bda2ff7532fd}</Project>
       <Name>AutoJIT.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lawlframework\Lawl\Lawl.csproj">
-      <Project>{EB175476-1118-44F9-858F-98DA74E5495A}</Project>
-      <Name>Lawl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

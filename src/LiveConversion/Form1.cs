@@ -13,7 +13,7 @@ namespace WindowsFormsApplication1
     {
         private readonly IScriptParser _scriptParser;
         private readonly IAutoitToCSharpConverter _autoitToCSharpConverter;
-        private IOptimizer _optimizer;
+        private readonly IOptimizer _optimizer;
 
         public Form1()
         {
