@@ -380,6 +380,7 @@ namespace AutoJIT.Parser.Lex
                             throw new InvalidParseException( lineNum, pos, "Unexpected Token: 'E'" );
                         }
                         isScientific = true;
+                        isDouble = true;
                         tempString += tokenQueue.Dequeue();
 
                         var next = tokenQueue.Peek();

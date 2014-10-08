@@ -24,21 +24,38 @@ namespace AutoJIT.Parser.Optimizer
         }
 
         public override SyntaxNode VisitBinaryExpression( BinaryExpressionSyntax node ) {
-            var leftCreationExpression = node.Left as ObjectCreationExpressionSyntax;
-            var rightCreationExpression = node.Right as ObjectCreationExpressionSyntax;
+            var leftCreationExpression = node.Left as InvocationExpressionSyntax;
+            var rightCreationExpression = node.Right as InvocationExpressionSyntax;
 
             if ( leftCreationExpression == null ||
                  rightCreationExpression == null ) {
                 return base.VisitBinaryExpression( node );
             }
 
-            var isLeftVariantCreation = ( (IdentifierNameSyntax) leftCreationExpression.Type ).Identifier.Text == typeof (Variant).Name;
-            var isRightVariantCreation = ( (IdentifierNameSyntax) rightCreationExpression.Type ).Identifier.Text == typeof (Variant).Name;
+            var leftMemberAccessExpressionSyntax = leftCreationExpression.Expression as MemberAccessExpressionSyntax;
+            var rightMemberAccessExpressionSyntax = rightCreationExpression.Expression as MemberAccessExpressionSyntax;
 
-            if ( !isLeftVariantCreation ||
-                 !isRightVariantCreation ) {
+            if ( leftMemberAccessExpressionSyntax == null ||
+                 rightMemberAccessExpressionSyntax == null ) {
                 return base.VisitBinaryExpression( node );
             }
+
+            var leftIdentifierNameSyntax = leftMemberAccessExpressionSyntax.Expression as IdentifierNameSyntax;
+            var rightIdentifierNameSyntax = rightMemberAccessExpressionSyntax.Expression as IdentifierNameSyntax;
+
+            if ( leftIdentifierNameSyntax == null ||
+                 rightIdentifierNameSyntax == null ||
+                 !leftIdentifierNameSyntax.Identifier.Text.Equals( typeof (Variant).Name ) ||
+                 !rightIdentifierNameSyntax.Identifier.Text.Equals( typeof (Variant).Name ) ) {
+                return base.VisitBinaryExpression( node );
+            }
+
+            if ( !leftMemberAccessExpressionSyntax.Name.Identifier.Text.Equals( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) )
+                 ||
+                 !rightMemberAccessExpressionSyntax.Name.Identifier.Text.Equals( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) ) ) {
+                return base.VisitBinaryExpression( node );
+            }
+
 
             var leftLiteralExpressionSyntax = (LiteralExpressionSyntax) leftCreationExpression.ArgumentList.Arguments.Single().Expression;
             var rightLiteralExpressionSyntax = (LiteralExpressionSyntax) rightCreationExpression.ArgumentList.Arguments.Single().Expression;
@@ -47,7 +64,7 @@ namespace AutoJIT.Parser.Optimizer
             var rightOperant = Variant.Create( rightLiteralExpressionSyntax.Token.Value );
 
             var result = GetBinaryExpressionResult( leftOperant, rightOperant, node.OperatorToken.Text );
-
+            _optimized = true;
             return SyntaxFactory.InvocationExpression(
                 SyntaxFactory.MemberAccessExpression(
                     SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
