@@ -21,13 +21,7 @@ namespace AutoJIT.Parser.Lex
         public TokenCollection Lex( string autoitScript ) {
             var lines = autoitScript.Split( Environment.NewLine.ToEnumerable().ToArray(), StringSplitOptions.None );
 
-            var tokenizesLines = new List<List<Token>>();
-
-            for ( var index = 0; index < lines.Length; index++ ) {
-                var line = lines[index];
-                var lineTokens = LexLine( index, line ).ToList();
-                tokenizesLines.Add( lineTokens );
-            }
+            var tokenizesLines = lines.Select( ( line, index ) => LexLine( index, line ).ToList() ).ToList();
 
             for ( int i = tokenizesLines.Count-1; i >= 0; i-- ) {
                 if ( tokenizesLines[i].Any( x => x.Type == TokenType.ContinueLine ) ) {
@@ -283,7 +277,7 @@ namespace AutoJIT.Parser.Lex
             return toReturn;
         }
 
-        private bool IsSpecialTokenType( Queue<char> line ) {
+        private bool IsSpecialTokenType( IEnumerable<char> line ) {
             var specialKeywords = new List<TokenType>() {
                 TokenType.AND,
                 TokenType.OR,
@@ -344,16 +338,6 @@ namespace AutoJIT.Parser.Lex
             return false;
         }
 
-        [Flags]
-        private enum State
-        {
-            Digit = 1,
-            Comma = 2,
-            Exp = 4,
-            Sign = 8,
-            More = 16,
-            Ok = 32
-        }
 
         private bool LexNumber( Queue<char> tokenQueue, IList<Token> lineTokens, int pos, int lineNum ) {
             string tempString = string.Empty;
@@ -374,51 +358,53 @@ namespace AutoJIT.Parser.Lex
             }
 
             var isDouble = false;
-            var state = ( State.Digit|State.Comma|State.Exp|State.More );
-            while ( tokenQueue.Any() ) {
-                switch (tokenQueue.Peek()) {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        state = ( state&~ State.More )|State.Ok;
-                        break;
+            var isScientific = false;
+            var isHex = false;
+            var isEnd = false;
+            tempString += tokenQueue.DequeueWhile( char.IsNumber ).Join();
+            while (tokenQueue.Any()) {
+                var ch = tokenQueue.Peek();
+                switch (ch)
+                {
                     case '.':
-                        if ( ( state&State.Comma ) == State.Comma ) {
-                            state = ( State.Digit|State.Exp|State.Ok );
+                        if ( isDouble ) {
+                            throw new InvalidParseException( lineNum, pos, "Unexpected Token: '.'" );
                         }
                         isDouble = true;
+                        tempString += tokenQueue.Dequeue();
+                        tempString += tokenQueue.DequeueWhile( char.IsNumber ).Join();
                         break;
-                    case 'e':
-                    case 'E':
-                        if ( ( state&( State.Exp|State.More ) ) == State.Exp ) {
-                            state = ( State.Digit|State.Sign|State.More|State.Ok );
+                    case 'e': // scientific notation
+                    case 'E': // scientific notation
+                        if ( isScientific ) {
+                            throw new InvalidParseException( lineNum, pos, "Unexpected Token: 'E'" );
                         }
-                        break;
-                    case '+':
-                    case '-':
-                        if ( ( state&State.Sign ) == State.Sign ) {
-                            state = ( State.Digit|State.More|State.Ok );
-                        }
-                        break;
-                }
+                        isScientific = true;
+                        tempString += tokenQueue.Dequeue();
 
-                if ( ( state&State.Ok ) == State.Ok ) {
-                    tempString += tokenQueue.Dequeue();
+                        var next = tokenQueue.Peek();
+                        if (next == '+' || next == '-')
+                        {
+                            tempString += tokenQueue.Dequeue();
+                        }
+                        tempString += tokenQueue.DequeueWhile( char.IsNumber ).Join();
+                        break;
+                    case 'x':
+                    case 'X':
+                        if (tempString != "0")
+                        {
+                            throw new InvalidParseException(lineNum, pos, "Unexpected Token: 'X'");
+                        }
+                        tempString += tokenQueue.Dequeue();
+                        isHex = true;
+                        break;
+                    default:
+                        isEnd = true;
+                        break;
                 }
-                else if ( ( state&State.More ) == State.More ) {
-                    return false;
-                }
-                else {
+                if ( isEnd ) {
                     break;
                 }
-                state &= ~State.Ok;
             }
 
             if ( isDouble ) {

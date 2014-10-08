@@ -32,10 +32,9 @@ namespace AutoJITRuntime
             var c = new char[_value.Length * 2 + 2];
             c[0] = (char)0x30;
             c[1] = (char)0x78;
-            int b;
             for (int i = 0; i < _value.Length; i++)
             {
-                b = _value[i] >> 4;
+                int b = _value[i] >> 4;
                 c[i * 2 + 2] = (char)(55 + b + (((b - 10) >> 31) & -7));
                 b = _value[i] & 0xF;
                 c[i * 2 + 1 + 2] = (char)(55 + b + (((b - 10) >> 31) & -7));

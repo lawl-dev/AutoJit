@@ -24,7 +24,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseForToStatements( TokenQueue block ) {
-            return base.ParseInner( block, Keywords.For, Keywords.Next, true );
+            return ParseInner( block, Keywords.For, Keywords.Next, true );
         }
 
         protected TokenCollection ParseUntilNewLine( TokenQueue block ) {
@@ -40,7 +40,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseWhileBlock( TokenQueue block ) {
-            return base.ParseInner( block, Keywords.While, Keywords.Wend, true );
+            return ParseInner( block, Keywords.While, Keywords.Wend, true );
         }
 
         protected TokenCollection ParseIfCondition( TokenQueue block ) {

@@ -1,5 +1,4 @@
 ﻿using AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter.Interface;
-using AutoJIT.CSharpConverter.ConversionModule.Visitor;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

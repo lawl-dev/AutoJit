@@ -57,7 +57,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
                                                                 className ) ) ) ) )
                                             .WithArgumentList(
                                                 SyntaxFactory.ArgumentList(
-                                                    SyntaxFactory.SingletonSeparatedList<ArgumentSyntax>(
+                                                    SyntaxFactory.SingletonSeparatedList(
                                                         SyntaxFactory.Argument(
                                                             SyntaxFactory.IdentifierName(
                                                                 contextInstanceName ) ) ) ) ) ) ),

@@ -142,6 +142,7 @@
     <Compile Include="Exceptions\EmitException.cs" />
     <Compile Include="Exceptions\InvalidParseException.cs" />
     <Compile Include="Exceptions\SyntaxTreeException.cs" />
+    <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ExpressionSyntaxExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />

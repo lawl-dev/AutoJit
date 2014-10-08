@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using AutoJIT.CSharpConverter.ConversionModule.Visitor;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.Helper;

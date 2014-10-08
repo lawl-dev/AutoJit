@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using AutoJIT.Compiler;
-using AutoJITRuntime;
-using AutoJITScript;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
@@ -53,7 +50,7 @@ namespace UnitTests
             Assert.DoesNotThrow(() =>
             {
                 var assemblyBytes = _compiler.Compile(script, OutputKind.DynamicallyLinkedLibrary, false);
-                File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+                
 
                 var assembly = Assembly.Load(assemblyBytes);
                 var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -74,7 +71,7 @@ namespace UnitTests
             Assert.DoesNotThrow(() =>
             {
                 var assemblyBytes = _compiler.Compile(script, OutputKind.DynamicallyLinkedLibrary, false);
-                File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+                
 
                 var assembly = Assembly.Load(assemblyBytes);
                 var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -151,22 +148,6 @@ namespace UnitTests
 
         [Test]
         public void Foo() {
-            var runtime = new AutoJITRuntime.AutoitRuntime<object>(new AutoitContext<object>( new object() ));
-
-            var notimplements = new List<string>();
-            foreach (var methodInfo in runtime.GetType().GetMethods()) {
-                try {
-                    methodInfo.Invoke( runtime, methodInfo.GetParameters().Select( x => x.GetType().GetDefaultValue() ).ToArray() );
-                }
-                catch (Exception ex) {
-                    if(ex.InnerException is NotImplementedException) notimplements.Add( methodInfo.Name );
-                }
-                
-            }
-
-            foreach (var notimplement in notimplements) {
-                Console.WriteLine(notimplement);
-            }
         }
     }
 }

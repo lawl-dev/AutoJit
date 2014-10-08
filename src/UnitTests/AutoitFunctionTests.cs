@@ -9,7 +9,7 @@ namespace UnitTests
 {
     public class AutoitFunctionTests : AutoitFunctionTestBase
     {
-        private AutoitRuntime<object> _autoitRuntime;
+        private readonly AutoitRuntime<object> _autoitRuntime;
 
         public AutoitFunctionTests() {
             _autoitRuntime = new AutoitRuntime<object>(new AutoitContext<object>( new object() ));
@@ -396,7 +396,7 @@ namespace UnitTests
         public void Test_DirCopy()
         {
             //given
-            Variant srcPath = Path.GetTempPath() + @"\Test\"; ;
+            Variant srcPath = Path.GetTempPath() + @"\Test\";
             Variant destPath = Path.GetTempPath() + @"\Result\";
             Directory.CreateDirectory((string) srcPath);
 
@@ -416,7 +416,7 @@ namespace UnitTests
         public void Test_DirCreate()
         {
             //given
-            Variant srcPath = Path.GetTempPath() + @"\Test\"; ;
+            Variant srcPath = Path.GetTempPath() + @"\Test\";
 
             //when
             _autoitRuntime.DirCreate(srcPath);

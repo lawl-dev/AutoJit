@@ -1,5 +1,4 @@
-﻿using AutoJIT.CSharpConverter.ConversionModule.Visitor;
-using AutoJIT.Parser;
+﻿using AutoJIT.Parser;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Service;
@@ -43,13 +42,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                     return SyntaxKind.GreaterThanOrEqualExpression;
                 case TokenType.Equal:
                     return SyntaxKind.EqualsExpression;
-                    break;
                 case TokenType.Less:
                     return SyntaxKind.LessThanExpression;
-                    break;
                 case TokenType.LessEqual:
                     return SyntaxKind.LessThanOrEqualExpression;
-                    break;
                 case TokenType.Notequal:
                     return SyntaxKind.NotEqualsExpression;
                 case TokenType.Plus:

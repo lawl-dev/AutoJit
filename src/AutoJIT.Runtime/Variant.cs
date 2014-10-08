@@ -134,11 +134,8 @@ namespace AutoJITRuntime
         public abstract int GetInt();
         public abstract IntPtr GetIntPtr();
 
-        public void ReDim( params Variant[] indexs ) {
-            if (!IsArray)
-            {
-                throw new AutoJITRuntimerException("\"ReDim\" used without an array variable.");
-            }
+        public virtual void ReDim( params Variant[] indexs ) {
+            throw new AutoJITRuntimerException( "\"ReDim\" used without an array variable." );
         }
 
         public virtual void InitArray( Variant[] variants ) {
@@ -281,7 +278,6 @@ namespace AutoJITRuntime
                     return a.GetInt64()|b.GetInt64();
                 case DataType.IntPtr:
                     return a.GetInt()|b.GetInt();
-                    break;
                 case DataType.String:
                     throw new NotImplementedException();
                 case DataType.Bool:
@@ -335,7 +331,6 @@ namespace AutoJITRuntime
             switch (toCompare) {
                 case DataType.Int32:
                     return a.GetInt() < b.GetInt();
-                    break;
                 case DataType.Int64:
                     return a.GetInt64() < b.GetInt64();
                 case DataType.Double:

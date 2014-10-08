@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using AutoJIT.CSharpConverter.ConversionModule;
 using AutoJIT.Parser.AST;

@@ -175,7 +175,6 @@ namespace AutoJIT.Parser.AST.Parser
                             return ++i;
                     }
                     throw new InvalidOperationException();
-                    break;
                 case TokenType.Int32:
                 case TokenType.Int64:
                 case TokenType.Double:

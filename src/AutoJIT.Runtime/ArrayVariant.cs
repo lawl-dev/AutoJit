@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace AutoJITRuntime
 {
@@ -102,6 +103,11 @@ namespace AutoJITRuntime
                     }
                     break;
             }
+        }
+
+        public override void ReDim( params Variant[] indexs ) {
+            var newInstance = Array.CreateInstance( typeof (Variant), indexs.Select( x => x.GetInt() ).ToArray() );
+            
         }
     }
 }

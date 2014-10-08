@@ -21,7 +21,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         public NamespaceDeclarationSyntax Visit( AutoitScriptRootNode @in ) {
             var memberList = new SyntaxList<MemberDeclarationSyntax>();
             
-            base.ContextService.SetGlobalContext(true);
+            ContextService.SetGlobalContext(true);
             memberList = memberList.Add( @in.MainFunctionNode.Accept( this ) );
             ContextService.SetGlobalContext(false);
             memberList = memberList.AddRange(ContextService.PopGlobalVariables());

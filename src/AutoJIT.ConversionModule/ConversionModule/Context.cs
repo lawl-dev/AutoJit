@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Globalization;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule

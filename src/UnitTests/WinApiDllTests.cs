@@ -13,7 +13,7 @@ namespace UnitTests
 {
     public class WinApiDllTests
     {
-        private ICompiler _compiler;
+        private readonly ICompiler _compiler;
 
         public WinApiDllTests() {
             _compiler = new CompilerBootStrapper().GetInstance<ICompiler>();
@@ -24,7 +24,7 @@ namespace UnitTests
         public void Foo() {
             string _scriptTemplate = string.Format( "Func ExpressionReturner(){0}Return {{0}}{0}Endfunc{0}", Environment.NewLine );
 
-            string script = "DllCall(\"kernel32.dll\", \"bool\", \"Beep\", \"dword\", 3333, \"dword\", 4000)";
+            const string script = "DllCall(\"kernel32.dll\", \"bool\", \"Beep\", \"dword\", 3333, \"dword\", 4000)";
             var format = string.Format( _scriptTemplate, script );
             var compile = _compiler.Compile( format, OutputKind.WindowsApplication, false );
 

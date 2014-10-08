@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using AutoJIT.CSharpConverter.ConversionModule.Visitor;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.Service;

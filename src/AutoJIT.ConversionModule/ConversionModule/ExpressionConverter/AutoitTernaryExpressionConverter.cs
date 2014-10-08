@@ -1,5 +1,3 @@
-using System.ComponentModel.Design;
-using AutoJIT.CSharpConverter.ConversionModule.Visitor;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp;

@@ -83,7 +83,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 
         public void UnregisterLoop()
         {
-            _context.LoopLevel--; ;
+            _context.LoopLevel--;
         }
 
         public void ResetFunctionContext() {

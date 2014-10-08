@@ -2,7 +2,6 @@ using AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter;
 using AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter.Interface;
 using AutoJIT.CSharpConverter.ConversionModule.StatementConverter;
 using AutoJIT.CSharpConverter.ConversionModule.StatementConverter.Interface;
-using AutoJIT.CSharpConverter.ConversionModule.Visitor;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;

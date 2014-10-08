@@ -41,12 +41,7 @@ namespace UnitTests
         [TestCase( "test_all_the_Things" )]
         public void Test_test_all_the_Things( string file ) {
             var script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file ) );
-            Assert.DoesNotThrow(
-                () => {
-                    var assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-                    File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
-            
-                } );
+            Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false ) );
         }
 
         [TestCase("DimStatementTest_3")]
@@ -95,7 +90,6 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
             var method = type.GetMethod("f_ExpressionReturner");
@@ -110,8 +104,8 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
             
+
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
             var method = type.GetMethod("f_ExpressionReturner");
@@ -126,8 +120,8 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
             
+
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
             var method = type.GetMethod("f_ExpressionReturner");
@@ -142,8 +136,8 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
             
+
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
             var method = type.GetMethod("f_ExpressionReturner");
@@ -157,8 +151,8 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
             
+
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
             var method = type.GetMethod("f_ExpressionReturner");
@@ -174,7 +168,7 @@ namespace UnitTests
 
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.DynamicallyLinkedLibrary, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -191,7 +185,7 @@ namespace UnitTests
 
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.DynamicallyLinkedLibrary, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -206,7 +200,7 @@ namespace UnitTests
         public void Test_SelectStatementTest_1( string file ) {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -223,7 +217,7 @@ namespace UnitTests
         public void Test_ForInStatementTest_1( string file ) {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -242,7 +236,7 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -260,7 +254,7 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -278,7 +272,7 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -296,7 +290,7 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -313,7 +307,7 @@ namespace UnitTests
         public void Test_ForInStatementTest_2( string file ) {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -332,7 +326,7 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
@@ -351,7 +345,7 @@ namespace UnitTests
         {
             var script = File.ReadAllText(string.Format("{0}..\\..\\..\\testdata\\Statements\\{1}", Environment.CurrentDirectory, file));
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+            
 
             var assembly = Assembly.Load(assemblyBytes);
             var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");

@@ -19,7 +19,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         public FunctionVisitor( IInjectionService injectionService, IContextService contextService ) : base( injectionService, contextService ) {}
 
         public MemberDeclarationSyntax Visit( FunctionNode @in ) {
-            return Convert( @in, base.ContextService);
+            return Convert( @in, ContextService);
         }
         
         protected MemberDeclarationSyntax Convert( FunctionNode function, IContextService context ) {

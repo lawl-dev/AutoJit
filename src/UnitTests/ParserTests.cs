@@ -156,11 +156,7 @@ namespace UnitTests
             var path = string.Format( "{0}..\\..\\..\\testdata\\ParserTests\\{1}", Environment.CurrentDirectory, file );
             var script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow( () => {
-                var assembly = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-
-                File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assembly);
-            } );
+            Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false ) );
 
         }
     }

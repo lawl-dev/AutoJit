@@ -224,9 +224,6 @@ namespace UnitTests
             var instance = type.CreateInstanceWithDefaultParameters();
             var result = method.Invoke( instance, null ) as Variant;
             var au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
-            
-
             CompareResults( result, au3Result );
         }
 
@@ -246,9 +243,6 @@ namespace UnitTests
             var instance = type.CreateInstanceWithDefaultParameters();
             var result = method.Invoke(instance, null) as Variant;
             var au3Result = GetAu3Result(string.Format("f!{0}", expression), result.GetRealType());
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
-
-
             CompareResults(result, au3Result);
         }
 
@@ -445,9 +439,6 @@ namespace UnitTests
             var instance = type.CreateInstanceWithDefaultParameters();
             var result = method.Invoke(instance, null) as Variant;
             var au3Result = GetAu3Result(string.Format("f!{0}", expression), result.GetRealType());
-
-            File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
-
             CompareResults(result, au3Result);
         }
 
@@ -682,7 +673,7 @@ namespace UnitTests
                     var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
                     var method = type.GetMethod("f_ExpressionReturner");
                     var instance = type.CreateInstanceWithDefaultParameters();
-                    File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
+                    
                     Variant variants = new Variant[] { 0, 0 };
                     Variant variants1 = new Variant[]{ 0, 0 };
                     Variant variants2 = new Variant[] { 0, 0 };
@@ -719,8 +710,7 @@ namespace UnitTests
                     var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
                     var method = type.GetMethod("f_ExpressionReturner");
                     var instance = type.CreateInstanceWithDefaultParameters();
-                    File.WriteAllBytes(@"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes);
-
+                    
                     Variant variants = new Variant[4, 4];
                     for (int i = 0; i < 4; i++)
                     {
@@ -755,6 +745,7 @@ namespace UnitTests
         [Test]
         public void Test_ArrayInitExpression3() {
             string script = File.ReadAllText("C:\\Users\\Brunnmeier\\Documents\\PrivateGIT\\Autoit.NET\\UnitTests\\testdata\\testarrayinit2.au3");
+
 
             var assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
             var assembly = Assembly.Load(assemblyBytes);
