@@ -21,24 +21,24 @@ namespace AutoJIT.Parser.AST.Parser
 
         public IExpressionNode ParseBlock( TokenCollection block, bool prepareExpression ) {
             var queue = prepareExpression
-                ? new TokenQueue(_operatorPrecedenceService.PrepareOperatorPrecedence( block ))
-                : new TokenQueue(block);
-            
-            IExpressionNode res = ParseBlock( queue );
-            
-            if (queue.Any())
-            {
-                throw new InvalidOperationException(queue.ToString());
+                ? new TokenQueue( _operatorPrecedenceService.PrepareOperatorPrecedence( block ) )
+                : new TokenQueue( block );
+
+            var res = ParseBlock( queue );
+
+            if ( queue.Any() ) {
+                throw new InvalidOperationException( queue.ToString() );
             }
 
             return res;
         }
 
-        public IExpressionNode ParseBlock( TokenQueue block ) {
+        private IExpressionNode ParseBlock( TokenQueue block ) {
             if ( block == null ||
                  !block.Any() ) {
                 return null;
             }
+
             Token @operator;
 
             var leftNode = ParseExpressionNode( block );

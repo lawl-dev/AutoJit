@@ -9,6 +9,10 @@ namespace AutoJITRuntime
         private readonly string _value;
 
         public StringVariant(String @string) {
+            if ( @string.Contains( "\0" ) ) {
+                _value = @string.Substring( 0, @string.IndexOf( (char) 0 ) );
+                return;
+            }
             _value = @string;
         }
 
