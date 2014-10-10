@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ILRepack">
+      <HintPath>..\packages\ILRepack.1.25.0\tools\ILRepack.exe</HintPath>
+    </Reference>
     <Reference Include="Lawl">
       <HintPath>..\lib\Lawl.dll</HintPath>
     </Reference>
@@ -66,6 +69,10 @@
     <ProjectReference Include="..\AutoJIT.Compiler\AutoJIT.Compiler.csproj">
       <Project>{a702cb78-13ea-414a-afbe-c9cd3126db77}</Project>
       <Name>AutoJIT.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
+      <Project>{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}</Project>
+      <Name>AutoJIT.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

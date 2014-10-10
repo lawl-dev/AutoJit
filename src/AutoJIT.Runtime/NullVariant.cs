@@ -43,5 +43,9 @@ namespace AutoJITRuntime
         public override Type GetRealType() {
             throw new NotImplementedException();
         }
+
+        public override bool IsNull {
+            get { return true; }
+        }
     }
 }

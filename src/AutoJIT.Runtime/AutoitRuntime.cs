@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -6,7 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -45,12 +45,33 @@ namespace AutoJITRuntime
         }
 
         public Variant AdlibRegister( Variant function, Variant time = null ) {
-            throw new NotImplementedException();
+            if ( time == null ) {
+                time = 250;
+            }
+            if ( !_methodStore.ContainsKey( function ) ) {
+                return false;
+            }
+            if ( _methodStore[function].GetParameters().Any() ) {
+                return false;
+            }
+            _context.LibRegister.Add( _methodStore[function], time );
+            return true;
         }
 
-        public Variant AdlibUnRegister(Variant function)
+        public Variant AdlibUnRegister(Variant function = null)
         {
-            throw new NotImplementedException();
+            if ( function == null) {
+                if ( _context.LibRegister.Any() ) {
+                    _context.LibRegister.Remove( _context.LibRegister.Last().Key );
+                    return _context.LibRegister.Count;
+                }
+                return 0;
+            }
+            var valuePair = _context.LibRegister.SingleOrDefault( x => x.Key.Name.Equals( function, StringComparison.InvariantCultureIgnoreCase ) );
+            if ( valuePair.Key != null ) {
+                _context.LibRegister.Remove( valuePair.Key );
+            }
+            return _context.LibRegister.Count;
         }
 
         public Variant Asc(Variant @char) {
@@ -66,7 +87,7 @@ namespace AutoJITRuntime
 
         public Variant Assign(Variant varname, Variant data, Variant flag = null)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Function 'Assign' is not supported");
         }
 
         public Variant Opt(Variant option, Variant param = null) {
@@ -503,8 +524,6 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
  
-
-
         public Variant DriveGetFileSystem(Variant path)
         {
             throw new NotImplementedException();
@@ -1485,9 +1504,8 @@ namespace AutoJITRuntime
             return variable.IsInt32 || variable.IsInt64;
         }
 
-        public Variant IsKeyword(Variant variable)
-        {
-            throw new NotImplementedException();
+        public Variant IsKeyword(Variant variable) {
+            return variable.IsDefault || variable.IsNull;
         }
 
         public Variant IsNumber(Variant variable) {
@@ -1671,7 +1689,22 @@ namespace AutoJITRuntime
 
         public Variant ProcessList(Variant name = null)
         {
-            throw new NotImplementedException();
+            var processes = name == null
+                ? Process.GetProcesses()
+                : Process.GetProcessesByName( name );
+
+            var toReturn = new Variant[processes.Length+1, 1];
+
+            toReturn[0, 0] = processes.Length;
+
+            for ( int index = 0; index < processes.Length; index++ ) {
+                var process = processes[index];
+
+                toReturn[index+1, 0] = process.ProcessName;
+                toReturn[index+1, 1] = process.Id;
+            }
+
+            return toReturn;
         }
 
         public Variant ProcessSetPriority(Variant process, Variant priority)

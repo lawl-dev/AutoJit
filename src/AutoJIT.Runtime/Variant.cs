@@ -111,6 +111,10 @@ namespace AutoJITRuntime
             get { return false; }
         }
 
+        public virtual bool IsNull {
+            get { return false; }
+        }
+
         public virtual Variant this[ params int[] index ] {
             get {
                 throw new AutoJITRuntimerException( "" );
