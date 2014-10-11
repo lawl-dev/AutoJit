@@ -27,19 +27,22 @@ namespace AutoJITRuntime
             _methodStore = methodInfos.ToDictionary( x => x.Name, x => x );
         }
 
-
+        [Inlineable]
         public Variant ACos(Variant expression) {
             return Math.Acos( expression );
         }
 
+        [Inlineable]
         public Variant ASin(Variant expression) {
             return Math.Asin( expression );
         }
 
+        [Inlineable]
         public Variant ATan(Variant expression) {
             return Math.Atan( expression );
         }
 
+        [Inlineable]
         public Variant Abs(Variant expression) {
             return Math.Abs( expression );
         }
@@ -74,6 +77,7 @@ namespace AutoJITRuntime
             return _context.LibRegister.Count;
         }
 
+        [Inlineable]
         public Variant Asc(Variant @char) {
             var character = ((string)@char).FirstOrDefault();
             return character;
@@ -196,6 +200,7 @@ namespace AutoJITRuntime
             return encoding.GetString( expression.GetBinary() );
         }
 
+        [Inlineable]
         public Variant BitAND(Variant value1, Variant value2, params Variant[] valuen)
         {
             var res = (int)value1 & (int)value2;
@@ -206,10 +211,12 @@ namespace AutoJITRuntime
             return res;
         }
 
+        [Inlineable]
         public Variant BitNOT(Variant value) {
             return ~value;
         }
 
+        [Inlineable]
         public Variant BitOR(Variant value1, Variant value2, params Variant[] valuen) {
             var res = (int)value1 | (int)value2;
             foreach (var variant in valuen) {
@@ -223,6 +230,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant BitShift(Variant value, Variant shift) {
             if (shift > 0)
             {
@@ -231,6 +239,7 @@ namespace AutoJITRuntime
             return value << -shift.GetInt();
         }
 
+        [Inlineable]
         public Variant BitXOR(Variant value1, Variant value2, params Variant[] valuen) {
             var res = (int)value1 ^ (int)value2;
             foreach (var variant in valuen)
@@ -269,10 +278,12 @@ namespace AutoJITRuntime
             return 0;
         }
 
+        [Inlineable]
         public Variant Ceiling(Variant expression) {
             return Math.Ceiling( (double) expression );
         }
 
+        [Inlineable]
         public Variant Chr(Variant ASCIIcode)
         {
             if ( ASCIIcode < 0) {
@@ -286,6 +297,7 @@ namespace AutoJITRuntime
             return ( (char) ASCIIcode ).ToString( CultureInfo.InvariantCulture );
         }
 
+        [Inlineable]
         public Variant ChrW(Variant UNICODEcode)
         {
             if ( UNICODEcode > ushort.MaxValue ) {
@@ -423,10 +435,12 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant Cos(Variant expression) {
             return Math.Cos( expression );
         }
 
+        [Inlineable]
         public Variant Dec(Variant hex, Variant flag = null) {
             Int64 result;
             if(Int64.TryParse( hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result))
@@ -807,6 +821,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant Floor(Variant expression) {
             return Math.Floor( (double) expression );
         }
@@ -1322,6 +1337,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant Hex(Variant expression, Variant length = null)
         {
             if ( expression.IsInt32 ) {
@@ -1474,6 +1490,7 @@ namespace AutoJITRuntime
             return variable.IsBinary;
         }
 
+        [Inlineable]
         public Variant IsBool(Variant variable) {
             return variable.IsBool;
         }
@@ -1487,6 +1504,7 @@ namespace AutoJITRuntime
             return variable.IsStruct;
         }
 
+        [Inlineable]
         public Variant IsFloat(Variant variable) {
             return variable.IsDouble;
         }
@@ -1500,14 +1518,17 @@ namespace AutoJITRuntime
             return variable.IsPtr && Control.FromHandle( variable ) != null;
         }
 
+        [Inlineable]
         public Variant IsInt(Variant variable) {
             return variable.IsInt32 || variable.IsInt64;
         }
 
+        [Inlineable]
         public Variant IsKeyword(Variant variable) {
             return variable.IsDefault || variable.IsNull;
         }
 
+        [Inlineable]
         public Variant IsNumber(Variant variable) {
             return variable.IsInt32 || variable.IsInt64 || variable.IsDouble;
         }
@@ -1521,6 +1542,7 @@ namespace AutoJITRuntime
             return variable.IsPtr;
         }
 
+        [Inlineable]
         public Variant IsString(Variant variable) {
             return variable.IsString;
         }
@@ -1535,6 +1557,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant Mod(Variant value1, Variant value2)
         {
             if(value1.IsInt32 || value2.IsInt32)
@@ -1783,6 +1806,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant Round(Variant expression, Variant decimalplaces = null)
         {
             if ( decimalplaces == null ) {
@@ -1934,6 +1958,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant Sin(Variant expression) {
             return Math.Sin( expression );
         }
@@ -1986,6 +2011,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant Sqrt(Variant expression) {
             return Math.Sqrt( expression );
         }
@@ -2015,10 +2041,12 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant String(Variant expression) {
             return expression.GetString();
         }
 
+        [Inlineable]
         public Variant StringAddCR(Variant @string) {
             return @string.GetString().Replace( "\n", "\r\n" );
         }
@@ -2049,6 +2077,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant StringIsASCII(Variant @string) {
             return @string.GetString().All( c => (c > -1 && c < 128) );
         }
@@ -2058,10 +2087,12 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant StringIsAlpha(Variant @string) {
             return @string.GetString().All( char.IsLetter );
         }
 
+        [Inlineable]
         public Variant StringIsDigit(Variant @string) {
             return @string.GetString().All( char.IsDigit );
         }
@@ -2076,23 +2107,28 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant StringIsLower(Variant @string) {
             return @string.GetString().All( char.IsLower );
         }
 
+        [Inlineable]
         public Variant StringIsSpace(Variant @string) {
             return @string.GetString().All( char.IsWhiteSpace );
         }
 
+        [Inlineable]
         public Variant StringIsUpper(Variant @string)
         {
             return @string.GetString().All(char.IsUpper);
         }
 
+        [Inlineable]
         public Variant StringIsXDigit(Variant @string) {
             return @string.GetString().All( c => ( ( c >= 0 && c <= 9 ) || ( ( c >= 'a' || c >= 'A' ) && ( c <= 'F' || c <= 'f' ) ) ) );
         }
 
+        [Inlineable]
         public Variant StringLeft(Variant @string, Variant count)
         {
             var fullString = @string.GetString();
@@ -2103,14 +2139,17 @@ namespace AutoJITRuntime
             return fullString.Substring(0,  count);
         }
 
+        [Inlineable]
         public Variant StringLen(Variant @string) {
             return @string.ToString().Length;
         }
 
+        [Inlineable]
         public Variant StringLower(Variant @string) {
             return @string.GetString().ToLower();
         }
 
+        [Inlineable]
         public Variant StringMid(Variant @string, Variant start, Variant count = null) {
             var toMid = @string.GetString();
             if ( count == null ) {
@@ -2144,6 +2183,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant StringReverse(Variant @string, Variant flag = null)
         {
             if ( flag == null ) {
@@ -2152,6 +2192,7 @@ namespace AutoJITRuntime
             return new String(@string.GetString().Reverse().ToArray());
         }
 
+        [Inlineable]
         public Variant StringRight(Variant @string, Variant count) {
             var fullString = @string.GetString();
             if ( fullString.Length <= count ) {
@@ -2165,10 +2206,12 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant StringStripCR(Variant @string) {
             return @string.GetString().Replace( "\r", string.Empty );
         }
 
+        [Inlineable]
         public Variant StringStripWS(Variant @string, Variant flag) {
             return @string.GetString().Replace( " ", string.Empty );
         }
@@ -2238,6 +2281,7 @@ namespace AutoJITRuntime
             return encoding.GetBytes( expression.GetString() );
         }
 
+        [Inlineable]
         public Variant StringTrimLeft(Variant @string, Variant count)
         {
             var toTrim = @string.GetString();
@@ -2248,6 +2292,7 @@ namespace AutoJITRuntime
             return toTrim.Substring(count, toTrim.Length - count);
         }
 
+        [Inlineable]
         public Variant StringTrimRight(Variant @string, Variant count) {
             var toTrim = @string.GetString();
             if ( toTrim.Length-count <= 0 ) {
@@ -2256,6 +2301,7 @@ namespace AutoJITRuntime
             return toTrim.Substring( 0, toTrim.Length-count );
         }
 
+        [Inlineable]
         public Variant StringUpper(Variant @string) {
             return @string.ToString().ToUpper();
         }
@@ -2315,6 +2361,7 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
+        [Inlineable]
         public Variant Tan(Variant expression) {
             return Math.Tan( expression );
         }
@@ -2596,13 +2643,13 @@ namespace AutoJITRuntime
 
 
         
-        [PreExecutable]
+        [Inlineable]
         [AutoJITCompilerFunction]
         public Variant Pow(Variant a, Variant b ) {
             return Math.Pow(a, b);
         }
 
-        [PreExecutable]
+        [Inlineable]
         [AutoJITCompilerFunction]
         public Variant Equal(Variant a, Variant b)
         {
@@ -2613,38 +2660,39 @@ namespace AutoJITRuntime
             return a == b;
         }
 
-        [PreExecutable]
+        [Inlineable]
         [AutoJITCompilerFunction]
         public Variant EqualString(Variant a, Variant b ) {
             return a.ToString() == b.ToString();
         }
 
 
-        [PreExecutable]
+        [Inlineable]
         [AutoJITCompilerFunction]
         public Variant NOT(Variant variable)
         {
             return !variable;
         }
 
-        [PreExecutable]
+        [Inlineable]
         [AutoJITCompilerFunction]
         public Variant OR(Variant a, Variant b) {
             return a || b;
         }
 
-        [PreExecutable]
+        [Inlineable]
         [AutoJITCompilerFunction]
         public Variant AND(Variant a, Variant b) {
             return a && b;
         }
 
-        [PreExecutable]
+        [Inlineable]
         [AutoJITCompilerFunction]
         public Variant Negate(Variant o) {
             return -o;
         }
 
+        [Inlineable]
         [AutoJITCompilerFunction]
         public bool To( Variant from, Variant to, Variant toTest ) {
             return toTest >= @from && toTest <= to;
@@ -2658,6 +2706,7 @@ namespace AutoJITRuntime
             Environment.Exit( (int)exitCode );
         }
 
+        [Inlineable]
         public Variant Concat(Variant a, Variant b) {
             return a.ToString()+b.ToString();
         }

@@ -54,7 +54,7 @@ namespace AutoJIT.Compiler
             }
 
             var compilation = CSharpCompilation.Create(
-                assemblyName, new[] { root.SyntaxTree }, null, new CSharpCompilationOptions( outputKind, optimize: false,platform:Platform.X86 ) );
+                assemblyName, new[] { root.SyntaxTree }, null, new CSharpCompilationOptions( outputKind, optimize: true,platform:Platform.X86 ) );
 
             compilation = compilation
                 .WithReferences(

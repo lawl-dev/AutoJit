@@ -44,6 +44,9 @@ namespace AutoJIT.CompilerApplication
                     case "/GUI":
                         compileOptions.IsForms = true;
                         break;
+                    case "/OPT":
+                        compileOptions.Optimize = true;
+                        break;
                     default:
                         throw new InvalidOperationException();
                 }
@@ -63,7 +66,7 @@ namespace AutoJIT.CompilerApplication
             var assemblyBytes = _compiler.Compile(
                 script, compileOptions.IsForms
                     ? OutputKind.WindowsApplication
-                    : OutputKind.ConsoleApplication, false );
+                    : OutputKind.ConsoleApplication, false, compileOptions.Optimize );
 
             var toMerge = new List<string>();
             var tempPath = Path.Combine( Path.GetTempPath(), Guid.NewGuid().ToString( "n" ) );

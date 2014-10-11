@@ -9,5 +9,6 @@ namespace AutoJIT.CompilerApplication
         public Uri Icon { get; set; }
         public bool IsConsole { get; set; }
         public bool IsForms { get; set; }
+        public bool Optimize { get; set; }
     }
 }

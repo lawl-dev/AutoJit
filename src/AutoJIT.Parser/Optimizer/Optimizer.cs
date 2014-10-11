@@ -99,11 +99,19 @@ namespace AutoJIT.Parser.Optimizer
             var runtimeClassType = typeof (AutoitRuntime<>).MakeGenericType( typeof (object) );
 
             var supportedFunctions =
-                runtimeClassType.GetMethods().Where( x => x.CustomAttributes.Any( c => c.AttributeType == typeof (PreExecutableAttribute) ) ).ToList();
+                runtimeClassType.GetMethods().Where( x => x.CustomAttributes.Any( c => c.AttributeType == typeof (Inlineable) ) ).ToList();
             var isSupportedFunctionCall = supportedFunctions.Any( x => x.Name == functionName );
             var args = node.ArgumentList.Arguments;
 
-            var allArgumentsAreFixedValues = args.All( x => x.Expression is ObjectCreationExpressionSyntax );
+
+            //((MemberAccessExpressionSyntax)((InvocationExpressionSyntax)args[0].Expression).Expression).Name.Identifier.Text
+            var allArgumentsAreFixedValues = args.All
+                (
+                    x =>
+                        x.Expression is InvocationExpressionSyntax && ( (InvocationExpressionSyntax) x.Expression ).Expression is MemberAccessExpressionSyntax &&
+                        ( (MemberAccessExpressionSyntax) ( (InvocationExpressionSyntax) x.Expression ).Expression ).Name.Identifier.Text.Equals
+                            ( CompilerHelper.GetVariantMemberName( v => Variant.Create( (object) null ) ) ) );
+
 
             if ( !isSupportedFunctionCall ||
                  !allArgumentsAreFixedValues ) {
@@ -115,7 +123,7 @@ namespace AutoJIT.Parser.Optimizer
             var runtimeInstance = runtimeClassType.CreateInstanceWithDefaultParameters();
 
             var parameters =
-                args.Select( x => x.Expression as ObjectCreationExpressionSyntax )
+                args.Select( x => (InvocationExpressionSyntax)x.Expression )
                     .Select( x => x.ArgumentList.Arguments.Single().Expression as LiteralExpressionSyntax )
                     .Select( x => Variant.Create( x.Token.Value ) )
                     .ToArray();

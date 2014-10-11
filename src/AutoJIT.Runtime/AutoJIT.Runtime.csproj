@@ -74,7 +74,7 @@
     <Compile Include="IRuntimeStruct.cs" />
     <Compile Include="KeyEventRecord.cs" />
     <Compile Include="NullVariant.cs" />
-    <Compile Include="PreExecutableAttribute.cs" />
+    <Compile Include="Inlineable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PtrVariant.cs" />
     <Compile Include="StringVariant.cs" />
