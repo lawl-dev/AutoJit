@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace AutoJITRuntime
 {
@@ -53,6 +54,10 @@ namespace AutoJITRuntime
 
         public static Variant Create( Default @default ) {
             return new DefaultVariant();
+        }
+        
+        public static Variant Create( Char @char ) {
+            return new StringVariant( @char.ToString( CultureInfo.InvariantCulture ) );
         }
 
         
