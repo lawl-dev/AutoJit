@@ -157,6 +157,7 @@ namespace AutoJITRuntime
 
         public static Variant operator +( Variant a, Variant b ) {
             switch (a.DataType) {
+                case DataType.Null:
                 case DataType.Int32:
                 case DataType.Double:
                 case DataType.String:
