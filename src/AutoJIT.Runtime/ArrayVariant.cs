@@ -5,7 +5,7 @@ namespace AutoJITRuntime
 {
     public sealed class ArrayVariant : Variant
     {
-        private readonly Array _value;
+        private Array _value;
 
         public ArrayVariant(Variant[] value) {
             _value = value;
@@ -107,7 +107,37 @@ namespace AutoJITRuntime
 
         public override void ReDim( params Variant[] indexs ) {
             var newInstance = Array.CreateInstance( typeof (Variant), indexs.Select( x => x.GetInt() ).ToArray() );
-            
+            if ( _value.Rank == indexs.Length ) {
+                Init(newInstance, _value);
+            }
+            _value = newInstance;
         }
+
+        private static void Init(Array newArr, Array oldArr)
+        {
+            var indicies = new int[newArr.Rank];
+            SetDimension(newArr, indicies, 0, oldArr);
+        }
+
+        private static void SetDimension( Array array, int[] indicies, int dimension, Array oldArr )
+        {
+            for (int i = 0; i <= array.GetUpperBound(dimension); i++)
+            {
+                indicies[dimension] = i;
+
+                if ( dimension < array.Rank-1 ) {
+                    SetDimension( array, indicies, dimension+1, oldArr );
+                }
+                else {
+                    try {
+                        array.SetValue( oldArr.GetValue( indicies ), indicies );
+                    }
+                    catch (IndexOutOfRangeException exception) {
+                        array.SetValue(new NullVariant(), indicies);   
+                    }
+                }
+            }
+        }
+
     }
 }

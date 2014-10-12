@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace AutoJITRuntime
 {
@@ -497,6 +498,30 @@ namespace AutoJITRuntime
         public override int GetHashCode()
         {
             return GetValue().GetHashCode();
+        }
+
+        public static Variant CreateArray( Variant array ) {
+            Init( (Array) array.GetValue() );
+            return array;
+        }
+
+        private static void Init(Array array)
+        {
+            var indicies = new int[array.Rank];
+            SetDimension(array, indicies, 0);
+        }
+
+        private static void SetDimension(Array array, int[] indicies, int dimension)
+        {
+            for (int i = 0; i <= array.GetUpperBound(dimension); i++)
+            {
+                indicies[dimension] = i;
+
+                if (dimension < array.Rank - 1)
+                    SetDimension(array, indicies, dimension + 1);
+                else
+                    array.SetValue(new NullVariant(), indicies);
+            }
         }
     }
 }

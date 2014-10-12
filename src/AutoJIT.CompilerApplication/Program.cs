@@ -19,13 +19,6 @@ namespace AutoJIT.CompilerApplication
         }
 
         static void Main(string[] args) {
-            args = new[] {
-                "/in",
-                @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\userfunctions\DES.au3",
-                "/Out",
-                @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\userfunctions\des.exe",
-                "/console"
-            };
             var compileOptions = new CompileOptions();
             for ( int i = 0; i < args.Length; i++ ) {
                 switch (args[i].ToUpper()) {
@@ -76,6 +69,7 @@ namespace AutoJIT.CompilerApplication
             toMerge.Add( tempPath );
             toMerge.Add( typeof(StringVariant).Assembly.Location );
 
+            File.Delete( compileOptions.OutFile.AbsolutePath );
             var repack = new ILRepack { OutputFile = compileOptions.OutFile.AbsolutePath, TargetKind = ILRepack.Kind.Exe, InputAssemblies = toMerge.ToArray() };
             repack.Repack();
         }

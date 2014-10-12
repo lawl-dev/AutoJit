@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32.SafeHandles;
 
@@ -325,7 +326,27 @@ namespace AutoJITRuntime
 
         public Variant ConsoleRead(Variant peek = null, Variant binary = null)
         {
-            throw new NotImplementedException();
+            if ( peek == null ) {
+                peek = false;
+            }
+
+            if ( binary == null ) {
+                binary = false;
+            }
+
+            int read;
+            if ( peek ) {
+                read = Console.In.Peek();
+            }
+            else {
+                read = Console.Read();
+            }
+
+            if (binary) {
+                return new byte[] { (byte) read };
+            }
+            return new String( new[] { (char) read } );
+
         }
 
         public Variant ConsoleWrite(Variant data)
@@ -846,7 +867,45 @@ namespace AutoJITRuntime
             Variant exStyle = null,
             Variant parent = null)
         {
-            throw new NotImplementedException();
+            if ( width == null ) {
+                width = 0;
+            }
+
+            if ( height == null ) {
+                height = 0;
+            }
+
+            if ( left == null ) {
+                left = -1;
+            }
+
+            if ( top == null ) {
+                top = -1;
+            }
+
+            if ( style == null ) {
+                style = -1;
+            }
+
+            if ( exStyle == null ) {
+                exStyle = -1;
+            }
+
+            if ( parent == null ) {
+                parent = -1;
+            }
+
+            var form = new Form() { Text = title, Width = width, Height = height, Left = left, Top = top, Visible = false };
+            var parentHandle = Form.FromHandle( new IntPtr( parent ) );
+            if ( parentHandle != null ) {
+                form.Parent = parentHandle;
+            }
+
+
+            Task.Factory.StartNew( form.Show );
+
+            _context.Guis.Add(form.Handle);
+            return form.Handle;
         }
 
 

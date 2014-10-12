@@ -15,13 +15,14 @@ namespace AutoJITRuntime
 
         public T Context { get; set; }
         public readonly Dictionary<string, MethodInfo> MethodStore;
-        public IntPtr Gui;
+        public List<IntPtr> Guis { get; set; }
 
         public AutoitContext( T context ) {
             Context = context;
             MethodStore = context.GetType().GetMethods().Where( x=>x.ReturnType == typeof(Variant)).ToDictionary( x => x.Name, x => x );
             @Error = 0;
             @Extended = 0;
+            Guis = new List<IntPtr>();
         }
 
 

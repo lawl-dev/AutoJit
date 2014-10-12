@@ -26,9 +26,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             context.PushGlobalVariable( statement.VariableExpression.IdentifierName, DeclareGlobal( statement ) );
             if ( statement.VariableExpression is ArrayExpression ) {
                 toReturn.Add( InitArray( statement, context ) );
-            }
-            if ( statement.VariableExpression is ArrayExpression ) {
-                toReturn.Add( InitArray( statement, context ) );
                 if ( statement.InitExpression != null ) {
                     toReturn.Add( AssignArray( statement, context ) );
                 }
@@ -74,12 +71,21 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var openBracketToken =
                 ( (ArrayExpression) node.VariableExpression ).AccessParameter.Select(
                     x => Convert(x, context) ).ToSeparatedSyntaxList();
-            return SyntaxFactory.ArrayCreationExpression(
+            var arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
                 SyntaxFactory.ArrayType(
                     SyntaxFactory.IdentifierName(
                         typeof (Variant).Name ) )
                     .WithRankSpecifiers(
                         SyntaxFactory.ArrayRankSpecifier( openBracketToken ).ToEnumerable().ToSyntaxList() ) );
+
+
+            return SyntaxFactory.InvocationExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(typeof(Variant).Name),
+                    SyntaxFactory.IdentifierName(CompilerHelper.GetVariantMemberName(x => Variant.CreateArray(null)))))
+                .WithArgumentList(
+                    SyntaxFactory.ArgumentList(
+                        SyntaxFactory.Argument(arrayCreationExpressionSyntax).ToSeparatedSyntaxList()));
         }
     }
 }

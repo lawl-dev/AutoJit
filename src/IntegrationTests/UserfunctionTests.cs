@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using AutoJIT.Compiler;
-using AutoJITScript;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;

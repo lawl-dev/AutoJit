@@ -74,12 +74,20 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var openBracketToken =
                 ( (ArrayExpression) statement.VariableExpression ).AccessParameter.Select(
                     x => Convert(x, contextService) ).ToSeparatedSyntaxList();
-            return SyntaxFactory.ArrayCreationExpression(
+            var arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
                 SyntaxFactory.ArrayType(
                     SyntaxFactory.IdentifierName(
                         typeof (Variant).Name ) )
                     .WithRankSpecifiers(
                         SyntaxFactory.ArrayRankSpecifier( openBracketToken ).ToEnumerable().ToSyntaxList() ) );
+
+            return SyntaxFactory.InvocationExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(typeof(Variant).Name),
+                    SyntaxFactory.IdentifierName(CompilerHelper.GetVariantMemberName(x => Variant.CreateArray(null)))))
+                .WithArgumentList(
+                    SyntaxFactory.ArgumentList(
+                        SyntaxFactory.Argument(arrayCreationExpressionSyntax).ToSeparatedSyntaxList()));
         }
     }
 }

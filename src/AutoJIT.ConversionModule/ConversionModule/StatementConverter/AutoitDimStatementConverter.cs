@@ -4,6 +4,7 @@ using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.Extensions;
+using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Service;
 using AutoJITRuntime;
 using Microsoft.CodeAnalysis.CSharp;
@@ -62,12 +63,21 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var openBracketToken =
                 ( (ArrayExpression) node.VariableExpression ).AccessParameter.Select(
                     x => Convert(x, context) ).ToSeparatedSyntaxList();
-            return SyntaxFactory.ArrayCreationExpression(
+            var arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
                 SyntaxFactory.ArrayType(
                     SyntaxFactory.IdentifierName(
                         typeof (Variant).Name ) )
                     .WithRankSpecifiers(
                         SyntaxFactory.ArrayRankSpecifier( openBracketToken ).ToEnumerable().ToSyntaxList() ) );
+
+
+            return SyntaxFactory.InvocationExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(typeof(Variant).Name),
+                    SyntaxFactory.IdentifierName(CompilerHelper.GetVariantMemberName(x => Variant.CreateArray(null)))))
+                .WithArgumentList(
+                    SyntaxFactory.ArgumentList(
+                        SyntaxFactory.Argument(arrayCreationExpressionSyntax).ToSeparatedSyntaxList()));
         }
     }
 }
