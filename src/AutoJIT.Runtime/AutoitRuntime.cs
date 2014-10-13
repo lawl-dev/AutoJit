@@ -2525,9 +2525,27 @@ namespace AutoJITRuntime
 
         public Variant UBound(Variant Array, Variant Dimension = null) {
             if ( Dimension == null ) {
-                return ( (Array) Array.GetValue() ).Length;
+                Dimension = 1;
             }
-            throw new NotImplementedException();
+
+            var array = Array.GetValue() as Array;
+
+            if ( array == null ) {
+                _context.Error = 1;
+                return 0;
+            }
+
+            switch (Dimension.GetInt()) {
+                case 0:
+                    return array.Rank;
+                case 1:
+                    return array.GetLength( 0 );
+                case 2:
+                    return array.GetLength( 1 );
+                default:
+                    _context.Error = 2;
+                    return 0;
+            }
         }
 
         public Variant UDPBind(Variant IPAddr, Variant port)
