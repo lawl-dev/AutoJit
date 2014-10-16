@@ -5,9 +5,9 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public class TernaryExpression : ExpressionBase
     {
-        public readonly IExpressionNode Condition;
-        public readonly IExpressionNode IfTrue;
-        public readonly IExpressionNode IfFalse;
+        public IExpressionNode Condition { get; private set; }
+        public IExpressionNode IfTrue { get; private set; }
+        public IExpressionNode IfFalse { get; private set; }
 
         public TernaryExpression( IExpressionNode condition, IExpressionNode ifTrue, IExpressionNode ifFalse ) {
             Condition = condition;

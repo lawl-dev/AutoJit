@@ -9,11 +9,11 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ForToNextStatement : StatementBase
     {
-        public readonly IExpressionNode StartExpression;
-        public readonly IExpressionNode EndExpression;
-        public readonly IExpressionNode StepExpression;
-        public readonly IEnumerable<IStatementNode> Block;
-        public readonly VariableExpression VariableExpression;
+        public IExpressionNode StartExpression { get; private set; }
+        public IExpressionNode EndExpression { get; private set; }
+        public IExpressionNode StepExpression { get; private set; }
+        public IEnumerable<IStatementNode> Block { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
 
         public ForToNextStatement(
             VariableExpression variableExpression,

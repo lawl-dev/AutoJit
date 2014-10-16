@@ -6,8 +6,8 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class InitDefaultParameterStatement : StatementBase
     {
-        public readonly string ParameterName;
-        public readonly IExpressionNode DefaultValue;
+        public string ParameterName { get; private set; }
+        public IExpressionNode DefaultValue { get; private set; }
 
         public InitDefaultParameterStatement( string parameterName, IExpressionNode defaultValue ) {
             ParameterName = parameterName;

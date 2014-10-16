@@ -5,7 +5,7 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ExitloopStatement : StatementBase
     {
-        public readonly int Level;
+        public int Level { get; private set; }
 
         public ExitloopStatement( int level ) {
             Level = level;

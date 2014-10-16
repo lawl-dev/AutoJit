@@ -10,9 +10,9 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ForInStatement : StatementBase
     {
-        public readonly IEnumerable<IStatementNode> Block;
-        public readonly IExpressionNode ToEnumerate;
-        public readonly VariableExpression VariableExpression;
+        public IEnumerable<IStatementNode> Block { get; private set; }
+        public IExpressionNode ToEnumerate { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
 
         public ForInStatement( VariableExpression variableExpression, IExpressionNode toEnumerate, IEnumerable<IStatementNode> block ) {
             Block = block;

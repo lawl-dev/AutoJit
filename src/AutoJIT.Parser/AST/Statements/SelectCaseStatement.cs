@@ -8,8 +8,8 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class SelectCaseStatement : StatementBase
     {
-        public readonly Dictionary<IExpressionNode, IEnumerable<IStatementNode>> Cases;
-        public readonly IEnumerable<IStatementNode> Else;
+        public Dictionary<IExpressionNode, IEnumerable<IStatementNode>> Cases { get; private set; }
+        public IEnumerable<IStatementNode> Else { get; private set; }
 
         public SelectCaseStatement( Dictionary<IExpressionNode, IEnumerable<IStatementNode>> cases, IEnumerable<IStatementNode> @else ) {
             Cases = cases;

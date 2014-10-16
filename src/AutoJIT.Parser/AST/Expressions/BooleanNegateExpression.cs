@@ -8,9 +8,9 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class BooleanNegateExpression : ExpressionBase
     {
-        public readonly IExpressionNode Left;
-        public readonly Token Operator;
-        public readonly string NOTCompilerFunctionName;
+        public IExpressionNode Left { get; private set; }
+        public Token Operator { get; private set; }
+        public string NOTCompilerFunctionName { get; private set; }
 
         public BooleanNegateExpression( IExpressionNode left, Token @operator ) {
             Left = left;

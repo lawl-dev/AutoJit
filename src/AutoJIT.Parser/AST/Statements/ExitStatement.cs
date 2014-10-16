@@ -6,7 +6,7 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ExitStatement : StatementBase
     {
-        public readonly IExpressionNode ExpressionNode;
+        public IExpressionNode ExpressionNode { get; private set; }
 
         public ExitStatement( IExpressionNode expressionNode ) {
             ExpressionNode = expressionNode;

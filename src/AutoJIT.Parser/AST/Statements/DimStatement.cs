@@ -7,8 +7,8 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class DimStatement : StatementBase
     {
-        public readonly VariableExpression VariableExpression;
-        public readonly IExpressionNode InitExpression;
+        public VariableExpression VariableExpression { get; private set; }
+        public IExpressionNode InitExpression { get; private set; }
 
         public DimStatement( VariableExpression variableExpression, IExpressionNode initExpression ) {
             VariableExpression = variableExpression;

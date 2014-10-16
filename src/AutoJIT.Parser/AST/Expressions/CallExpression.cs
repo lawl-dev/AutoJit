@@ -6,8 +6,8 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public class CallExpression : ExpressionBase
     {
-        public readonly string IdentifierName;
-        public readonly IEnumerable<IExpressionNode> Parameter;
+        public string IdentifierName { get; private set; }
+        public IEnumerable<IExpressionNode> Parameter { get; private set; }
 
         public CallExpression( string identifierName, IEnumerable<IExpressionNode> parameter ) {
             IdentifierName = identifierName;

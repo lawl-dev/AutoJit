@@ -5,9 +5,9 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public abstract class BinaryExpressionBase : ExpressionBase
     {
-        public readonly IExpressionNode Left;
-        public readonly IExpressionNode Right;
-        public readonly Token Operator;
+        public IExpressionNode Left { get; private set; }
+        public IExpressionNode Right { get; private set; }
+        public Token Operator { get; private set; }
 
         public abstract bool NeedsCompilerFunctionCall { get; }
 

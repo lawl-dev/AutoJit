@@ -5,7 +5,7 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public class VariableExpression : ExpressionBase
     {
-        public readonly string IdentifierName;
+        public string IdentifierName { get; private set; }
 
         public VariableExpression( string identifierName ) {
             IdentifierName = identifierName;

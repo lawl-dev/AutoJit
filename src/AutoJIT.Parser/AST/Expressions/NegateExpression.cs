@@ -7,8 +7,8 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class NegateExpression : ExpressionBase
     {
-        public readonly IExpressionNode ExpressionNode;
-        public readonly string NegateFunctionName;
+        public IExpressionNode ExpressionNode { get; private set; }
+        public string NegateFunctionName { get; private set; }
 
         public NegateExpression( IExpressionNode expressionNode ) {
             ExpressionNode = expressionNode;

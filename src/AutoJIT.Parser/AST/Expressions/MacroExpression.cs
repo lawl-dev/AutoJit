@@ -5,7 +5,7 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class MacroExpression : ExpressionBase
     {
-        public readonly string MacroName;
+        public string MacroName { get; private set; }
 
         public MacroExpression( string macroName ) {
             MacroName = macroName;

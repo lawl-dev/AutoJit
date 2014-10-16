@@ -6,7 +6,7 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class ArrayExpression : VariableExpression
     {
-        public readonly IEnumerable<IExpressionNode> AccessParameter;
+        public IEnumerable<IExpressionNode> AccessParameter { get; private set; }
 
         public ArrayExpression( string identifierName, IEnumerable<IExpressionNode> accessParameter ) : base( identifierName ) {
             AccessParameter = accessParameter;

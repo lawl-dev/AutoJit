@@ -6,7 +6,7 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ReDimStatement : StatementBase
     {
-        public readonly ArrayExpression ArrayExpression;
+        public ArrayExpression ArrayExpression { get; private set; }
 
         public ReDimStatement( ArrayExpression arrayExpression ) {
             ArrayExpression = arrayExpression;

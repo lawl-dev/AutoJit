@@ -6,7 +6,7 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class ArrayInitExpression : ExpressionBase
     {
-        public readonly List<IExpressionNode> ToAssign;
+        public List<IExpressionNode> ToAssign { get; private set; }
 
         public ArrayInitExpression( List<IExpressionNode> toAssign ) {
             ToAssign = toAssign;

@@ -7,9 +7,9 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class GlobalDeclarationStatement : StatementBase
     {
-        public readonly bool IsConst;
-        public readonly VariableExpression VariableExpression;
-        public readonly IExpressionNode InitExpression;
+        public bool IsConst { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
+        public IExpressionNode InitExpression { get; private set; }
 
         public GlobalDeclarationStatement(VariableExpression variableExpression, IExpressionNode initExpression, bool isConst)
         {

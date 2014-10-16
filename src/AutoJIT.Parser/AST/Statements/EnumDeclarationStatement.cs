@@ -8,10 +8,10 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class EnumDeclarationStatement : StatementBase
     {
-        public readonly IExpressionNode AutoInitExpression;
-        public readonly bool IsGlobal;
-        public readonly VariableExpression VariableExpression;
-        public readonly IExpressionNode UserInitExpression;
+        public IExpressionNode AutoInitExpression { get; private set; }
+        public bool IsGlobal { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
+        public IExpressionNode UserInitExpression { get; private set; }
 
         public EnumDeclarationStatement(
             VariableExpression variableExpression,

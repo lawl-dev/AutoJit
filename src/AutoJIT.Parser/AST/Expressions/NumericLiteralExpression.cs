@@ -7,7 +7,7 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class NumericLiteralExpression : LiteralExpression
     {
-        public readonly IEnumerable<Token> SignOperators;
+        public IEnumerable<Token> SignOperators { get; private set; }
 
         public bool Negativ {
             get { return SignOperators != null && SignOperators.Count( x => x.Type == TokenType.Minus ) % 2 != 0; }

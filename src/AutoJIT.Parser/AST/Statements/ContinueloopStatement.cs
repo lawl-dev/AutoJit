@@ -5,7 +5,7 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ContinueloopStatement : StatementBase
     {
-        public readonly int Level;
+        public int Level { get; private set; }
 
         public ContinueloopStatement( int level ) {
             Level = level;
