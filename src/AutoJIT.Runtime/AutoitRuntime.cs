@@ -700,17 +700,17 @@ namespace AutoJITRuntime
 
         public Variant Eval(Variant @string)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Function 'Eval' is not supported");
         }
 
         public Variant Execute(Variant @string)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Function 'Execute' is not supported");
         }
 
-        public Variant Exp(Variant expression)
-        {
-            throw new NotImplementedException();
+        [Inlineable]
+        public Variant Exp(Variant expression) {
+            return Math.Exp( expression );
         }
 
         public Variant FileChangeDir(Variant path)
@@ -1675,9 +1675,9 @@ namespace AutoJITRuntime
             return variable.IsString;
         }
 
-        public Variant Log(Variant expression)
-        {
-            throw new NotImplementedException();
+        [Inlineable]
+        public Variant Log(Variant expression) {
+            return Math.Log( expression );
         }
 
         public Variant MemGetStats()
@@ -2062,7 +2062,8 @@ namespace AutoJITRuntime
             startInfo.UseShellExecute = true;
 
             try {
-                Process.Start( startInfo );
+                var process = Process.Start( startInfo );
+                return process.Id;
             }
             catch (Win32Exception exception) {
                 _context.Error = exception.NativeErrorCode;
@@ -2072,13 +2073,20 @@ namespace AutoJITRuntime
                 _context.Error = 1;
                 return false;
             }
-
-            return true;
+            return false;
         }
 
-        public Variant ShellExecuteWait(Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null)
-        {
-            throw new NotImplementedException();
+        public Variant ShellExecuteWait(Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null) {
+            var pid = ShellExecute( filename, parameters, workingdir, verb, showflag );
+            if ( pid ) {
+                var process = Process.GetProcessById(pid);
+                while (!process.HasExited)
+                {
+                    Thread.Sleep(10);
+                }
+                return process.ExitCode;
+            }
+            return 0;
         }
 
         public Variant Shutdown(Variant code)
@@ -2847,9 +2855,9 @@ namespace AutoJITRuntime
         [AutoJITCompilerFunction]
         public void Exit( Variant exitCode = null) {
             if ( exitCode == null ) {
-                Environment.Exit( 0 );
+                exitCode = 0;
             }
-            Environment.Exit( (int)exitCode );
+            Environment.Exit( exitCode );
         }
 
         [Inlineable]

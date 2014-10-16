@@ -1,6 +1,5 @@
 $path = "C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\Release\UnmanagedTestDll.dll"
 
-ConsoleWrite(FRA() & @CRLF)
 
 Func FA()
 $handle = DllOpen($path)
