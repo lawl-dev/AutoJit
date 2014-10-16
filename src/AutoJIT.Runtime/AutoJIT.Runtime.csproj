@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="ArrayVariant.cs" />
     <Compile Include="AutoitRuntime.cs" />
-    <Compile Include="AutoitRuntimeSpike.cs" />
     <Compile Include="AutoitTypeBridge.cs" />
     <Compile Include="AutoJITCompilerFunctionAttribute.cs" />
     <Compile Include="AutoitContext.cs" />
@@ -73,6 +72,8 @@
     <Compile Include="Int64Variant.cs" />
     <Compile Include="IRuntimeStruct.cs" />
     <Compile Include="KeyEventRecord.cs" />
+    <Compile Include="MarshalBridge.cs" />
+    <Compile Include="MarshalInfo.cs" />
     <Compile Include="NullVariant.cs" />
     <Compile Include="Inlineable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

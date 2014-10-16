@@ -35,7 +35,7 @@ $diff = TimerDiff($timer)
 
 ConsoleWrite($diff)
 
-
+Sleep(10000)
 Exit $diff
 ;===================================================================
 ; des

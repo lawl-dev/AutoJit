@@ -14,6 +14,10 @@ namespace AutoJITRuntime
             get { return DataType.IntPtr; }
         }
 
+        public override bool IsPtr {
+            get { return true; }
+        }
+
         public override object GetValue() {
             return _value;
         }

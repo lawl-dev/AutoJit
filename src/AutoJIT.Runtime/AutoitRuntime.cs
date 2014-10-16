@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,6 +6,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,14 +20,13 @@ namespace AutoJITRuntime
     {
         private readonly AutoitContext<T> _context;
         private readonly Dictionary<string, MethodInfo> _methodStore;
-        private readonly AutoitRuntimeSpike<T> _spikeRuntime;
-
+        
         public AutoitRuntime(AutoitContext<T> context) {
             _context = context;
-            _spikeRuntime = new AutoitRuntimeSpike<T>(_context);
             var methodInfos = GetType().GetMethods();
             _methodStore = methodInfos.ToDictionary( x => x.Name, x => x );
         }
+         
 
         [Inlineable]
         public Variant ACos(Variant expression) {
@@ -502,7 +502,66 @@ namespace AutoJITRuntime
         }
 
         public Variant DllCall(Variant dll, Variant returntype, Variant function, params Variant[] paramtypen) {
-            return _spikeRuntime.DllCall( dll, returntype, function, paramtypen );
+            if ( dll.IsPtr ) {
+                return CallDllByHandle( dll, returntype, function, paramtypen );
+            }
+            var handle = DllOpen( dll );
+            var result = CallDllByHandle( dll, returntype, function, paramtypen );
+            DllClose( handle );
+            return result;
+        }
+
+        private Variant CallDllByHandle( Variant dll, Variant returntype, Variant function, Variant[] paramtypen ) {
+            var procAddress = CompilerRuntimeHelper.GetProcAddress( dll, function );
+            var parameterMarshalInfo = new List<MarshalInfo>();
+            for ( int i = 0; i < paramtypen.Length; i += 2 ) {
+                var typePart = paramtypen[i];
+                var value = paramtypen[i+1];
+
+                var marshalInfo = MarshalBridge.GetMarshalInfo( typePart, value );
+
+                parameterMarshalInfo.Add( marshalInfo );
+            }
+
+            var callingConvention = typeof (CallConvStdcall);
+
+            MarshalInfo returnMarshalInfo;
+            if ( returntype.GetString().Contains( ":" ) ) {
+                var returnType = returntype.GetString().Split( ':' )[0];
+                var customCallingConvention = returntype.GetString().Split( ':' )[1];
+                callingConvention = GetCallingConvention( customCallingConvention );
+                returnMarshalInfo = MarshalBridge.GetMarshalInfo( returnType, null );
+            }
+            else {
+                returnMarshalInfo = MarshalBridge.GetMarshalInfo( returntype, null );
+            }
+
+            var marshalDelegate = MarshalBridge.CreateMarshalDelegate( returnMarshalInfo, parameterMarshalInfo, callingConvention );
+            var @delegate = Marshal.GetDelegateForFunctionPointer( procAddress, marshalDelegate );
+            var args = parameterMarshalInfo.Select( x => x.Parameter ).ToArray();
+            var result = @delegate.DynamicInvoke( args );
+
+            var toReturn = new Variant[args.Length+1];
+            toReturn[0] = Variant.Create( result );
+            Array.Copy( args.Select(MarshalBridge.Win32ValueToAutoitValue).Select( Variant.Create ).ToArray(), 0, toReturn, 1, args.Length );
+            return toReturn;
+        }
+
+        private Type GetCallingConvention( string customCallingConvention ) {
+            switch (customCallingConvention.ToUpper()) {
+                case "CDECL":
+                    return typeof(CallConvCdecl);
+                case "STDCALL":
+                    return typeof(CallConvStdcall);
+                case "FASTCALL":
+                    return typeof(CallConvFastcall);
+                case "THISCALL":
+                    return typeof(CallConvThiscall);
+                case "WINAPI":
+                    return typeof(CallConvStdcall);
+                default:
+                    throw new AutoJITRuntimerException( string.Format( "Unknown calling convention {0}", customCallingConvention ) );
+            }
         }
 
         public Variant DllCallAddress(Variant returntype, Variant address, params Variant[] paramtypen)
@@ -526,32 +585,42 @@ namespace AutoJITRuntime
         }
 
         public Variant DllClose(Variant dllhandle) {
-            return _spikeRuntime.DllClose( dllhandle );
+            CompilerRuntimeHelper.FreeLibrary( dllhandle );
+            return 0;
         }
 
         public Variant DllOpen(Variant filename) {
-            return _spikeRuntime.DllOpen( filename );
+            try {
+                var library = CompilerRuntimeHelper.LoadLibrary( filename.GetString() );
+                if ( library == IntPtr.Zero ) {
+                    var error = Marshal.GetLastWin32Error();
+                }
+                return library;
+            }
+            catch (Exception) {
+                return -1;
+            }
         }
 
         public Variant DllStructCreate( Variant Struct, Variant Pointer = null ) {
-            return _spikeRuntime.DllStructCreate( Struct, Pointer );
+            throw new NotImplementedException();
         }
 
 
         public Variant DllStructGetData(Variant Struct, Variant Element, Variant index = null) {
-            return _spikeRuntime.DllStructGetData( Struct, Element, index );
+            throw new NotImplementedException();
         }
 
         public Variant DllStructGetPtr(Variant Struct, Variant Element = null) {
-            return _spikeRuntime.DllStructGetPtr( Struct, Element );
+            throw new NotImplementedException();
         }
 
         public Variant DllStructGetSize(Variant Struct) {
-            return _spikeRuntime.DllStructGetSize( Struct );
+            throw new NotImplementedException();
         }
 
         public Variant DllStructSetData(Variant Struct, Variant Element, Variant value, Variant index = null) {
-            return _spikeRuntime.DllStructSetData( Struct, Element, value, index );
+            throw new NotImplementedException();
         }
 
         public Variant DriveGetDrive(Variant type)

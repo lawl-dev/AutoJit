@@ -1,18 +1,14 @@
 Global $Chrono[21] ; Chronometer values
 
-
 Global $Mess = "Timer values"&@CRLF ; String to contain MsgBox content.
-
-; Declare all necessary variables for your test code here
-$Val = 0
 
 ; Actual timing loops
 ; ============================================================================
 For $i = 1 To 20 ; 20 iterations of set
 	$go = TimerInit() ; Start your engines!
 
-	For $j = 1 To 9999
-
+	For $j = 1 To 30
+		getPrimesTo(1337)
 	Next ; $j
 
 	$Chrono[$i] = TimerDiff($go) ; Ok, how long did it take?
@@ -21,7 +17,27 @@ Next ; $i
 ; ============================================================================
 
 _Report() ; ... err report it!
+Sleep(10000)
+
 Exit
+
+
+Func getPrimesTo($limit)
+	Local $t[$limit+1], $p[$limit+1] = [0]
+	For $a = 2 To $limit
+		If $t[$a] <> 1 Then
+			If $a <= Sqrt($limit) Then
+				For $b = 2*$a To $limit Step $a
+					$t[$b] = 1
+				Next
+			EndIf
+			$p[0]+=1
+			$p[$p[0]]=$a
+		EndIf
+	Next
+	ReDim $p[$p[0]+1]
+	Return $p
+EndFunc
 
 ; ==== FUNCTIONS =============================================================
 Func _Report()

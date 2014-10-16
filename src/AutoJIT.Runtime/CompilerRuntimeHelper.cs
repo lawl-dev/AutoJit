@@ -10,7 +10,7 @@ namespace AutoJITRuntime
 {
     internal static class CompilerRuntimeHelper
     {
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LoadLibrary(string dllToLoad);
 
         [DllImport("kernel32.dll")]
@@ -158,13 +158,6 @@ namespace AutoJITRuntime
         }
         
         public static object ConverToManagedType( string typeName, Variant value ) {
-            if ( typeName.EndsWith( "*" ) ) {
-                //var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(value.GetValue()));
-                //Marshal.StructureToPtr(value.GetValue(), ptr, true);
-                //return ptr;
-                typeName = typeName.TrimEnd('*');
-            }
-
             switch (typeName.ToUpper()) {
                 case "BYTE":
                     return (Byte)value;
