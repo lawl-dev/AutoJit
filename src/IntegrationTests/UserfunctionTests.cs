@@ -145,6 +145,29 @@ namespace UnitTests
             });
 
         }
+        
+        [TestCase("WinAPI.au3")]
+        public void Test_compile__WinAPI_GetCurrentProcessID(string file)
+        {
+            var path = string.Format("{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file);
+            var script = File.ReadAllText(path);
+
+            var assemblyBytes = new byte[] { };
+            Assert.DoesNotThrow(() =>
+            {
+                assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
+                
+            });
+
+            var assembly = Assembly.Load(assemblyBytes);
+            var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
+            var instance = type.CreateInstanceWithDefaultParameters();
+            var methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentProcessID" ) );
+
+
+            
+            var res = methodInfo.Invoke( instance, null );
+        }
 
         [Test]
         public void Foo() {

@@ -156,12 +156,10 @@ namespace AutoJITRuntime
             var @string = expression.GetString();
 
             if ( @string.Length % 2 != 0 ) {
-                _context.Error = 2;
-                return string.Empty;
+                return SetError( 2, null, string.Empty );
             }
             if ( @string.Length == 0 ) {
-                _context.Error = 1;
-                return string.Empty;
+                return SetError( 1, null, string.Empty );
             }
 
             Encoding encoding;
@@ -273,10 +271,7 @@ namespace AutoJITRuntime
             if ( _context.MethodStore.ContainsKey( function ) ) {
                 return Variant.Create( _context.MethodStore[function].Invoke( _context.Context, paramsN ) );
             }
-
-            _context.Error = 0xDEAD;
-            _context.Extended = 0xBEEF;
-            return 0;
+            return SetError( 0xDEAD, 0xBEEF, 0 );
         }
 
         [Inlineable]
@@ -291,8 +286,7 @@ namespace AutoJITRuntime
                 return string.Empty;
             }
             if ( ASCIIcode > 255 ) {
-                _context.Error = 1;
-                return string.Empty;
+                return SetError( 1, null, string.Empty );
             }
 
             return ( (char) ASCIIcode ).ToString( CultureInfo.InvariantCulture );
@@ -302,8 +296,7 @@ namespace AutoJITRuntime
         public Variant ChrW(Variant UNICODEcode)
         {
             if ( UNICODEcode > ushort.MaxValue ) {
-                _context.Error = UNICODEcode;
-                return string.Empty;
+                return SetError( UNICODEcode, null, string.Empty );
             }
 
             if ( UNICODEcode < 0 ) {
@@ -472,8 +465,7 @@ namespace AutoJITRuntime
                 }
                 return result;
             }
-            _context.Error = 1;
-            return 0;
+            return SetError( 1, null, 0 );
         }
 
         public Variant DirCopy(Variant sourcedir, Variant destdir, Variant flag = null)
@@ -506,40 +498,93 @@ namespace AutoJITRuntime
                 return CallDllByHandle( dll, returntype, function, paramtypen );
             }
             var handle = DllOpen( dll );
-            var result = CallDllByHandle( dll, returntype, function, paramtypen );
+            if ( handle == -1 ) {
+                return SetError( 1, null, 0 );
+            }
+
+            var result = CallDllByHandle( handle, returntype, function, paramtypen );
+            
+            
+            if ( result == 0 ) {
+                return 0;
+            }
+
             DllClose( handle );
             return result;
         }
 
         private Variant CallDllByHandle( Variant dll, Variant returntype, Variant function, Variant[] paramtypen ) {
             var procAddress = CompilerRuntimeHelper.GetProcAddress( dll, function );
-            var parameterMarshalInfo = new List<MarshalInfo>();
-            for ( int i = 0; i < paramtypen.Length; i += 2 ) {
-                var typePart = paramtypen[i];
-                var value = paramtypen[i+1];
 
-                var marshalInfo = MarshalBridge.GetMarshalInfo( typePart, value );
-
-                parameterMarshalInfo.Add( marshalInfo );
+            if ( procAddress == IntPtr.Zero ) {
+                return SetError( 3, null, 0 );
             }
 
-            var callingConvention = typeof (CallConvStdcall);
+            var cacheKey = string.Format(
+                "{0}{1}", returntype.GetString(), string.Join( "", paramtypen.Where( ( variant, i ) => i % 2 != 0 ).Select( x => x.GetString() ) ) );
+
+
+
+
+            var parameterMarshalInfo = new List<MarshalInfo>();
+            for (int i = 0; i < paramtypen.Length; i += 2)
+            {
+                var typePart = paramtypen[i];
+                var value = paramtypen[i + 1];
+
+                var marshalInfo = MarshalBridge.GetMarshalInfo(typePart, value);
+
+                if (marshalInfo.Type == null)
+                {
+                    return SetError(5, null, 0);
+                }
+
+                parameterMarshalInfo.Add(marshalInfo);
+            }
+
+            var callingConvention = typeof(CallConvStdcall);
 
             MarshalInfo returnMarshalInfo;
-            if ( returntype.GetString().Contains( ":" ) ) {
-                var returnType = returntype.GetString().Split( ':' )[0];
-                var customCallingConvention = returntype.GetString().Split( ':' )[1];
-                callingConvention = GetCallingConvention( customCallingConvention );
-                returnMarshalInfo = MarshalBridge.GetMarshalInfo( returnType, null );
+            if (returntype.GetString().Contains(":"))
+            {
+                var returnType = returntype.GetString().Split(':')[0];
+                var customCallingConvention = returntype.GetString().Split(':')[1];
+                callingConvention = GetCallingConvention(customCallingConvention);
+                returnMarshalInfo = MarshalBridge.GetMarshalInfo(returnType, null);
             }
-            else {
-                returnMarshalInfo = MarshalBridge.GetMarshalInfo( returntype, null );
+            else
+            {
+                returnMarshalInfo = MarshalBridge.GetMarshalInfo(returntype, null);
             }
 
-            var marshalDelegate = MarshalBridge.CreateMarshalDelegate( returnMarshalInfo, parameterMarshalInfo, callingConvention );
-            var @delegate = Marshal.GetDelegateForFunctionPointer( procAddress, marshalDelegate );
+            if (returnMarshalInfo.Type == null)
+            {
+                return SetError(2, null, 0);
+            }
+            
+            
+            
+            Type marshalDelegate;
+            if ( RuntimeStore<Type>.Cached( cacheKey ) ) {
+                marshalDelegate = RuntimeStore<Type>.Get( cacheKey );
+            }
+            else {
+                marshalDelegate = MarshalBridge.CreateMarshalDelegate( returnMarshalInfo, parameterMarshalInfo, callingConvention );
+                RuntimeStore<Type>.Cache( cacheKey, marshalDelegate );
+            }
+
+
+
+
+            Delegate @delegate;
+            try {
+                @delegate = Marshal.GetDelegateForFunctionPointer(procAddress, marshalDelegate);
+            }
+            catch (Exception ex) {
+                return SetError( 4, null, 0 );
+            }
             var args = parameterMarshalInfo.Select( x => x.Parameter ).ToArray();
-            var result = @delegate.DynamicInvoke( args );
+            var result = @delegate.DynamicInvoke(args);
 
             var toReturn = new Variant[args.Length+1];
             toReturn[0] = Variant.Create( result );
@@ -2066,14 +2111,11 @@ namespace AutoJITRuntime
                 return process.Id;
             }
             catch (Win32Exception exception) {
-                _context.Error = exception.NativeErrorCode;
-
+                return SetError( exception.NativeErrorCode, null, 0 );
             }
             catch (Exception) {
-                _context.Error = 1;
-                return false;
+                return SetError(1, null, 0);
             }
-            return false;
         }
 
         public Variant ShellExecuteWait(Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null) {
@@ -2608,8 +2650,7 @@ namespace AutoJITRuntime
             var array = Array.GetValue() as Array;
 
             if ( array == null ) {
-                _context.Error = 1;
-                return 0;
+                return SetError( 1, null, 0 );
             }
 
             switch (Dimension.GetInt()) {
@@ -2620,8 +2661,7 @@ namespace AutoJITRuntime
                 case 2:
                     return array.GetLength( 1 );
                 default:
-                    _context.Error = 2;
-                    return 0;
+                    return SetError( 2, null, 0 );
             }
         }
 

@@ -78,6 +78,7 @@
     <Compile Include="Inlineable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PtrVariant.cs" />
+    <Compile Include="RuntimeStore.cs" />
     <Compile Include="StringVariant.cs" />
     <Compile Include="StructVariant.cs" />
     <Compile Include="TypeInfo.cs" />

@@ -7,8 +7,8 @@ Global $Mess = "Timer values"&@CRLF ; String to contain MsgBox content.
 For $i = 1 To 20 ; 20 iterations of set
 	$go = TimerInit() ; Start your engines!
 
-	For $j = 1 To 30
-		getPrimesTo(1337)
+	For $j = 1 To 1337
+		getPrimesTo()
 	Next ; $j
 
 	$Chrono[$i] = TimerDiff($go) ; Ok, how long did it take?
@@ -22,21 +22,8 @@ Sleep(10000)
 Exit
 
 
-Func getPrimesTo($limit)
-	Local $t[$limit+1], $p[$limit+1] = [0]
-	For $a = 2 To $limit
-		If $t[$a] <> 1 Then
-			If $a <= Sqrt($limit) Then
-				For $b = 2*$a To $limit Step $a
-					$t[$b] = 1
-				Next
-			EndIf
-			$p[0]+=1
-			$p[$p[0]]=$a
-		EndIf
-	Next
-	ReDim $p[$p[0]+1]
-	Return $p
+Func getPrimesTo()
+	DllCall("kernel32.dll", "INT", "Beep", "DWORD", 1000, "DWORD", 0)
 EndFunc
 
 ; ==== FUNCTIONS =============================================================

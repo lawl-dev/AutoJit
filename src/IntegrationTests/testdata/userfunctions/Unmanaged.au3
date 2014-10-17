@@ -1,6 +1,5 @@
 $path = "C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\Release\UnmanagedTestDll.dll"
 
-
 Func FA()
 $handle = DllOpen($path)
 $res = DllCall($handle, "BOOLEAN:cdecl", "TestFuncA", "BYTE", 2, "BOOLEAN", 1, "SHORT", 1)
