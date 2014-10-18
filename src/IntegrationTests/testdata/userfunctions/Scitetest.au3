@@ -1,66 +1,41 @@
-Global $Chrono[21] ; Chronometer values
-
-Global $Mess = "Timer values"&@CRLF ; String to contain MsgBox content.
-
-; Actual timing loops
-; ============================================================================
-For $i = 1 To 20 ; 20 iterations of set
-	$go = TimerInit() ; Start your engines!
-
-	For $j = 1 To 1337
-		getPrimesTo()
-	Next ; $j
-
-	$Chrono[$i] = TimerDiff($go) ; Ok, how long did it take?
-	$Mess &= "Pass "&$i&" = "&$Chrono[$i]&"ms"&@CRLF ; Jolt it down for the report
-Next ; $i
-; ============================================================================
-
-_Report() ; ... err report it!
-Sleep(10000)
-
-Exit
+#include <WinAPI.au3>
 
 
-Func getPrimesTo()
-	DllCall("kernel32.dll", "INT", "Beep", "DWORD", 1000, "DWORD", 0)
-EndFunc
+Local $sFile, $hFile, $sText, $nBytes, $tBuffer
 
-; ==== FUNCTIONS =============================================================
-Func _Report()
-	$Mess &= @CRLF ; Add an empty line
-	$Mess &= "Min: "&_Minn()&"ms"&@CRLF ; Find minimum value and add it
-	$Mess &= "Max: "&_Maxx()&"ms"&@CRLF ; Find maximum value and add it
-	$Mess &= "Ave: "&_Ave()&"ms"&@CRLF ; Calculate median value and add it!
-	ConsoleWrite(ConsoleWrite($Mess & @CRLF) & @CRLF)
-	;MsgBox(48,"Results",$Mess) ; Show it to the user --> see how @CRLF works?
-EndFunc
+; 1) create file and write data to it
+$sFile = @ScriptDir & '\test.txt'
+$sText = 'abcdefghijklmnopqrstuvwxyz'
+$tBuffer = DllStructCreate("byte[" & StringLen($sText) & "]")
+DllStructSetData($tBuffer, 1, $sText)
+$hFile = _WinAPI_CreateFile($sFile, 1)
+_WinAPI_WriteFile($hFile, DllStructGetPtr($tBuffer), StringLen($sText), $nBytes)
+_WinAPI_CloseHandle($hFile)
+ConsoleWrite('1) ' & FileRead($sFile) & @CRLF)
 
-Func _Maxx() ; Find maximum value and return it
-	Local $i, $Max ; Set local variables
-	For $i = 1 To Ubound($Chrono) -1 ; Read all values in $Chrono, from 1 to end
-		If $Chrono[$i] > $Max Then $Max = $Chrono[$i] ; If the current value is larger than the current max, it is the new max.
-	Next
-	Return $Max ; Send back the value
-EndFunc
+; 2) read 6 bytes from position 3
+$tBuffer = DllStructCreate("byte[6]")
+$hFile = _WinAPI_CreateFile($sFile, 2, 2)
+_WinAPI_SetFilePointer($hFile, 3)
+_WinAPI_ReadFile($hFile, DllStructGetPtr($tBuffer), 6, $nBytes)
+_WinAPI_CloseHandle($hFile)
+$sText = BinaryToString(DllStructGetData($tBuffer, 1))
+ConsoleWrite('2) ' & $sText & @CRLF)
 
-Func _Minn() ; Find minimum value and add it
-	Local $i, $Min = $Chrono[1] ; Set local variables. Notice $Min which equals the first value in $Chrono
-	For $i = 1 To Ubound($Chrono) -1 ; Read all values in $Chrono, from 1 to end
-		If $Chrono[$i] < $Min Then $Min = $Chrono[$i] ; If the current value is lower than the current min, it is the new min.
-	Next
-	Return $Min ; Send back the value
-EndFunc
+; 3) write previously read 6 bytes from position 3 to the same position but in UpperCase
+DllStructSetData($tBuffer, 1, StringUpper($sText))
+$hFile = _WinAPI_CreateFile($sFile, 2, 4)
+_WinAPI_SetFilePointer($hFile, 3)
+_WinAPI_WriteFile($hFile, DllStructGetPtr($tBuffer), 6, $nBytes)
+_WinAPI_CloseHandle($hFile)
+$tBuffer = 0
+ConsoleWrite('3) ' & FileRead($sFile) & @CRLF)
 
-Func _Ave() ; Find average value and return it
-	Local $i, $Ave = 0; Set local variables
-	For $i = 1 To Ubound($Chrono) -1 ; Read all values in $Chrono, from 1 to end
-		$Ave += $Chrono[$i] ; Add up all the values
-	Next
-	Return $Ave / $i ; Send back the value, dividing total by # of numbers added together --> average
-EndFunc
+; 4) truncate file size to 12 bytes
+$hFile = _WinAPI_CreateFile($sFile, 2, 4)
+_WinAPI_SetFilePointer($hFile, 12)
+_WinAPI_SetEndOfFile($hFile)
+_WinAPI_CloseHandle($hFile)
+ConsoleWrite('4) ' & FileRead($sFile) & @CRLF)
 
-
-Func F()
-Local $arr[1][2]
-EndFunc
+FileDelete($sFile)

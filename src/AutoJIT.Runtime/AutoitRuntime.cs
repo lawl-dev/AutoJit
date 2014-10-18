@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -6,12 +7,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Lawl.Reflection;
 using Microsoft.Win32.SafeHandles;
 
 namespace AutoJITRuntime
@@ -505,8 +508,8 @@ namespace AutoJITRuntime
             var result = CallDllByHandle( handle, returntype, function, paramtypen );
             
             
-            if ( result == 0 ) {
-                return 0;
+            if ( result.IsInt32 ) {
+                return result;
             }
 
             DllClose( handle );
@@ -521,7 +524,7 @@ namespace AutoJITRuntime
             }
 
             var cacheKey = string.Format(
-                "{0}{1}", returntype.GetString(), string.Join( "", paramtypen.Where( ( variant, i ) => i % 2 != 0 ).Select( x => x.GetString() ) ) );
+                "{0}{1}", returntype.GetString(), string.Join( "", paramtypen.Where( ( variant, i ) => i % 2 == 0 ).Select( x => x.GetString() ) ) );
 
 
 
@@ -648,16 +651,40 @@ namespace AutoJITRuntime
         }
 
         public Variant DllStructCreate( Variant Struct, Variant Pointer = null ) {
-            throw new NotImplementedException();
+            if ( Pointer != null ) {
+                throw new NotSupportedException( "Struct pointer" );
+            }
+            var structType = MarshalBridge.CreateRuntimeStruct( Struct.GetString() );
+
+            return Variant.Create((IRuntimeStruct)structType.CreateInstanceWithDefaultParameters());
         }
 
 
         public Variant DllStructGetData(Variant Struct, Variant Element, Variant index = null) {
-            throw new NotImplementedException();
+            if ( index != null ) {
+                throw new NotImplementedException();
+            }
+            var structVariant = Struct as StructVariant;
+            if ( structVariant == null ) {
+                return SetError( 1, null, 0 );
+            }
+
+            return Variant.Create(structVariant.GetElement( Element.GetInt() - 1));
+
         }
 
         public Variant DllStructGetPtr(Variant Struct, Variant Element = null) {
-            throw new NotImplementedException();
+            var structVariant = Struct as StructVariant;
+            if ( structVariant == null ) {
+                return SetError( 1, null, 0 );
+            }
+
+            if ( Element != null ) {
+                throw new NotImplementedException();
+            }
+
+            structVariant.InitUnmanaged();
+            return structVariant.Ptr;
         }
 
         public Variant DllStructGetSize(Variant Struct) {
@@ -665,6 +692,38 @@ namespace AutoJITRuntime
         }
 
         public Variant DllStructSetData(Variant Struct, Variant Element, Variant value, Variant index = null) {
+            if ( index == null ) {
+                index = 1;
+            }
+            
+            
+            var runtimeStruct = Struct as StructVariant;
+            if ( runtimeStruct == null ) {
+                return SetError( 1, null, 0 );
+            }
+
+
+
+            if ( Element.IsInt32 ) {
+                var val = value.GetValue();
+                if ( val is IEnumerable ) {
+                    var element = runtimeStruct.GetElement( Element.GetInt()-1 );
+                    if ( element is Array ) {
+                        int i = index.GetInt()-1;
+                        foreach (var o in (IEnumerable)val) {
+                            var array = ((Array)element);
+                            var elementType = array.GetType().GetElementType();
+                            array.SetValue( Convert.ChangeType( o, elementType ), i );
+                            i++;
+                        }
+                        runtimeStruct.SetElement( Element.GetInt()-1, element );
+                        return Variant.Create(element);
+                    }
+                }
+                else {
+                    runtimeStruct.SetElement( Element.GetInt()-1, value );
+                }
+            }
             throw new NotImplementedException();
         }
 
@@ -794,7 +853,23 @@ namespace AutoJITRuntime
 
         public Variant FileDelete(Variant filename)
         {
-            throw new NotImplementedException();
+            var fragments = filename.GetString().Split( '\\' );
+            var dir = string.Join( "\\", fragments.Take( fragments.Length-1 ) );
+            var toDelete = Directory.GetFiles( dir, fragments.Last() );
+            if ( !toDelete.Any() ) {
+                return 0;
+            }
+
+            try {
+                foreach (var file in toDelete)
+                {
+                    File.Delete(file);
+                }
+            }
+            catch (Exception) {
+                return 0;
+            }
+            return 1;
         }
 
         public Variant FileExists(Variant path)
@@ -884,7 +959,33 @@ namespace AutoJITRuntime
 
         public Variant FileRead(Variant filehandlefilename, Variant count = null)
         {
-            throw new NotImplementedException();
+            if ( count == null ) {
+                count = -1;
+            }
+
+            Stream fileStream;
+            if ( filehandlefilename.IsPtr ) {
+                var fileHandle = new SafeFileHandle( filehandlefilename.GetIntPtr(), false );
+                fileStream = new FileStream(fileHandle, FileAccess.Read);
+            }
+            else {
+                fileStream = new FileStream(filehandlefilename.GetString(), FileMode.Open);
+            }
+
+            var streamReader = new StreamReader( fileStream );
+            if ( count < 0 ) {
+                var readToEnd = streamReader.ReadToEnd();
+                if ( !filehandlefilename.IsPtr ) {
+                    streamReader.Close();
+                }
+
+                return SetExtended( readToEnd.Length, readToEnd );
+            }
+            
+            var buffer = new char[count];
+            var read = streamReader.Read(buffer, (int) fileStream.Position, count);
+            streamReader.Close();
+            return SetExtended( read, new StringVariant( new string( buffer ) ) );
         }
 
         public Variant FileReadLine(Variant filehandlefilename, Variant line = null)

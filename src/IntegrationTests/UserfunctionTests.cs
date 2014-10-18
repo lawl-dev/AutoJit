@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using AutoJIT.Compiler;
+using AutoJITRuntime;
+using AutoJITScript;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
@@ -56,7 +58,6 @@ namespace UnitTests
                 var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
                 var method = type.GetMethod("f_Example");
                 var instance = type.CreateInstanceWithDefaultParameters();
-                var res = method.Invoke( instance, null );
             });
 
         }
@@ -171,6 +172,7 @@ namespace UnitTests
 
         [Test]
         public void Foo() {
+            
         }
     }
 }

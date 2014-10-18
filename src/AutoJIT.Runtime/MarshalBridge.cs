@@ -26,25 +26,49 @@ namespace AutoJITRuntime
             if ( typePart.EndsWith( "*" ) ) {
                 isRef = true;
                 var typeName = typePart.TrimEnd( '*' );
-                managedType = GetManagedType( typeName );
+
+                if ( typeName.Equals( "struct", StringComparison.InvariantCultureIgnoreCase ) ) {
+                    managedType = value.GetValue().GetType();
+                }
+                else {
+                    managedType = GetManagedType(typeName);    
+                }
                 marshalAttribute = GetMarshalAttribute( typeName );
             }
             else {
-                managedType = GetManagedType( typePart );
+                if (typePart.Equals("struct", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    managedType = value.GetValue().GetType();
+                }
+                else
+                {
+                    managedType = GetManagedType(typePart);
+
+                    marshalAttribute = GetMarshalAttribute(typePart);
+                }
             }
             
             object changeType = null;
-            if ( value != null ) {
-                if ( managedType == typeof (IntPtr) ) {
+            if (value != null)
+            {
+                if ( value.GetType() == managedType ) {
+                    changeType = value.GetValue();
+                }
+                else if ( managedType == typeof (IntPtr) ) {
                     changeType = new IntPtr( value.GetInt() );
                 }
                 else if ( managedType == typeof (UIntPtr) ) {
                     changeType = new UIntPtr( (uint) value.GetInt() );
                 }
+                else if ( value.IsInt32 &&
+                          managedType == typeof (uint) ) {
+                    changeType = unchecked( (uint) value.GetInt() );
+                }
                 else {
-                    changeType = Convert.ChangeType(value.GetValue(), managedType);   
+                    changeType = Convert.ChangeType( value.GetValue(), managedType );
                 }
             }
+            
 
             var marshalInfo = new MarshalInfo( changeType, managedType, marshalAttribute, isRef );
             return marshalInfo;
@@ -197,6 +221,152 @@ namespace AutoJITRuntime
                     break;
             }
             return toRetur;
+        }
+
+        public static Type CreateRuntimeStruct(string @struct)
+        {
+            IEnumerable<ParsedTypeInfo> typeInfos = GetTypeInfos(@struct);
+            return CreateStruct(typeInfos);
+        }
+
+
+
+
+        private static Type CreateStruct(IEnumerable<ParsedTypeInfo> typeInfos)
+        {
+            var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("an"), AssemblyBuilderAccess.Run);
+            var dynamicMod = assemblyBuilder.DefineDynamicModule("MainModule");
+
+
+            var constructorInfo = typeof(StructLayoutAttribute).GetConstructor(new[] { typeof(LayoutKind) });
+            var customAttributeBuilder = new CustomAttributeBuilder(constructorInfo, new object[] { LayoutKind.Sequential });
+
+            TypeBuilder tb = dynamicMod.DefineType("_" + Guid.NewGuid().ToString("N"), TypeAttributes.Public, typeof(object), new[] { typeof(IRuntimeStruct) });
+            tb.SetCustomAttribute(customAttributeBuilder);
+
+            var constructorBuilder =
+                tb.DefineConstructor(
+                    MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName, CallingConventions.Standard,
+                    Type.EmptyTypes);
+
+            var ilGenerator = constructorBuilder.GetILGenerator();
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            var superConstructor = typeof(Object).GetConstructor(Type.EmptyTypes);
+            ilGenerator.Emit(OpCodes.Call, superConstructor);
+            ilGenerator.Emit(OpCodes.Nop);
+            ilGenerator.Emit(OpCodes.Nop);
+
+            foreach (var typeInfo in typeInfos)
+            {
+                var fieldBuilder = tb.DefineField(typeInfo.VariableName, typeInfo.ManagedType, FieldAttributes.Public);
+                if (typeInfo.MarshalAs.HasValue)
+                {
+                    var constructorInfo2 = typeof(MarshalAsAttribute).GetConstructor(new[] { typeof(UnmanagedType) });
+                    var customAttributeBuilder2 = new CustomAttributeBuilder(constructorInfo2, new object[] { typeInfo.MarshalAs.Value });
+                    fieldBuilder.SetCustomAttribute(customAttributeBuilder2);
+                }
+
+                if (typeInfo.ArraySize > 0)
+                {
+                    var constructorInfo3 = typeof(MarshalAsAttribute).GetConstructor(new[] { typeof(UnmanagedType) });
+                    var staticSizeField = typeof(MarshalAsAttribute).GetFields().Single(x=>x.Name.Equals( "SizeConst" ));
+                    var customAttributeBuilder3 = new CustomAttributeBuilder(
+                        constructorInfo3, new object[] { UnmanagedType.ByValArray }, new[] { staticSizeField },
+                        new object[] { typeInfo.ArraySize } );
+                    
+                    fieldBuilder.SetCustomAttribute(customAttributeBuilder3);
+
+
+                    ilGenerator.Emit(OpCodes.Ldarg_0);
+                    ilGenerator.Emit(OpCodes.Ldc_I4_S, typeInfo.ArraySize);
+                    ilGenerator.Emit(OpCodes.Newarr, typeInfo.ManagedType.GetElementType());
+                    ilGenerator.Emit(OpCodes.Stfld, fieldBuilder);
+                }
+            }
+
+            ilGenerator.Emit(OpCodes.Ret);
+
+            var t = tb.CreateType();
+            return t;
+        }
+
+
+        private static IEnumerable<ParsedTypeInfo> GetTypeInfos(string @struct)
+        {
+            var toReturn = new List<ParsedTypeInfo>();
+            foreach (var fragment in @struct.Split(';'))
+            {
+                var nametypeFragments = fragment.Split(' ');
+                if (nametypeFragments.Length == 1)
+                {
+                    var typeFragmanet = nametypeFragments[0];
+                    var typeArraySizeFragments = typeFragmanet.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+                    var marshalAttribute = GetMarshalAttribute(typeArraySizeFragments[0]);
+                    int arraySize = 0;
+                    if (typeArraySizeFragments.Length == 2)
+                    {
+                        arraySize = int.Parse(typeArraySizeFragments[1]);
+                    }
+
+                    var managedType = GetManagedType(typeArraySizeFragments[0]);
+
+                    if (arraySize > 0)
+                    {
+                        managedType = managedType.MakeArrayType();
+                    }
+
+                    toReturn.Add(new ParsedTypeInfo("_" + Guid.NewGuid().ToString("N"), managedType, marshalAttribute, arraySize));
+                    continue;
+                }
+
+                if (nametypeFragments.Length == 2)
+                {
+                    var typeFragment = nametypeFragments[0];
+                    var nameArraySizeFragment = nametypeFragments[1];
+
+
+                    var nameArraySizeFragments = nameArraySizeFragment.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+                    var managedType = GetManagedType(typeFragment);
+                    var marshalAttribute = GetMarshalAttribute(typeFragment);
+
+                    int arraySize = 0;
+                    if (nameArraySizeFragments.Length == 2)
+                    {
+                        arraySize = int.Parse(nameArraySizeFragments[1]);
+                    }
+                    if (arraySize > 0)
+                    {
+                        managedType = managedType.MakeArrayType();
+                    }
+
+
+                    var name = nameArraySizeFragments[0];
+
+
+                    toReturn.Add(new ParsedTypeInfo(name, managedType, marshalAttribute, arraySize));
+                    continue;
+                }
+
+                throw new InvalidOperationException();
+            }
+            return toReturn;
+        }
+
+
+        class ParsedTypeInfo
+        {
+            public string VariableName { get; private set; }
+            public Type ManagedType { get; private set; }
+            public UnmanagedType? MarshalAs { get; private set; }
+            public int ArraySize { get; private set; }
+
+            public ParsedTypeInfo(string variableName, Type managedType, UnmanagedType? marshalAs, int arraySize)
+            {
+                VariableName = variableName;
+                ManagedType = managedType;
+                MarshalAs = marshalAs;
+                ArraySize = arraySize;
+            }
         }
     }
 }

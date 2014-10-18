@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="ArrayVariant.cs" />
     <Compile Include="AutoitRuntime.cs" />
-    <Compile Include="AutoitTypeBridge.cs" />
     <Compile Include="AutoJITCompilerFunctionAttribute.cs" />
     <Compile Include="AutoitContext.cs" />
     <Compile Include="AutoJITRuntimerException.cs" />
