@@ -10,7 +10,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitTernaryExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(TernaryExpression node, IContextService context) {
+        public override ExpressionSyntax Convert( TernaryExpression node, IContextService context ) {
             return SyntaxFactory.ConditionalExpression(
                 ConverGeneric( node.Condition, context ),
                 ConverGeneric( node.IfTrue, context ),

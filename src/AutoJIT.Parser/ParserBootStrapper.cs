@@ -18,8 +18,7 @@ namespace AutoJIT.Parser
 {
     public class ParserBootStrapper : ComponentContainerBase
     {
-        protected override void Bind()
-        {
+        protected override void Bind() {
             Bind<IPragmaParser, PragmaParser>();
             Bind<ILexer, Lexer>();
             Bind<IStatementParser, StatementParser>();
@@ -32,7 +31,6 @@ namespace AutoJIT.Parser
 
             RegisterStatementParserStrategys();
         }
-
 
         private void RegisterStatementParserStrategys() {
             Bind<IStatementParserStrategyResolver, StatementParserStrategyResolver>();

@@ -13,18 +13,17 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitRedimStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(ReDimStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( ReDimStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             toReturn.Add(
                 CSharpStatementFactory.CreateInvocationExpression(
                     statement.ArrayExpression.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.ReDim() ),
                     statement.ArrayExpression.AccessParameter.Select(
-                        x => new CSharpParameterInfo( Convert(x, context), false ) ) )
+                        x => new CSharpParameterInfo( Convert( x, context ), false ) ) )
                     .ToStatementSyntax() );
 
             return toReturn;

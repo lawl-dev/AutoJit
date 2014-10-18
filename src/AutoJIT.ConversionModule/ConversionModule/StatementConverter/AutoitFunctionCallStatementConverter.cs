@@ -11,14 +11,13 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitFunctionCallStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(FunctionCallStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( FunctionCallStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            toReturn.Add( Convert(statement.FunctionCallExpression, context).ToStatementSyntax() );
+            toReturn.Add( Convert( statement.FunctionCallExpression, context ).ToStatementSyntax() );
 
             return toReturn;
         }

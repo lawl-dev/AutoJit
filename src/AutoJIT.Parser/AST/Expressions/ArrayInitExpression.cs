@@ -22,7 +22,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new ArrayInitExpression( ToAssign.Select( x => (IExpressionNode)x.Clone() ).ToList() );
+            return new ArrayInitExpression( ToAssign.Select( x => (IExpressionNode) x.Clone() ).ToList() );
         }
     }
 }

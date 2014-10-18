@@ -24,7 +24,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new CallExpression( (string) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>(Parameter));
+            return new CallExpression( (string) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
         }
     }
 }

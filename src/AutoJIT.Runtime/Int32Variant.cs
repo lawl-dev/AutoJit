@@ -7,6 +7,7 @@ namespace AutoJITRuntime
     public class Int32Variant : Variant
     {
         private readonly Int32 _value;
+
         public Int32Variant( Int32 value ) {
             _value = value;
         }
@@ -22,7 +23,6 @@ namespace AutoJITRuntime
         public override bool IsInt32 {
             get { return true; }
         }
-
 
         public override string GetString() {
             return _value.ToString( CultureInfo.InvariantCulture );
@@ -45,7 +45,7 @@ namespace AutoJITRuntime
         }
 
         public override IntPtr GetIntPtr() {
-            return new IntPtr(_value);
+            return new IntPtr( _value );
         }
 
         public override byte[] GetBinary() {

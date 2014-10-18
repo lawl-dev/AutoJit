@@ -6,7 +6,7 @@ namespace AutoJITRuntime
     {
         private readonly IEnumerator _innerEnumerator;
 
-        public VariantEnumerator(IEnumerable enumerable) {
+        public VariantEnumerator( IEnumerable enumerable ) {
             _innerEnumerator = enumerable.GetEnumerator();
         }
 

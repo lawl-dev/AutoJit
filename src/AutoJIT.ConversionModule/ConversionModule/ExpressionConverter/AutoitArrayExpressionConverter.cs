@@ -11,8 +11,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitArrayExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(ArrayExpression node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( ArrayExpression node, IContextService context ) {
             var variable = SyntaxFactory.IdentifierName( node.IdentifierName );
             return SyntaxFactory.ElementAccessExpression(
                 variable,
@@ -20,7 +19,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                     SyntaxFactory.SeparatedList<ArgumentSyntax>()
                         .AddRange(
                             node.AccessParameter.Select(
-                                x => SyntaxFactory.Argument( ConverGeneric(x, context) ) ) ) ) );
+                                x => SyntaxFactory.Argument( ConverGeneric( x, context ) ) ) ) ) );
         }
     }
 }

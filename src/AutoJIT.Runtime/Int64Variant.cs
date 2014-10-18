@@ -23,7 +23,6 @@ namespace AutoJITRuntime
             get { return true; }
         }
 
-        
         public override string GetString() {
             return _value.ToString( CultureInfo.InvariantCulture );
         }
@@ -45,11 +44,11 @@ namespace AutoJITRuntime
         }
 
         public override IntPtr GetIntPtr() {
-            return new IntPtr(_value);
+            return new IntPtr( _value );
         }
 
         public override byte[] GetBinary() {
-            return BitConverter.GetBytes(_value);
+            return BitConverter.GetBytes( _value );
         }
 
         public override Type GetRealType() {

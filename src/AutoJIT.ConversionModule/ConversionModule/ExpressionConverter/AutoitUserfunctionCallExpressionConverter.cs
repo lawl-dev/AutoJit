@@ -9,8 +9,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitUserfunctionCallExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(UserfunctionCallExpression node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( UserfunctionCallExpression node, IContextService context ) {
             return CreateInvocationExpression( node.IdentifierName, CreateParameter( node.Parameter, context ) );
         }
     }

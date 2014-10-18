@@ -9,8 +9,8 @@ namespace AutoJIT.Compiler
         protected override void Bind() {
             Bind<ICompiler, Compiler>();
 
-            RegisterModule(new ParserBootStrapper());
-            RegisterModule(new ConversionBootStrapper());
+            RegisterModule( new ParserBootStrapper() );
+            RegisterModule( new ConversionBootStrapper() );
         }
     }
 }

@@ -14,36 +14,29 @@ namespace AutoJIT.Parser.AST
 
         public abstract IEnumerable<ISyntaxNode> Children { get; }
 
-        public void Accept(ISyntaxVisitor visitor)
-        {
-            foreach (var child in Children)
-            {
-                child.Accept(visitor);
-                visitor.Visit(child);
+        public void Accept( ISyntaxVisitor visitor ) {
+            foreach (var child in Children) {
+                child.Accept( visitor );
+                visitor.Visit( child );
             }
         }
 
-        public void Accept(ISyntaxVisitor<ISyntaxNode, ISyntaxNode> visitor) {
+        public void Accept( ISyntaxVisitor<ISyntaxNode, ISyntaxNode> visitor ) {
             throw new NotImplementedException();
         }
-        
+
         protected void Initialize() {
-            foreach (var child in Children.Where(x => x != null))
-            {
+            foreach (var child in Children.Where( x => x != null )) {
                 child.Parent = this;
             }
         }
 
-        
-
         private ISyntaxNode _parent;
-        public ISyntaxNode Parent
-        {
+
+        public ISyntaxNode Parent {
             get { return _parent; }
-            set
-            {
-                if (_parent == null)
-                {
+            set {
+                if ( _parent == null ) {
                     _parent = value;
                     return;
                 }
@@ -56,11 +49,11 @@ namespace AutoJIT.Parser.AST
                 ? default( T )
                 : obj.Clone() );
         }
-        
+
         protected IEnumerable<T> CloneEnumerableAs<T>( IEnumerable<ICloneable> objects ) where T : ISyntaxNode {
             return objects == null
                 ? default( T ).ToEnumerable()
-                : objects.Select( x=>(T)x.Clone());
+                : objects.Select( x => (T) x.Clone() );
         }
 
         public abstract string ToSource();

@@ -15,8 +15,7 @@ namespace WindowsFormsApplication1
         private readonly IAutoitToCSharpConverter _autoitToCSharpConverter;
         private readonly IOptimizer _optimizer;
 
-        public Form1()
-        {
+        public Form1() {
             InitializeComponent();
             var standardAutoJITContainer = new CompilerBootStrapper();
             _scriptParser = standardAutoJITContainer.GetInstance<IScriptParser>();
@@ -24,24 +23,16 @@ namespace WindowsFormsApplication1
             _autoitToCSharpConverter = standardAutoJITContainer.GetInstance<IAutoitToCSharpConverter>();
         }
 
-        
-        
-        private void OnChange1(object sender, EventArgs e) {
-            var text = ((TextBox)sender).Text;
+        private void OnChange1( object sender, EventArgs e ) {
+            var text = ( (TextBox) sender ).Text;
             try {
                 var autoitScriptRootNode = _scriptParser.ParseScript( text, new PragmaOptions() );
 
-                textBox2.Text = _optimizer.Optimize(_autoitToCSharpConverter.Convert(autoitScriptRootNode).NormalizeWhitespace()).ToFullString();
+                textBox2.Text = _optimizer.Optimize( _autoitToCSharpConverter.Convert( autoitScriptRootNode ).NormalizeWhitespace() ).ToFullString();
             }
-            catch (Exception ex) {
-                
-            }
-            
+            catch (Exception ex) {}
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void Form1_Load( object sender, EventArgs e ) {}
     }
 }

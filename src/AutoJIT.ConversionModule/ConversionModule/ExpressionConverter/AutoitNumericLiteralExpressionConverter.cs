@@ -14,8 +14,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitNumericLiteralExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(NumericLiteralExpression node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( NumericLiteralExpression node, IContextService context ) {
             ExpressionSyntax expression = null;
 
             switch (node.LiteralToken.Type) {

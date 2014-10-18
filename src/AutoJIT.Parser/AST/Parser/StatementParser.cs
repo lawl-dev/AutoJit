@@ -60,7 +60,7 @@ namespace AutoJIT.Parser.AST.Parser
                                 statements.AddRange( ResolveStrategy<ReDimStatement>().Parse( block ) );
                                 break;
                             case Keywords.Return:
-                                 statements.AddRange( ResolveStrategy<ReturnStatement>().Parse( block ) );
+                                statements.AddRange( ResolveStrategy<ReturnStatement>().Parse( block ) );
                                 break;
                             case Keywords.While:
                                 statements.AddRange( ResolveStrategy<WhileStatement>().Parse( block ) );

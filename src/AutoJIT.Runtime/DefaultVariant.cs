@@ -12,7 +12,6 @@ namespace AutoJITRuntime
             return "Default";
         }
 
-
         public override string GetString() {
             return "Default";
         }

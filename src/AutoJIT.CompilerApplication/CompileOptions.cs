@@ -2,7 +2,7 @@
 
 namespace AutoJIT.CompilerApplication
 {
-    class CompileOptions
+    internal class CompileOptions
     {
         public Uri InFile { get; set; }
         public Uri OutFile { get; set; }

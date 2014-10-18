@@ -11,8 +11,7 @@ namespace AutoJIT.Parser.AST.Expressions
             IdentifierName = identifierName;
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return new List<IExpressionNode>(); }
         }
 

@@ -23,7 +23,7 @@ namespace AutoJITRuntime
         }
 
         public override string GetString() {
-            return _value.ToString("X");
+            return _value.ToString( "X" );
         }
 
         public override bool GetBool() {
@@ -47,7 +47,7 @@ namespace AutoJITRuntime
         }
 
         public override byte[] GetBinary() {
-            return BitConverter.GetBytes(_value.ToInt32());
+            return BitConverter.GetBytes( _value.ToInt32() );
         }
 
         public override Type GetRealType() {

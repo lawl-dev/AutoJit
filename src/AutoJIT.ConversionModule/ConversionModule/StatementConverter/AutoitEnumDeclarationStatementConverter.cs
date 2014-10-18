@@ -14,11 +14,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitEnumDeclarationStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
+            IInjectionService injectionService )
             : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(EnumDeclarationStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( EnumDeclarationStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             if ( context.IsDeclared( statement.VariableExpression.IdentifierName ) ) {
@@ -40,7 +39,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                 toReturn.Add(
                     SyntaxFactory.BinaryExpression(
                         SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( statement.VariableExpression.IdentifierName ),
-                        Convert(statement.AutoInitExpression, context) ).ToStatementSyntax() );
+                        Convert( statement.AutoInitExpression, context ) ).ToStatementSyntax() );
             }
             return toReturn;
         }
@@ -64,7 +63,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         private StatementSyntax AssignVariable( EnumDeclarationStatement statement, IContextService context ) {
             return SyntaxFactory.BinaryExpression(
                 SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( statement.VariableExpression.IdentifierName ),
-                Convert(statement.UserInitExpression, context) ).ToStatementSyntax();
+                Convert( statement.UserInitExpression, context ) ).ToStatementSyntax();
         }
     }
 }

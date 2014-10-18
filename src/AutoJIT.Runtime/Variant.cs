@@ -14,8 +14,7 @@ namespace AutoJITRuntime
         public static Variant Create( Int64 int64 ) {
             return new Int64Variant( int64 );
         }
-       
-        
+
         public static Variant Create( Double int64 ) {
             return new DoubleVariant( int64 );
         }
@@ -31,11 +30,11 @@ namespace AutoJITRuntime
         public static Variant Create( Variant[] @array ) {
             return new ArrayVariant( array );
         }
-        
+
         public static Variant Create( Variant[,] @array ) {
             return new ArrayVariant( array );
         }
-        
+
         public static Variant Create( Variant[,,] @array ) {
             return new ArrayVariant( array );
         }
@@ -55,18 +54,17 @@ namespace AutoJITRuntime
         public static Variant Create( Default @default ) {
             return new DefaultVariant();
         }
-        
+
         public static Variant Create( Char @char ) {
             return new StringVariant( @char.ToString( CultureInfo.InvariantCulture ) );
         }
 
-        
         public static Variant Create( object @object ) {
             if ( @object == null ) {
                 return new NullVariant();
             }
             var variant = @object as Variant;
-            if ( variant != null) {
+            if ( variant != null ) {
                 return variant;
             }
             dynamic d = @object;
@@ -122,21 +120,18 @@ namespace AutoJITRuntime
         }
 
         public virtual Variant this[ params int[] index ] {
-            get {
-                throw new AutoJITRuntimerException( "" );
-            }
-            set {
-                throw new AutoJITRuntimerException( "" );
-            }
+            get { throw new AutoJITRuntimerException( "" ); }
+            set { throw new AutoJITRuntimerException( "" ); }
         }
 
         public Variant PowAssign( Variant b ) {
-            return Math.Pow(GetDouble(), b.GetDouble() );
+            return Math.Pow( GetDouble(), b.GetDouble() );
         }
 
         public Variant ConcatAssign( Variant b ) {
             return GetString()+b.GetString();
         }
+
         public abstract string GetString();
         public abstract bool GetBool();
         public abstract double GetDouble();
@@ -156,9 +151,8 @@ namespace AutoJITRuntime
         public abstract Type GetRealType();
 
         public virtual IEnumerator GetEnumerator() {
-            return new VariantEnumerator((IEnumerable) this.GetValue());
+            return new VariantEnumerator( (IEnumerable) this.GetValue() );
         }
-
 
         public static Variant operator +( Variant a, Variant b ) {
             switch (a.DataType) {
@@ -213,15 +207,12 @@ namespace AutoJITRuntime
                     return a.GetInt() * b.GetInt();
                 case DataType.Bool:
                     return a.GetBool()
-                        ?  b
+                        ? b
                         : (Variant) 0;
                 default:
                     throw new NotImplementedException( a.DataType.ToString() );
             }
         }
-
-        
-         
 
         public static bool operator ==( Variant a, Variant b ) {
             if ( ReferenceEquals( a, b ) ) {
@@ -233,32 +224,28 @@ namespace AutoJITRuntime
                 return false;
             }
 
-            if (a.IsString ||
-                 b.IsString)
-            {
-                return string.Compare(a.ToString(), b.ToString(), StringComparison.InvariantCultureIgnoreCase) == 0;
+            if ( a.IsString ||
+                 b.IsString ) {
+                return string.Compare( a.ToString(), b.ToString(), StringComparison.InvariantCultureIgnoreCase ) == 0;
             }
 
             var dataType = GetDatatypeToCompare( a.DataType, b.DataType );
             switch (dataType) {
-                    case DataType.Int32:
+                case DataType.Int32:
                     return a.GetInt() == b.GetInt();
-                    case DataType.Int64:
+                case DataType.Int64:
                     return a.GetInt64() == b.GetInt64();
-                    case DataType.Double:
+                case DataType.Double:
                     return Math.Abs( a.GetDouble()-b.GetDouble() ) < double.Epsilon;
-                    case DataType.String:
+                case DataType.String:
                     return a.GetString() == b.GetString();
             }
             return false;
         }
-        
-        
 
         public static bool operator !=( Variant a, Variant b ) {
             return !( a == b );
         }
-        
 
         public static Variant operator /( Variant a, Variant b ) {
             return a.GetDouble() / b.GetDouble();
@@ -298,7 +285,6 @@ namespace AutoJITRuntime
             }
         }
 
-
         public static bool operator false( Variant a ) {
             return !a.GetBool();
         }
@@ -325,8 +311,6 @@ namespace AutoJITRuntime
             }
         }
 
- 
-
         public static Variant operator <=( Variant a, Variant b ) {
             return a < b || a == b;
         }
@@ -334,8 +318,6 @@ namespace AutoJITRuntime
         public static Variant operator >=( Variant a, Variant b ) {
             return a > b || a == b;
         }
-
-        
 
         public static Variant operator <( Variant a, Variant b ) {
             var toCompare = GetDatatypeToCompare( a.DataType, b.DataType );
@@ -355,15 +337,12 @@ namespace AutoJITRuntime
             }
         }
 
-        private static DataType GetDatatypeToCompare(DataType a, DataType b)
-        {
+        private static DataType GetDatatypeToCompare( DataType a, DataType b ) {
             var compareType = DataType.Int32;
 
-            switch (a)
-            {
+            switch (a) {
                 case DataType.Int32:
-                    switch (b)
-                    {
+                    switch (b) {
                         case DataType.Int32:
                             compareType = DataType.Int32;
                             break;
@@ -379,8 +358,7 @@ namespace AutoJITRuntime
                     }
                     break;
                 case DataType.Int64:
-                    switch (b)
-                    {
+                    switch (b) {
                         case DataType.Int32:
                         case DataType.Int64:
                             compareType = DataType.Int64;
@@ -395,8 +373,7 @@ namespace AutoJITRuntime
                     compareType = DataType.Double;
                     break;
                 case DataType.String:
-                    switch (b)
-                    {
+                    switch (b) {
                         case DataType.String:
                             compareType = DataType.String;
                             break;
@@ -412,38 +389,31 @@ namespace AutoJITRuntime
             return a.GetInt();
         }
 
-
-        public static implicit operator Int64(Variant a)
-        {
+        public static implicit operator Int64( Variant a ) {
             return a.GetInt64();
         }
 
-        public static implicit operator Double(Variant a)
-        {
+        public static implicit operator Double( Variant a ) {
             return a.GetDouble();
         }
 
-        public static implicit operator String(Variant a)
-        {
+        public static implicit operator String( Variant a ) {
             return a.GetString();
         }
 
-        public static implicit operator Boolean(Variant a)
-        {
+        public static implicit operator Boolean( Variant a ) {
             return a.GetBool();
         }
 
-        public static implicit operator IntPtr(Variant a)
-        {
+        public static implicit operator IntPtr( Variant a ) {
             return a.GetIntPtr();
         }
 
-        public static implicit operator byte[](Variant a)
-        {
+        public static implicit operator byte[]( Variant a ) {
             return a.GetBinary();
         }
         #endregion
-        
+
         public static implicit operator Variant( Variant[] a ) {
             return Variant.Create( a );
         }
@@ -452,7 +422,6 @@ namespace AutoJITRuntime
             return Create( a );
         }
 
-        
         public static implicit operator Variant( Variant[,,] a ) {
             return Create( a );
         }
@@ -472,37 +441,32 @@ namespace AutoJITRuntime
         public static implicit operator Variant( string a ) {
             return Create( a );
         }
-        
+
         public static implicit operator Variant( bool a ) {
             return Create( a );
         }
-        
+
         public static implicit operator Variant( byte[] a ) {
             return Create( a );
         }
-        
+
         public static implicit operator Variant( IntPtr a ) {
             return Create( a );
         }
 
-
-        public override string ToString()
-        {
+        public override string ToString() {
             return GetString();
         }
 
-        public override bool Equals(object obj)
-        {
+        public override bool Equals( object obj ) {
             var variant = obj as Variant;
-            if (variant != null)
-            {
-                return this.GetValue().Equals(variant.GetValue());
+            if ( variant != null ) {
+                return this.GetValue().Equals( variant.GetValue() );
             }
-            return GetValue().Equals(obj);
+            return GetValue().Equals( obj );
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return GetValue().GetHashCode();
         }
 
@@ -511,22 +475,21 @@ namespace AutoJITRuntime
             return array;
         }
 
-        private static void Init(Array array)
-        {
+        private static void Init( Array array ) {
             var indicies = new int[array.Rank];
-            SetDimension(array, indicies, 0);
+            SetDimension( array, indicies, 0 );
         }
 
-        private static void SetDimension(Array array, int[] indicies, int dimension)
-        {
-            for (int i = 0; i <= array.GetUpperBound(dimension); i++)
-            {
+        private static void SetDimension( Array array, int[] indicies, int dimension ) {
+            for ( int i = 0; i <= array.GetUpperBound( dimension ); i++ ) {
                 indicies[dimension] = i;
 
-                if (dimension < array.Rank - 1)
-                    SetDimension(array, indicies, dimension + 1);
-                else
-                    array.SetValue(new NullVariant(), indicies);
+                if ( dimension < array.Rank-1 ) {
+                    SetDimension( array, indicies, dimension+1 );
+                }
+                else {
+                    array.SetValue( new NullVariant(), indicies );
+                }
             }
         }
     }

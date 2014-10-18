@@ -16,11 +16,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitDimStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
+            IInjectionService injectionService )
             : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(DimStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( DimStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
             if ( !context.IsDeclared( statement.VariableExpression.IdentifierName ) ) {
                 context.Declare( statement.VariableExpression.IdentifierName );
@@ -48,8 +47,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         private StatementSyntax AssignVariable( DimStatement node, IContextService contextService ) {
             return SyntaxFactory.BinaryExpression(
-                SyntaxKind.SimpleAssignmentExpression, Convert(node.VariableExpression, contextService),
-                Convert(node.InitExpression, contextService) ).ToStatementSyntax();
+                SyntaxKind.SimpleAssignmentExpression, Convert( node.VariableExpression, contextService ),
+                Convert( node.InitExpression, contextService ) ).ToStatementSyntax();
         }
 
         private StatementSyntax InitArray( DimStatement node, IContextService context ) {
@@ -62,7 +61,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         private ExpressionSyntax GetArrayInitExpression( DimStatement node, IContextService context ) {
             var openBracketToken =
                 ( (ArrayExpression) node.VariableExpression ).AccessParameter.Select(
-                    x => Convert(x, context) ).ToSeparatedSyntaxList();
+                    x => Convert( x, context ) ).ToSeparatedSyntaxList();
             var arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
                 SyntaxFactory.ArrayType(
                     SyntaxFactory.IdentifierName(
@@ -70,14 +69,13 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                     .WithRankSpecifiers(
                         SyntaxFactory.ArrayRankSpecifier( openBracketToken ).ToEnumerable().ToSyntaxList() ) );
 
-
             return SyntaxFactory.InvocationExpression(
                 SyntaxFactory.MemberAccessExpression(
-                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(typeof(Variant).Name),
-                    SyntaxFactory.IdentifierName(CompilerHelper.GetVariantMemberName(x => Variant.CreateArray(null)))))
+                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
+                    SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.CreateArray( null ) ) ) ) )
                 .WithArgumentList(
                     SyntaxFactory.ArgumentList(
-                        SyntaxFactory.Argument(arrayCreationExpressionSyntax).ToSeparatedSyntaxList()));
+                        SyntaxFactory.Argument( arrayCreationExpressionSyntax ).ToSeparatedSyntaxList() ) );
         }
     }
 }

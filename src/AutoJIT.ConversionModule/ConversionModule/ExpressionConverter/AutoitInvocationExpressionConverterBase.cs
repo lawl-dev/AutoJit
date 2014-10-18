@@ -12,8 +12,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         where TExpression : IExpressionNode
     {
         protected AutoitInvocationExpressionConverterBase( IInjectionService injectionService )
-            : base( injectionService ) {
-        }
+            : base( injectionService ) {}
 
         protected InvocationExpressionSyntax CreateInvocationExpression( string runtimeName, string functionName, IEnumerable<ArgumentSyntax> arguments ) {
             return SyntaxFactory.InvocationExpression(
@@ -36,7 +35,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                 return new ArgumentSyntax[0];
             }
 
-            return parameter.Select( x => SyntaxFactory.Argument( ConverGeneric(x, context) ) );
+            return parameter.Select( x => SyntaxFactory.Argument( ConverGeneric( x, context ) ) );
         }
     }
 }

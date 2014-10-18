@@ -27,8 +27,7 @@ namespace AutoJIT.Parser.AST.Statements
             return new AssignStatement( (VariableExpression) Variable.Clone(), (IExpressionNode) ExpressionToAssign.Clone(), Operator );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode>() { Variable, ExpressionToAssign }; }
         }
     }

@@ -145,9 +145,9 @@ namespace UnitTests
         [TestCase( "WinAPIShellEx.au3" )]
         [TestCase( "WinAPIShPath.au3" )]
         [TestCase( "WinAPISys.au3" )]
-        [TestCase("WinAPIsysinfoConstants.au3" )]
+        [TestCase( "WinAPIsysinfoConstants.au3" )]
         [TestCase( "WinAPITheme.au3" )]
-        [TestCase( "WinAPIvkeysConstants.au3")]
+        [TestCase( "WinAPIvkeysConstants.au3" )]
         [TestCase( "WindowsConstants.au3" )]
         [TestCase( "WinNet.au3" )]
         [TestCase( "Word.au3" )]
@@ -157,7 +157,6 @@ namespace UnitTests
             var script = File.ReadAllText( path );
 
             Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false ) );
-
         }
     }
 }

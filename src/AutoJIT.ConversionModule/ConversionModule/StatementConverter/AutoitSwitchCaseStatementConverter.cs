@@ -13,11 +13,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitSwitchCaseStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(SwitchCaseStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( SwitchCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             var toFunctionName = CompilerHelper.GetCompilerMemberName( x => x.To( null, null, null ) );
@@ -27,8 +26,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             foreach (var @case in statement.Cases) {
                 if ( @case.Key.Count() > 1 ) {
-                    var conditionParameterExpression = @case.Key.Select( x => Convert(x, context) )
-                        .Concat( new[] { Convert(statement.Condition, context) } )
+                    var conditionParameterExpression = @case.Key.Select( x => Convert( x, context ) )
+                        .Concat( new[] { Convert( statement.Condition, context ) } )
                         .ToArray();
 
                     var caseExpression = CSharpStatementFactory.CreateInvocationExpression(
@@ -39,8 +38,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                     var caseExpression = CSharpStatementFactory.CreateInvocationExpression(
                         context.GetRuntimeInstanceName(), equalFunctionName,
                         CompilerHelper.GetParameterInfo(
-                            equalFunctionName, Convert(statement.Condition, context),
-                            Convert(@case.Key.Single(), context) ) );
+                            equalFunctionName, Convert( statement.Condition, context ),
+                            Convert( @case.Key.Single(), context ) ) );
                     conditions.Add( caseExpression );
                 }
             }
@@ -49,7 +48,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             for ( int i = conditions.Count-1; i >= 0; i-- ) {
                 var currentCase = statement.Cases.Skip( i ).First();
                 var elseIf = CSharpStatementFactory.CreateIfStatement(
-                    conditions[i], currentCase.Value.SelectMany( x => ConvertGeneric(x, context) ) );
+                    conditions[i], currentCase.Value.SelectMany( x => ConvertGeneric( x, context ) ) );
                 ifs.Add( elseIf );
             }
             ifs.Reverse();
@@ -58,7 +57,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                 ifs[ifs.Count-1] =
                     ifs[ifs.Count-1].WithElse(
                         SyntaxFactory.ElseClause(
-                            SyntaxFactory.Block( statement.Else.SelectMany( x => ConvertGeneric(x, context) ) ) ) );
+                            SyntaxFactory.Block( statement.Else.SelectMany( x => ConvertGeneric( x, context ) ) ) ) );
             }
 
             for ( int i = ifs.Count-1; i > 0; i-- ) {

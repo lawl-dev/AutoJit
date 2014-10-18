@@ -9,7 +9,7 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
         public SyntaxRewriterTest( IAutoitStatementFactory statementFactory ) : base( statementFactory ) {}
 
         public override ISyntaxNode Visit( BinaryExpression node ) {
-             return new TrueLiteralExpression();
+            return new TrueLiteralExpression();
         }
     }
 }

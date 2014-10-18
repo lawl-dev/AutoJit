@@ -10,8 +10,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitBooleanNegateExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(BooleanNegateExpression node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( BooleanNegateExpression node, IContextService context ) {
             return CreateInvocationExpression(
                 context.GetRuntimeInstanceName(),
                 node.NOTCompilerFunctionName,

@@ -16,11 +16,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitForToNextStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(ForToNextStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( ForToNextStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             context.RegisterLoop();
@@ -71,7 +70,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private ForStatementSyntax CreateForStatement( ForToNextStatement node, IContextService context, string continueCaseLabelName ) {
-            var block = node.Block.SelectMany( x => ConvertGeneric(x, context) ).ToList();
+            var block = node.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
             block.Add( SyntaxFactory.LabeledStatement( continueCaseLabelName, SyntaxFactory.EmptyStatement() ) );
             return
                 SyntaxFactory.ForStatement( block.ToBlock() );
@@ -131,11 +130,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                     SyntaxFactory.ArgumentList(
                         SyntaxFactory.SeparatedList<ArgumentSyntax>(
                             new[] {
-                                SyntaxFactory.Argument( Convert(node.StartExpression, context) ),
-                                SyntaxFactory.Argument( Convert(node.EndExpression, context) ),
+                                SyntaxFactory.Argument( Convert( node.StartExpression, context ) ),
+                                SyntaxFactory.Argument( Convert( node.EndExpression, context ) ),
                                 SyntaxFactory.Argument(
                                     node.StepExpression != null
-                                        ? Convert(node.StepExpression, context)
+                                        ? Convert( node.StepExpression, context )
                                         : SyntaxFactory.LiteralExpression(
                                             SyntaxKind.NullLiteralExpression ) )
                             } ) ) );

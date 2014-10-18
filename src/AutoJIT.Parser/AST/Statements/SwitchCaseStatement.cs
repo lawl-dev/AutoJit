@@ -44,12 +44,12 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            var cases = Cases.ToDictionary( @case => @case.Key.Select( x=>(IExpressionNode) x.Clone() ), @case => @case.Value.Select( x => (IStatementNode) x.Clone() ) );
-            return new SwitchCaseStatement( (IExpressionNode) Condition.Clone(), cases, CloneEnumerableAs<IStatementNode>(Else) );
+            var cases = Cases.ToDictionary(
+                @case => @case.Key.Select( x => (IExpressionNode) x.Clone() ), @case => @case.Value.Select( x => (IStatementNode) x.Clone() ) );
+            return new SwitchCaseStatement( (IExpressionNode) Condition.Clone(), cases, CloneEnumerableAs<IStatementNode>( Else ) );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get {
                 var syntaxNodes = new List<ISyntaxNode> { Condition };
                 syntaxNodes.AddRange( Cases.Keys.SelectMany( x => x ) );

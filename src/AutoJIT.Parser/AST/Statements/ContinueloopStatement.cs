@@ -19,8 +19,7 @@ namespace AutoJIT.Parser.AST.Statements
             return new ContinueloopStatement( Level );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode>(); }
         }
     }

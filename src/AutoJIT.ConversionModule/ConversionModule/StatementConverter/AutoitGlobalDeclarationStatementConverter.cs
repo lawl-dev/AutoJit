@@ -16,11 +16,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitGlobalDeclarationStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(GlobalDeclarationStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( GlobalDeclarationStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             context.PushGlobalVariable( statement.VariableExpression.IdentifierName, DeclareGlobal( statement ) );
@@ -40,7 +39,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         private StatementSyntax AssignArray( GlobalDeclarationStatement statement, IContextService context ) {
             return CSharpStatementFactory.CreateInvocationExpression(
                 statement.VariableExpression.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ),
-                new CSharpParameterInfo( Convert(statement.InitExpression, context), false )
+                new CSharpParameterInfo( Convert( statement.InitExpression, context ), false )
                     .ToEnumerable() ).ToStatementSyntax();
         }
 
@@ -56,8 +55,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         private StatementSyntax AssignVariable( GlobalDeclarationStatement node, IContextService context ) {
             return SyntaxFactory.BinaryExpression(
-                SyntaxKind.SimpleAssignmentExpression, Convert(node.VariableExpression, context),
-                Convert(node.InitExpression, context) ).ToStatementSyntax();
+                SyntaxKind.SimpleAssignmentExpression, Convert( node.VariableExpression, context ),
+                Convert( node.InitExpression, context ) ).ToStatementSyntax();
         }
 
         private StatementSyntax InitArray( GlobalDeclarationStatement node, IContextService context ) {
@@ -70,7 +69,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         private ExpressionSyntax GetArrayInitExpression( GlobalDeclarationStatement node, IContextService context ) {
             var openBracketToken =
                 ( (ArrayExpression) node.VariableExpression ).AccessParameter.Select(
-                    x => Convert(x, context) ).ToSeparatedSyntaxList();
+                    x => Convert( x, context ) ).ToSeparatedSyntaxList();
             var arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
                 SyntaxFactory.ArrayType(
                     SyntaxFactory.IdentifierName(
@@ -78,14 +77,13 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                     .WithRankSpecifiers(
                         SyntaxFactory.ArrayRankSpecifier( openBracketToken ).ToEnumerable().ToSyntaxList() ) );
 
-
             return SyntaxFactory.InvocationExpression(
                 SyntaxFactory.MemberAccessExpression(
-                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(typeof(Variant).Name),
-                    SyntaxFactory.IdentifierName(CompilerHelper.GetVariantMemberName(x => Variant.CreateArray(null)))))
+                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
+                    SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.CreateArray( null ) ) ) ) )
                 .WithArgumentList(
                     SyntaxFactory.ArgumentList(
-                        SyntaxFactory.Argument(arrayCreationExpressionSyntax).ToSeparatedSyntaxList()));
+                        SyntaxFactory.Argument( arrayCreationExpressionSyntax ).ToSeparatedSyntaxList() ) );
         }
     }
 }

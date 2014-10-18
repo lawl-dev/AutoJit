@@ -12,23 +12,22 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitSelectCaseStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(SelectCaseStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( SelectCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             var ifStatementSyntaxs =
                 statement.Cases.Select(
                     @case =>
                         CSharpStatementFactory.CreateIfStatement(
-                            Convert(@case.Key, context),
-                            @case.Value.SelectMany( x => ConvertGeneric(x,context) ) )).ToArray();
+                            Convert( @case.Key, context ),
+                            @case.Value.SelectMany( x => ConvertGeneric( x, context ) ) ) ).ToArray();
             if ( statement.Else.Any() ) {
                 ifStatementSyntaxs[ifStatementSyntaxs.Length-1] = ifStatementSyntaxs[ifStatementSyntaxs.Length-1].WithElse(
                     SyntaxFactory.ElseClause(
-                        SyntaxFactory.Block( statement.Else.SelectMany( x => ConvertGeneric(x, context) ) ) ) );
+                        SyntaxFactory.Block( statement.Else.SelectMany( x => ConvertGeneric( x, context ) ) ) ) );
             }
             for ( int i = ifStatementSyntaxs.Length-1; i > 0; i-- ) {
                 ifStatementSyntaxs[i-1] = ifStatementSyntaxs[i-1].WithElse( SyntaxFactory.ElseClause( ifStatementSyntaxs[i] ) );

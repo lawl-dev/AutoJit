@@ -33,7 +33,7 @@ namespace AutoJITRuntime
         }
 
         public override IntPtr GetIntPtr() {
-            return new IntPtr(0);
+            return new IntPtr( 0 );
         }
 
         public override byte[] GetBinary() {

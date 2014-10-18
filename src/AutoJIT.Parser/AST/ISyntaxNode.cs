@@ -11,7 +11,7 @@ namespace AutoJIT.Parser.AST
         void AcceptSingle( ISyntaxVisitor visitor );
         IEnumerable<ISyntaxNode> Children { get; }
         ISyntaxNode Parent { get; set; }
-        void Accept(ISyntaxVisitor visitor);
-        void Accept(ISyntaxVisitor<ISyntaxNode, ISyntaxNode> visitor);
+        void Accept( ISyntaxVisitor visitor );
+        void Accept( ISyntaxVisitor<ISyntaxNode, ISyntaxNode> visitor );
     }
 }

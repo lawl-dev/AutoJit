@@ -21,8 +21,7 @@ namespace AutoJIT.Parser.AST.Expressions
             return new ArrayExpression( (string) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return AccessParameter; }
         }
     }

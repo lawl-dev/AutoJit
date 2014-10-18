@@ -15,11 +15,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     internal sealed class AutoitAssignStatementConverter : AutoitStatementConverterBase<AssignStatement>
     {
         public AutoitAssignStatementConverter(
-            ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+            ICSharpStatementFactory cSharpStatementFactory,
+            IInjectionService injectionService )
             : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(AssignStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( AssignStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             if ( !context.IsDeclared( statement.Variable.IdentifierName ) ) {
@@ -62,23 +62,23 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                     kind = SyntaxKind.SimpleAssignmentExpression;
                     toAssign = CSharpStatementFactory.CreateInvocationExpression(
                         node.Variable.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.PowAssign( null ) ),
-                        new CSharpParameterInfo( Convert( node.ExpressionToAssign, context), false )
+                        new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false )
                             .ToEnumerable() );
                     break;
                 case TokenType.ConcatAssign:
                     kind = SyntaxKind.SimpleAssignmentExpression;
                     toAssign = CSharpStatementFactory.CreateInvocationExpression(
                         node.Variable.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.ConcatAssign( null ) ),
-                        new CSharpParameterInfo( Convert(node.ExpressionToAssign, context), false )
+                        new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false )
                             .ToEnumerable() );
                     break;
                 default:
                     kind = GetAssignOperatorKind( node.Operator );
-                    toAssign = Convert(node.ExpressionToAssign, context);
+                    toAssign = Convert( node.ExpressionToAssign, context );
                     break;
             }
             return SyntaxFactory.BinaryExpression(
-                kind, Convert(node.Variable, context),
+                kind, Convert( node.Variable, context ),
                 toAssign ).ToStatementSyntax();
         }
 

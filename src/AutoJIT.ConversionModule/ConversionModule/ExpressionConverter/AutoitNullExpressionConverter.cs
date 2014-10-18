@@ -12,8 +12,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitNullExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(NullExpression node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( NullExpression node, IContextService context ) {
             return
                 SyntaxFactory.InvocationExpression(
                     SyntaxFactory.MemberAccessExpression(

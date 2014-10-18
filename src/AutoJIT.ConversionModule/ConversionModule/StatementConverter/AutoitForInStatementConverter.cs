@@ -11,16 +11,15 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitForInStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(ForInStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( ForInStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
             toReturn.Add(
                 CSharpStatementFactory.CreateForInStatement(
-                    statement.VariableExpression.IdentifierName, Convert( statement.ToEnumerate, context),
-                    statement.Block.SelectMany( x => ConvertGeneric(x, context) ) ) );
+                    statement.VariableExpression.IdentifierName, Convert( statement.ToEnumerate, context ),
+                    statement.Block.SelectMany( x => ConvertGeneric( x, context ) ) ) );
 
             return toReturn;
         }

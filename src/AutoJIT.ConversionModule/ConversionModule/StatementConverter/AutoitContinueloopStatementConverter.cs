@@ -12,11 +12,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitContinueloopStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
+            IInjectionService injectionService )
             : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(ContinueloopStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( ContinueloopStatement statement, IContextService context ) {
             var toReturn = SyntaxFactory.GotoStatement(
                 SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( context.GetConinueLoopLabelName( statement.Level ) ) );
             return toReturn.ToEnumerable();

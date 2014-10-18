@@ -20,7 +20,6 @@ namespace AutoJIT.Parser.AST
         public FunctionNode MainFunctionNode { get; set; }
         public IEnumerable<FunctionNode> Functions { get; set; }
 
-
         public override string ToSource() {
             var toReturn = string.Empty;
             toReturn += MainFunctionNode.ToSource();
@@ -30,9 +29,9 @@ namespace AutoJIT.Parser.AST
             }
             return toReturn;
         }
-        
+
         public override object Clone() {
-            return new AutoitScriptRootNode( Functions.Select( x => (FunctionNode)x.Clone() ), (FunctionNode) MainFunctionNode.Clone(), PragmaOptions );
+            return new AutoitScriptRootNode( Functions.Select( x => (FunctionNode) x.Clone() ), (FunctionNode) MainFunctionNode.Clone(), PragmaOptions );
         }
 
         public override IEnumerable<ISyntaxNode> Children {

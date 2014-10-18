@@ -10,14 +10,13 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitReturnStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(ReturnStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( ReturnStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
             toReturn.Add(
-                CSharpStatementFactory.CreateReturn( Convert(statement.ReturnExpression, context) ) );
+                CSharpStatementFactory.CreateReturn( Convert( statement.ReturnExpression, context ) ) );
 
             return toReturn;
         }

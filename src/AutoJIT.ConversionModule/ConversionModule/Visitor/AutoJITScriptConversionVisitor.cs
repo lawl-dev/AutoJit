@@ -12,29 +12,30 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
     public class AutoJITScriptConversionVisitor : FunctionVisitor, IFunctionSyntaxVisitor<AutoitScriptRootNode, NamespaceDeclarationSyntax>
     {
         private readonly ICSharpSkeletonFactory _sharpSkeletonFactory;
-        
-        public AutoJITScriptConversionVisitor(IInjectionService injectionService, ICSharpSkeletonFactory sharpSkeletonFactory, IContextService contextService ) : base(injectionService, contextService) {
+
+        public AutoJITScriptConversionVisitor( IInjectionService injectionService, ICSharpSkeletonFactory sharpSkeletonFactory, IContextService contextService )
+            : base( injectionService, contextService ) {
             _sharpSkeletonFactory = sharpSkeletonFactory;
         }
 
-
         public NamespaceDeclarationSyntax Visit( AutoitScriptRootNode @in ) {
             var memberList = new SyntaxList<MemberDeclarationSyntax>();
-            
-            ContextService.SetGlobalContext(true);
+
+            ContextService.SetGlobalContext( true );
             memberList = memberList.Add( @in.MainFunctionNode.Accept( this ) );
-            ContextService.SetGlobalContext(false);
-            memberList = memberList.AddRange(ContextService.PopGlobalVariables());
+            ContextService.SetGlobalContext( false );
+            memberList = memberList.AddRange( ContextService.PopGlobalVariables() );
             ContextService.ResetFunctionContext();
 
             foreach (var function in @in.Functions) {
                 memberList = memberList.Add( function.Accept( this ) );
-                memberList = memberList.AddRange(ContextService.PopGlobalVariables());
+                memberList = memberList.AddRange( ContextService.PopGlobalVariables() );
                 ContextService.ResetFunctionContext();
             }
 
             var finalScript = _sharpSkeletonFactory.EmbedInClassTemplate(
-                new List<MemberDeclarationSyntax>( memberList ), ContextService.GetRuntimeInstanceName(), "AutoJITScriptClass", ContextService.GetContextInstanceName() );
+                new List<MemberDeclarationSyntax>( memberList ), ContextService.GetRuntimeInstanceName(), "AutoJITScriptClass",
+                ContextService.GetContextInstanceName() );
 
             finalScript = RemoveEmptyStatements( finalScript );
 

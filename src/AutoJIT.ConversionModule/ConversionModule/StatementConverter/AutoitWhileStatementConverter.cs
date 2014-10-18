@@ -12,11 +12,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitWhileStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(WhileStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( WhileStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             context.RegisterLoop();
@@ -24,8 +23,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var exitLoopLabelName = context.GetExitLoopLabelName();
             var coninueLoopLabelName = context.GetConinueLoopLabelName();
 
-            var condition = Convert(statement.Condition, context);
-            var block = statement.Block.SelectMany( x => ConvertGeneric(x, context)).ToList();
+            var condition = Convert( statement.Condition, context );
+            var block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
             block.Add( SyntaxFactory.LabeledStatement( coninueLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
             WhileStatementSyntax whileStatement = CSharpStatementFactory.CreateWhileStatement( condition, block );

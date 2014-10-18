@@ -36,11 +36,9 @@ namespace AutoJIT.Parser.AST.Statements
                 (VariableExpression) VariableExpression.Clone(), (IExpressionNode) ToEnumerate.Clone(), Block.Select( x => (IStatementNode) x.Clone() ) );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get {
                 var syntaxNodes = new List<ISyntaxNode>() { ToEnumerate, VariableExpression };
-
 
                 if ( Block != null ) {
                     syntaxNodes.AddRange( Block );

@@ -13,7 +13,7 @@ namespace AutoJITRuntime
 
         private readonly Dictionary<string, FieldInfo> _fieldInfos = new Dictionary<string, FieldInfo>();
 
-        public StructVariant(IRuntimeStruct value) {
+        public StructVariant( IRuntimeStruct value ) {
             _value = value;
             foreach (var fieldInfo in value.GetType().GetFields()) {
                 _fieldInfos.Add( fieldInfo.Name.ToLower(), fieldInfo );
@@ -62,9 +62,9 @@ namespace AutoJITRuntime
 
         private void SyntToUnmanaged() {
             InitUnmanaged();
-            Marshal.StructureToPtr(_value, Ptr, true);
+            Marshal.StructureToPtr( _value, Ptr, true );
         }
-        
+
         private void SyntToManaged() {
             if ( Ptr != IntPtr.Zero ) {
                 Marshal.PtrToStructure( Ptr, _value );
@@ -78,42 +78,39 @@ namespace AutoJITRuntime
             }
             return null;
         }
-        
+
         public object GetElement( int index ) {
             SyntToManaged();
-            if ( index >= 0 && index <= _fieldInfos.Count) {
+            if ( index >= 0 &&
+                 index <= _fieldInfos.Count ) {
                 return _fieldInfos.Values.ElementAt( index ).GetValue( _value );
             }
             return null;
         }
 
-        public bool SetElement(string name, object value)
-        {
+        public bool SetElement( string name, object value ) {
             SyntToUnmanaged();
-            if (_fieldInfos.ContainsKey(name.ToLower()))
-            {
-                _fieldInfos[name.ToLower()].SetValue(_value, value);
+            if ( _fieldInfos.ContainsKey( name.ToLower() ) ) {
+                _fieldInfos[name.ToLower()].SetValue( _value, value );
                 return true;
             }
             return false;
         }
 
-        public bool SetElement(int index, object value)
-        {
+        public bool SetElement( int index, object value ) {
             SyntToUnmanaged();
-            if (index >= 0 && index <= _fieldInfos.Count)
-            {
-                _fieldInfos.Values.ElementAt(index).SetValue(_value, value);
+            if ( index >= 0 &&
+                 index <= _fieldInfos.Count ) {
+                _fieldInfos.Values.ElementAt( index ).SetValue( _value, value );
                 return true;
             }
             return false;
         }
 
         public void InitUnmanaged() {
-            if (Ptr == IntPtr.Zero)
-            {
-                var sizeOf = Marshal.SizeOf(_value);
-                var intPtr = Marshal.AllocHGlobal(sizeOf);
+            if ( Ptr == IntPtr.Zero ) {
+                var sizeOf = Marshal.SizeOf( _value );
+                var intPtr = Marshal.AllocHGlobal( sizeOf );
                 Ptr = intPtr;
                 Marshal.StructureToPtr( _value, Ptr, false );
             }

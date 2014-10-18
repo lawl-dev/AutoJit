@@ -44,7 +44,7 @@ namespace AutoJIT.Parser.AST.Expressions
                 return toReturn;
             }
         }
-        
+
         public override object Clone() {
             return new BinaryExpression( (IExpressionNode) Left.Clone(), (IExpressionNode) Right.Clone(), Operator );
         }

@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis;
 
 namespace AutoJIT.CompilerApplication
 {
-    class Program
+    internal class Program
     {
         private static ICompiler _compiler;
 
@@ -18,7 +18,7 @@ namespace AutoJIT.CompilerApplication
             _compiler = bootStrapper.GetInstance<ICompiler>();
         }
 
-        static void Main(string[] args) {
+        private static void Main( string[] args ) {
             var compileOptions = new CompileOptions();
             for ( int i = 0; i < args.Length; i++ ) {
                 switch (args[i].ToUpper()) {
@@ -65,9 +65,8 @@ namespace AutoJIT.CompilerApplication
             var tempPath = Path.Combine( Path.GetTempPath(), Guid.NewGuid().ToString( "n" ) );
             File.WriteAllBytes( tempPath, assemblyBytes );
 
-
             toMerge.Add( tempPath );
-            toMerge.Add( typeof(StringVariant).Assembly.Location );
+            toMerge.Add( typeof (StringVariant).Assembly.Location );
 
             File.Delete( compileOptions.OutFile.AbsolutePath );
             var repack = new ILRepack { OutputFile = compileOptions.OutFile.AbsolutePath, TargetKind = ILRepack.Kind.Exe, InputAssemblies = toMerge.ToArray() };

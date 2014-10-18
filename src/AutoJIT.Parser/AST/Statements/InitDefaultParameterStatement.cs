@@ -23,8 +23,7 @@ namespace AutoJIT.Parser.AST.Statements
             return new InitDefaultParameterStatement( (string) ParameterName.Clone(), (IExpressionNode) DefaultValue.Clone() );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode>() { DefaultValue }; }
         }
     }

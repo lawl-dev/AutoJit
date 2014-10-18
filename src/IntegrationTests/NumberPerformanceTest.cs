@@ -4,8 +4,6 @@ namespace UnitTests
 {
     public class NumberPerformanceTest
     {
-        public NumberPerformanceTest() {
-            
-        }
+        public NumberPerformanceTest() {}
     }
 }

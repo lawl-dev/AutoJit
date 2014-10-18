@@ -14,7 +14,7 @@ namespace AutoJITRuntime
             get { return _start; }
         }
 
-        public ForToNextLooper(Variant start, Variant to, Variant step = null) {
+        public ForToNextLooper( Variant start, Variant to, Variant step = null ) {
             _start = start;
             _to = to;
             _step = step ?? 1;
@@ -22,19 +22,17 @@ namespace AutoJITRuntime
         }
 
         public bool MoveNext() {
-            var res = _condition(_start, _to);
+            var res = _condition( _start, _to );
             _start += _step;
             return res;
         }
-
 
         private Func<double, double, bool> GetCondition() {
             if ( _start > _to &&
                  _step > 0 ) {
                 return ( a, b ) => false;
             }
-            if (_start > _to)
-            {
+            if ( _start > _to ) {
                 return ( a, b ) => a >= _to;
             }
 
@@ -48,7 +46,7 @@ namespace AutoJITRuntime
             if ( _start == _to ) {
                 return ( a, b ) => a == b;
             }
-            throw new NotImplementedException("_start " + _start + "to " +  _to + "step " + _step);
-        } 
+            throw new NotImplementedException( "_start "+_start+"to "+_to+"step "+_step );
+        }
     }
 }

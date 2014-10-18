@@ -8,6 +8,7 @@ using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 using Variant = AutoJITRuntime.Variant;
+
 namespace UnitTests
 {
     public class VariantTests : AutoitFunctionTestBase
@@ -21,7 +22,6 @@ namespace UnitTests
             _compiler = componentContainer.GetInstance<ICompiler>();
         }
 
-        
         [TestCase( "123+321" )]
         [TestCase( "123+321.312" )]
         [TestCase( "123.123+321.321" )]
@@ -62,7 +62,6 @@ namespace UnitTests
         [TestCase( "123^'3'" )]
         [TestCase( "123.123^1.321" )]
         [TestCase( "1231231231232222^'a1.23'" )]
-
         [TestCase( "IsInt(123+321)" )]
         [TestCase( "IsInt(123+321.312)" )]
         [TestCase( "IsInt(123.123+321.321)" )]
@@ -103,7 +102,6 @@ namespace UnitTests
         [TestCase( "IsInt(123^'3')" )]
         [TestCase( "IsInt(123.123^1.321)" )]
         [TestCase( "IsInt(1231231231232222^'a1.23')" )]
-
         [TestCase( "IsFloat(123+321)" )]
         [TestCase( "IsFloat(123+321.312)" )]
         [TestCase( "IsFloat(123.123+321.321)" )]
@@ -144,7 +142,6 @@ namespace UnitTests
         [TestCase( "IsFloat(123^'3')" )]
         [TestCase( "IsFloat(123.123^1.321)" )]
         [TestCase( "IsFloat(1231231231232222^'a1.23')" )]
-
         [TestCase( "IsArray(123+321)" )]
         [TestCase( "IsArray(123+321.312)" )]
         [TestCase( "IsArray(123.123+321.321)" )]
@@ -185,7 +182,6 @@ namespace UnitTests
         [TestCase( "IsArray(123^'3')" )]
         [TestCase( "IsArray(123.123^1.321)" )]
         [TestCase( "IsArray(1231231231232222^'a1.23')" )]
-
         [TestCase( "IsBool(123+321)" )]
         [TestCase( "IsBool(123+321.312)" )]
         [TestCase( "IsBool(123.123+321.321)" )]
@@ -226,8 +222,6 @@ namespace UnitTests
         [TestCase( "IsBool(123^'3')" )]
         [TestCase( "IsBool(123.123^1.321)" )]
         [TestCase( "IsBool(1231231231232222^'a1.23')" )]
-
-
         [TestCase( "IsInt(0.01)" )]
         [TestCase( "IsInt(0.001)" )]
         [TestCase( "IsInt(0.0001)" )]
@@ -262,7 +256,6 @@ namespace UnitTests
         [TestCase( "IsInt(0.000000000000009)" )]
         [TestCase( "IsInt(0.0000000000000009)" )]
         [TestCase( "IsInt(0.00000000000000009)" )]
-
         [TestCase( "IsFloat(0.01)" )]
         [TestCase( "IsFloat(0.001)" )]
         [TestCase( "IsFloat(0.0001)" )]
@@ -297,7 +290,6 @@ namespace UnitTests
         [TestCase( "IsFloat(0.000000000000009)" )]
         [TestCase( "IsFloat(0.0000000000000009)" )]
         [TestCase( "IsFloat(0.00000000000000009)" )]
-
         [TestCase( "IsInt(0.9)" )]
         [TestCase( "IsInt(0.99)" )]
         [TestCase( "IsInt(0.999)" )]
@@ -320,7 +312,6 @@ namespace UnitTests
         [TestCase( "IsInt(0.99999999999999999999)" )]
         [TestCase( "IsInt(0.999999999999999999999)" )]
         [TestCase( "IsInt(0.9999999999999999999999)" )]
-
         [TestCase( "IsInt(0.09)" )]
         [TestCase( "IsInt(0.099)" )]
         [TestCase( "IsInt(0.0999)" )]
@@ -343,7 +334,6 @@ namespace UnitTests
         [TestCase( "IsInt(0.099999999999999999999)" )]
         [TestCase( "IsInt(0.0999999999999999999999)" )]
         [TestCase( "IsInt(0.09999999999999999999999)" )]
-
         [TestCase( "IsFloat(0.9)" )]
         [TestCase( "IsFloat(0.99)" )]
         [TestCase( "IsFloat(0.999)" )]
@@ -366,7 +356,6 @@ namespace UnitTests
         [TestCase( "IsFloat(0.99999999999999999999)" )]
         [TestCase( "IsFloat(0.999999999999999999999)" )]
         [TestCase( "IsFloat(0.9999999999999999999999)" )]
-
         [TestCase( "IsFloat(0.09)" )]
         [TestCase( "IsFloat(0.099)" )]
         [TestCase( "IsFloat(0.0999)" )]
@@ -398,7 +387,6 @@ namespace UnitTests
         [TestCase( "BitNOT(1.9999999999999999999)" )]
         [TestCase( "BitNOT(12.09999999999999999999)" )]
         [TestCase( "BitNOT(-123.09999999999999999999)" )]
-
         [TestCase( "String(Binary(18841))" )]
         [TestCase( "String(Binary(54483))" )]
         [TestCase( "String(Binary(79018))" )]
@@ -609,11 +597,8 @@ namespace UnitTests
             var result = method.Invoke( instance, null ) as Variant;
             var au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
 
-
             CompareResults( result, au3Result );
         }
-
-
 
         [Test]
         public void Test_Variant() {
@@ -634,8 +619,6 @@ namespace UnitTests
                     Assert.IsTrue( z == 1 || z == 2 || z == "awd" );
                 }
             }
-
-
 
             var variants = new Variant[1000];
             for ( int i = 0; i < variants.Length; i++ ) {

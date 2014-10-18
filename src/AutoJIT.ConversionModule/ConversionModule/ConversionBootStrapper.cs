@@ -13,8 +13,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 {
     public class ConversionBootStrapper : ComponentContainerBase
     {
-        protected override void Bind()
-        {
+        protected override void Bind() {
             Bind<IInjectionService, InjectionService>();
             Bind<IAutoitToCSharpConverter, AutoitToCSharpConverter>();
             Bind<ICSharpStatementFactory, CSharpStatementFactory>();
@@ -24,6 +23,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             RegisterStatementConverter();
             RegisterExpressionConverter();
         }
+
         private void RegisterStatementConverter() {
             Bind<IAutoitStatementConverter<AssignStatement, StatementSyntax>, AutoitAssignStatementConverter>();
             Bind<IAutoitStatementConverter<DoUntilStatement, StatementSyntax>, AutoitDoUntilStatementConverter>();

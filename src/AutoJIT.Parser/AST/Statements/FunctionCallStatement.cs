@@ -21,8 +21,7 @@ namespace AutoJIT.Parser.AST.Statements
             return new FunctionCallStatement( (IExpressionNode) FunctionCallExpression.Clone() );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode>() { FunctionCallExpression }; }
         }
     }

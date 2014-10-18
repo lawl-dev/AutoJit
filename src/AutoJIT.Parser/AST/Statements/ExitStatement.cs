@@ -21,8 +21,7 @@ namespace AutoJIT.Parser.AST.Statements
             return new ExitStatement( (IExpressionNode) ExpressionNode.Clone() );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode>() { ExpressionNode }; }
         }
     }

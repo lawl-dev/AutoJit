@@ -10,8 +10,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitNegateExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(NegateExpression node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( NegateExpression node, IContextService context ) {
             return CreateInvocationExpression(
                 context.GetRuntimeInstanceName(),
                 node.NegateFunctionName,

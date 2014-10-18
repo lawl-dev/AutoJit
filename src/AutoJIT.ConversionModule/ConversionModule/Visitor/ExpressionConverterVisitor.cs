@@ -36,63 +36,63 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         }
 
         private ExpressionSyntax Visit( ArrayExpression node ) {
-            return GetConverter<ArrayExpression>().Convert(node, _contextService);
+            return GetConverter<ArrayExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( ArrayInitExpression node ) {
-            return GetConverter<ArrayInitExpression>().Convert(node, _contextService);
+            return GetConverter<ArrayInitExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( BooleanNegateExpression node ) {
-            return GetConverter<BooleanNegateExpression>().Convert(node, _contextService);
+            return GetConverter<BooleanNegateExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( CallExpression node ) {
-            return GetConverter<CallExpression>().Convert(node, _contextService);
+            return GetConverter<CallExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( DefaultExpression node ) {
-            return GetConverter<DefaultExpression>().Convert(node, _contextService);
+            return GetConverter<DefaultExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( FalseLiteralExpression node ) {
-            return GetConverter<FalseLiteralExpression>().Convert(node, _contextService);
+            return GetConverter<FalseLiteralExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( MacroExpression node ) {
-            return GetConverter<MacroExpression>().Convert(node, _contextService);
+            return GetConverter<MacroExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( NegateExpression node ) {
-            return GetConverter<NegateExpression>().Convert(node, _contextService);
+            return GetConverter<NegateExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( NullExpression node ) {
-            return GetConverter<NullExpression>().Convert(node, _contextService);
+            return GetConverter<NullExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( NumericLiteralExpression node ) {
-            return GetConverter<NumericLiteralExpression>().Convert(node, _contextService);
+            return GetConverter<NumericLiteralExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( StringLiteralExpression node ) {
-            return GetConverter<StringLiteralExpression>().Convert(node, _contextService);
+            return GetConverter<StringLiteralExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( TernaryExpression node ) {
-            return GetConverter<TernaryExpression>().Convert(node, _contextService);
+            return GetConverter<TernaryExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( TrueLiteralExpression node ) {
-            return GetConverter<TrueLiteralExpression>().Convert(node, _contextService);
+            return GetConverter<TrueLiteralExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( UserfunctionCallExpression node ) {
-            return GetConverter<UserfunctionCallExpression>().Convert(node, _contextService);
+            return GetConverter<UserfunctionCallExpression>().Convert( node, _contextService );
         }
 
         private ExpressionSyntax Visit( VariableExpression node ) {
-            return GetConverter<VariableExpression>().Convert(node, _contextService);
+            return GetConverter<VariableExpression>().Convert( node, _contextService );
         }
 
         private IAutoitExpressionConverter<T, ExpressionSyntax> GetConverter<T>() where T : IExpressionNode {

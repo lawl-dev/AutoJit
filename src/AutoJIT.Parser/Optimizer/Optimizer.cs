@@ -56,7 +56,6 @@ namespace AutoJIT.Parser.Optimizer
                 return base.VisitBinaryExpression( node );
             }
 
-
             var leftLiteralExpressionSyntax = (LiteralExpressionSyntax) leftCreationExpression.ArgumentList.Arguments.Single().Expression;
             var rightLiteralExpressionSyntax = (LiteralExpressionSyntax) rightCreationExpression.ArgumentList.Arguments.Single().Expression;
 
@@ -103,7 +102,6 @@ namespace AutoJIT.Parser.Optimizer
             var isSupportedFunctionCall = supportedFunctions.Any( x => x.Name == functionName );
             var args = node.ArgumentList.Arguments;
 
-
             //((MemberAccessExpressionSyntax)((InvocationExpressionSyntax)args[0].Expression).Expression).Name.Identifier.Text
             var allArgumentsAreFixedValues = args.All
                 (
@@ -111,7 +109,6 @@ namespace AutoJIT.Parser.Optimizer
                         x.Expression is InvocationExpressionSyntax && ( (InvocationExpressionSyntax) x.Expression ).Expression is MemberAccessExpressionSyntax &&
                         ( (MemberAccessExpressionSyntax) ( (InvocationExpressionSyntax) x.Expression ).Expression ).Name.Identifier.Text.Equals
                             ( CompilerHelper.GetVariantMemberName( v => Variant.Create( (object) null ) ) ) );
-
 
             if ( !isSupportedFunctionCall ||
                  !allArgumentsAreFixedValues ) {
@@ -123,7 +120,7 @@ namespace AutoJIT.Parser.Optimizer
             var runtimeInstance = runtimeClassType.CreateInstanceWithDefaultParameters();
 
             var parameters =
-                args.Select( x => (InvocationExpressionSyntax)x.Expression )
+                args.Select( x => (InvocationExpressionSyntax) x.Expression )
                     .Select( x => x.ArgumentList.Arguments.Single().Expression as LiteralExpressionSyntax )
                     .Select( x => Variant.Create( x.Token.Value ) )
                     .ToArray();

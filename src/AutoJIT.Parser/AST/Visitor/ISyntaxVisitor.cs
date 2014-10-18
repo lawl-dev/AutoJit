@@ -9,6 +9,6 @@ namespace AutoJIT.Parser.AST.Visitor
 
     public interface ISyntaxVisitor<in TIn, out TOut> : ISyntaxVisitor
     {
-        TOut Visit(TIn node);
+        TOut Visit( TIn node );
     }
 }

@@ -14,19 +14,18 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         public AutoitIfElseStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {
             _cSharpStatementFactory = cSharpStatementFactory;
         }
 
-        public override IEnumerable<StatementSyntax> Convert(IfElseStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( IfElseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             var ifStatement =
                 _cSharpStatementFactory.CreateIfStatement(
-                    Convert(statement.Condition, context),
-                    statement.IfBlock.SelectMany( x => ConvertGeneric(x, context) ) );
+                    Convert( statement.Condition, context ),
+                    statement.IfBlock.SelectMany( x => ConvertGeneric( x, context ) ) );
 
             var elseIfs = new List<IfStatementSyntax>();
 
@@ -34,8 +33,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                 for ( var i = 0; i < statement.ElseIfConditions.Count(); i++ ) {
                     var innerIfStatement =
                         _cSharpStatementFactory.CreateIfStatement(
-                            Convert(statement.ElseIfConditions.ElementAt( i ), context),
-                            statement.ElseIfBlocks.ElementAt( i ).SelectMany( x => ConvertGeneric(x, context) ) );
+                            Convert( statement.ElseIfConditions.ElementAt( i ), context ),
+                            statement.ElseIfBlocks.ElementAt( i ).SelectMany( x => ConvertGeneric( x, context ) ) );
                     elseIfs.Add( innerIfStatement );
                 }
             }
@@ -51,7 +50,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                 if ( statement.ElseBlock != null ) {
                     elseIfs[0] =
                         elseIfs[0].WithElse(
-                            statement.ElseBlock.SelectMany( x => ConvertGeneric(x, context) )
+                            statement.ElseBlock.SelectMany( x => ConvertGeneric( x, context ) )
                                 .ToBlock()
                                 .ToElseClause() );
                 }
@@ -61,7 +60,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                 if ( statement.ElseBlock != null ) {
                     ifStatement =
                         ifStatement.WithElse(
-                            statement.ElseBlock.SelectMany( x => ConvertGeneric(x, context) )
+                            statement.ElseBlock.SelectMany( x => ConvertGeneric( x, context ) )
                                 .ToBlock()
                                 .ToElseClause() );
                 }

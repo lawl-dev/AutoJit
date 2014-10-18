@@ -16,8 +16,7 @@ namespace AutoJIT.Parser.AST.Expressions
             Initialize();
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return new List<IExpressionNode>() { Condition, IfTrue, IfFalse }; }
         }
 

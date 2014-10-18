@@ -31,12 +31,11 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override object Clone() {
             return new EnumDeclarationStatement(
-                (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( UserInitExpression), CloneAs<IExpressionNode>( AutoInitExpression),
+                (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( UserInitExpression ), CloneAs<IExpressionNode>( AutoInitExpression ),
                 IsGlobal );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode>() { AutoInitExpression, VariableExpression, UserInitExpression }; }
         }
     }

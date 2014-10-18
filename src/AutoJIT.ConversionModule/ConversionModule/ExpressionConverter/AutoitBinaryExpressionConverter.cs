@@ -12,24 +12,22 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitBinaryExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(BinaryExpressionBase node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( BinaryExpressionBase node, IContextService context ) {
             if ( node.NeedsCompilerFunctionCall ) {
                 return CreateCompilerFunctionCall( node, context );
             }
 
             return SyntaxFactory.BinaryExpression(
-                GetSyntaxKind( node.Operator ), ConverGeneric( node.Left, context),
-                ConverGeneric(node.Right, context) );
+                GetSyntaxKind( node.Operator ), ConverGeneric( node.Left, context ),
+                ConverGeneric( node.Right, context ) );
         }
 
-        private ExpressionSyntax CreateCompilerFunctionCall(BinaryExpressionBase node, IContextService context)
-        {
+        private ExpressionSyntax CreateCompilerFunctionCall( BinaryExpressionBase node, IContextService context ) {
             var operatorFunctionName = node.GetCompilerFunctionName( node.Operator.Type );
 
             var arguments = Utils.GetEnumerable(
-                SyntaxFactory.Argument( ConverGeneric(node.Left, context) ),
-                SyntaxFactory.Argument( ConverGeneric(node.Right, context) ) );
+                SyntaxFactory.Argument( ConverGeneric( node.Left, context ) ),
+                SyntaxFactory.Argument( ConverGeneric( node.Right, context ) ) );
 
             return CreateInvocationExpression( context.GetRuntimeInstanceName(), operatorFunctionName, arguments );
         }

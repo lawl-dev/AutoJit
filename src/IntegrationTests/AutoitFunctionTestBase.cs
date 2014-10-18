@@ -8,6 +8,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Variant = AutoJITRuntime.Variant;
+
 namespace UnitTests
 {
     public abstract class AutoitFunctionTestBase
@@ -15,12 +16,11 @@ namespace UnitTests
         private readonly string _resultPath = string.Format( "{0}/", Path.GetTempPath() );
         private readonly string _au3ExeName = Environment.CurrentDirectory+"/../../..//lib/Unittests.exe";
 
-        protected object GetAu3Result(string functionCall, Type expectedType, params object[] parameters)
-        {
+        protected object GetAu3Result( string functionCall, Type expectedType, params object[] parameters ) {
             var enumerable = GetFormattedParameter( parameters );
 
-            if (!functionCall.StartsWith("@") && !functionCall.StartsWith("f!"))
-            {
+            if ( !functionCall.StartsWith( "@" ) &&
+                 !functionCall.StartsWith( "f!" ) ) {
                 functionCall += "(";
 
                 if ( parameters.Any() ) {
@@ -30,22 +30,21 @@ namespace UnitTests
                 functionCall += ")";
             }
             if ( functionCall.StartsWith( "f!" ) ) {
-                functionCall = "\""+ functionCall.Substring( 2, functionCall.Length-2 ) + "\"";
+                functionCall = "\""+functionCall.Substring( 2, functionCall.Length-2 )+"\"";
             }
-            var filePath = _resultPath + Guid.NewGuid();
-            var process = Process.Start(_au3ExeName, string.Format("{0} {1}", functionCall, filePath));
+            var filePath = _resultPath+Guid.NewGuid();
+            var process = Process.Start( _au3ExeName, string.Format( "{0} {1}", functionCall, filePath ) );
 
             if ( process == null ) {
                 throw new InvalidOperationException();
             }
 
-            while (!process.HasExited)
-            {
+            while ( !process.HasExited ) {
                 Thread.Sleep( 5 );
             }
             var serializer = new JsonSerializer();
-            var reader = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read));
-            var o = serializer.Deserialize(reader, expectedType);
+            var reader = new StreamReader( new FileStream( filePath, FileMode.Open, FileAccess.Read ) );
+            var o = serializer.Deserialize( reader, expectedType );
             reader.Dispose();
             File.Delete( filePath );
             return o;
@@ -55,14 +54,16 @@ namespace UnitTests
             var toReturn = new List<string>();
 
             foreach (var parameter in parameters) {
-                if ( parameter is double) {
+                if ( parameter is double ) {
                     toReturn.Add( ( (double) parameter ).ToString( CultureInfo.InvariantCulture ) );
                 }
-                else if(parameter is int || parameter is Int64 || parameter is bool){
-                    toReturn.Add((parameter).ToString());
+                else if ( parameter is int ||
+                          parameter is Int64 ||
+                          parameter is bool ) {
+                    toReturn.Add( ( parameter ).ToString() );
                 }
                 else {
-                    toReturn.Add(string.Format("'{0}'", parameter));
+                    toReturn.Add( string.Format( "'{0}'", parameter ) );
                 }
             }
             return toReturn;
@@ -71,38 +72,35 @@ namespace UnitTests
         protected void CompareResults( Variant result, object au3Result ) {
             if ( result.IsInt32 ||
                  result.IsInt64 ) {
-                Assert.IsTrue( Equals(result, au3Result) );
+                Assert.IsTrue( Equals( result, au3Result ) );
                 return;
             }
 
             if ( result.IsDouble ) {
-                if(double.IsPositiveInfinity(((double)result)))
-                {
-                    Assert.IsTrue( Equals(au3Result,1.0d) );
+                if ( double.IsPositiveInfinity( ( (double) result ) ) ) {
+                    Assert.IsTrue( Equals( au3Result, 1.0d ) );
                     return;
                 }
-                
-                if(double.IsNegativeInfinity(((double)result)))
-                {
-                    Assert.IsTrue( Equals(au3Result, -1.0d) );
+
+                if ( double.IsNegativeInfinity( ( (double) result ) ) ) {
+                    Assert.IsTrue( Equals( au3Result, -1.0d ) );
                     return;
                 }
                 var difference = Math.Abs( (double) result * .00000000000001 );
-                Assert.IsTrue(Math.Abs(((double)result - (double)au3Result)) < difference);
+                Assert.IsTrue( Math.Abs( ( (double) result-(double) au3Result ) ) < difference );
                 return;
             }
 
-            if ( result.IsString || result.IsBinary ) {
+            if ( result.IsString ||
+                 result.IsBinary ) {
                 Assert.IsTrue( string.Equals( result, au3Result ) );
                 return;
             }
 
             if ( result.IsBool ) {
-                Assert.IsTrue(result.Equals( au3Result ));
+                Assert.IsTrue( result.Equals( au3Result ) );
                 return;
             }
-
-            
 
             throw new NotImplementedException();
         }

@@ -13,8 +13,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitTrueLiteralExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(TrueLiteralExpression node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( TrueLiteralExpression node, IContextService context ) {
             {
                 var expression = SyntaxFactory.LiteralExpression( SyntaxKind.TrueLiteralExpression );
                 return SyntaxFactory.InvocationExpression(

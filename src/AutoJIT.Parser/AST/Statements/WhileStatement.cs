@@ -31,8 +31,7 @@ namespace AutoJIT.Parser.AST.Statements
             return new WhileStatement( (IExpressionNode) Condition.Clone(), Block.Select( x => (IStatementNode) x.Clone() ) );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get {
                 var syntaxNodes = new List<ISyntaxNode> { Condition };
                 syntaxNodes.AddRange( Block );

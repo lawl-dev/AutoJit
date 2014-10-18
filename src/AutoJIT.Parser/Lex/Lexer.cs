@@ -319,7 +319,8 @@ namespace AutoJIT.Parser.Lex
                 return true;
             }
 
-            var function = typeof (AutoitRuntime<>).GetMethods().FirstOrDefault( m => m.Name.Equals( functionOrKeyword, StringComparison.InvariantCultureIgnoreCase ) );
+            var function =
+                typeof (AutoitRuntime<>).GetMethods().FirstOrDefault( m => m.Name.Equals( functionOrKeyword, StringComparison.InvariantCultureIgnoreCase ) );
 
             if ( function != null ) {
                 token.Add( _tokenFactory.CreateFunction( function.Name, pos, lineNum ) );
@@ -337,7 +338,6 @@ namespace AutoJIT.Parser.Lex
             }
             return false;
         }
-
 
         private bool LexNumber( Queue<char> tokenQueue, IList<Token> lineTokens, int pos, int lineNum ) {
             string tempString = string.Empty;
@@ -362,10 +362,9 @@ namespace AutoJIT.Parser.Lex
             var isHex = false;
             var isEnd = false;
             tempString += tokenQueue.DequeueWhile( char.IsNumber ).Join();
-            while (tokenQueue.Any()) {
+            while ( tokenQueue.Any() ) {
                 var ch = tokenQueue.Peek();
-                switch (ch)
-                {
+                switch (ch) {
                     case '.':
                         if ( isDouble ) {
                             throw new InvalidParseException( lineNum, pos, "Unexpected Token: '.'" );
@@ -384,17 +383,16 @@ namespace AutoJIT.Parser.Lex
                         tempString += tokenQueue.Dequeue();
 
                         var next = tokenQueue.Peek();
-                        if (next == '+' || next == '-')
-                        {
+                        if ( next == '+' ||
+                             next == '-' ) {
                             tempString += tokenQueue.Dequeue();
                         }
                         tempString += tokenQueue.DequeueWhile( char.IsNumber ).Join();
                         break;
                     case 'x':
                     case 'X':
-                        if (tempString != "0")
-                        {
-                            throw new InvalidParseException(lineNum, pos, "Unexpected Token: 'X'");
+                        if ( tempString != "0" ) {
+                            throw new InvalidParseException( lineNum, pos, "Unexpected Token: 'X'" );
                         }
                         tempString += tokenQueue.Dequeue();
                         isHex = true;

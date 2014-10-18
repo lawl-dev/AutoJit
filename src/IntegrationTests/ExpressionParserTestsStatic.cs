@@ -22,31 +22,24 @@ namespace UnitTests
             _expressionParser = componentContainer.GetInstance<IExpressionParser>();
         }
 
-
-        [TestCase("[-123 * 3 + 1, GetInt(1, GetInt(1, 2)), 5]")]
-        public void Test_ExpressionTree_ArrayInit(string arrInitExpress) {
+        [TestCase( "[-123 * 3 + 1, GetInt(1, GetInt(1, 2)), 5]" )]
+        public void Test_ExpressionTree_ArrayInit( string arrInitExpress ) {
             var tokens = _lexer.Lex( arrInitExpress );
 
             IExpressionNode node = null;
             Assert.DoesNotThrow(
-                () => {
-                    node = _expressionParser.ParseBlock(tokens, true);        
-                } );
+                () => { node = _expressionParser.ParseBlock( tokens, true ); } );
 
-            var arrayInitExpression = (ArrayInitExpression)node;
+            var arrayInitExpression = (ArrayInitExpression) node;
             var childs = arrayInitExpression.ToAssign.ToList();
             for ( int i = 0; i < childs.Count(); i++ ) {
-                Assert.IsTrue(childs[i].GetType() == GetExpectedType( i ));
+                Assert.IsTrue( childs[i].GetType() == GetExpectedType( i ) );
             }
         }
 
-
-        
-
-        public static double RoundUp(double input, int places)
-        {
-            double multiplier = Math.Pow(10, Convert.ToDouble(places));
-            return Math.Ceiling(input * multiplier) / multiplier;
+        public static double RoundUp( double input, int places ) {
+            double multiplier = Math.Pow( 10, Convert.ToDouble( places ) );
+            return Math.Ceiling( input * multiplier ) / multiplier;
         }
 
         public Type GetExpectedType( int i ) {

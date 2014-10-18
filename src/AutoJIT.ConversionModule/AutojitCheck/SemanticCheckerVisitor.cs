@@ -9,11 +9,12 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
     {
         private readonly Dictionary<string, List<LocalDeclarationStatement>> _constLocal = new Dictionary<string, List<LocalDeclarationStatement>>();
         private readonly Dictionary<string, GlobalDeclarationStatement> _constGlobal = new Dictionary<string, GlobalDeclarationStatement>();
-        
+
         public void Visit( ISyntaxNode node ) {
             Visit( (dynamic) node );
         }
-        public void Visit(object o) { }
+
+        public void Visit( object o ) {}
 
         public void Visit( GlobalDeclarationStatement global ) {
             if ( _constGlobal.ContainsKey( global.VariableExpression.IdentifierName ) ) {

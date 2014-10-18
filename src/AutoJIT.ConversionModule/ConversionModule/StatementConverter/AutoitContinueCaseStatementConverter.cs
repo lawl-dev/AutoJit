@@ -11,11 +11,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitContinueCaseStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
+            IInjectionService injectionService )
             : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(ContinueCaseStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( ContinueCaseStatement statement, IContextService context ) {
             throw new NotImplementedException();
         }
     }

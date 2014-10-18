@@ -13,8 +13,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitArrayInitExpressionConverter( IInjectionService injectionService )
             : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert(ArrayInitExpression node, IContextService context)
-        {
+        public override ExpressionSyntax Convert( ArrayInitExpression node, IContextService context ) {
             var arrayRankSpecifierSyntax = SyntaxFactory.ArrayRankSpecifier(
                 SyntaxFactory.SingletonSeparatedList<ExpressionSyntax>(
                     SyntaxFactory.OmittedArraySizeExpression() ) );
@@ -26,7 +25,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             return arrayCreationExpression.WithInitializer(
                 SyntaxFactory.InitializerExpression(
                     SyntaxKind.ArrayInitializerExpression,
-                    node.ToAssign.Select( x => ConverGeneric(x, context) ).ToSeparatedSyntaxList() ) );
+                    node.ToAssign.Select( x => ConverGeneric( x, context ) ).ToSeparatedSyntaxList() ) );
         }
     }
 }

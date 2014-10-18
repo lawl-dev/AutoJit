@@ -18,7 +18,6 @@ namespace AutoJIT.Parser.AST
 
         public readonly TokenQueue Queue;
 
-
         public FunctionNode( string name, IEnumerable<AutoitParameterInfo> autoitParameterInfos ) {
             Name = name;
             Parameter = autoitParameterInfos;
@@ -39,15 +38,13 @@ namespace AutoJIT.Parser.AST
         }
 
         public override object Clone() {
-            return new FunctionNode( (string) Name.Clone(), Parameter ){Statements = Statements.Select( x=>(IStatementNode)x.Clone() ).ToList()};
+            return new FunctionNode( (string) Name.Clone(), Parameter ) { Statements = Statements.Select( x => (IStatementNode) x.Clone() ).ToList() };
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get { return Statements; }
         }
 
-        
         public override string ToString() {
             string toReturn = string.Format( "Name: {0}{1}", this.Name, Environment.NewLine );
             toReturn += string.Format( "Parameter: {0}{1}", String.Join( ", ", Parameter.Select( x => x.ParameterName ) ), Environment.NewLine );

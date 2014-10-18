@@ -11,11 +11,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitExitloopStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
-            : base( cSharpStatementFactory, injectionService) {}
+            IInjectionService injectionService )
+            : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(ExitloopStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( ExitloopStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             var exitLoopLabelName = context.GetExitLoopLabelName( statement.Level );

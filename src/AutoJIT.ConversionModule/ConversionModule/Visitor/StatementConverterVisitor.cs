@@ -13,16 +13,15 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
     {
         private readonly IInjectionService _injectionService;
         protected IContextService ContextService;
-        
+
         public StatementConverterVisitor( IInjectionService injectionService, IContextService contextService ) {
             _injectionService = injectionService;
             ContextService = contextService;
         }
 
-        public void InitializeContext(IContext context) {
+        public void InitializeContext( IContext context ) {
             ContextService.Initialize( context );
         }
-
 
         public IEnumerable<StatementSyntax> Visit( IStatementNode node ) {
             return Visit( (dynamic) node );
@@ -31,7 +30,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         public IEnumerable<StatementSyntax> Visit( AssignStatement node ) {
             return GetConverter<AssignStatement>().Convert( node, ContextService );
         }
-        
+
         public IEnumerable<StatementSyntax> Visit( ContinueCaseStatement node ) {
             return GetConverter<ContinueCaseStatement>().Convert( node, ContextService );
         }

@@ -6,7 +6,7 @@ namespace AutoJITRuntime
     {
         private readonly bool _value;
 
-        public BoolVariant(Boolean @bool) {
+        public BoolVariant( Boolean @bool ) {
             _value = @bool;
         }
 
@@ -21,7 +21,6 @@ namespace AutoJITRuntime
         public override bool IsBool {
             get { return true; }
         }
-
 
         public override string GetString() {
             return _value

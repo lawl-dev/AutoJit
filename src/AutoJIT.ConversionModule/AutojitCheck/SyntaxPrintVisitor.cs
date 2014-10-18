@@ -4,8 +4,6 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
 {
     public class SyntaxPrintVisitor : SyntaxVisitorBase
     {
-        public override void Visit( ArrayExpression node ) {
-            
-        }
+        public override void Visit( ArrayExpression node ) {}
     }
 }

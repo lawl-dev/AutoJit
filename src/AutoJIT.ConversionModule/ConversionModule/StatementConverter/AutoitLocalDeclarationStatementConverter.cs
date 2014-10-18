@@ -16,11 +16,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         public AutoitLocalDeclarationStatementConverter(
             ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService)
+            IInjectionService injectionService )
             : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert(LocalDeclarationStatement statement, IContextService context)
-        {
+        public override IEnumerable<StatementSyntax> Convert( LocalDeclarationStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             if ( !context.IsDeclared( statement.VariableExpression.IdentifierName ) ) {
@@ -43,7 +42,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         private StatementSyntax AssignArray( LocalDeclarationStatement statement, IContextService contextService ) {
             return CSharpStatementFactory.CreateInvocationExpression(
                 statement.VariableExpression.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ),
-                new CSharpParameterInfo( Convert(statement.InitExpression, contextService), false )
+                new CSharpParameterInfo( Convert( statement.InitExpression, contextService ), false )
                     .ToEnumerable() ).ToStatementSyntax();
         }
 
@@ -60,7 +59,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         private StatementSyntax AssignVariable( LocalDeclarationStatement statement, IContextService contextService ) {
             return SyntaxFactory.BinaryExpression(
                 SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( statement.VariableExpression.IdentifierName ),
-                Convert(statement.InitExpression, contextService) ).ToStatementSyntax();
+                Convert( statement.InitExpression, contextService ) ).ToStatementSyntax();
         }
 
         private StatementSyntax InitArray( LocalDeclarationStatement statement, IContextService contextService ) {
@@ -73,7 +72,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         private ExpressionSyntax GetArrayInitExpression( LocalDeclarationStatement statement, IContextService contextService ) {
             var openBracketToken =
                 ( (ArrayExpression) statement.VariableExpression ).AccessParameter.Select(
-                    x => Convert(x, contextService) ).ToSeparatedSyntaxList();
+                    x => Convert( x, contextService ) ).ToSeparatedSyntaxList();
             var arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
                 SyntaxFactory.ArrayType(
                     SyntaxFactory.IdentifierName(
@@ -83,11 +82,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             return SyntaxFactory.InvocationExpression(
                 SyntaxFactory.MemberAccessExpression(
-                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(typeof(Variant).Name),
-                    SyntaxFactory.IdentifierName(CompilerHelper.GetVariantMemberName(x => Variant.CreateArray(null)))))
+                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
+                    SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.CreateArray( null ) ) ) ) )
                 .WithArgumentList(
                     SyntaxFactory.ArgumentList(
-                        SyntaxFactory.Argument(arrayCreationExpressionSyntax).ToSeparatedSyntaxList()));
+                        SyntaxFactory.Argument( arrayCreationExpressionSyntax ).ToSeparatedSyntaxList() ) );
         }
     }
 }

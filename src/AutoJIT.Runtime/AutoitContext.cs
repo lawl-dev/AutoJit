@@ -19,12 +19,11 @@ namespace AutoJITRuntime
 
         public AutoitContext( T context ) {
             Context = context;
-            MethodStore = context.GetType().GetMethods().Where( x=>x.ReturnType == typeof(Variant)).ToDictionary( x => x.Name, x => x );
+            MethodStore = context.GetType().GetMethods().Where( x => x.ReturnType == typeof (Variant) ).ToDictionary( x => x.Name, x => x );
             @Error = 0;
             @Extended = 0;
             Guis = new List<IntPtr>();
         }
-
 
         //http://www.autoitscript.com/autoit3/docs/macros.htm
         public Variant @AppDataCommonDir {
@@ -133,8 +132,6 @@ namespace AutoJITRuntime
 
         public Variant @Error { get; set; }
         public Variant @Extended { get; set; }
-
-
 
         public Variant @COM_EventObj {
             get { throw new NotImplementedException(); }
@@ -351,7 +348,6 @@ namespace AutoJITRuntime
         public Variant @SW_ENABLE {
             get { throw new NotImplementedException(); }
         }
-
 
         public Variant @SW_LOCK {
             get { throw new NotImplementedException(); }

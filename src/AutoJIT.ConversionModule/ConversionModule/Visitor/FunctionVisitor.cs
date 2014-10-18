@@ -19,9 +19,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         public FunctionVisitor( IInjectionService injectionService, IContextService contextService ) : base( injectionService, contextService ) {}
 
         public MemberDeclarationSyntax Visit( FunctionNode @in ) {
-            return Convert( @in, ContextService);
+            return Convert( @in, ContextService );
         }
-        
+
         protected MemberDeclarationSyntax Convert( FunctionNode function, IContextService context ) {
             var statementNodes = function.Statements;
             statementNodes = DeclareParameter( statementNodes, function.Parameter, context );
@@ -38,7 +38,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
                 .WithBody( body );
         }
 
-        private IList<IStatementNode> DeclareParameter( IList<IStatementNode> statementNodes, IEnumerable<AutoitParameterInfo> parameter, IContextService context ) {
+        private IList<IStatementNode> DeclareParameter(
+            IList<IStatementNode> statementNodes,
+            IEnumerable<AutoitParameterInfo> parameter,
+            IContextService context ) {
             foreach (var parameterInfo in parameter) {
                 context.Declare( parameterInfo.ParameterName );
                 if ( parameterInfo.DefaultValue != null ) {

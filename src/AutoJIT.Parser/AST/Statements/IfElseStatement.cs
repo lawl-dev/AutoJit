@@ -63,14 +63,13 @@ namespace AutoJIT.Parser.AST.Statements
                 CloneEnumerableAs<IStatementNode>( ElseBlock ) );
         }
 
-        public override IEnumerable<ISyntaxNode> Children
-        {
+        public override IEnumerable<ISyntaxNode> Children {
             get {
                 var syntaxNodes = new List<ISyntaxNode>();
                 syntaxNodes.Add( Condition );
-                
+
                 if ( IfBlock != null ) {
-                    syntaxNodes.AddRange( IfBlock);
+                    syntaxNodes.AddRange( IfBlock );
                 }
 
                 if ( ElseIfConditions != null ) {
