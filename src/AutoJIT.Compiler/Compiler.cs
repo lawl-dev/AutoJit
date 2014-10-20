@@ -6,7 +6,6 @@ using AutoJIT.Parser.Exceptions;
 using AutoJIT.Parser.Lex.Interface;
 using AutoJIT.Parser.Optimizer;
 using AutoJITRuntime;
-using AutoJITRuntime.Variants;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 

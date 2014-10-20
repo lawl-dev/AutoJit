@@ -13,20 +13,22 @@ namespace UnitTests
     {
         private object _compiledInstance;
 
-        public MarshalTests() {
+        [SetUp]
+        public void Setup() {
             var standardAutoJITContainer = new CompilerBootStrapper();
             var compiler = standardAutoJITContainer.GetInstance<ICompiler>();
-            var path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, "Unmanaged.au3" );
-            var script = File.ReadAllText( path );
+            var path = string.Format("{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, "Unmanaged.au3");
+            var script = File.ReadAllText(path);
 
             Assert.DoesNotThrow(
-                () => {
-                    var assemblyBytes = compiler.Compile( script, OutputKind.ConsoleApplication, false );
+                () =>
+                {
+                    var assemblyBytes = compiler.Compile(script, OutputKind.ConsoleApplication, false);
 
-                    var assembly = Assembly.Load( assemblyBytes );
-                    var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+                    var assembly = Assembly.Load(assemblyBytes);
+                    var type = assembly.GetTypes().Single(x => x.Name == "AutoJITScriptClass");
                     _compiledInstance = type.CreateInstanceWithDefaultParameters();
-                } );
+                });
         }
 
         [TestCase( "FA" )]

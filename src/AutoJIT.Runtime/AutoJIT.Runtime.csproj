@@ -53,6 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoJITExceptionBase.cs" />
+    <Compile Include="ClipboardIsEmptyException.cs" />
+    <Compile Include="EnvironmentService.cs" />
+    <Compile Include="MathService.cs" />
+    <Compile Include="StringService.cs" />
     <Compile Include="Variants\ArrayVariant.cs" />
     <Compile Include="AutoitRuntime.cs" />
     <Compile Include="Attrubutes\AutoJITCompilerFunctionAttribute.cs" />

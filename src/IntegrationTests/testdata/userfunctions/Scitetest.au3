@@ -1,23 +1,9 @@
-#include <WinAPITheme.au3>
+#include <WinAPI.au3>
 
 Global $Chrono[21] ; Chronometer values
 Global $Mess = "Timer values"&@CRLF ; String to contain MsgBox content.
 
-ConsoleWrite(__WINVER2())
-Exit
 
-
-
-Func __WINVER2()
-	Local $tOSVI = DllStructCreate($tagOSVERSIONINFO)
-	ConsoleWrite("S: " & DllStructGetSize($tOSVI) & @CRLF)
-	DllStructSetData($tOSVI, 1, DllStructGetSize($tOSVI))
-
-	Local $aRet = DllCall('kernel32.dll', 'bool', 'GetVersionExW', 'struct*', $tOSVI)
-	If @error Or Not $aRet[0] Then Return SetError(@error, @extended, 0)
-	Return BitOR(BitShift(DllStructGetData($tOSVI, 2), -8), DllStructGetData($tOSVI, 3))
-EndFunc   ;==>__WINVER
-Local $hui, $lum, $sat
 
 ; Actual timing loops
 ; ============================================================================
@@ -25,7 +11,7 @@ For $i = 1 To 20 ; 20 iterations of set
 	$go = TimerInit() ; Start your engines!
 
 	For $j = 1 To 10 ; 9999 iterations of commands her
-		_WinAPI_GetCurrentThemeName()
+			_WinAPI_CreateSize(1, 2)
 	Next ; $j
 
 	$Chrono[$i] = TimerDiff($go) ; Ok, how long did it take?

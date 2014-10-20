@@ -25,35 +25,82 @@ namespace AutoJITRuntime
         private readonly AutoitContext<T> _context;
         private readonly Dictionary<string, MethodInfo> _methodStore;
         private readonly MarshalBridge _marshalBridge;
+        private readonly EnvironmentService _environmentService;
+        private readonly MathService _mathService;
+        private readonly StringService _stringService;
+
 
         public AutoitRuntime( AutoitContext<T> context ) {
             _context = context;
             var methodInfos = GetType().GetMethods();
             _methodStore = methodInfos.ToDictionary( x => x.Name, x => x );
             _marshalBridge = new MarshalBridge();
+            _environmentService = new EnvironmentService();
+            _mathService = new MathService();
+            _stringService = new StringService();
         }
 
         [Inlineable]
         public Variant ACos( Variant expression ) {
-            return Math.Acos( expression );
+            SetError( 0, 0, 0 );
+
+
+            try
+            {
+                return _mathService.ACos(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant ASin( Variant expression ) {
-            return Math.Asin( expression );
+            SetError( 0, 0, 0 );
+            
+            try
+            {
+                return _mathService.ACos(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant ATan( Variant expression ) {
-            return Math.Atan( expression );
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _mathService.ATan(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant Abs( Variant expression ) {
-            return Math.Abs( expression );
+            SetError( 0, 0, 0 );
+
+
+            try
+            {
+                return _mathService.Abs(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant AdlibRegister( Variant function, Variant time = null ) {
+            SetError( 0, 0, 0 );
+
             if ( time == null ) {
                 time = 250;
             }
@@ -68,6 +115,8 @@ namespace AutoJITRuntime
         }
 
         public Variant AdlibUnRegister( Variant function = null ) {
+            SetError( 0, 0, 0 );
+
             if ( function == null ) {
                 if ( _context.LibRegister.Any() ) {
                     _context.LibRegister.Remove( _context.LibRegister.Last().Key );
@@ -84,11 +133,15 @@ namespace AutoJITRuntime
 
         [Inlineable]
         public Variant Asc( Variant @char ) {
+            SetError( 0, 0, 0 );
+
             var character = ( (string) @char ).FirstOrDefault();
             return character;
         }
 
         public Variant AscW( Variant @char ) {
+            SetError( 0, 0, 0 );
+
             var character = ( (string) @char ).FirstOrDefault();
             return character;
         }
@@ -98,22 +151,32 @@ namespace AutoJITRuntime
         }
 
         public Variant Opt( Variant option, Variant param = null ) {
+            SetError( 0, 0, 0 );
+
             return AutoItSetOption( option, param );
         }
 
         public Variant AutoItSetOption( Variant option, Variant param = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant AutoItWinGetTitle() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant AutoItWinSetTitle( Variant newtitle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant Beep( Variant Frequency = null, Variant Duration = null ) {
+            SetError( 0, 0, 0 );
+
             if ( Frequency == null ) {
                 Frequency = 500;
             }
@@ -128,14 +191,20 @@ namespace AutoJITRuntime
         }
 
         public Variant Binary( Variant expression ) {
+            SetError( 0, 0, 0 );
+
             return expression.GetBinary();
         }
 
         public Variant BinaryLen( Variant binary ) {
+            SetError( 0, 0, 0 );
+
             return binary.GetBinary().Length;
         }
 
         public Variant BinaryMid( Variant binary, Variant start, Variant count = null ) {
+            SetError( 0, 0, 0 );
+
             var bytes = binary.GetBinary();
             if ( start < 1 ||
                  start >= bytes.Length ||
@@ -146,6 +215,8 @@ namespace AutoJITRuntime
         }
 
         public Variant BinaryToString( Variant expression, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             if ( flag == null ) {
                 flag = 1;
             }
@@ -193,61 +264,105 @@ namespace AutoJITRuntime
 
         [Inlineable]
         public Variant BitAND( Variant value1, Variant value2, params Variant[] valuen ) {
-            var res = (int) value1&(int) value2;
-            foreach (var variant in valuen) {
-                res &= variant;
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _mathService.BitAND(value1, value2, valuen);
             }
-            return res;
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant BitNOT( Variant value ) {
-            return ~value;
+            SetError( 0, 0, 0 );
+
+
+            try
+            {
+                return _mathService.BitNOT(value);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant BitOR( Variant value1, Variant value2, params Variant[] valuen ) {
-            var res = (int) value1|(int) value2;
-            foreach (var variant in valuen) {
-                res |= variant;
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _mathService.BitOR(value1, value2, valuen);
             }
-            return res;
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant BitRotate( Variant value, Variant shift = null, Variant size = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant BitShift( Variant value, Variant shift ) {
-            if ( shift > 0 ) {
-                return value >> shift.GetInt();
+            SetError( 0, 0, 0 );
+
+
+            try
+            {
+                return _mathService.BitShift(value, shift);
             }
-            return value << -shift.GetInt();
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant BitXOR( Variant value1, Variant value2, params Variant[] valuen ) {
-            var res = (int) value1^(int) value2;
-            foreach (var variant in valuen) {
-                res ^= variant;
+            SetError( 0, 0, 0 );
+
+
+            try
+            {
+                return _mathService.BitXOR(value1, value2, valuen);
             }
-            return res;
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant BlockInput( Variant flag ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant Break( Variant mode ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant CDTray( Variant drive, Variant status ) {
+            SetError( 0, 0, 0 );
+
+
             throw new NotImplementedException();
         }
 
         public Variant Call( Variant function, params Variant[] paramsN ) {
+            SetError( 0, 0, 0 );
+
             if ( _methodStore.ContainsKey( function ) ) {
                 return Variant.Create( _methodStore[function].Invoke( this, paramsN ) );
             }
@@ -259,11 +374,22 @@ namespace AutoJITRuntime
 
         [Inlineable]
         public Variant Ceiling( Variant expression ) {
-            return Math.Ceiling( (double) expression );
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _mathService.Ceiling(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant Chr( Variant ASCIIcode ) {
+            SetError( 0, 0, 0 );
+
             if ( ASCIIcode < 0 ) {
                 return string.Empty;
             }
@@ -276,6 +402,8 @@ namespace AutoJITRuntime
 
         [Inlineable]
         public Variant ChrW( Variant UNICODEcode ) {
+            SetError( 0, 0, 0 );
+
             if ( UNICODEcode > ushort.MaxValue ) {
                 return SetError( UNICODEcode, null, string.Empty );
             }
@@ -288,14 +416,32 @@ namespace AutoJITRuntime
         }
 
         public Variant ClipGet() {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try {
+                return _environmentService.ClipGet();
+            }
+            catch (AutoJITExceptionBase ex) {
+                return SetError( Variant.Create( ex.Error ), Variant.Create( ex.Extended ), Variant.Create( ex.Return ) );
+            }
         }
 
         public Variant ClipPut( Variant value ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _environmentService.ClipPut(value);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant ConsoleRead( Variant peek = null, Variant binary = null ) {
+            SetError( 0, 0, 0 );
+
             if ( peek == null ) {
                 peek = false;
             }
@@ -319,6 +465,8 @@ namespace AutoJITRuntime
         }
 
         public Variant ConsoleWrite( Variant data ) {
+            SetError( 0, 0, 0 );
+
             var @string = data.GetString();
 
             Console.Write( @string );
@@ -326,6 +474,8 @@ namespace AutoJITRuntime
         }
 
         public Variant ConsoleWriteError( Variant data ) {
+            SetError( 0, 0, 0 );
+
             if ( data.IsBinary ) {
                 var binary = data.GetBinary();
                 Console.Error.Write( binary.Select( x => (char) x ).ToArray() );
@@ -344,76 +494,119 @@ namespace AutoJITRuntime
             Variant clicks = null,
             Variant x = null,
             Variant y = null ) {
+            SetError( 0, 0, 0 );
+            
             throw new NotImplementedException();
         }
 
         public Variant ControlCommand( Variant title, Variant text, Variant controlID, Variant command, Variant option = null ) {
+            SetError( 0, 0, 0 );
+            
             throw new NotImplementedException();
         }
 
         public Variant ControlDisable( Variant title, Variant text, Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlEnable( Variant title, Variant text, Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlFocus( Variant title, Variant text, Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlGetFocus( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlGetHandle( Variant title, Variant text, Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlGetPos( Variant title, Variant text, Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlGetText( Variant title, Variant text, Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlHide( Variant title, Variant text, Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlListView( Variant title, Variant text, Variant controlID, Variant command, params Variant[] optionN ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlMove( Variant title, Variant text, Variant controlID, Variant x, Variant y, Variant width = null, Variant height = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlSend( Variant title, Variant text, Variant controlID, Variant @string, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlSetText( Variant title, Variant text, Variant controlID, Variant newtext, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlShow( Variant title, Variant text, Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ControlTreeView( Variant title, Variant text, Variant controlID, Variant command, Variant option1 = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant Cos( Variant expression ) {
-            return Math.Cos( expression );
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _mathService.Cos(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant Dec( Variant hex, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             Int64 result;
             if ( Int64.TryParse( hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result ) ) {
                 if ( result <= int.MaxValue &&
@@ -426,39 +619,49 @@ namespace AutoJITRuntime
         }
 
         public Variant DirCopy( Variant sourcedir, Variant destdir, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DirCreate( Variant path ) {
+            SetError( 0, 0, 0 );
+            
             throw new NotImplementedException();
         }
 
         public Variant DirGetSize( Variant path, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DirMove( Variant sourcedir, Variant destdir, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DirRemove( Variant path, Variant recurse = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DllCall( Variant dll, Variant returntype, Variant function, params Variant[] paramtypen ) {
-            
-            
+            SetError(0, 0, 0);
+
             if ( dll.IsPtr ) {
                 return DllCallInternal( dll.GetIntPtr(), returntype.GetString(), function.GetString(), paramtypen );
             }
 
             var handle = DllOpen( dll );
-            
+
             if ( handle == -1 ) {
                 return SetError( 1, null, 0 );
             }
 
-            var result = DllCallInternal(handle.GetIntPtr(), returntype.GetString(), function.GetString(), paramtypen);
+            var result = DllCallInternal( handle.GetIntPtr(), returntype.GetString(), function.GetString(), paramtypen );
 
             if ( result.IsInt32 ) {
                 return result;
@@ -469,6 +672,8 @@ namespace AutoJITRuntime
         }
 
         private Variant DllCallInternal( IntPtr dll, string returntype, string function, Variant[] paramtypen ) {
+            SetError(0, 0, 0);
+
             try {
                 return _marshalBridge.DllCall( dll, returntype, function, paramtypen );
             }
@@ -487,27 +692,39 @@ namespace AutoJITRuntime
         }
 
         public Variant DllCallAddress( Variant returntype, Variant address, params Variant[] paramtypen ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DllCallbackFree( Variant handle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DllCallbackGetPtr( Variant handle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DllCallbackRegister( Variant function, Variant returntype, params Variant[] @params ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DllClose( Variant dllhandle ) {
+            SetError(0, 0, 0);
+
             MarshalBridge.FreeLibrary( dllhandle );
             return 0;
         }
 
         public Variant DllOpen( Variant filename ) {
+            SetError(0, 0, 0);
+
             try {
                 var library = MarshalBridge.LoadLibrary( filename.GetString() );
                 if ( library == IntPtr.Zero ) {
@@ -521,21 +738,27 @@ namespace AutoJITRuntime
         }
 
         public Variant DllStructCreate( Variant Struct, Variant Pointer = null ) {
+            SetError(0, 0, 0);
+
             var runtimeStruct = _marshalBridge.CreateRuntimeStruct( Struct.GetString() );
 
             var instance = (IRuntimeStruct) runtimeStruct.CreateInstance<object>();
 
-            var @struct = (StructVariant)Variant.Create(instance);
+            var @struct = (StructVariant) Variant.Create( instance );
 
             if ( Pointer != null ) {
-                @struct.InitUnmanaged(Pointer.GetIntPtr());
+                @struct.InitUnmanaged( Pointer.GetIntPtr() );
             }
 
             return @struct;
         }
 
         public Variant DllStructGetData( Variant Struct, Variant Element, Variant index = null ) {
+            SetError(0, 0, 0);
+
             if ( index != null ) {
+                SetError( 0, 0, 0 );
+
                 throw new NotImplementedException();
             }
             var structVariant = Struct as StructVariant;
@@ -547,12 +770,16 @@ namespace AutoJITRuntime
         }
 
         public Variant DllStructGetPtr( Variant Struct, Variant Element = null ) {
+            SetError(0, 0, 0);
+
             var structVariant = Struct as StructVariant;
             if ( structVariant == null ) {
                 return SetError( 1, null, 0 );
             }
 
             if ( Element != null ) {
+                SetError( 0, 0, 0 );
+
                 throw new NotImplementedException();
             }
 
@@ -561,6 +788,8 @@ namespace AutoJITRuntime
         }
 
         public Variant DllStructGetSize( Variant Struct ) {
+            SetError(0, 0, 0);
+
             var runtimeStruct = Struct.GetValue() as IRuntimeStruct;
             if ( runtimeStruct == null ) {
                 return SetError( 1, null, 0 );
@@ -570,6 +799,8 @@ namespace AutoJITRuntime
         }
 
         public Variant DllStructSetData( Variant Struct, Variant Element, Variant value, Variant index = null ) {
+            SetError(0, 0, 0);
+
             if ( index == null ) {
                 index = 1;
             }
@@ -600,66 +831,105 @@ namespace AutoJITRuntime
                     return Variant.Create( runtimeStruct.GetElement( Element.GetInt()-1 ) );
                 }
             }
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveGetDrive( Variant type ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveGetFileSystem( Variant path ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveGetLabel( Variant path ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveGetSerial( Variant path ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveGetType( Variant path, Variant operation = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveMapAdd( Variant device, Variant remoteshare, Variant flags = null, Variant user = null, Variant password = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveMapDel( Variant drive ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveMapGet( Variant device ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveSetLabel( Variant path, Variant label ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveSpaceFree( Variant path ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveSpaceTotal( Variant path ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant DriveStatus( Variant path ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant EnvGet( Variant envvariable ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _environmentService.EnvGet(envvariable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant EnvSet( Variant envvariable, Variant value = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant EnvUpdate() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -673,22 +943,39 @@ namespace AutoJITRuntime
 
         [Inlineable]
         public Variant Exp( Variant expression ) {
-            return Math.Exp( expression );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _mathService.Exp(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant FileChangeDir( Variant path ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileClose( Variant filehandle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileCopy( Variant source, Variant dest, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileCreateNTFSLink( Variant source, Variant hardlink, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -702,10 +989,14 @@ namespace AutoJITRuntime
             Variant hotkey = null,
             Variant iconnumber = null,
             Variant state = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileDelete( Variant filename ) {
+            SetError(0, 0, 0);
+
             var fragments = filename.GetString().Split( '\\' );
             var dir = string.Join( "\\", fragments.Take( fragments.Length-1 ) );
             var toDelete = Directory.GetFiles( dir, fragments.Last() );
@@ -725,74 +1016,110 @@ namespace AutoJITRuntime
         }
 
         public Variant FileExists( Variant path ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileFindFirstFile( Variant filename ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileFindNextFile( Variant search ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileFlush( Variant filehandle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetAttrib( Variant filename ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetEncoding( Variant filehandlefilename, Variant mode = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetLongName( Variant filename, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetPos( Variant filehandle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetShortName( Variant filename, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetShortcut( Variant lnk ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetSize( Variant filename ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetTime( Variant filename, Variant option = null, Variant format = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileGetVersion( Variant filename, Variant stringname = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileInstall( Variant source, Variant dest, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileMove( Variant source, Variant dest, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileOpen( Variant filename, Variant mode = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileOpenDialog( Variant title, Variant initdir, Variant filter, Variant options = null, Variant defaultname = null, Variant hwnd = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileRead( Variant filehandlefilename, Variant count = null ) {
+            SetError(0, 0, 0);
+
             if ( count == null ) {
                 count = -1;
             }
@@ -823,42 +1150,62 @@ namespace AutoJITRuntime
         }
 
         public Variant FileReadLine( Variant filehandlefilename, Variant line = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileReadToArray( Variant filehandlefilename ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileRecycle( Variant source ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileRecycleEmpty( Variant source ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileSaveDialog( Variant title, Variant initdir, Variant filter, Variant options = null, Variant defaultname = null, Variant hwnd = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileSelectFolder( Variant dialogtext, Variant rootdir, Variant flag = null, Variant initialdir = null, Variant hwnd = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileSetAttrib( Variant filepattern, Variant RASHNOT, Variant recurse = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileSetPos( Variant filehandle, Variant offset, Variant origin ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileSetTime( Variant filepattern, Variant time, Variant type = null, Variant recurse = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FileWrite( Variant filehandlefilename, Variant textdata ) {
+            SetError(0, 0, 0);
+
             try {
                 FileStream fileStream;
                 if ( filehandlefilename.IsPtr ) {
@@ -876,19 +1223,34 @@ namespace AutoJITRuntime
         }
 
         public Variant FileWriteLine( Variant filehandlefilename, Variant line ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant Floor( Variant expression ) {
-            return Math.Floor( (double) expression );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _mathService.Floor(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant FtpSetProxy( Variant mode = null, Variant proxyport = null, Variant username = null, Variant password = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant FuncName( Variant Functionvariable ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -901,6 +1263,8 @@ namespace AutoJITRuntime
             Variant style = null,
             Variant exStyle = null,
             Variant parent = null ) {
+            SetError( 0, 0, 0 );
+
             if ( width == null ) {
                 width = 0;
             }
@@ -950,6 +1314,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -961,6 +1327,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -972,6 +1340,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -983,10 +1353,14 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateContextMenu( Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -998,10 +1372,14 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateDummy( Variant d ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1013,10 +1391,14 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateGraphic( Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1028,6 +1410,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1040,6 +1424,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1051,6 +1437,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1062,6 +1450,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1073,6 +1463,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1084,18 +1476,26 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateListViewItem( Variant text, Variant listviewID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateMenu( Variant submenutext, Variant menuID = null, Variant menuentry = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateMenuItem( Variant text, Variant menuID, Variant menuentry = null, Variant menuradioitem = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1107,10 +1507,14 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateObj( Variant ObjectVar, Variant left, Variant top, Variant width = null, Variant height = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1122,6 +1526,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1132,6 +1538,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1143,6 +1551,8 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1153,82 +1563,122 @@ namespace AutoJITRuntime
             Variant height = null,
             Variant style = null,
             Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateTab( Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateTabItem( Variant text ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateTreeView( Variant left, Variant top, Variant width, Variant height = null, Variant style = null, Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateTreeViewItem( Variant text, Variant treeviewID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlCreateUpdown( Variant inputcontrolID, Variant style = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlDelete( Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlGetHandle( Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlGetState( Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlRead( Variant controlID, Variant advanced = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlRecvMsg( Variant controlID, Variant msg, Variant wParam = null, Variant lParamType = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlRegisterListViewSort( Variant controlID, Variant function ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSendMsg( Variant controlID, Variant msg, Variant wParam, Variant lParam ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSendToDummy( Variant controlID, Variant state = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetBkColor( Variant controlID, Variant backgroundcolor ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetColor( Variant controlID, Variant textcolor ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetCursor( Variant controlID, Variant cursorID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetData( Variant controlID, Variant data, Variant @default = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetDefBkColor( Variant defbkcolor, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetDefColor( Variant deftextcolor, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1239,78 +1689,116 @@ namespace AutoJITRuntime
             Variant attribute = null,
             Variant fontname = null,
             Variant quality = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetGraphic( Variant controlID, Variant type, params Variant[] parN ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetImage( Variant controlID, Variant filename, Variant iconname = null, Variant icontype = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetLimit( Variant controlID, Variant max, Variant min = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetOnEvent( Variant controlID, Variant function ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetPos( Variant controlID, Variant left, Variant top = null, Variant width = null, Variant height = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetResizing( Variant controlID, Variant resizing ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetState( Variant controlID, Variant state ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetStyle( Variant controlID, Variant style, Variant exStyle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUICtrlSetTip( Variant controlID, Variant tiptext, Variant title = null, Variant icon = null, Variant options = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUIDelete( Variant winhandle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUIGetCursorInfo( Variant winhandle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUIGetMsg( Variant advanced = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUIGetStyle( Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUIRegisterMsg( Variant msgID, Variant function ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetAccelerators( Variant accelerators, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetBkColor( Variant background, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetCoord( Variant left, Variant top, Variant width = null, Variant height = null, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetCursor( Variant cursorID = null, Variant @override = null, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1321,43 +1809,63 @@ namespace AutoJITRuntime
             Variant fontname = null,
             Variant winhandle = null,
             Variant quality = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetHelp( Variant helpfile, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetIcon( Variant iconfile, Variant iconID = null, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetOnEvent( Variant specialID, Variant function, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetState( Variant flag = null, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISetStyle( Variant Style, Variant ExStyle = null, Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUIStartGroup( Variant winhandle = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant GUISwitch( Variant winhandle, Variant tabitemID = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant HWnd( Variant expression ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant Hex( Variant expression, Variant length = null ) {
+            SetError(0, 0, 0);
+
             if ( expression.IsInt32 ) {
                 if ( length == null ||
                      length.IsDefault ) {
@@ -1395,66 +1903,98 @@ namespace AutoJITRuntime
                 }
                 return new string( c ).ToUpper();
             }
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant HotKeySet( Variant key, Variant function = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant HttpSetProxy( Variant mode = null, Variant proxyport = null, Variant username = null, Variant password = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant HttpSetUserAgent( Variant useragent ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant InetClose( Variant handle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant InetGet( Variant URL, Variant filename, Variant options = null, Variant background = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant InetGetInfo( Variant handle = null, Variant index = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant InetGetSize( Variant URL, Variant options = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant InetRead( Variant URL, Variant options = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IniDelete( Variant filename, Variant section, Variant key = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IniRead( Variant filename, Variant section, Variant key, Variant @default ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IniReadSection( Variant filename, Variant section ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IniReadSectionNames( Variant filename ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IniRenameSection( Variant filename, Variant section, Variant newsection, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IniWrite( Variant filename, Variant section, Variant key, Variant value ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IniWriteSection( Variant filename, Variant section, Variant data, Variant index = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1469,167 +2009,252 @@ namespace AutoJITRuntime
             Variant top = null,
             Variant timeout = null,
             Variant hwnd = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant Int( Variant expression, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IsAdmin() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IsArray( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsArray;
         }
 
         public Variant IsBinary( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsBinary;
         }
 
         [Inlineable]
         public Variant IsBool( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsBool;
         }
 
         public Variant IsDeclared( Variant expression ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IsDllStruct( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsStruct;
         }
 
         [Inlineable]
         public Variant IsFloat( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsDouble;
         }
 
         public Variant IsFunc( Variant expression ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IsHWnd( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsPtr && MarshalBridge.IsWindow( variable );
         }
 
         [Inlineable]
         public Variant IsInt( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsInt32 || variable.IsInt64;
         }
 
         [Inlineable]
         public Variant IsKeyword( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsDefault || variable.IsNull;
         }
 
         [Inlineable]
         public Variant IsNumber( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsInt32 || variable.IsInt64 || variable.IsDouble;
         }
 
         public Variant IsObj( Variant variable ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant IsPtr( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsPtr;
         }
 
         [Inlineable]
         public Variant IsString( Variant variable ) {
+            SetError(0, 0, 0);
+
             return variable.IsString;
         }
 
         [Inlineable]
         public Variant Log( Variant expression ) {
-            return Math.Log( expression );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _mathService.Log(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant MemGetStats() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant Mod( Variant value1, Variant value2 ) {
-            if ( value1.IsInt32 ||
-                 value2.IsInt32 ) {
-                return value1.GetInt() % value2.GetInt();
-            }
+            SetError(0, 0, 0);
 
-            return value1.GetDouble() % value2.GetDouble();
+            try
+            {
+                return _mathService.Mod(value1, value2);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant MouseClick( Variant button, Variant x = null, Variant y = null, Variant clicks = null, Variant speed = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant MouseClickDrag( Variant button, Variant x1, Variant y1, Variant x2, Variant y2, Variant speed = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant MouseDown( Variant button ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant MouseGetCursor() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant MouseGetPos( Variant dimension = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant MouseMove( Variant x, Variant y, Variant speed = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant MouseUp( Variant button ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant MouseWheel( Variant direction, Variant clicks = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant MsgBox( Variant flag, Variant title, Variant text, Variant timeout = null, Variant hwnd = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant Number( Variant expression, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ObjCreate( Variant classname, Variant servername = null, Variant username = null, Variant password = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ObjCreateInterface( Variant CLSID, Variant IID = null, Variant interfacedescription = null, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ObjEvent( Variant ObjectVar, Variant functionprefix = null, Variant interfacename = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ObjGet( Variant filename, Variant classname = null, Variant instance = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ObjName( Variant Objectvariable, Variant Flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant OnAutoItExitRegister( Variant function ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant OnAutoItExitUnRegister( Variant function ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant Ping( Variant addresshostname, Variant timeout = null ) {
+            SetError(0, 0, 0);
+
             if ( timeout == null ) {
                 timeout = 4000;
             }
@@ -1637,10 +2262,14 @@ namespace AutoJITRuntime
         }
 
         public Variant PixelChecksum( Variant left, Variant top, Variant right, Variant bottom, Variant step = null, Variant hwnd = null, Variant mode = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant PixelGetColor( Variant x, Variant y, Variant hwnd = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1653,14 +2282,20 @@ namespace AutoJITRuntime
             Variant shadevariation = null,
             Variant step = null,
             Variant hwnd = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ProcessClose( Variant process ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ProcessExists( Variant process ) {
+            SetError(0, 0, 0);
+
             var processesByName = Process.GetProcessesByName( process ).SingleOrDefault();
             if ( processesByName != null ) {
                 return processesByName.Id;
@@ -1676,10 +2311,14 @@ namespace AutoJITRuntime
         }
 
         public Variant ProcessGetStats( Variant process = null, Variant type = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ProcessList( Variant name = null ) {
+            SetError(0, 0, 0); 
+            
             var processes = name == null
                 ? Process.GetProcesses()
                 : Process.GetProcessesByName( name );
@@ -1699,79 +2338,126 @@ namespace AutoJITRuntime
         }
 
         public Variant ProcessSetPriority( Variant process, Variant priority ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ProcessWait( Variant process, Variant timeout = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ProcessWaitClose( Variant process, Variant timeout = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ProgressOff() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ProgressOn( Variant title, Variant maintext, Variant subtext = null, Variant xpos = null, Variant ypos = null, Variant opt = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant ProgressSet( Variant percent, Variant subtext = null, Variant maintext = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant Ptr( Variant expression ) {
+            SetError(0, 0, 0);
+
             return new IntPtr( expression );
         }
 
         public Variant Random( Variant Min = null, Variant Max = null, Variant Flag = null ) {
-            if ( Min == null ) {
+            SetError(0, 0, 0);
+
+            if (Min == null)
+            {
                 Min = 0;
             }
 
-            if ( Max == null ) {
+            if (Max == null)
+            {
                 Max = 1;
             }
 
-            if ( Flag == null ) {
+            if (Flag == null)
+            {
                 Flag = 0;
             }
 
-            throw new NotImplementedException();
+
+            try
+            {
+                return _mathService.Random(Min, Max, Flag);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant RegDelete( Variant keyname, Variant valuename = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant RegEnumKey( Variant keyname, Variant instance ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant RegEnumVal( Variant keyname, Variant instance ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant RegRead( Variant keyname, Variant valuename ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant RegWrite( Variant keyname, Variant valuename = null, Variant type = null, Variant value = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant Round( Variant expression, Variant decimalplaces = null ) {
+            SetError( 0, 0, 0 );
+
             if ( decimalplaces == null ) {
                 decimalplaces = 0;
             }
 
-            return Math.Round( (double) expression, decimalplaces );
+
+            try {
+                return _mathService.Round( expression, decimalplaces );
+            }
+            catch (AutoJITExceptionBase ex) {
+                return SetError( Variant.Create( ex.Error ), Variant.Create( ex.Extended ), Variant.Create( ex.Return ) );
+            }
         }
 
         public Variant Run( Variant program, Variant workingdir = null, Variant showflag = null, Variant opt_flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1784,6 +2470,8 @@ namespace AutoJITRuntime
             Variant workingdir = null,
             Variant showflag = null,
             Variant optflag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1796,26 +2484,45 @@ namespace AutoJITRuntime
             Variant workingdir = null,
             Variant show_flag = null,
             Variant opt_flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant RunWait( Variant program, Variant workingdir = null, Variant showflag = null, Variant optflag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant SRandom( Variant Seed ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _mathService.SRandom(Seed);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant Send( Variant keys, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant SendKeepActive( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant SetError( Variant code, Variant extended = null, Variant returnvalue = null ) {
+            SetError(0, 0, 0);
+
             if ( returnvalue == null ) {
                 returnvalue = 0;
             }
@@ -1826,6 +2533,8 @@ namespace AutoJITRuntime
         }
 
         public Variant SetExtended( Variant code, Variant returnvalue = null ) {
+            SetError(0, 0, 0);
+
             if ( returnvalue == null ) {
                 returnvalue = 0;
             }
@@ -1836,6 +2545,8 @@ namespace AutoJITRuntime
         }
 
         public Variant ShellExecute( Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null ) {
+            SetError(0, 0, 0);
+
             if ( parameters == null ) {
                 parameters = string.Empty;
             }
@@ -1890,6 +2601,8 @@ namespace AutoJITRuntime
         }
 
         public Variant ShellExecuteWait( Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null ) {
+            SetError(0, 0, 0);
+
             var pid = ShellExecute( filename, parameters, workingdir, verb, showflag );
             if ( pid ) {
                 var process = Process.GetProcessById( pid );
@@ -1902,24 +2615,41 @@ namespace AutoJITRuntime
         }
 
         public Variant Shutdown( Variant code ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant Sin( Variant expression ) {
-            return Math.Sin( expression );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _mathService.Sin(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant Sleep( Variant delay ) {
+            SetError(0, 0, 0);
+
             Thread.Sleep( delay );
             return 0;
         }
 
         public Variant SoundPlay( Variant filename, Variant wait = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant SoundSetWaveVolume( Variant percent ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1931,10 +2661,14 @@ namespace AutoJITRuntime
             Variant xpos = null,
             Variant ypos = null,
             Variant opt = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant SplashOff( Variant expression ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
@@ -1949,54 +2683,114 @@ namespace AutoJITRuntime
             Variant fontname = null,
             Variant fontsz = null,
             Variant fontwt = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant Sqrt( Variant expression ) {
-            return Math.Sqrt( expression );
+            SetError(0, 0, 0);
+
+
+            try
+            {
+                return _mathService.Sqrt(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StatusbarGetText( Variant title, Variant text = null, Variant part = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant StderrRead( Variant process_id, Variant peek = null, Variant binary = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant StdinWrite( Variant process_id, Variant data = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant StdioClose( Variant process_id ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant StdoutRead( Variant process_id, Variant peek = null, Variant binary = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant String( Variant expression ) {
+            SetError(0, 0, 0);
+
             return expression.GetString();
         }
 
         [Inlineable]
         public Variant StringAddCR( Variant @string ) {
-            return @string.GetString().Replace( "\n", "\r\n" );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringAddCR(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringCompare( Variant string1, Variant string2, Variant casesense = null ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StringCompare(string1, string2, casesense);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringFormat( Variant formatcontrol, Variant var1, params Variant[] varN ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StingFormat(formatcontrol, var1, varN);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringFromASCIIArray( Variant array, Variant start = null, Variant end = null, Variant encoding = null ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StingFromASCIIArray(array, start, end, encoding);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringInStr(
@@ -2006,176 +2800,362 @@ namespace AutoJITRuntime
             Variant occurrence = null,
             Variant start = null,
             Variant count = null ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StingInString(@string, substring, casesense, occurrence, start, count);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringIsASCII( Variant @string ) {
-            return @string.GetString().All( c => ( c > -1 && c < 128 ) );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StingIsASCII(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringIsAlNum( Variant @string ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StringIsAINum(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringIsAlpha( Variant @string ) {
-            return @string.GetString().All( char.IsLetter );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StingIsAlpha(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringIsDigit( Variant @string ) {
-            return @string.GetString().All( char.IsDigit );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StingIsDigit(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringIsFloat( Variant @string ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StingIsFloat(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringIsInt( Variant @string ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StingIsInt(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringIsLower( Variant @string ) {
-            return @string.GetString().All( char.IsLower );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringIsLower(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringIsSpace( Variant @string ) {
-            return @string.GetString().All( char.IsWhiteSpace );
+            SetError(0, 0, 0);
+
+
+            try
+            {
+                return _stringService.StringIsSpace(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringIsUpper( Variant @string ) {
-            return @string.GetString().All( char.IsUpper );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringIsUpper(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringIsXDigit( Variant @string ) {
-            return @string.GetString().All( c => ( ( c >= 0 && c <= 9 ) || ( ( c >= 'a' || c >= 'A' ) && ( c <= 'F' || c <= 'f' ) ) ) );
+            SetError( 0, 0, 0 );
+
+            try {
+                return _stringService.StringIsXDigit( @string );
+            }
+            catch (AutoJITExceptionBase ex) {
+                return SetError( Variant.Create( ex.Error ), Variant.Create( ex.Extended ), Variant.Create( ex.Return ) );
+            }
         }
 
         [Inlineable]
         public Variant StringLeft( Variant @string, Variant count ) {
-            var fullString = @string.GetString();
-            if ( fullString.Length <= count ) {
-                return fullString;
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringLeft(@string, count);
             }
-            return fullString.Substring( 0, count );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringLen( Variant @string ) {
-            return @string.ToString().Length;
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringLen(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringLower( Variant @string ) {
-            return @string.GetString().ToLower();
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringLower(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringMid( Variant @string, Variant start, Variant count = null ) {
+            SetError(0, 0, 0);
+
             var toMid = @string.GetString();
-            if ( count == null ) {
-                count = toMid.Length-start;
+            if (count == null)
+            {
+                count = toMid.Length - start;
             }
 
-            if ( start < 1 ||
-                 start-1 > toMid.Length ) {
-                return string.Empty;
+            try
+            {
+                return _stringService.StringMid(toMid, start, count);
             }
-
-            if ( start-1+count > toMid.Length ) {
-                return toMid.Substring( start-1, toMid.Length-( start-1 ) );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
-
-            return toMid.Substring( start-1, count );
         }
 
         public Variant StringRegExp( Variant test, Variant pattern, Variant flag = null, Variant offset = null ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StringRegExp(test, pattern, flag, offset);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringRegExpReplace( Variant test, Variant pattern, Variant replace, Variant count = null ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StringRegExpReplace(test, pattern, replace, count);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringReplace( Variant @string, Variant searchstringstart, Variant replacestring, Variant occurrence = null, Variant casesense = null ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StringReplace(@string, searchstringstart, replacestring, occurrence, casesense);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringReverse( Variant @string, Variant flag = null ) {
+            SetError(0, 0, 0);
+
             if ( flag == null ) {
                 flag = 0;
             }
-            return new String( @string.GetString().Reverse().ToArray() );
+
+            try
+            {
+                return _stringService.StringReverse(@string, flag);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringRight( Variant @string, Variant count ) {
-            var fullString = @string.GetString();
-            if ( fullString.Length <= count ) {
-                return fullString;
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringRight(@string, count);
             }
-            return fullString.Substring( fullString.Length-count, count );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringSplit( Variant @string, Variant delimiters, Variant flag = null ) {
-            throw new NotImplementedException();
+            SetError( 0, 0, 0 );
+
+            try
+            {
+                return _stringService.StringSplit(@string, delimiters, flag);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringStripCR( Variant @string ) {
-            return @string.GetString().Replace( "\r", string.Empty );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringStripCR(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringStripWS( Variant @string, Variant flag ) {
-            return @string.GetString().Replace( " ", string.Empty );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringStripWS(@string, flag);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant StringToASCIIArray( Variant @string, Variant start = null, Variant end = null, Variant encoding = null ) {
+            SetError(0, 0, 0);
+
             var toConvert = @string.GetString();
 
-            if ( start == null ) {
+            if (start == null)
+            {
                 start = 0;
             }
 
-            if ( end == null ) {
+            if (end == null)
+            {
                 end = toConvert.Length;
             }
 
-            if ( encoding == null ) {
+            if (encoding == null)
+            {
                 encoding = 0;
             }
 
-            if ( start+end >= toConvert.Length ) {
-                return string.Empty;
+
+            try
+            {
+                return _stringService.StringToASCIIArray(toConvert, start, end, encoding);
             }
-
-            byte[] bytes;
-
-            switch (encoding.GetInt()) {
-                case 0:
-                    bytes = Encoding.Unicode.GetBytes( toConvert.Substring( start, end ) );
-                    break;
-                case 1:
-                    bytes = Encoding.Default.GetBytes( toConvert.Substring( start, end ) );
-                    break;
-                case 2:
-                    bytes = Encoding.UTF8.GetBytes( toConvert.Substring( start, end ) );
-                    break;
-                default:
-                    return string.Empty;
-            }
-
-            return bytes.Select( x => Variant.Create( (int) x ) ).ToArray();
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }         
         }
 
         public Variant StringToBinary( Variant expression, Variant flag = null ) {
+            SetError(0, 0, 0);
+
             if ( flag == null ) {
                 flag = 1;
             }
@@ -2203,158 +3183,250 @@ namespace AutoJITRuntime
 
         [Inlineable]
         public Variant StringTrimLeft( Variant @string, Variant count ) {
-            var toTrim = @string.GetString();
-            if ( toTrim.Length-count <= 0 ) {
-                return string.Empty;
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringTrimLeft(@string, count);
             }
-            return toTrim.Substring( count, toTrim.Length-count );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }         
         }
 
         [Inlineable]
         public Variant StringTrimRight( Variant @string, Variant count ) {
-            var toTrim = @string.GetString();
-            if ( toTrim.Length-count <= 0 ) {
-                return string.Empty;
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringTrimRight(@string, count);
             }
-            return toTrim.Substring( 0, toTrim.Length-count );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant StringUpper( Variant @string ) {
-            return @string.ToString().ToUpper();
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _stringService.StringUpper(@string);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant TCPAccpet( Variant mainsocket ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TCPCloseSocket( Variant socket ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TCPConnect( Variant IPAddr, Variant port ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TCPListen( Variant IPAddr, Variant port, Variant MaxPendingConnection = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TCPNameToIP( Variant name ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TCPRecv( Variant mainsocket, Variant maxlen, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TCPSend( Variant mainsocket, Variant data ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TCPShutdown() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         private Variant UDPShutdown() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TCPStartup() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         private Variant UDPStartup() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         [Inlineable]
         public Variant Tan( Variant expression ) {
-            return Math.Tan( expression );
+            SetError(0, 0, 0);
+
+            try
+            {
+                return _mathService.Tan(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant TimerDiff( Variant handle ) {
+            SetError(0, 0, 0);
+
             var tickDiff = ( Stopwatch.GetTimestamp()-handle ) / Stopwatch.Frequency * 1000;
             return tickDiff;
         }
 
         public Variant TimerInit() {
+            SetError(0, 0, 0);
+
             return Stopwatch.GetTimestamp();
         }
 
         public Variant ToolTip( Variant text, Variant x = null, Variant y = null, Variant title = null, Variant icon = null, Variant options = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayCreateItem( Variant text, Variant menuID = null, Variant menuentry = null, Variant menuradioitem = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayCreateMenu( Variant submenutext, Variant menuID = null, Variant menuentry = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayGetMsg() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayItemDelete( Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayItemGetHandle( Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayItemGetState( Variant controlID = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayItemGetText( Variant controlID ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayItemSetOnEvent( Variant itemID, Variant function ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayItemSetState( Variant controlID, Variant state ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayItemSetText( Variant controlID, Variant text ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TraySetClick( Variant flag ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TraySetIcon( Variant filename = null, Variant iconID = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TraySetOnEvent( Variant specialID, Variant function ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TraySetPauseIcon( Variant filename = null, Variant iconID = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TraySetState( Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TraySetToolTip( Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant TrayTip( Variant title, Variant text, Variant timeout, Variant option = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant UBound( Variant Array, Variant Dimension = null ) {
+            SetError(0, 0, 0);
+
             if ( Dimension == null ) {
                 Dimension = 1;
             }
@@ -2378,138 +3450,206 @@ namespace AutoJITRuntime
         }
 
         public Variant UDPBind( Variant IPAddr, Variant port ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant UDPCloseSocket( Variant socketarray ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant UDPOpen( Variant IPAddr, Variant port, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant UDPRecv( Variant socketarray, Variant maxlen, Variant flag = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant UDPSend( Variant socketarray, Variant data ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant VarGetType( Variant expression ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinActivate( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinActive( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinClose( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinExists( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinFlash( Variant title, Variant text = null, Variant flashes = null, Variant delay = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetCaretPos() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetClassList( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetClientSize( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetHandle( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetPos( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetProcess( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetState( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetText( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinGetTitle( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinKill( Variant title, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinList( Variant title = null, Variant text = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinMenuSelectItem( Variant title, Variant text, params Variant[] items ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinMinimizeAll() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinMinimizeAllUndo() {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinMove( Variant title, Variant text, Variant x, Variant y, Variant width = null, Variant height = null, Variant speed = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinSetOnTop( Variant title, Variant text, Variant flag ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinSetState( Variant title, Variant text, Variant flag ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinSetTitle( Variant title, Variant text, Variant newtitle ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinSetTrans( Variant title, Variant text, Variant transparency ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinWait( Variant title, Variant text = null, Variant timeout = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinWaitActive( Variant title, Variant text = null, Variant timeout = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinWaitClose( Variant title, Variant text = null, Variant timeout = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
         public Variant WinWaitNotActive( Variant title, Variant text = null, Variant timeout = null ) {
+            SetError( 0, 0, 0 );
+
             throw new NotImplementedException();
         }
 
