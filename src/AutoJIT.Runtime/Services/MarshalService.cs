@@ -8,11 +8,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using AutoJITRuntime.Exceptions;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Services
 {
-    public class MarshalBridge
+    public class MarshalService
     {
-        public MarshalBridge() {
+        public MarshalService() {
             var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
                 new AssemblyName( "an" ), AssemblyBuilderAccess.Run );
             _dynamicMod = assemblyBuilder.DefineDynamicModule( "MainModule" );

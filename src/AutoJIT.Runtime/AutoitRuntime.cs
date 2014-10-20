@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoJITRuntime.Attrubutes;
 using AutoJITRuntime.Exceptions;
+using AutoJITRuntime.Services;
 using AutoJITRuntime.Variants;
 using Lawl.Reflection;
 using Microsoft.Win32.SafeHandles;
@@ -24,7 +25,7 @@ namespace AutoJITRuntime
     {
         private readonly AutoitContext<T> _context;
         private readonly Dictionary<string, MethodInfo> _methodStore;
-        private readonly MarshalBridge _marshalBridge;
+        private readonly MarshalService _marshalService;
         private readonly EnvironmentService _environmentService;
         private readonly MathService _mathService;
         private readonly StringService _stringService;
@@ -34,7 +35,7 @@ namespace AutoJITRuntime
             _context = context;
             var methodInfos = GetType().GetMethods();
             _methodStore = methodInfos.ToDictionary( x => x.Name, x => x );
-            _marshalBridge = new MarshalBridge();
+            _marshalService = new MarshalService();
             _environmentService = new EnvironmentService();
             _mathService = new MathService();
             _stringService = new StringService();
@@ -670,7 +671,7 @@ namespace AutoJITRuntime
             SetError(0, 0, 0);
 
             try {
-                return _marshalBridge.DllCall( dll, returntype, function, paramtypen );
+                return _marshalService.DllCall( dll, returntype, function, paramtypen );
             }
             catch (ProcAddressZeroException) {
                 return SetError( 1, null, 0 );
@@ -713,7 +714,7 @@ namespace AutoJITRuntime
         public Variant DllClose( Variant dllhandle ) {
             SetError(0, 0, 0);
 
-            MarshalBridge.FreeLibrary( dllhandle );
+            MarshalService.FreeLibrary( dllhandle );
             return 0;
         }
 
@@ -721,7 +722,7 @@ namespace AutoJITRuntime
             SetError(0, 0, 0);
 
             try {
-                var library = MarshalBridge.LoadLibrary( filename.GetString() );
+                var library = MarshalService.LoadLibrary( filename.GetString() );
                 if ( library == IntPtr.Zero ) {
                     var error = Marshal.GetLastWin32Error();
                 }
@@ -735,7 +736,7 @@ namespace AutoJITRuntime
         public Variant DllStructCreate( Variant Struct, Variant Pointer = null ) {
             SetError(0, 0, 0);
 
-            var runtimeStruct = _marshalBridge.CreateRuntimeStruct( Struct.GetString() );
+            var runtimeStruct = _marshalService.CreateRuntimeStruct( Struct.GetString() );
 
             var instance = (IRuntimeStruct) runtimeStruct.CreateInstance<object>();
 
@@ -2608,8 +2609,6 @@ namespace AutoJITRuntime
         }
 
         public Variant SetError( Variant code, Variant extended = null, Variant returnvalue = null ) {
-            SetError(0, 0, 0);
-
             if ( returnvalue == null ) {
                 returnvalue = 0;
             }

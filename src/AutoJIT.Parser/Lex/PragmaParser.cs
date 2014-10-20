@@ -54,7 +54,7 @@ namespace AutoJIT.Parser.Lex
                         case "#forceref":
                             break;
                         default:
-                            throw new NotImplementedException();
+                            break;
                     }
                 }
                 else {

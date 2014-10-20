@@ -58,14 +58,14 @@
     <Compile Include="Exceptions\ASCIIcodeIsGreaterThan255Exception.cs" />
     <Compile Include="Exceptions\AutoJITExceptionBase.cs" />
     <Compile Include="Exceptions\ClipboardIsEmptyException.cs" />
-    <Compile Include="EnvironmentService.cs" />
+    <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Exceptions\InvalidHexStringException.cs" />
-    <Compile Include="MathService.cs" />
+    <Compile Include="Services\MathService.cs" />
     <Compile Include="Exceptions\OddNumberOfBytesException.cs" />
     <Compile Include="Exceptions\StringHadZeroLengthException.cs" />
-    <Compile Include="StringService.cs" />
+    <Compile Include="Services\StringService.cs" />
     <Compile Include="Exceptions\UNICODEIsGreaterThan65535Exception.cs" />
-    <Compile Include="VariablesAndConversionsService.cs" />
+    <Compile Include="Services\VariablesAndConversionsService.cs" />
     <Compile Include="Variants\ArrayVariant.cs" />
     <Compile Include="AutoitRuntime.cs" />
     <Compile Include="Attrubutes\AutoJITCompilerFunctionAttribute.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Variants\Int32Variant.cs" />
     <Compile Include="Variants\Int64Variant.cs" />
     <Compile Include="IRuntimeStruct.cs" />
-    <Compile Include="MarshalBridge.cs" />
+    <Compile Include="Services\MarshalService.cs" />
     <Compile Include="MarshalInfo.cs" />
     <Compile Include="Variants\NullVariant.cs" />
     <Compile Include="Attrubutes\InlineableAttribute.cs" />

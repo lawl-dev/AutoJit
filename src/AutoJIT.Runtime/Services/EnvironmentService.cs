@@ -1,4 +1,4 @@
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Services
 {
     public class EnvironmentService
     {

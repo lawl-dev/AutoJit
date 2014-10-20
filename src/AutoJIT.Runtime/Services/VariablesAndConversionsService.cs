@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AutoJITRuntime.Exceptions;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Services
 {
 	public class VariablesAndConversionsService
 	{
@@ -214,7 +214,7 @@ namespace AutoJITRuntime
 	    }
 
 	    public Variant IsHWnd( Variant variable ) {
-            return variable.IsPtr && MarshalBridge.IsWindow(variable);
+            return variable.IsPtr && MarshalService.IsWindow(variable);
 	    }
 
 	    public Variant IsInt( Variant variable ) {

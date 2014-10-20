@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Services
 {
     public class StringService {
         public Variant StringAddCR( Variant variant ) {

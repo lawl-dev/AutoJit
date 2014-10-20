@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Services
 {
     public class MathService
     {
