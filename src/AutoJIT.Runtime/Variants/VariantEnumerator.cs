@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Variants
 {
     internal class VariantEnumerator : IEnumerator
     {

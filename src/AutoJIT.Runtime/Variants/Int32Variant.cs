@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Globalization;
+using AutoJITRuntime.Exceptions;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Variants
 {
     public class Int32Variant : Variant
     {

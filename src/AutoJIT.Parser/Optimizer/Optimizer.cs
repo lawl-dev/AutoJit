@@ -4,6 +4,7 @@ using System.Linq;
 using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Helper;
 using AutoJITRuntime;
+using AutoJITRuntime.Attrubutes;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -98,7 +99,7 @@ namespace AutoJIT.Parser.Optimizer
             var runtimeClassType = typeof (AutoitRuntime<>).MakeGenericType( typeof (object) );
 
             var supportedFunctions =
-                runtimeClassType.GetMethods().Where( x => x.CustomAttributes.Any( c => c.AttributeType == typeof (Inlineable) ) ).ToList();
+                runtimeClassType.GetMethods().Where( x => x.CustomAttributes.Any( c => c.AttributeType == typeof (InlineableAttribute) ) ).ToList();
             var isSupportedFunctionCall = supportedFunctions.Any( x => x.Name == functionName );
             var args = node.ArgumentList.Arguments;
 

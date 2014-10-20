@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Variants
 {
     public sealed class ArrayVariant : Variant
     {

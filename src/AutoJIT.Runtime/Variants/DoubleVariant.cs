@@ -1,25 +1,35 @@
 using System;
 using System.Globalization;
+using AutoJITRuntime.Exceptions;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Variants
 {
-    public class Int64Variant : Variant
+    public class DoubleVariant : Variant
     {
-        private readonly Int64 _value;
+        private readonly double _value;
 
-        public Int64Variant( Int64 int64 ) {
-            _value = int64;
+        public DoubleVariant( double value ) {
+            if ( Math.Abs( value-Math.Floor( value ) ) <= double.Epsilon ) {
+                if ( value > int.MaxValue ||
+                     value < int.MinValue ) {
+                    _value = (Int64) value;
+                    return;
+                }
+                _value = (int) value;
+                return;
+            }
+            _value = value;
         }
 
         protected override DataType DataType {
-            get { return DataType.Int64; }
+            get { return DataType.Double; }
         }
 
         public override object GetValue() {
             return _value;
         }
 
-        public override bool IsInt64 {
+        public override bool IsDouble {
             get { return true; }
         }
 
@@ -36,7 +46,7 @@ namespace AutoJITRuntime
         }
 
         public override long GetInt64() {
-            return _value;
+            return (long) _value;
         }
 
         public override int GetInt() {
@@ -44,15 +54,15 @@ namespace AutoJITRuntime
         }
 
         public override IntPtr GetIntPtr() {
-            return new IntPtr( _value );
+            throw new AutoJITRuntimerException( "" );
         }
 
         public override byte[] GetBinary() {
-            return BitConverter.GetBytes( _value );
+            return BitConverter.GetBytes( GetDouble() );
         }
 
         public override Type GetRealType() {
-            return typeof (Int64);
+            return typeof (Double);
         }
     }
 }

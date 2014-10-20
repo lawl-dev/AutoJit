@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Variants
 {
     public sealed class StringVariant : Variant
     {

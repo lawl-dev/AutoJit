@@ -7,13 +7,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AutoJITRuntime.Attrubutes;
+using AutoJITRuntime.Exceptions;
+using AutoJITRuntime.Variants;
 using Lawl.Reflection;
 using Microsoft.Win32.SafeHandles;
 
@@ -23,11 +24,13 @@ namespace AutoJITRuntime
     {
         private readonly AutoitContext<T> _context;
         private readonly Dictionary<string, MethodInfo> _methodStore;
+        private readonly MarshalBridge _marshalBridge;
 
         public AutoitRuntime( AutoitContext<T> context ) {
             _context = context;
             var methodInfos = GetType().GetMethods();
             _methodStore = methodInfos.ToDictionary( x => x.Name, x => x );
+            _marshalBridge = new MarshalBridge();
         }
 
         [Inlineable]
@@ -443,15 +446,19 @@ namespace AutoJITRuntime
         }
 
         public Variant DllCall( Variant dll, Variant returntype, Variant function, params Variant[] paramtypen ) {
+            
+            
             if ( dll.IsPtr ) {
-                return CallDllByHandle( dll, returntype, function, paramtypen );
+                return DllCallInternal( dll.GetIntPtr(), returntype.GetString(), function.GetString(), paramtypen );
             }
+
             var handle = DllOpen( dll );
+            
             if ( handle == -1 ) {
                 return SetError( 1, null, 0 );
             }
 
-            var result = CallDllByHandle( handle, returntype, function, paramtypen );
+            var result = DllCallInternal(handle.GetIntPtr(), returntype.GetString(), function.GetString(), paramtypen);
 
             if ( result.IsInt32 ) {
                 return result;
@@ -461,86 +468,21 @@ namespace AutoJITRuntime
             return result;
         }
 
-        private Variant CallDllByHandle( Variant dll, Variant returntype, Variant function, Variant[] paramtypen ) {
-            var procAddress = CompilerRuntimeHelper.GetProcAddress( dll, function );
-
-            if ( procAddress == IntPtr.Zero ) {
-                return SetError( 3, null, 0 );
+        private Variant DllCallInternal( IntPtr dll, string returntype, string function, Variant[] paramtypen ) {
+            try {
+                return _marshalBridge.DllCall( dll, returntype, function, paramtypen );
             }
-
-            var cacheKey = string.Format(
-                "{0}{1}", returntype.GetString(), string.Join( "", paramtypen.Where( ( variant, i ) => i % 2 == 0 ).Select( x => x.GetString() ) ) );
-
-            var parameterMarshalInfo = new List<MarshalInfo>();
-            for ( int i = 0; i < paramtypen.Length; i += 2 ) {
-                var typePart = paramtypen[i];
-                var value = paramtypen[i+1];
-
-                var marshalInfo = MarshalBridge.GetMarshalInfo( typePart, value );
-
-                if ( marshalInfo.Type == null ) {
-                    return SetError( 5, null, 0 );
-                }
-
-                parameterMarshalInfo.Add( marshalInfo );
+            catch (ProcAddressZeroException) {
+                return SetError( 1, null, 0 );
             }
-
-            var callingConvention = typeof (CallConvStdcall);
-
-            MarshalInfo returnMarshalInfo;
-            if ( returntype.GetString().Contains( ":" ) ) {
-                var returnType = returntype.GetString().Split( ':' )[0];
-                var customCallingConvention = returntype.GetString().Split( ':' )[1];
-                callingConvention = GetCallingConvention( customCallingConvention );
-                returnMarshalInfo = MarshalBridge.GetMarshalInfo( returnType, null );
-            }
-            else {
-                returnMarshalInfo = MarshalBridge.GetMarshalInfo( returntype, null );
-            }
-
-            if ( returnMarshalInfo.Type == null ) {
+            catch (BadReturnTypeException) {
                 return SetError( 2, null, 0 );
             }
-
-            Type marshalDelegate;
-            if ( RuntimeStore<Type>.Cached( cacheKey ) ) {
-                marshalDelegate = RuntimeStore<Type>.Get( cacheKey );
-            }
-            else {
-                marshalDelegate = MarshalBridge.CreateMarshalDelegate( returnMarshalInfo, parameterMarshalInfo, callingConvention );
-                RuntimeStore<Type>.Cache( cacheKey, marshalDelegate );
-            }
-
-            Delegate @delegate;
-            try {
-                @delegate = Marshal.GetDelegateForFunctionPointer( procAddress, marshalDelegate );
-            }
-            catch (Exception ex) {
+            catch (BadNumberOfParameterException) {
                 return SetError( 4, null, 0 );
             }
-            var args = parameterMarshalInfo.Select( x => x.Parameter ).ToArray();
-            var result = @delegate.DynamicInvoke( args );
-
-            var toReturn = new Variant[args.Length+1];
-            toReturn[0] = Variant.Create( result );
-            Array.Copy( args.Select( MarshalBridge.Win32ValueToAutoitValue ).Select( Variant.Create ).ToArray(), 0, toReturn, 1, args.Length );
-            return toReturn;
-        }
-
-        private Type GetCallingConvention( string customCallingConvention ) {
-            switch (customCallingConvention.ToUpper()) {
-                case "CDECL":
-                    return typeof (CallConvCdecl);
-                case "STDCALL":
-                    return typeof (CallConvStdcall);
-                case "FASTCALL":
-                    return typeof (CallConvFastcall);
-                case "THISCALL":
-                    return typeof (CallConvThiscall);
-                case "WINAPI":
-                    return typeof (CallConvStdcall);
-                default:
-                    throw new AutoJITRuntimerException( string.Format( "Unknown calling convention {0}", customCallingConvention ) );
+            catch (BadParameterException) {
+                return SetError( 5, null, 0 );
             }
         }
 
@@ -561,13 +503,13 @@ namespace AutoJITRuntime
         }
 
         public Variant DllClose( Variant dllhandle ) {
-            CompilerRuntimeHelper.FreeLibrary( dllhandle );
+            MarshalBridge.FreeLibrary( dllhandle );
             return 0;
         }
 
         public Variant DllOpen( Variant filename ) {
             try {
-                var library = CompilerRuntimeHelper.LoadLibrary( filename.GetString() );
+                var library = MarshalBridge.LoadLibrary( filename.GetString() );
                 if ( library == IntPtr.Zero ) {
                     var error = Marshal.GetLastWin32Error();
                 }
@@ -579,12 +521,17 @@ namespace AutoJITRuntime
         }
 
         public Variant DllStructCreate( Variant Struct, Variant Pointer = null ) {
-            if ( Pointer != null ) {
-                throw new NotSupportedException( "Struct pointer" );
-            }
-            var structType = MarshalBridge.CreateRuntimeStruct( Struct.GetString() );
+            var runtimeStruct = _marshalBridge.CreateRuntimeStruct( Struct.GetString() );
 
-            return Variant.Create( (IRuntimeStruct) structType.CreateInstanceWithDefaultParameters() );
+            var instance = (IRuntimeStruct) runtimeStruct.CreateInstance<object>();
+
+            var @struct = (StructVariant)Variant.Create(instance);
+
+            if ( Pointer != null ) {
+                @struct.InitUnmanaged(Pointer.GetIntPtr());
+            }
+
+            return @struct;
         }
 
         public Variant DllStructGetData( Variant Struct, Variant Element, Variant index = null ) {
@@ -614,7 +561,12 @@ namespace AutoJITRuntime
         }
 
         public Variant DllStructGetSize( Variant Struct ) {
-            throw new NotImplementedException();
+            var runtimeStruct = Struct.GetValue() as IRuntimeStruct;
+            if ( runtimeStruct == null ) {
+                return SetError( 1, null, 0 );
+            }
+
+            return Marshal.SizeOf( runtimeStruct );
         }
 
         public Variant DllStructSetData( Variant Struct, Variant Element, Variant value, Variant index = null ) {
@@ -640,11 +592,12 @@ namespace AutoJITRuntime
                             i++;
                         }
                         runtimeStruct.SetElement( Element.GetInt()-1, element );
-                        return Variant.Create( element );
+                        return Variant.Create( runtimeStruct.GetElement( Element.GetInt()-1 ) );
                     }
                 }
                 else {
-                    runtimeStruct.SetElement( Element.GetInt()-1, value );
+                    runtimeStruct.SetElement( Element.GetInt()-1, value.GetValue() );
+                    return Variant.Create( runtimeStruct.GetElement( Element.GetInt()-1 ) );
                 }
             }
             throw new NotImplementedException();
@@ -1558,7 +1511,7 @@ namespace AutoJITRuntime
         }
 
         public Variant IsHWnd( Variant variable ) {
-            return variable.IsPtr && Control.FromHandle( variable ) != null;
+            return variable.IsPtr && MarshalBridge.IsWindow( variable );
         }
 
         [Inlineable]
@@ -2321,7 +2274,8 @@ namespace AutoJITRuntime
         }
 
         public Variant TimerDiff( Variant handle ) {
-            return new TimeSpan( Stopwatch.GetTimestamp()-handle ).TotalMilliseconds;
+            var tickDiff = ( Stopwatch.GetTimestamp()-handle ) / Stopwatch.Frequency * 1000;
+            return tickDiff;
         }
 
         public Variant TimerInit() {

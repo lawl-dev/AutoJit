@@ -6,6 +6,7 @@ using AutoJIT.Parser.Exceptions;
 using AutoJIT.Parser.Lex.Interface;
 using AutoJIT.Parser.Optimizer;
 using AutoJITRuntime;
+using AutoJITRuntime.Variants;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -41,7 +42,7 @@ namespace AutoJIT.Compiler
                 .AddMembers( cSharpTree )
                 .AddUsings(
                     SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof (AutoitRuntime<>).Namespace ) ),
-                    SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof (Int32Variant).Namespace ) ),
+                    SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof (Variant).Namespace ) ),
                     SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof (object).Namespace ) ) );
 
             var root = compilationUnit.SyntaxTree.GetRoot();
@@ -56,7 +57,7 @@ namespace AutoJIT.Compiler
             compilation = compilation
                 .WithReferences(
                     new MetadataFileReference( typeof (object).Assembly.Location ),
-                    new MetadataFileReference( typeof (Int32Variant).Assembly.Location ) );
+                    new MetadataFileReference( typeof (Variant).Assembly.Location ) );
 
             var outputStream = new MemoryStream();
 

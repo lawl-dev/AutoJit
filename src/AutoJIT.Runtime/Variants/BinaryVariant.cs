@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Variants
 {
     public sealed class BinaryVariant : Variant
     {

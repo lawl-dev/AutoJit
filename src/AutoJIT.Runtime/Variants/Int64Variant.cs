@@ -1,61 +1,58 @@
 using System;
+using System.Globalization;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Variants
 {
-    public class BoolVariant : Variant
+    public class Int64Variant : Variant
     {
-        private readonly bool _value;
+        private readonly Int64 _value;
 
-        public BoolVariant( Boolean @bool ) {
-            _value = @bool;
+        public Int64Variant( Int64 int64 ) {
+            _value = int64;
         }
 
         protected override DataType DataType {
-            get { return DataType.Bool; }
+            get { return DataType.Int64; }
         }
 
         public override object GetValue() {
             return _value;
         }
 
-        public override bool IsBool {
+        public override bool IsInt64 {
             get { return true; }
         }
 
         public override string GetString() {
-            return _value
-                ? "True"
-                : "False";
+            return _value.ToString( CultureInfo.InvariantCulture );
         }
 
         public override bool GetBool() {
-            return _value;
+            return _value > 0;
         }
 
         public override double GetDouble() {
-            return _value
-                ? 1.0d
-                : 0.0d;
+            return _value;
         }
 
         public override long GetInt64() {
-            return Convert.ToInt64( _value );
+            return _value;
         }
 
         public override int GetInt() {
-            return Convert.ToInt32( _value );
+            return (int) _value;
         }
 
         public override IntPtr GetIntPtr() {
-            throw new NotImplementedException();
+            return new IntPtr( _value );
         }
 
         public override byte[] GetBinary() {
-            throw new NotImplementedException();
+            return BitConverter.GetBytes( _value );
         }
 
         public override Type GetRealType() {
-            return typeof (Boolean);
+            return typeof (Int64);
         }
     }
 }

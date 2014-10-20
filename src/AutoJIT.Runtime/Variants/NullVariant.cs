@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Variants
 {
     public sealed class NullVariant : Variant
     {

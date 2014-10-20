@@ -53,41 +53,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArrayVariant.cs" />
+    <Compile Include="Variants\ArrayVariant.cs" />
     <Compile Include="AutoitRuntime.cs" />
-    <Compile Include="AutoJITCompilerFunctionAttribute.cs" />
+    <Compile Include="Attrubutes\AutoJITCompilerFunctionAttribute.cs" />
     <Compile Include="AutoitContext.cs" />
-    <Compile Include="AutoJITRuntimerException.cs" />
-    <Compile Include="BinaryVariant.cs" />
-    <Compile Include="BoolVariant.cs" />
-    <Compile Include="CompilerRuntimeHelper.cs" />
-    <Compile Include="DataType.cs" />
-    <Compile Include="Default.cs" />
-    <Compile Include="DefaultVariant.cs" />
-    <Compile Include="DoubleVariant.cs" />
+    <Compile Include="Exceptions\AutoJITRuntimerException.cs" />
+    <Compile Include="Exceptions\BadNumberOfParameterException.cs" />
+    <Compile Include="Exceptions\BadParameterException.cs" />
+    <Compile Include="Exceptions\BadReturnTypeException.cs" />
+    <Compile Include="Variants\BinaryVariant.cs" />
+    <Compile Include="Variants\BoolVariant.cs" />
+    <Compile Include="Variants\DataType.cs" />
+    <Compile Include="Variants\Default.cs" />
+    <Compile Include="Variants\DefaultVariant.cs" />
+    <Compile Include="Variants\DoubleVariant.cs" />
     <Compile Include="ForToNextLooper.cs" />
-    <Compile Include="InputRecord.cs" />
-    <Compile Include="Int32Variant.cs" />
-    <Compile Include="Int64Variant.cs" />
+    <Compile Include="Variants\Int32Variant.cs" />
+    <Compile Include="Variants\Int64Variant.cs" />
     <Compile Include="IRuntimeStruct.cs" />
-    <Compile Include="KeyEventRecord.cs" />
     <Compile Include="MarshalBridge.cs" />
     <Compile Include="MarshalInfo.cs" />
-    <Compile Include="NullVariant.cs" />
-    <Compile Include="Inlineable.cs" />
+    <Compile Include="Variants\NullVariant.cs" />
+    <Compile Include="Attrubutes\InlineableAttribute.cs" />
+    <Compile Include="Exceptions\ProcAddressZeroException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PtrVariant.cs" />
-    <Compile Include="RuntimeStore.cs" />
-    <Compile Include="StringVariant.cs" />
-    <Compile Include="StructVariant.cs" />
+    <Compile Include="Variants\PtrVariant.cs" />
+    <Compile Include="Variants\StringVariant.cs" />
+    <Compile Include="StructTypeInfo.cs" />
+    <Compile Include="Variants\StructVariant.cs" />
     <Compile Include="TypeInfo.cs" />
+    <Compile Include="Exceptions\UnknowCallConvException.cs" />
+    <Compile Include="Exceptions\UnknowTypeNameException.cs" />
     <Compile Include="Variant.cs" />
-    <Compile Include="VariantEnumerator.cs" />
-    <Compile Include="WinApiCalls.cs" />
+    <Compile Include="Variants\VariantEnumerator.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Variant\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

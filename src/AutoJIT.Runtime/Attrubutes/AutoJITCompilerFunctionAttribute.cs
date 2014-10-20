@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Attrubutes
 {
     public class AutoJITCompilerFunctionAttribute : Attribute {}
 }

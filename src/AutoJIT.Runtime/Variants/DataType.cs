@@ -1,4 +1,4 @@
-﻿namespace AutoJITRuntime
+﻿namespace AutoJITRuntime.Variants
 {
     public enum DataType
     {

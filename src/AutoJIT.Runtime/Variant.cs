@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
+using AutoJITRuntime.Exceptions;
+using AutoJITRuntime.Variants;
 
 namespace AutoJITRuntime
 {
@@ -25,6 +28,11 @@ namespace AutoJITRuntime
 
         public static Variant Create( String @string ) {
             return new StringVariant( @string );
+        }
+        
+        
+        public static Variant Create( StringBuilder @string ) {
+            return new StringVariant( @string.ToString() );
         }
 
         public static Variant Create( Variant[] @array ) {
@@ -67,6 +75,7 @@ namespace AutoJITRuntime
             if ( variant != null ) {
                 return variant;
             }
+
             dynamic d = @object;
             return Create( d );
         }

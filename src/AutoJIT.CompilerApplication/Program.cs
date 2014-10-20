@@ -4,7 +4,9 @@ using System.IO;
 using System.Reflection;
 using AutoJIT.Compiler;
 using AutoJITRuntime;
+using AutoJITRuntime.Variants;
 using ILRepacking;
+using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 
 namespace AutoJIT.CompilerApplication
@@ -67,6 +69,7 @@ namespace AutoJIT.CompilerApplication
 
             toMerge.Add( tempPath );
             toMerge.Add( typeof (StringVariant).Assembly.Location );
+            toMerge.Add( typeof(TypeExtensions).Assembly.Location );
 
             File.Delete( compileOptions.OutFile.AbsolutePath );
             var repack = new ILRepack { OutputFile = compileOptions.OutFile.AbsolutePath, TargetKind = ILRepack.Kind.Exe, InputAssemblies = toMerge.ToArray() };
