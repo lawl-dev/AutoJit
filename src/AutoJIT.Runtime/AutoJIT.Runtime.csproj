@@ -77,7 +77,7 @@
     <Compile Include="Variants\BinaryVariant.cs" />
     <Compile Include="Variants\BoolVariant.cs" />
     <Compile Include="Variants\DataType.cs" />
-    <Compile Include="Variants\Default.cs" />
+    <Compile Include="Default.cs" />
     <Compile Include="Variants\DefaultVariant.cs" />
     <Compile Include="Variants\DoubleVariant.cs" />
     <Compile Include="ForToNextLooper.cs" />

@@ -1,4 +1,4 @@
-namespace AutoJITRuntime.Variants
+namespace AutoJITRuntime
 {
     public sealed class Default
     {

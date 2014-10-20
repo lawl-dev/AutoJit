@@ -118,7 +118,9 @@ namespace AutoJIT.Parser.Optimizer
 
             var compilerFunction = supportedFunctions.Single( x => x.Name == functionName && x.GetParameters().Length == args.Count );
 
-            var runtimeInstance = runtimeClassType.CreateInstanceWithDefaultParameters();
+            var runtimeInstance =
+                runtimeClassType.GetConstructors()[0].Invoke(
+                    new[] { typeof (AutoitContext<>).MakeGenericType( typeof (object) ).GetConstructors()[0].Invoke( new object[] { new object() } ) } );
 
             var parameters =
                 args.Select( x => (InvocationExpressionSyntax) x.Expression )
