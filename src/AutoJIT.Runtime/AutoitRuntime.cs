@@ -28,7 +28,7 @@ namespace AutoJITRuntime
         private readonly EnvironmentService _environmentService;
         private readonly MathService _mathService;
         private readonly StringService _stringService;
-
+        private readonly VariablesAndConversionsService _variablesAndConversionsService;
 
         public AutoitRuntime( AutoitContext<T> context ) {
             _context = context;
@@ -38,6 +38,7 @@ namespace AutoJITRuntime
             _environmentService = new EnvironmentService();
             _mathService = new MathService();
             _stringService = new StringService();
+            _variablesAndConversionsService = new VariablesAndConversionsService();
         }
 
         [Inlineable]
@@ -134,16 +135,26 @@ namespace AutoJITRuntime
         [Inlineable]
         public Variant Asc( Variant @char ) {
             SetError( 0, 0, 0 );
-
-            var character = ( (string) @char ).FirstOrDefault();
-            return character;
+            
+            
+            try {
+                return _variablesAndConversionsService.Asc( @char );
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant AscW( Variant @char ) {
             SetError( 0, 0, 0 );
 
-            var character = ( (string) @char ).FirstOrDefault();
-            return character;
+            try {
+                return _variablesAndConversionsService.AscW( @char );
+            }
+            catch (AutoJITExceptionBase ex) {
+                return SetError( Variant.Create( ex.Error ), Variant.Create( ex.Extended ), Variant.Create( ex.Return ) );
+            }
         }
 
         public Variant Assign( Variant varname, Variant data, Variant flag = null ) {
@@ -193,73 +204,59 @@ namespace AutoJITRuntime
         public Variant Binary( Variant expression ) {
             SetError( 0, 0, 0 );
 
-            return expression.GetBinary();
+            try
+            {
+                return _variablesAndConversionsService.Binary(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant BinaryLen( Variant binary ) {
             SetError( 0, 0, 0 );
 
-            return binary.GetBinary().Length;
+            try
+            {
+                return _variablesAndConversionsService.BinaryLen(binary);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant BinaryMid( Variant binary, Variant start, Variant count = null ) {
             SetError( 0, 0, 0 );
 
-            var bytes = binary.GetBinary();
-            if ( start < 1 ||
-                 start >= bytes.Length ||
-                 ( count != null && start >= count ) ) {
-                return new byte[0];
+
+            try
+            {
+                return _variablesAndConversionsService.BinaryMid(binary, start, count);
             }
-            return bytes.Skip( start-1 ).Take( count ?? bytes.Length-start-1 ).ToArray();
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant BinaryToString( Variant expression, Variant flag = null ) {
             SetError( 0, 0, 0 );
 
-            if ( flag == null ) {
+            if (flag == null)
+            {
                 flag = 1;
             }
 
-            var @string = expression.GetString();
-
-            if ( @string.Length % 2 != 0 ) {
-                return SetError( 2, null, string.Empty );
+            try
+            {
+                return _variablesAndConversionsService.BinaryToString(expression, flag);
             }
-            if ( @string.Length == 0 ) {
-                return SetError( 1, null, string.Empty );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
-
-            Encoding encoding;
-            switch (flag.GetInt()) {
-                case 1:
-                    encoding = Encoding.Default;
-                    break;
-                case 2:
-                    encoding = Encoding.Unicode;
-                    break;
-                case 3:
-                    encoding = Encoding.BigEndianUnicode;
-                    break;
-                default:
-                    encoding = Encoding.UTF8;
-                    break;
-            }
-
-            if ( @string.StartsWith( "0x", StringComparison.InvariantCultureIgnoreCase ) &&
-                 @string.Skip( 2 ).All(
-                     c => ( c >= '0' && c <= '9' ) ||
-                          ( c >= 'a' && c <= 'f' ) ||
-                          ( c >= 'A' && c <= 'F' ) ) ) {
-                var hex = @string.Substring( 2, @string.Length-2 );
-                var raw = new byte[hex.Length / 2];
-                for ( int i = 0; i < raw.Length; i++ ) {
-                    raw[i] = Convert.ToByte( hex.Substring( i * 2, 2 ), 16 );
-                }
-                return encoding.GetString( raw );
-            }
-
-            return encoding.GetString( expression.GetBinary() );
         }
 
         [Inlineable]
@@ -390,29 +387,28 @@ namespace AutoJITRuntime
         public Variant Chr( Variant ASCIIcode ) {
             SetError( 0, 0, 0 );
 
-            if ( ASCIIcode < 0 ) {
-                return string.Empty;
+            try
+            {
+                return _variablesAndConversionsService.Chr(ASCIIcode);
             }
-            if ( ASCIIcode > 255 ) {
-                return SetError( 1, null, string.Empty );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
-
-            return ( (char) ASCIIcode ).ToString( CultureInfo.InvariantCulture );
         }
 
         [Inlineable]
         public Variant ChrW( Variant UNICODEcode ) {
             SetError( 0, 0, 0 );
 
-            if ( UNICODEcode > ushort.MaxValue ) {
-                return SetError( UNICODEcode, null, string.Empty );
+            try
+            {
+                return _variablesAndConversionsService.ChrW(UNICODEcode);
             }
-
-            if ( UNICODEcode < 0 ) {
-                return string.Empty;
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
-
-            return (char) UNICODEcode;
         }
 
         public Variant ClipGet() {
@@ -607,15 +603,14 @@ namespace AutoJITRuntime
         public Variant Dec( Variant hex, Variant flag = null ) {
             SetError( 0, 0, 0 );
 
-            Int64 result;
-            if ( Int64.TryParse( hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result ) ) {
-                if ( result <= int.MaxValue &&
-                     result >= int.MinValue ) {
-                    return (int) result;
-                }
-                return result;
+            try
+            {
+                return _variablesAndConversionsService.Dec(hex, flag);
             }
-            return SetError( 1, null, 0 );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant DirCopy( Variant sourcedir, Variant destdir, Variant flag = null ) {
@@ -1859,53 +1854,28 @@ namespace AutoJITRuntime
         public Variant HWnd( Variant expression ) {
             SetError( 0, 0, 0 );
 
-            throw new NotImplementedException();
+            try
+            {
+                return _variablesAndConversionsService.HWnd(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant Hex( Variant expression, Variant length = null ) {
             SetError(0, 0, 0);
 
-            if ( expression.IsInt32 ) {
-                if ( length == null ||
-                     length.IsDefault ) {
-                    return expression.GetInt().ToString( "x8" ).ToUpper();
-                }
-                if ( length > 16 ) {
-                    length = 16;
-                }
-                return expression.GetInt().ToString( "x"+length ).ToUpper();
+            try
+            {
+                return _variablesAndConversionsService.Hex(expression, length);
             }
-            if ( expression.IsInt64 ) {
-                if ( length == null ||
-                     length.IsDefault ) {
-                    return expression.GetInt64().ToString( "x16" ).ToUpper();
-                }
-                if ( length > 16 ) {
-                    length = 16;
-                }
-                return expression.GetInt().ToString( "x"+length ).ToUpper();
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
-            if ( expression.IsPtr ) {
-                var intPtr = expression.GetIntPtr();
-                var size = IntPtr.Size * 2;
-                return intPtr.ToString( "x"+size );
-            }
-
-            if ( expression.IsBinary ) {
-                var bytes = expression.GetBinary();
-                var c = new char[bytes.Length * 2];
-                for ( int i = 0; i < bytes.Length; i++ ) {
-                    int b = bytes[i] >> 4;
-                    c[i * 2] = (char) ( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
-                    b = bytes[i]&0xF;
-                    c[i * 2+1] = (char) ( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
-                }
-                return new string( c ).ToUpper();
-            }
-            SetError( 0, 0, 0 );
-
-            throw new NotImplementedException();
         }
 
         public Variant HotKeySet( Variant key, Variant function = null ) {
@@ -2017,103 +1987,206 @@ namespace AutoJITRuntime
         public Variant Int( Variant expression, Variant flag = null ) {
             SetError( 0, 0, 0 );
 
-            throw new NotImplementedException();
+            try
+            {
+                return _variablesAndConversionsService.Int(expression, flag);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant IsAdmin() {
             SetError( 0, 0, 0 );
 
-            throw new NotImplementedException();
+            try
+            {
+                return _variablesAndConversionsService.IsAdmin();
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant IsArray( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsArray;
+            try
+            {
+                return _variablesAndConversionsService.IsArray(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant IsBinary( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsBinary;
+            try
+            {
+                return _variablesAndConversionsService.IsBinary(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant IsBool( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsBool;
+            try
+            {
+                return _variablesAndConversionsService.IsBool(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant IsDeclared( Variant expression ) {
-            SetError( 0, 0, 0 );
-
-            throw new NotImplementedException();
+            throw new NotSupportedException("'IsDeclared'");
         }
 
         public Variant IsDllStruct( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsStruct;
+            try
+            {
+                return _variablesAndConversionsService.IsDllStruct(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant IsFloat( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsDouble;
+            try
+            {
+                return _variablesAndConversionsService.IsFloat(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant IsFunc( Variant expression ) {
             SetError( 0, 0, 0 );
 
-            throw new NotImplementedException();
+            try
+            {
+                return _variablesAndConversionsService.IsFunc(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant IsHWnd( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsPtr && MarshalBridge.IsWindow( variable );
+            try
+            {
+                return _variablesAndConversionsService.IsHWnd(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant IsInt( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsInt32 || variable.IsInt64;
+            try
+            {
+                return _variablesAndConversionsService.IsInt(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant IsKeyword( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsDefault || variable.IsNull;
+            try
+            {
+                return _variablesAndConversionsService.IsKeyword(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant IsNumber( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsInt32 || variable.IsInt64 || variable.IsDouble;
+            try
+            {
+                return _variablesAndConversionsService.IsNumber(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant IsObj( Variant variable ) {
             SetError( 0, 0, 0 );
 
-            throw new NotImplementedException();
+            try
+            {
+                return _variablesAndConversionsService.IsObj(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant IsPtr( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsPtr;
+            try
+            {
+                return _variablesAndConversionsService.IsPtr(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
         public Variant IsString( Variant variable ) {
             SetError(0, 0, 0);
 
-            return variable.IsString;
+            try
+            {
+                return _variablesAndConversionsService.IsString(variable);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
@@ -2207,7 +2280,14 @@ namespace AutoJITRuntime
         public Variant Number( Variant expression, Variant flag = null ) {
             SetError( 0, 0, 0 );
 
-            throw new NotImplementedException();
+            try
+            {
+                return _variablesAndConversionsService.Number(expression, flag);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant ObjCreate( Variant classname, Variant servername = null, Variant username = null, Variant password = null ) {
@@ -2376,7 +2456,14 @@ namespace AutoJITRuntime
         public Variant Ptr( Variant expression ) {
             SetError(0, 0, 0);
 
-            return new IntPtr( expression );
+            try
+            {
+                return _variablesAndConversionsService.Ptr(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant Random( Variant Min = null, Variant Max = null, Variant Flag = null ) {
@@ -2737,7 +2824,14 @@ namespace AutoJITRuntime
         public Variant String( Variant expression ) {
             SetError(0, 0, 0);
 
-            return expression.GetString();
+            try
+            {
+                return _variablesAndConversionsService.String(expression);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
@@ -3160,25 +3254,15 @@ namespace AutoJITRuntime
                 flag = 1;
             }
 
-            var @string = expression.GetString();
 
-            Encoding encoding;
-            switch (flag.GetInt()) {
-                case 1:
-                    encoding = Encoding.Default;
-                    break;
-                case 2:
-                    encoding = Encoding.Unicode;
-                    break;
-                case 3:
-                    encoding = Encoding.BigEndianUnicode;
-                    break;
-                default:
-                    encoding = Encoding.UTF8;
-                    break;
+            try
+            {
+                return _variablesAndConversionsService.StringToBinary(expression, flag);
             }
-
-            return encoding.GetBytes( expression.GetString() );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         [Inlineable]
@@ -3431,21 +3515,14 @@ namespace AutoJITRuntime
                 Dimension = 1;
             }
 
-            var array = Array.GetValue() as Array;
 
-            if ( array == null ) {
-                return SetError( 1, null, 0 );
+            try
+            {
+                return _variablesAndConversionsService.UBound(Array, Dimension);
             }
-
-            switch (Dimension.GetInt()) {
-                case 0:
-                    return array.Rank;
-                case 1:
-                    return array.GetLength( 0 );
-                case 2:
-                    return array.GetLength( 1 );
-                default:
-                    return SetError( 2, null, 0 );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
         }
 

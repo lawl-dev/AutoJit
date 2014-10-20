@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoJITRuntime
+namespace AutoJITRuntime.Exceptions
 {
     public abstract class AutoJITExceptionBase : Exception
     {
