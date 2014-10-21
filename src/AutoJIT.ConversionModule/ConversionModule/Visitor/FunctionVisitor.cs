@@ -23,14 +23,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         }
 
         protected MemberDeclarationSyntax Convert( FunctionNode function, IContextService context ) {
-            var statementNodes = function.Statements;
+            IList<IStatementNode> statementNodes = function.Statements;
             statementNodes = DeclareParameter( statementNodes, function.Parameter, context );
 
-            var dotNetStatements = ConvertStatements( statementNodes );
+            List<StatementSyntax> dotNetStatements = ConvertStatements( statementNodes );
 
             dotNetStatements = OrderDeclarations( dotNetStatements );
 
-            var body = dotNetStatements.ToBlock();
+            BlockSyntax body = dotNetStatements.ToBlock();
 
             return SyntaxFactory.MethodDeclaration( SyntaxFactory.IdentifierName( typeof (Variant).Name ), function.Name )
                 .AddModifiers( SyntaxFactory.Token( SyntaxKind.PublicKeyword ) )
@@ -42,7 +42,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             IList<IStatementNode> statementNodes,
             IEnumerable<AutoitParameterInfo> parameter,
             IContextService context ) {
-            foreach (var parameterInfo in parameter) {
+            foreach (AutoitParameterInfo parameterInfo in parameter) {
                 context.Declare( parameterInfo.ParameterName );
                 if ( parameterInfo.DefaultValue != null ) {
                     statementNodes.Insert( 0, new InitDefaultParameterStatement( parameterInfo.ParameterName, parameterInfo.DefaultValue ) );
@@ -52,7 +52,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         }
 
         private static List<StatementSyntax> OrderDeclarations( List<StatementSyntax> cSharpStatements ) {
-            var allDeclarations = cSharpStatements.SelectMany( s => s.DescendantNodesAndSelf().OfType<LocalDeclarationStatementSyntax>() ).ToList();
+            List<LocalDeclarationStatementSyntax> allDeclarations =
+                cSharpStatements.SelectMany( s => s.DescendantNodesAndSelf().OfType<LocalDeclarationStatementSyntax>() ).ToList();
             for ( int index = 0; index < cSharpStatements.Count; index++ ) {
                 cSharpStatements[index] = cSharpStatements[index].ReplaceNodes( allDeclarations, ( node, syntaxNode ) => SyntaxFactory.EmptyStatement() );
             }
@@ -68,7 +69,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         private IEnumerable<ParameterSyntax> CreaterParameter( IEnumerable<AutoitParameterInfo> parameters ) {
             return parameters.Select(
                 p => {
-                    var parameter = SyntaxFactory.Parameter( SyntaxFactory.Identifier( p.ParameterName ) ).WithType(
+                    ParameterSyntax parameter = SyntaxFactory.Parameter( SyntaxFactory.Identifier( p.ParameterName ) ).WithType(
                         SyntaxFactory.IdentifierName( typeof (Variant).Name )
                         );
                     if ( p.DefaultValue != null ) {

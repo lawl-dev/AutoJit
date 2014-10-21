@@ -13,8 +13,8 @@ namespace AutoJIT.Parser.AST.Parser
 {
     public sealed class ScriptParser : ParserBase, IScriptParser
     {
-        private readonly ILexer _lexer;
         private readonly IExpressionParser _expressionParser;
+        private readonly ILexer _lexer;
         private readonly IStatementParser _statementParser;
 
         public ScriptParser( ILexer lexer, IExpressionParser expressionParser, IStatementParser statementParser ) {
@@ -24,11 +24,11 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         public AutoitScriptRootNode ParseScript( string script, PragmaOptions pragmaOptions ) {
-            var token = _lexer.Lex( script );
+            TokenCollection token = _lexer.Lex( script );
 
-            var autoJITScript = GetAutoJITScript( token, pragmaOptions );
+            AutoitScriptRootNode autoJITScript = GetAutoJITScript( token, pragmaOptions );
 
-            foreach (var function in autoJITScript.Functions) {
+            foreach (FunctionNode function in autoJITScript.Functions) {
                 function.Statements = _statementParser.ParseBlock( function.Queue ).ToList();
                 function.Statements.Add( new ReturnStatement( new NullExpression() ) );
             }
@@ -43,10 +43,10 @@ namespace AutoJIT.Parser.AST.Parser
             var main = new FunctionNode( "Main", new List<AutoitParameterInfo>() );
 
             var functions = new List<FunctionNode>();
-            var isFunctionBody = false;
+            bool isFunctionBody = false;
 
             while ( tokenQueue.Any() ) {
-                var token = tokenQueue.Dequeue();
+                Token token = tokenQueue.Dequeue();
 
                 if ( token.Value.Keyword == Keywords.Endfunc ) {
                     if ( isFunctionBody ) {
@@ -62,8 +62,8 @@ namespace AutoJIT.Parser.AST.Parser
                 }
                 else if ( token.Value.Keyword == Keywords.Func ) {
                     isFunctionBody = true;
-                    var functionName = tokenQueue.Dequeue();
-                    var name = functionName.Value.StringValue;
+                    Token functionName = tokenQueue.Dequeue();
+                    string name = functionName.Value.StringValue;
 
                     functions.Add( new FunctionNode( name, ParseFunctionParameter( tokenQueue ) ) );
                 }
@@ -85,10 +85,10 @@ namespace AutoJIT.Parser.AST.Parser
             do {
                 Skip( parameterPart, TokenType.Comma );
 
-                var isConst = Skip( parameterPart, Keywords.Const );
-                var isByRef = Skip( parameterPart, Keywords.ByRef );
+                bool isConst = Skip( parameterPart, Keywords.Const );
+                bool isByRef = Skip( parameterPart, Keywords.ByRef );
 
-                var name = parameterPart.Dequeue().Value.StringValue;
+                string name = parameterPart.Dequeue().Value.StringValue;
 
                 IExpressionNode initExpression = null;
                 if ( parameterPart.Any() &&

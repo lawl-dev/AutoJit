@@ -18,10 +18,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             _injectionService = injectionService;
         }
 
-        public void Initialize( IContextService contextService ) {
-            _contextService = contextService;
-        }
-
         public ExpressionSyntax Visit( IExpressionNode node ) {
             try {
                 return Visit( (dynamic) node );
@@ -29,6 +25,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             catch (RuntimeBinderException ex) {
                 throw new NotImplementedException();
             }
+        }
+
+        public void Initialize( IContextService contextService ) {
+            _contextService = contextService;
         }
 
         private ExpressionSyntax Visit( BinaryExpression node ) {

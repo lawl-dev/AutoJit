@@ -4,10 +4,10 @@ namespace AutoJIT.Parser.Lex
 {
     public sealed class TokenValue
     {
-        private Keywords _keyword;
+        private double _doubleValue;
         private int _int32Value;
         private long _int64Value;
-        private double _doubleValue;
+        private Keywords _keyword;
         private string _stringValue;
         public object CurrentValue { get; private set; }
 

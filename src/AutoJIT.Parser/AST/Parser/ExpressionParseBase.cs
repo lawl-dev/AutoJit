@@ -16,7 +16,7 @@ namespace AutoJIT.Parser.AST.Parser
 
             while ( block.Any() &&
                     block.Peek().Type == TokenType.Leftsubscript ) {
-                var arrayIndexExpressionTree = ParseInner( block, TokenType.Leftsubscript, TokenType.Rightsubscript );
+                TokenCollection arrayIndexExpressionTree = ParseInner( block, TokenType.Leftsubscript, TokenType.Rightsubscript );
                 list.Add( new TokenCollection( arrayIndexExpressionTree ) );
             }
             return list;

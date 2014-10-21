@@ -1,4 +1,5 @@
-﻿using AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter.Interface;
+﻿using System;
+using AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter.Interface;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -25,7 +26,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private IAutoitExpressionConverter<ExpressionSyntax> GetConverter( IExpressionNode node ) {
-            var converterType = typeof (IAutoitExpressionConverter<,>).MakeGenericType( node.GetType(), typeof (ExpressionSyntax) );
+            Type converterType = typeof (IAutoitExpressionConverter<,>).MakeGenericType( node.GetType(), typeof (ExpressionSyntax) );
             return _injectionService.Inject<IAutoitExpressionConverter<ExpressionSyntax>>( converterType );
         }
     }

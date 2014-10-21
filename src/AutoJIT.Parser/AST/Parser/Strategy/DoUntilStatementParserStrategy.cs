@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
@@ -20,11 +21,11 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private DoUntilStatement ParseDoUntil( TokenQueue block ) {
-            var doWhileBlockToken = ParseDoWhileBlock( block );
-            var doWhileExpressionToken = ParseWhileExpression( block );
+            TokenCollection doWhileBlockToken = ParseDoWhileBlock( block );
+            TokenCollection doWhileExpressionToken = ParseWhileExpression( block );
 
-            var doWHileExpression = ExpressionParser.ParseBlock( doWhileExpressionToken, true );
-            var doWhileBlockStatements = StatementParser.ParseBlock( doWhileBlockToken );
+            IExpressionNode doWHileExpression = ExpressionParser.ParseBlock( doWhileExpressionToken, true );
+            List<IStatementNode> doWhileBlockStatements = StatementParser.ParseBlock( doWhileBlockToken );
 
             return AutoitStatementFactory.CreateDoUntilStatement( doWHileExpression, doWhileBlockStatements );
         }

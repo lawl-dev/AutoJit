@@ -9,7 +9,7 @@ namespace AutoJIT.Parser.Extensions
         public static IEnumerable<T> PopWhile<T>( this Stack<T> stack, Func<T, bool> expression ) {
             var list = new List<T>();
 
-            var peek = stack.Peek();
+            T peek = stack.Peek();
             while ( expression( peek ) ) {
                 list.Add( stack.Pop() );
                 peek = stack.Peek();
@@ -21,7 +21,7 @@ namespace AutoJIT.Parser.Extensions
         public static IEnumerable<T> PopWhile<T>( this Stack<T> stack, Func<T, int, bool> expression ) {
             var list = new List<T>();
             int i = 0;
-            var peek = stack.Peek();
+            T peek = stack.Peek();
             while ( expression( peek, i++ ) &&
                     stack.Any() ) {
                 list.Add( stack.Pop() );

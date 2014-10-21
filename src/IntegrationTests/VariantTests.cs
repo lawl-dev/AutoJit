@@ -1,13 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using AutoJIT;
 using AutoJIT.Compiler;
+using AutoJITRuntime;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
-using Variant = AutoJITRuntime.Variant;
 
 namespace UnitTests
 {
@@ -588,14 +586,14 @@ namespace UnitTests
         [TestCase( "String(Binary('T0xrhoYVi9XQtahACoeg'))" )]
         [TestCase( "String(Binary('1ZcstHe5aWa95mCa6ba1'))" )]
         public void TestOperatorAndResultDataType( string expression ) {
-            var script = string.Format( _scriptTemplate, expression );
-            var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
-            var assembly = Assembly.Load( assemblyBytes );
-            var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var method = type.GetMethod( "f_ExpressionReturner" );
-            var instance = type.CreateInstanceWithDefaultParameters();
+            string script = string.Format( _scriptTemplate, expression );
+            byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
+            Assembly assembly = Assembly.Load( assemblyBytes );
+            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            object instance = type.CreateInstanceWithDefaultParameters();
             var result = method.Invoke( instance, null ) as Variant;
-            var au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
+            object au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
 
             CompareResults( result, au3Result );
         }
@@ -628,7 +626,7 @@ namespace UnitTests
                 }
             }
 
-            foreach (var variant in variants) {
+            foreach (Variant variant in variants) {
                 foreach (Variant v in variant) {
                     Assert.IsTrue( v == "abcd" );
                 }

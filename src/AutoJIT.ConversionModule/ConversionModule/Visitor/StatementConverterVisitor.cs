@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AutoJIT.CSharpConverter.ConversionModule.StatementConverter.Interface;
 using AutoJIT.Parser.AST;
@@ -19,12 +20,16 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             ContextService = contextService;
         }
 
-        public void InitializeContext( IContext context ) {
-            ContextService.Initialize( context );
-        }
-
         public IEnumerable<StatementSyntax> Visit( IStatementNode node ) {
             return Visit( (dynamic) node );
+        }
+
+        public void Visit( ISyntaxNode node ) {
+            throw new NotImplementedException();
+        }
+
+        public void InitializeContext( IContext context ) {
+            ContextService.Initialize( context );
         }
 
         public IEnumerable<StatementSyntax> Visit( AssignStatement node ) {
@@ -110,10 +115,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         private IAutoitStatementConverter<T, StatementSyntax> GetConverter<T>() where T : IStatementNode {
             var converter = _injectionService.Inject<IAutoitStatementConverter<T, StatementSyntax>>();
             return converter;
-        }
-
-        public void Visit( ISyntaxNode node ) {
-            throw new System.NotImplementedException();
         }
     }
 }

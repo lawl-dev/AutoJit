@@ -5,11 +5,11 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public class VariableExpression : ExpressionBase
     {
-        public string IdentifierName { get; private set; }
-
         public VariableExpression( string identifierName ) {
             IdentifierName = identifierName;
         }
+
+        public string IdentifierName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return new List<IExpressionNode>(); }

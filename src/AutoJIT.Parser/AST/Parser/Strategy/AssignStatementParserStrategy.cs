@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions;
+using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Extensions;
+using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
@@ -22,10 +24,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
         private AssignStatement ParseAssignStatement( TokenQueue block ) {
             var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
-            var assignOperator = ParseVariableAssign( block );
-            var variableAssignExpressionTokenCollection = ParseVariableAssignExpression( block );
+            Token assignOperator = ParseVariableAssign( block );
+            TokenCollection variableAssignExpressionTokenCollection = ParseVariableAssignExpression( block );
 
-            var variableAssignExpression = ExpressionParser.ParseBlock( variableAssignExpressionTokenCollection, true );
+            IExpressionNode variableAssignExpression = ExpressionParser.ParseBlock( variableAssignExpressionTokenCollection, true );
 
             return AutoitStatementFactory.CreateAssignStatement( variableExpression, variableAssignExpression, assignOperator );
         }

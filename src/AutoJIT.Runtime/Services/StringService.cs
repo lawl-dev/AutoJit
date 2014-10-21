@@ -4,75 +4,74 @@ using System.Text;
 
 namespace AutoJITRuntime.Services
 {
-    public class StringService {
+    public class StringService
+    {
         public Variant StringAddCR( Variant variant ) {
-            return variant.GetString().Replace("\n", "\r\n");
+            return variant.GetString().Replace( "\n", "\r\n" );
         }
 
         public Variant StringCompare( Variant string1, Variant string2, Variant casesense ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StingInString( Variant variant, Variant substring, Variant casesense, Variant occurrence, Variant start, Variant count ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StringIsAINum( Variant variant ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StingIsAlpha( Variant variant ) {
-            return variant.GetString().All(char.IsLetter);
+            return variant.GetString().All( char.IsLetter );
         }
 
         public Variant StingIsASCII( Variant variant ) {
-            return variant.GetString().All(c => (c > -1 && c < 128));
+            return variant.GetString().All( c => ( c > -1 && c < 128 ) );
         }
 
         public Variant StingIsDigit( Variant variant ) {
-            return variant.GetString().All(char.IsDigit);
+            return variant.GetString().All( char.IsDigit );
         }
 
         public Variant StingIsFloat( Variant variant ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StingFormat( Variant formatcontrol, Variant var1, Variant[] varN ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StingFromASCIIArray( Variant array, Variant start, Variant end, Variant encoding ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StingIsInt( Variant variant ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StringIsLower( Variant variant ) {
-            return variant.GetString().All(char.IsLower);
+            return variant.GetString().All( char.IsLower );
         }
 
         public Variant StringIsSpace( Variant variant ) {
-            return variant.GetString().All(char.IsWhiteSpace);
+            return variant.GetString().All( char.IsWhiteSpace );
         }
 
         public Variant StringIsUpper( Variant variant ) {
-            return variant.GetString().All(char.IsUpper);
+            return variant.GetString().All( char.IsUpper );
         }
 
         public Variant StringIsXDigit( Variant variant ) {
-            return variant.GetString().All(c => ((c >= 0 && c <= 9) || ((c >= 'a' || c >= 'A') && (c <= 'F' || c <= 'f'))));
-        
+            return variant.GetString().All( c => ( ( c >= 0 && c <= 9 ) || ( ( c >= 'a' || c >= 'A' ) && ( c <= 'F' || c <= 'f' ) ) ) );
         }
 
         public Variant StringLeft( Variant variant, Variant count ) {
-            var fullString = variant.GetString();
-            if (fullString.Length <= count)
-            {
+            string fullString = variant.GetString();
+            if ( fullString.Length <= count ) {
                 return fullString;
             }
-            return fullString.Substring(0, count);
+            return fullString.Substring( 0, count );
         }
 
         public Variant StringLen( Variant variant ) {
@@ -84,31 +83,28 @@ namespace AutoJITRuntime.Services
         }
 
         public Variant StringMid( string toMid, Variant start, Variant count ) {
-
-            if (start < 1 ||
-                 start - 1 > toMid.Length)
-            {
+            if ( start < 1 ||
+                 start-1 > toMid.Length ) {
                 return string.Empty;
             }
 
-            if (start - 1 + count > toMid.Length)
-            {
-                return toMid.Substring(start - 1, toMid.Length - (start - 1));
+            if ( start-1+count > toMid.Length ) {
+                return toMid.Substring( start-1, toMid.Length-( start-1 ) );
             }
 
-            return toMid.Substring(start - 1, count);
+            return toMid.Substring( start-1, count );
         }
 
         public Variant StringRegExp( Variant test, Variant pattern, Variant flag, Variant offset ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StringRegExpReplace( Variant test, Variant pattern, Variant replace, Variant count ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StringReplace( Variant variant, Variant searchstringstart, Variant replacestring, Variant occurrence, Variant casesense ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant StringReverse( Variant variant, Variant flag ) {
@@ -116,12 +112,11 @@ namespace AutoJITRuntime.Services
         }
 
         public Variant StringRight( Variant variant, Variant count ) {
-            var fullString = variant.GetString();
-            if (fullString.Length <= count)
-            {
+            string fullString = variant.GetString();
+            if ( fullString.Length <= count ) {
                 return fullString;
             }
-            return fullString.Substring(fullString.Length - count, count);
+            return fullString.Substring( fullString.Length-count, count );
         }
 
         public Variant StringSplit( Variant variant, Variant delimiters, Variant flag ) {
@@ -129,56 +124,51 @@ namespace AutoJITRuntime.Services
         }
 
         public Variant StringStripCR( Variant variant ) {
-            return variant.GetString().Replace("\r", string.Empty);
+            return variant.GetString().Replace( "\r", string.Empty );
         }
 
         public Variant StringStripWS( Variant variant, Variant flag ) {
-            return variant.GetString().Replace(" ", string.Empty);
+            return variant.GetString().Replace( " ", string.Empty );
         }
 
         public Variant StringToASCIIArray( string toConvert, Variant start, Variant end, Variant encoding ) {
-            if (start + end >= toConvert.Length)
-            {
+            if ( start+end >= toConvert.Length ) {
                 return string.Empty;
             }
 
             byte[] bytes;
 
-            switch (encoding.GetInt())
-            {
+            switch (encoding.GetInt()) {
                 case 0:
-                    bytes = Encoding.Unicode.GetBytes(toConvert.Substring(start, end));
+                    bytes = Encoding.Unicode.GetBytes( toConvert.Substring( start, end ) );
                     break;
                 case 1:
-                    bytes = Encoding.Default.GetBytes(toConvert.Substring(start, end));
+                    bytes = Encoding.Default.GetBytes( toConvert.Substring( start, end ) );
                     break;
                 case 2:
-                    bytes = Encoding.UTF8.GetBytes(toConvert.Substring(start, end));
+                    bytes = Encoding.UTF8.GetBytes( toConvert.Substring( start, end ) );
                     break;
                 default:
                     return string.Empty;
             }
 
-            return bytes.Select(x => Variant.Create((int)x)).ToArray();
-
+            return bytes.Select( x => Variant.Create( x ) ).ToArray();
         }
 
         public Variant StringTrimLeft( Variant variant, Variant count ) {
-            var toTrim = variant.GetString();
-            if (toTrim.Length - count <= 0)
-            {
+            string toTrim = variant.GetString();
+            if ( toTrim.Length-count <= 0 ) {
                 return string.Empty;
             }
-            return toTrim.Substring(count, toTrim.Length - count);
+            return toTrim.Substring( count, toTrim.Length-count );
         }
 
         public Variant StringTrimRight( Variant variant, Variant count ) {
-            var toTrim = variant.GetString();
-            if (toTrim.Length - count <= 0)
-            {
+            string toTrim = variant.GetString();
+            if ( toTrim.Length-count <= 0 ) {
                 return string.Empty;
             }
-            return toTrim.Substring(0, toTrim.Length - count);
+            return toTrim.Substring( 0, toTrim.Length-count );
         }
 
         public Variant StringUpper( Variant variant ) {

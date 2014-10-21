@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using AutoJIT;
 using AutoJIT.Compiler;
+using AutoJIT.Parser.Collection;
+using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Lex.Interface;
 using NUnit.Framework;
 
@@ -28,8 +30,8 @@ namespace UnitTests
         public void LexerTests123() {
             var autoJITContainer = new CompilerBootStrapper();
             var lexer = autoJITContainer.GetInstance<ILexer>();
-            var vectorTokens = lexer.Lex( _script );
-            var tokens = vectorTokens.ToList();
+            TokenCollection vectorTokens = lexer.Lex( _script );
+            List<Token> tokens = vectorTokens.ToList();
         }
     }
 }

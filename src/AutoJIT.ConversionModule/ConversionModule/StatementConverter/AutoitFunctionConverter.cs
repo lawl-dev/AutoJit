@@ -1,3 +1,4 @@
+using System;
 using AutoJIT.CSharpConverter.ConversionModule.StatementConverter.Interface;
 using AutoJIT.CSharpConverter.ConversionModule.Visitor;
 using AutoJIT.Parser.AST;
@@ -14,7 +15,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         public MemberDeclarationSyntax Convert( FunctionNode function, IContext context ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

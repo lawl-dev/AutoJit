@@ -37,14 +37,14 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             }
             TokenCollection statementsTokenCollection = ParseForToStatements( block );
 
-            var startExpression = ExpressionParser.ParseBlock( startExpressionTokenCollection, true );
-            var endExpression = ExpressionParser.ParseBlock( endExpressionTokenCollection, true );
+            IExpressionNode startExpression = ExpressionParser.ParseBlock( startExpressionTokenCollection, true );
+            IExpressionNode endExpression = ExpressionParser.ParseBlock( endExpressionTokenCollection, true );
             IExpressionNode stepExpressions = null;
             if ( stepExpressionTokenCollection != null ) {
                 stepExpressions = ExpressionParser.ParseBlock( stepExpressionTokenCollection, true );
             }
 
-            var statements = StatementParser.ParseBlock( statementsTokenCollection );
+            List<IStatementNode> statements = StatementParser.ParseBlock( statementsTokenCollection );
 
             return AutoitStatementFactory.CreateForToNextStatement( variableExpression, startExpression, endExpression, stepExpressions, statements );
         }

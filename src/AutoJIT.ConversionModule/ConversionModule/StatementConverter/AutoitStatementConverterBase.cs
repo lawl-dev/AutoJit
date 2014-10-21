@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter.Interface;
 using AutoJIT.CSharpConverter.ConversionModule.StatementConverter.Interface;
@@ -24,10 +25,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         public abstract IEnumerable<StatementSyntax> Convert( TStatement statement, IContextService context );
 
-        protected ExpressionSyntax Convert( IExpressionNode node, IContextService contextService ) {
-            return GetConverter( node ).ConverGeneric( node, contextService );
-        }
-
         public IEnumerable<StatementSyntax> ConvertGeneric( IStatementNode node, IContextService contextService ) {
             return GetConverter( node ).Convert( node, contextService );
         }
@@ -36,13 +33,17 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             return Convert( (TStatement) node, contextService );
         }
 
+        protected ExpressionSyntax Convert( IExpressionNode node, IContextService contextService ) {
+            return GetConverter( node ).ConverGeneric( node, contextService );
+        }
+
         private IAutoitExpressionConverter<ExpressionSyntax> GetConverter( IExpressionNode node ) {
-            var converterType = typeof (IAutoitExpressionConverter<,>).MakeGenericType( node.GetType(), typeof (ExpressionSyntax) );
+            Type converterType = typeof (IAutoitExpressionConverter<,>).MakeGenericType( node.GetType(), typeof (ExpressionSyntax) );
             return _injectionService.Inject<IAutoitExpressionConverter<ExpressionSyntax>>( converterType );
         }
 
         private IAutoitStatementConverter<StatementSyntax> GetConverter( IStatementNode node ) {
-            var converterType = typeof (IAutoitStatementConverter<,>).MakeGenericType( node.GetType(), typeof (StatementSyntax) );
+            Type converterType = typeof (IAutoitStatementConverter<,>).MakeGenericType( node.GetType(), typeof (StatementSyntax) );
             return _injectionService.Inject<IAutoitStatementConverter<StatementSyntax>>( converterType );
         }
     }

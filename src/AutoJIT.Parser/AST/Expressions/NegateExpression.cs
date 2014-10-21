@@ -7,14 +7,14 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class NegateExpression : ExpressionBase
     {
-        public IExpressionNode ExpressionNode { get; private set; }
-        public string NegateFunctionName { get; private set; }
-
         public NegateExpression( IExpressionNode expressionNode ) {
             ExpressionNode = expressionNode;
             NegateFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Negate( null ) );
             Initialize();
         }
+
+        public IExpressionNode ExpressionNode { get; private set; }
+        public string NegateFunctionName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return ExpressionNode.ToEnumerable(); }

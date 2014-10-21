@@ -11,7 +11,7 @@ namespace AutoJIT.Parser.AST.Statements.Factory
     public sealed class CSharpStatementFactory : ICSharpStatementFactory
     {
         public StatementSyntax CreateForInStatement( string identifierName, ExpressionSyntax expression, IEnumerable<StatementSyntax> statements ) {
-            var typeName = SyntaxFactory.ParseTypeName( typeof (Variant).Name );
+            TypeSyntax typeName = SyntaxFactory.ParseTypeName( typeof (Variant).Name );
             return SyntaxFactory.ForEachStatement(
                 typeName, identifierName, expression,
                 statements.ToBlock() );
@@ -60,22 +60,6 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return SyntaxFactory.WhileStatement( whileCondition, whileBlock.ToBlock() );
         }
 
-        private ExpressionSyntax CreateNullExpression() {
-            return SyntaxFactory.InvocationExpression(
-                SyntaxFactory.MemberAccessExpression(
-                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
-                    SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) ) ) )
-                .WithArgumentList(
-                    SyntaxFactory.ArgumentList(
-                        SyntaxFactory.Argument(
-                            SyntaxFactory.CastExpression(
-                                SyntaxFactory.PredefinedType(
-                                    SyntaxFactory.Token(
-                                        SyntaxKind.ObjectKeyword ) ),
-                                SyntaxFactory.LiteralExpression(
-                                    SyntaxKind.NullLiteralExpression ) ) ).ToSeparatedSyntaxList() ) );
-        }
-
         public FieldDeclarationSyntax CreateFieldDeclarationStatement( VariableDeclarationSyntax variableDeclarationSyntax ) {
             return SyntaxFactory.FieldDeclaration( variableDeclarationSyntax );
         }
@@ -91,6 +75,22 @@ namespace AutoJIT.Parser.AST.Statements.Factory
         public MemberAccessExpressionSyntax CreateMemberAccessExpression( string contextInstanceName, string macroName ) {
             return SyntaxFactory.MemberAccessExpression(
                 SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( contextInstanceName ), SyntaxFactory.IdentifierName( macroName ) );
+        }
+
+        private ExpressionSyntax CreateNullExpression() {
+            return SyntaxFactory.InvocationExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
+                    SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) ) ) )
+                .WithArgumentList(
+                    SyntaxFactory.ArgumentList(
+                        SyntaxFactory.Argument(
+                            SyntaxFactory.CastExpression(
+                                SyntaxFactory.PredefinedType(
+                                    SyntaxFactory.Token(
+                                        SyntaxKind.ObjectKeyword ) ),
+                                SyntaxFactory.LiteralExpression(
+                                    SyntaxKind.NullLiteralExpression ) ) ).ToSeparatedSyntaxList() ) );
         }
 
         private ArgumentListSyntax CreateArguments( IEnumerable<CSharpParameterInfo> parameter ) {

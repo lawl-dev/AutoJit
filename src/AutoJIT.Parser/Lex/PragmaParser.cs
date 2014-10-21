@@ -12,23 +12,23 @@ namespace AutoJIT.Parser.Lex
     {
         public string IncludeDependenciesAndResolvePragmas( string autoitScript, PragmaOptions pragmaOptions ) {
             autoitScript = GetScriptWithResolvedIncludes( autoitScript );
-            var lines = autoitScript.Split( new[] { Environment.NewLine }, StringSplitOptions.None );
+            string[] lines = autoitScript.Split( new[] { Environment.NewLine }, StringSplitOptions.None );
 
-            var toReturn = string.Empty;
+            string toReturn = string.Empty;
 
             for ( int index = 0; index < lines.Length; index++ ) {
-                var line = lines[index].TrimStart( '	' ).TrimStart( ' ' );
-                var isPragma = line.StartsWith( "#" );
+                string line = lines[index].TrimStart( '	' ).TrimStart( ' ' );
+                bool isPragma = line.StartsWith( "#" );
                 if ( isPragma ) {
-                    var charQueue = line.ToQueue();
+                    Queue<char> charQueue = line.ToQueue();
 
-                    var pragmaType = string.Join( "", charQueue.DequeueWhile( x => char.IsLetterOrDigit( x ) || x == '#' || x == '-' ) ).ToLower();
+                    string pragmaType = string.Join( "", charQueue.DequeueWhile( x => char.IsLetterOrDigit( x ) || x == '#' || x == '-' ) ).ToLower();
                     switch (pragmaType) {
                         case "#include-once":
                             pragmaOptions.IncludeOnce = true;
                             break;
                         case "#include":
-                            var include = HandleInclude( charQueue );
+                            string include = HandleInclude( charQueue );
                             if ( !pragmaOptions.Includes.Contains( include ) ) {
                                 pragmaOptions.Includes.Add( include );
                             }
@@ -69,30 +69,30 @@ namespace AutoJIT.Parser.Lex
 
             var scripts = new Dictionary<string, string> { { "ToCompiler", script } };
 
-            var includes = ResolveIncludesRecursiv( script );
+            IEnumerable<KeyValuePair<string, string>> includes = ResolveIncludesRecursiv( script );
             foreach (var source in includes) {
                 if ( !scripts.ContainsKey( source.Key ) ) {
                     scripts.Add( source.Key, source.Value );
                 }
             }
-            foreach (var s in scripts.Select( x => x.Value )) {
+            foreach (string s in scripts.Select( x => x.Value )) {
                 toReturn = string.Format( "{0}{1}{2}", s, Environment.NewLine, toReturn );
             }
             return toReturn;
         }
 
         private string ExtractIncludes( string script, PragmaOptions pragmaOptions ) {
-            var lines = script.Split( new[] { Environment.NewLine }, StringSplitOptions.None );
+            string[] lines = script.Split( new[] { Environment.NewLine }, StringSplitOptions.None );
             string toReturn = string.Empty;
-            foreach (var line in lines) {
-                var isPragma = line.StartsWith( "#" );
+            foreach (string line in lines) {
+                bool isPragma = line.StartsWith( "#" );
                 if ( isPragma ) {
-                    var charQueue = line.ToQueue();
+                    Queue<char> charQueue = line.ToQueue();
 
-                    var pragmaType = string.Join( "", charQueue.DequeueWhile( x => char.IsLetterOrDigit( x ) || x == '#' || x == '-' ) ).ToLower();
+                    string pragmaType = string.Join( "", charQueue.DequeueWhile( x => char.IsLetterOrDigit( x ) || x == '#' || x == '-' ) ).ToLower();
                     switch (pragmaType) {
                         case "#include":
-                            var include = HandleInclude( charQueue );
+                            string include = HandleInclude( charQueue );
                             pragmaOptions.Includes.Add( include );
                             break;
                     }
@@ -145,9 +145,9 @@ namespace AutoJIT.Parser.Lex
         private IEnumerable<KeyValuePair<string, string>> ResolveIncludesRecursiv( string currentScript ) {
             var toReturn = new List<KeyValuePair<string, string>>();
 
-            var includes = GetIncludes( currentScript );
-            foreach (var include in includes) {
-                var includeScript = File.ReadAllText( string.Format( @"C:\Program Files (x86)\AutoIt3\Include\{0}", include ) );
+            IEnumerable<string> includes = GetIncludes( currentScript );
+            foreach (string include in includes) {
+                string includeScript = File.ReadAllText( string.Format( @"C:\Program Files (x86)\AutoIt3\Include\{0}", include ) );
                 toReturn.Add( new KeyValuePair<string, string>( include, includeScript ) );
                 toReturn.AddRange( ResolveIncludesRecursiv( includeScript ) );
             }

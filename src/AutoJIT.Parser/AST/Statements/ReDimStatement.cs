@@ -6,11 +6,15 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ReDimStatement : StatementBase
     {
-        public ArrayExpression ArrayExpression { get; private set; }
-
         public ReDimStatement( ArrayExpression arrayExpression ) {
             ArrayExpression = arrayExpression;
             Initialize();
+        }
+
+        public ArrayExpression ArrayExpression { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return new List<ISyntaxNode> { ArrayExpression }; }
         }
 
         public override string ToSource() {
@@ -19,10 +23,6 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override object Clone() {
             return new ReDimStatement( (ArrayExpression) ArrayExpression.Clone() );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>() { ArrayExpression }; }
         }
     }
 }

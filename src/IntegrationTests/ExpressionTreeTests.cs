@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using AutoJIT;
 using AutoJIT.Compiler;
 using AutoJITRuntime;
-using Lawl.Architekture;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
@@ -216,14 +213,14 @@ namespace UnitTests
         [TestCase( "1 OR ( 2 AND 3 ) OR ( NOT 4 AND NOT 5)" )]
         [TestCase( "Null = Null" )]
         public void Test_Expressions( string expression ) {
-            var script = string.Format( _scriptTemplate, expression );
-            var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-            var assembly = Assembly.Load( assemblyBytes );
-            var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var method = type.GetMethod( "f_ExpressionReturner" );
-            var instance = type.CreateInstanceWithDefaultParameters();
+            string script = string.Format( _scriptTemplate, expression );
+            byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+            Assembly assembly = Assembly.Load( assemblyBytes );
+            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            object instance = type.CreateInstanceWithDefaultParameters();
             var result = method.Invoke( instance, null ) as Variant;
-            var au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
+            object au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
             CompareResults( result, au3Result );
         }
 
@@ -231,16 +228,16 @@ namespace UnitTests
         [TestCase( "SetError ( 1 ,  0 ,  - 1 )" )]
         [TestCase( "@error OR NOT 1" )]
         public void Test_ExpressionsTernary( string expression ) {
-            var script = string.Format( _scriptTemplate, expression );
-            var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+            string script = string.Format( _scriptTemplate, expression );
+            byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
             File.WriteAllBytes( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.dll", assemblyBytes );
 
-            var assembly = Assembly.Load( assemblyBytes );
-            var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var method = type.GetMethod( "f_ExpressionReturner" );
-            var instance = type.CreateInstanceWithDefaultParameters();
+            Assembly assembly = Assembly.Load( assemblyBytes );
+            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            object instance = type.CreateInstanceWithDefaultParameters();
             var result = method.Invoke( instance, null ) as Variant;
-            var au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
+            object au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
             CompareResults( result, au3Result );
         }
 
@@ -427,14 +424,14 @@ namespace UnitTests
         [TestCase( "--(-(123 + 321) / 4 * 9) + - 1" )]
         [TestCase( "String(BinaryMid(Binary('1ZcstHe5aWa95mCa6ba1'), 4, 5))" )]
         public void Test_ExpressionsOptimizing( string expression ) {
-            var script = string.Format( _scriptTemplate, expression );
-            var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
-            var assembly = Assembly.Load( assemblyBytes );
-            var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var method = type.GetMethod( "f_ExpressionReturner" );
-            var instance = type.CreateInstanceWithDefaultParameters();
+            string script = string.Format( _scriptTemplate, expression );
+            byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
+            Assembly assembly = Assembly.Load( assemblyBytes );
+            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            object instance = type.CreateInstanceWithDefaultParameters();
             var result = method.Invoke( instance, null ) as Variant;
-            var au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
+            object au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
             CompareResults( result, au3Result );
         }
 
@@ -620,19 +617,19 @@ namespace UnitTests
             Variant b = random.Next( 0, 1337 );
             Variant c = random.Next( 0, 1337 );
 
-            var script = string.Format( _scriptTemplateWithParameters, expression );
-            var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-            var assembly = Assembly.Load( assemblyBytes );
-            var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var method = type.GetMethod( "f_ExpressionReturner" );
-            var instance = type.CreateInstanceWithDefaultParameters();
+            string script = string.Format( _scriptTemplateWithParameters, expression );
+            byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+            Assembly assembly = Assembly.Load( assemblyBytes );
+            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            object instance = type.CreateInstanceWithDefaultParameters();
             var result = method.Invoke( instance, new object[] { a, b, c } ) as Variant;
 
-            var au3Expression = expression.Replace( "$a", a.ToString() )
+            string au3Expression = expression.Replace( "$a", a.ToString() )
                 .Replace( "$b", b.ToString() )
                 .Replace( "$c", c.ToString() );
 
-            var au3Result = GetAu3Result( string.Format( "f!{0}", au3Expression ), result.GetRealType() );
+            object au3Result = GetAu3Result( string.Format( "f!{0}", au3Expression ), result.GetRealType() );
 
             CompareResults( result, au3Result );
         }
@@ -657,17 +654,17 @@ namespace UnitTests
         public void Test_ExpressionArray( string expression ) {
             Assert.DoesNotThrow(
                 () => {
-                    var script = string.Format( _scriptTemplateWithParameters, expression );
-                    var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
-                    var assembly = Assembly.Load( assemblyBytes );
-                    var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                    var method = type.GetMethod( "f_ExpressionReturner" );
-                    var instance = type.CreateInstanceWithDefaultParameters();
+                    string script = string.Format( _scriptTemplateWithParameters, expression );
+                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
+                    Assembly assembly = Assembly.Load( assemblyBytes );
+                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+                    MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+                    object instance = type.CreateInstanceWithDefaultParameters();
 
                     Variant variants = new Variant[] { 0, 0 };
                     Variant variants1 = new Variant[] { 0, 0 };
                     Variant variants2 = new Variant[] { 0, 0 };
-                    var result = method.Invoke( instance, new object[] { variants, variants1, variants2 } );
+                    object result = method.Invoke( instance, new object[] { variants, variants1, variants2 } );
                 } );
         }
 
@@ -691,12 +688,12 @@ namespace UnitTests
         public void Test_ExpressionArray2D( string expression ) {
             Assert.DoesNotThrow(
                 () => {
-                    var script = string.Format( _scriptTemplateWithParameters, expression );
-                    var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-                    var assembly = Assembly.Load( assemblyBytes );
-                    var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                    var method = type.GetMethod( "f_ExpressionReturner" );
-                    var instance = type.CreateInstanceWithDefaultParameters();
+                    string script = string.Format( _scriptTemplateWithParameters, expression );
+                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+                    Assembly assembly = Assembly.Load( assemblyBytes );
+                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+                    MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+                    object instance = type.CreateInstanceWithDefaultParameters();
 
                     Variant variants = new Variant[4, 4];
                     for ( int i = 0; i < 4; i++ ) {
@@ -704,7 +701,7 @@ namespace UnitTests
                             variants[i, j] = 0;
                         }
                     }
-                    var variant = variants[variants[0, 0], variants[0, 0]];
+                    Variant variant = variants[variants[0, 0], variants[0, 0]];
                     var parameters = new object[] { variants, variants, variants };
                     var result = method.Invoke( instance, parameters ) as Variant;
                 } );
@@ -714,11 +711,11 @@ namespace UnitTests
         public void Test_ArrayInitExpression() {
             string script = File.ReadAllText( "C:\\Users\\Brunnmeier\\Documents\\PrivateGIT\\Autoit.NET\\UnitTests\\testdata\\testarrayinit.au3" );
 
-            var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-            var assembly = Assembly.Load( assemblyBytes );
-            var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var method = type.GetMethod( "f_ExpressionReturner" );
-            var instance = type.CreateInstanceWithDefaultParameters();
+            byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+            Assembly assembly = Assembly.Load( assemblyBytes );
+            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            object instance = type.CreateInstanceWithDefaultParameters();
             var array = (Variant) method.Invoke( instance, null );
             Assert.IsTrue( array[0, 0] == 0 );
             Assert.IsTrue( array[1, 0] != 0 );
@@ -728,11 +725,11 @@ namespace UnitTests
         public void Test_ArrayInitExpression3() {
             string script = File.ReadAllText( "C:\\Users\\Brunnmeier\\Documents\\PrivateGIT\\Autoit.NET\\UnitTests\\testdata\\testarrayinit2.au3" );
 
-            var assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-            var assembly = Assembly.Load( assemblyBytes );
-            var type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var method = type.GetMethod( "f_ExpressionReturner" );
-            var instance = type.CreateInstanceWithDefaultParameters();
+            byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+            Assembly assembly = Assembly.Load( assemblyBytes );
+            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            object instance = type.CreateInstanceWithDefaultParameters();
             var array = (Variant) method.Invoke( instance, null );
         }
 
@@ -740,19 +737,19 @@ namespace UnitTests
         public void Test_ArrayInitExpression2() {
             var vGaInProcessWinApi = (Variant) new Variant[3, 3];
             var variants = new Variant[] {
-                new Variant[] {
+                new[] {
                     Variant.Create( 1 ),
                     Variant.Create( 2 ),
                     Variant.Create( 3 )
                 }
                 ,
-                new Variant[] {
+                new[] {
                     Variant.Create( 2 ),
                     Variant.Create( 3 ),
                     Variant.Create( 4 )
                 }
                 ,
-                new Variant[] {
+                new[] {
                     Variant.Create( 3 ),
                     Variant.Create( 4 ),
                     Variant.Create( 5 )

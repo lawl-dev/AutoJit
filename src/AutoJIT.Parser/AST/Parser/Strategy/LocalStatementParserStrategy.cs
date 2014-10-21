@@ -36,8 +36,8 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 return toReturn;
             }
 
-            var isConst = Skip( block, Keywords.Const );
-            var isStatic = Skip( block, Keywords.Static );
+            bool isConst = Skip( block, Keywords.Const );
+            bool isStatic = Skip( block, Keywords.Static );
 
             while ( block.Any() &&
                     block.Peek().Type == TokenType.Variable ) {
@@ -74,7 +74,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                     initExpression = ExpressionParser.ParseSingle<IExpressionNode>( new TokenCollection( ExtractUntilNextDeclaration( block ) ) );
                 }
 
-                var autoInitExpression = lastVariableExpression == null
+                IExpressionNode autoInitExpression = lastVariableExpression == null
                     ? (IExpressionNode) new NumericLiteralExpression(
                         _tokenFactory.CreateInt(
                             @operator.Type == TokenType.Mult

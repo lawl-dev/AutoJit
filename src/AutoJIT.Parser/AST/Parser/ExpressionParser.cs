@@ -20,17 +20,22 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         public IExpressionNode ParseBlock( TokenCollection block, bool prepareExpression ) {
-            var queue = prepareExpression
+            TokenQueue queue = prepareExpression
                 ? new TokenQueue( _operatorPrecedenceService.PrepareOperatorPrecedence( block ) )
                 : new TokenQueue( block );
 
-            var res = ParseBlock( queue );
+            IExpressionNode res = ParseBlock( queue );
 
             if ( queue.Any() ) {
                 throw new InvalidOperationException( queue.ToString() );
             }
 
             return res;
+        }
+
+        public TExpression ParseSingle<TExpression>( TokenQueue block ) where TExpression : IExpressionNode {
+            IExpressionNode expressionNode = ParseExpressionNode( block );
+            return (TExpression) expressionNode;
         }
 
         private IExpressionNode ParseBlock( TokenQueue block ) {
@@ -41,15 +46,15 @@ namespace AutoJIT.Parser.AST.Parser
 
             Token @operator;
 
-            var leftNode = ParseExpressionNode( block );
+            IExpressionNode leftNode = ParseExpressionNode( block );
 
             if ( !block.Any() ) {
                 return leftNode;
             }
 
-            var isOperatableExpression = block.Peek().IsMathExpression || block.Peek().IsNumberExpression || block.Peek().IsBooleanExpression ||
-                                         block.Peek().Type == TokenType.StringEqual || block.Peek().Type == TokenType.Concat;
-            var isTernaryExpression = block.Peek().Type == TokenType.QuestionMark;
+            bool isOperatableExpression = block.Peek().IsMathExpression || block.Peek().IsNumberExpression || block.Peek().IsBooleanExpression ||
+                                          block.Peek().Type == TokenType.StringEqual || block.Peek().Type == TokenType.Concat;
+            bool isTernaryExpression = block.Peek().Type == TokenType.QuestionMark;
 
             if ( isOperatableExpression ) {
                 @operator = block.Dequeue();
@@ -61,7 +66,7 @@ namespace AutoJIT.Parser.AST.Parser
                 return leftNode;
             }
 
-            var rightNode = ParseExpressionNode( block );
+            IExpressionNode rightNode = ParseExpressionNode( block );
 
             if ( block.Any() ) {
                 throw new SyntaxTreeException( "Unresolved expression", block.First().Col, block.First().Line );
@@ -91,9 +96,9 @@ namespace AutoJIT.Parser.AST.Parser
 
         private IExpressionNode ParseTernaryExpression( TokenQueue block, IExpressionNode leftNode ) {
             SkipAndAssert( block, TokenType.QuestionMark );
-            var ifTrue = ParseExpressionNode( block );
+            IExpressionNode ifTrue = ParseExpressionNode( block );
             SkipAndAssert( block, TokenType.DoubleDot );
-            var ifFalse = ParseExpressionNode( block );
+            IExpressionNode ifFalse = ParseExpressionNode( block );
             if ( block.Any() ) {
                 throw new SyntaxTreeException( "Unresolved expression", block.First().Col, block.First().Line );
             }
@@ -104,7 +109,7 @@ namespace AutoJIT.Parser.AST.Parser
             IExpressionNode toReturn = null;
             IList<Token> signOperators = null;
 
-            var hasSignOperators = block.Peek().IsSignOperator;
+            bool hasSignOperators = block.Peek().IsSignOperator;
 
             if ( hasSignOperators ) {
                 signOperators = block.DequeueWhile( x => x.IsSignOperator ).ToList();
@@ -141,7 +146,7 @@ namespace AutoJIT.Parser.AST.Parser
                     toReturn = ParseArrayInitializerExpression( block );
                     break;
                 case TokenType.NOT:
-                    var @operator = block.Dequeue();
+                    Token @operator = block.Dequeue();
                     toReturn = new BooleanNegateExpression( ParseExpressionNode( block ), @operator );
                     break;
                 case TokenType.Keyword:
@@ -195,26 +200,21 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         private IExpressionNode ParseUserfunctionCallExpression( TokenQueue block ) {
-            var userfunctionName = block.Dequeue().Value.StringValue;
-            var parameter = GetFunctionParameterExpressionTrees( block ).ToList();
+            string userfunctionName = block.Dequeue().Value.StringValue;
+            List<IExpressionNode> parameter = GetFunctionParameterExpressionTrees( block ).ToList();
             var toReturn = new UserfunctionCallExpression( userfunctionName, parameter );
             return toReturn;
         }
 
         private IExpressionNode ParseFunctionCallExpression( TokenQueue block ) {
-            var buildInFunctionName = block.Dequeue().Value.StringValue;
-            var parameter = GetFunctionParameterExpressionTrees( block ).ToList();
+            string buildInFunctionName = block.Dequeue().Value.StringValue;
+            List<IExpressionNode> parameter = GetFunctionParameterExpressionTrees( block ).ToList();
             var toReturn = new CallExpression( buildInFunctionName, parameter );
             return toReturn;
         }
 
-        public TExpression ParseSingle<TExpression>( TokenQueue block ) where TExpression : IExpressionNode {
-            var expressionNode = ParseExpressionNode( block );
-            return (TExpression) expressionNode;
-        }
-
         private IExpressionNode ParseMacro( TokenQueue block ) {
-            var name = block.Dequeue().Value.StringValue;
+            string name = block.Dequeue().Value.StringValue;
             return new MacroExpression( name );
         }
 
@@ -224,12 +224,12 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         private IExpressionNode ParseVariableExpression( TokenQueue block ) {
-            var identifierName = block.Dequeue().Value.StringValue;
+            string identifierName = block.Dequeue().Value.StringValue;
             IExpressionNode toReturn;
             if ( block.Any() &&
                  block.Peek().Type == TokenType.Leftsubscript ) {
-                var arrayIndexExpressionTrees = GetArrayIndexExpressionTrees( block );
-                var leftParameter = arrayIndexExpressionTrees.Select( x => ParseBlock( x, true ) ).ToList();
+                IEnumerable<TokenCollection> arrayIndexExpressionTrees = GetArrayIndexExpressionTrees( block );
+                List<IExpressionNode> leftParameter = arrayIndexExpressionTrees.Select( x => ParseBlock( x, true ) ).ToList();
                 toReturn = new ArrayExpression( identifierName, leftParameter );
             }
             else {

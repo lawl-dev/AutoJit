@@ -10,9 +10,9 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
     public abstract class StatementParserStrategyBase<TStatement> : StatementParserBase, IStatementParserStrategy<TStatement>
         where TStatement : IStatementNode
     {
-        protected readonly IStatementParser StatementParser;
-        protected readonly IExpressionParser ExpressionParser;
         protected readonly IAutoitStatementFactory AutoitStatementFactory;
+        protected readonly IExpressionParser ExpressionParser;
+        protected readonly IStatementParser StatementParser;
 
         protected StatementParserStrategyBase(
             IStatementParser statementParser,

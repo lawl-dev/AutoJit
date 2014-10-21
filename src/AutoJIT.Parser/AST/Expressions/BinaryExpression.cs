@@ -16,6 +16,13 @@ namespace AutoJIT.Parser.AST.Expressions
             }
         }
 
+        public override IEnumerable<ISyntaxNode> Children {
+            get {
+                var toReturn = new List<ISyntaxNode> { Left, Right };
+                return toReturn;
+            }
+        }
+
         public override string GetCompilerFunctionName( TokenType operatorType ) {
             string compilerFunctionName = null;
             switch (operatorType) {
@@ -36,13 +43,6 @@ namespace AutoJIT.Parser.AST.Expressions
                     break;
             }
             return compilerFunctionName;
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get {
-                var toReturn = new List<ISyntaxNode> { Left, Right };
-                return toReturn;
-            }
         }
 
         public override object Clone() {

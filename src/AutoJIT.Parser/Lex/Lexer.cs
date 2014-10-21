@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Exceptions;
 using AutoJIT.Parser.Extensions;
@@ -19,9 +20,9 @@ namespace AutoJIT.Parser.Lex
         }
 
         public TokenCollection Lex( string autoitScript ) {
-            var lines = autoitScript.Split( Environment.NewLine.ToEnumerable().ToArray(), StringSplitOptions.None );
+            string[] lines = autoitScript.Split( Environment.NewLine.ToEnumerable().ToArray(), StringSplitOptions.None );
 
-            var tokenizesLines = lines.Select( ( line, index ) => LexLine( index, line ).ToList() ).ToList();
+            List<List<Token>> tokenizesLines = lines.Select( ( line, index ) => LexLine( index, line ).ToList() ).ToList();
 
             for ( int i = tokenizesLines.Count-1; i >= 0; i-- ) {
                 if ( tokenizesLines[i].Any( x => x.Type == TokenType.ContinueLine ) ) {
@@ -42,14 +43,14 @@ namespace AutoJIT.Parser.Lex
             int pos = 0;
 
             while ( tokenQueue.Any() ) {
-                var list = tokenQueue.DequeueWhile( x => x == ' ' || x == '\t' ).ToList();
+                List<char> list = tokenQueue.DequeueWhile( x => x == ' ' || x == '\t' ).ToList();
                 pos += list.Count+1;
 
                 if ( !tokenQueue.Any() ) {
                     break;
                 }
 
-                var currentChar = tokenQueue.Peek();
+                char currentChar = tokenQueue.Peek();
 
                 if ( ( char.IsNumber( currentChar ) || currentChar == '.' ) &&
                      LexNumber( tokenQueue, toReturn, pos, lineNum ) ) {
@@ -164,7 +165,7 @@ namespace AutoJIT.Parser.Lex
                         break;
                     case '&':
                         tokenQueue.Dequeue();
-                        var currentCar = tokenQueue.Peek();
+                        char currentCar = tokenQueue.Peek();
                         if ( currentCar == '=' ) {
                             toReturn.Add( _tokenFactory.CreateConcatJoin( pos, lineNum ) );
                             tokenQueue.Dequeue();
@@ -278,7 +279,7 @@ namespace AutoJIT.Parser.Lex
         }
 
         private bool IsSpecialTokenType( IEnumerable<char> line ) {
-            var specialKeywords = new List<TokenType>() {
+            var specialKeywords = new List<TokenType> {
                 TokenType.AND,
                 TokenType.OR,
                 TokenType.NOT,
@@ -303,14 +304,14 @@ namespace AutoJIT.Parser.Lex
         }
 
         private void HandleString( Queue<char> tokenQueue, IList<Token> lineTokens, int pos, int lineNum ) {
-            var start = tokenQueue.Dequeue();
+            char start = tokenQueue.Dequeue();
             var tokenString = new string( tokenQueue.DequeueWhile( x => x != start ).ToArray() );
             tokenQueue.Dequeue();
             lineTokens.Add( _tokenFactory.CreateString( tokenString, pos, lineNum ) );
         }
 
         private bool LexKeywordOrFunction( Queue<char> line, IList<Token> token, int pos, int lineNum ) {
-            var functionOrKeyword = string.Join( "", line.TakeWhile( x => char.IsLetterOrDigit( x ) || x == '_' ) );
+            string functionOrKeyword = string.Join( "", line.TakeWhile( x => char.IsLetterOrDigit( x ) || x == '_' ) );
 
             Keywords result;
             if ( Enum.TryParse( functionOrKeyword, true, out result ) ) {
@@ -319,7 +320,7 @@ namespace AutoJIT.Parser.Lex
                 return true;
             }
 
-            var function =
+            MethodInfo function =
                 typeof (AutoitRuntime<>).GetMethods().FirstOrDefault( m => m.Name.Equals( functionOrKeyword, StringComparison.InvariantCultureIgnoreCase ) );
 
             if ( function != null ) {
@@ -327,7 +328,7 @@ namespace AutoJIT.Parser.Lex
                 line.Dequeue( functionOrKeyword.Length ).ToList();
                 return true;
             }
-            var nextToken = line.Skip( functionOrKeyword.Length ).FirstOrDefault();
+            char nextToken = line.Skip( functionOrKeyword.Length ).FirstOrDefault();
             if ( result == Keywords.None &&
                  line.Count > 1 &&
                  nextToken != '\0' &&
@@ -357,13 +358,13 @@ namespace AutoJIT.Parser.Lex
                 return true;
             }
 
-            var isDouble = false;
-            var isScientific = false;
-            var isHex = false;
-            var isEnd = false;
+            bool isDouble = false;
+            bool isScientific = false;
+            bool isHex = false;
+            bool isEnd = false;
             tempString += tokenQueue.DequeueWhile( char.IsNumber ).Join();
             while ( tokenQueue.Any() ) {
-                var ch = tokenQueue.Peek();
+                char ch = tokenQueue.Peek();
                 switch (ch) {
                     case '.':
                         if ( isDouble ) {
@@ -382,7 +383,7 @@ namespace AutoJIT.Parser.Lex
                         isDouble = true;
                         tempString += tokenQueue.Dequeue();
 
-                        var next = tokenQueue.Peek();
+                        char next = tokenQueue.Peek();
                         if ( next == '+' ||
                              next == '-' ) {
                             tempString += tokenQueue.Dequeue();
@@ -407,17 +408,17 @@ namespace AutoJIT.Parser.Lex
             }
 
             if ( isDouble ) {
-                var doubleValue = double.Parse( tempString, CultureInfo.InvariantCulture );
+                double doubleValue = double.Parse( tempString, CultureInfo.InvariantCulture );
                 lineTokens.Add( _tokenFactory.CreateDouble( doubleValue, pos, lineNum ) );
             }
             else {
-                var tempInt64 = Int64.Parse( tempString );
+                long tempInt64 = Int64.Parse( tempString );
                 if ( tempInt64 > int.MaxValue ||
                      tempInt64 < int.MinValue ) {
                     lineTokens.Add( _tokenFactory.CreateInt64( tempInt64, pos, lineNum ) );
                 }
                 else {
-                    var value = int.Parse( tempString );
+                    int value = int.Parse( tempString );
                     lineTokens.Add( _tokenFactory.CreateInt( value, pos, lineNum ) );
                 }
             }

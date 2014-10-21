@@ -8,11 +8,6 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class EnumDeclarationStatement : StatementBase
     {
-        public IExpressionNode AutoInitExpression { get; private set; }
-        public bool IsGlobal { get; private set; }
-        public VariableExpression VariableExpression { get; private set; }
-        public IExpressionNode UserInitExpression { get; private set; }
-
         public EnumDeclarationStatement(
             VariableExpression variableExpression,
             IExpressionNode userInitExpression,
@@ -25,6 +20,15 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
+        public IExpressionNode AutoInitExpression { get; private set; }
+        public bool IsGlobal { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
+        public IExpressionNode UserInitExpression { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return new List<ISyntaxNode> { AutoInitExpression, VariableExpression, UserInitExpression }; }
+        }
+
         public override string ToSource() {
             throw new NotImplementedException();
         }
@@ -33,10 +37,6 @@ namespace AutoJIT.Parser.AST.Statements
             return new EnumDeclarationStatement(
                 (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( UserInitExpression ), CloneAs<IExpressionNode>( AutoInitExpression ),
                 IsGlobal );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>() { AutoInitExpression, VariableExpression, UserInitExpression }; }
         }
     }
 }

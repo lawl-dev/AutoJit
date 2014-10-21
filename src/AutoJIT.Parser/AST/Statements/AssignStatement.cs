@@ -8,15 +8,19 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class AssignStatement : StatementBase
     {
-        public VariableExpression Variable { get; private set; }
-        public IExpressionNode ExpressionToAssign { get; private set; }
-        public Token Operator { get; private set; }
-
         public AssignStatement( VariableExpression variable, IExpressionNode expressionToAssign, Token @operator ) {
             Variable = variable;
             ExpressionToAssign = expressionToAssign;
             Operator = @operator;
             Initialize();
+        }
+
+        public VariableExpression Variable { get; private set; }
+        public IExpressionNode ExpressionToAssign { get; private set; }
+        public Token Operator { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return new List<ISyntaxNode> { Variable, ExpressionToAssign }; }
         }
 
         public override string ToSource() {
@@ -25,10 +29,6 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override object Clone() {
             return new AssignStatement( (VariableExpression) Variable.Clone(), (IExpressionNode) ExpressionToAssign.Clone(), Operator );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>() { Variable, ExpressionToAssign }; }
         }
     }
 }

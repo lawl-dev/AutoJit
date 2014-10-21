@@ -23,10 +23,6 @@ namespace AutoJITRuntime.Variants
             get { return DataType.Array; }
         }
 
-        public override object GetValue() {
-            return _value;
-        }
-
         public override bool IsArray {
             get { return true; }
         }
@@ -34,6 +30,10 @@ namespace AutoJITRuntime.Variants
         public override Variant this[ params int[] index ] {
             get { return (Variant) _value.GetValue( index ); }
             set { _value.SetValue( value, index ); }
+        }
+
+        public override object GetValue() {
+            return _value;
         }
 
         public override string GetString() {
@@ -95,7 +95,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override void ReDim( params Variant[] indexs ) {
-            var newInstance = Array.CreateInstance( typeof (Variant), indexs.Select( x => x.GetInt() ).ToArray() );
+            Array newInstance = Array.CreateInstance( typeof (Variant), indexs.Select( x => x.GetInt() ).ToArray() );
             if ( _value.Rank == indexs.Length ) {
                 Init( newInstance, _value );
             }

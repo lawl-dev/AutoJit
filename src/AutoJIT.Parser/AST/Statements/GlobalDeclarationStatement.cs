@@ -7,10 +7,6 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class GlobalDeclarationStatement : StatementBase
     {
-        public bool IsConst { get; private set; }
-        public VariableExpression VariableExpression { get; private set; }
-        public IExpressionNode InitExpression { get; private set; }
-
         public GlobalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst ) {
             IsConst = isConst;
             VariableExpression = variableExpression;
@@ -18,8 +14,16 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
+        public bool IsConst { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
+        public IExpressionNode InitExpression { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return new List<ISyntaxNode> { VariableExpression, InitExpression }; }
+        }
+
         public override string ToSource() {
-            var toReturn = string.Format( "Global {0}", VariableExpression.ToSource() );
+            string toReturn = string.Format( "Global {0}", VariableExpression.ToSource() );
             if ( InitExpression != null ) {
                 toReturn += string.Format( " = {0}", InitExpression.ToSource() );
             }
@@ -28,10 +32,6 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override object Clone() {
             return new GlobalDeclarationStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ), IsConst );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>() { VariableExpression, InitExpression }; }
         }
     }
 }

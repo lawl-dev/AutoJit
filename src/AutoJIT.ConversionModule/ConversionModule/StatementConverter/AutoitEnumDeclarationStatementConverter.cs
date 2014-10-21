@@ -45,17 +45,17 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private FieldDeclarationSyntax DeclareGlobal( EnumDeclarationStatement statement ) {
-            var variableDeclarationSyntax = DeclareVariable( statement );
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( statement );
             return CSharpStatementFactory.CreateFieldDeclarationStatement( variableDeclarationSyntax );
         }
 
         private StatementSyntax DeclareLocal( EnumDeclarationStatement statement ) {
-            var variableDeclarationSyntax = DeclareVariable( statement );
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( statement );
             return CSharpStatementFactory.CreateLocalDeclarationStatement( variableDeclarationSyntax );
         }
 
         private VariableDeclarationSyntax DeclareVariable( EnumDeclarationStatement statement ) {
-            var declarationSyntax = CSharpStatementFactory.CreateVariable(
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable(
                 typeof (Variant).Name, statement.VariableExpression.IdentifierName );
             return declarationSyntax;
         }

@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Helper;
 using AutoJITRuntime;
 using AutoJITRuntime.Attrubutes;
-using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -60,10 +61,10 @@ namespace AutoJIT.Parser.Optimizer
             var leftLiteralExpressionSyntax = (LiteralExpressionSyntax) leftCreationExpression.ArgumentList.Arguments.Single().Expression;
             var rightLiteralExpressionSyntax = (LiteralExpressionSyntax) rightCreationExpression.ArgumentList.Arguments.Single().Expression;
 
-            var leftOperant = Variant.Create( leftLiteralExpressionSyntax.Token.Value );
-            var rightOperant = Variant.Create( rightLiteralExpressionSyntax.Token.Value );
+            Variant leftOperant = Variant.Create( leftLiteralExpressionSyntax.Token.Value );
+            Variant rightOperant = Variant.Create( rightLiteralExpressionSyntax.Token.Value );
 
-            var result = GetBinaryExpressionResult( leftOperant, rightOperant, node.OperatorToken.Text );
+            Variant result = GetBinaryExpressionResult( leftOperant, rightOperant, node.OperatorToken.Text );
             _optimized = true;
             return SyntaxFactory.InvocationExpression(
                 SyntaxFactory.MemberAccessExpression(
@@ -94,17 +95,17 @@ namespace AutoJIT.Parser.Optimizer
                 return base.VisitInvocationExpression( node );
             }
 
-            var functionName = memberAccessExpressionSyntax.Name.Identifier.Text;
+            string functionName = memberAccessExpressionSyntax.Name.Identifier.Text;
 
-            var runtimeClassType = typeof (AutoitRuntime<>).MakeGenericType( typeof (object) );
+            Type runtimeClassType = typeof (AutoitRuntime<>).MakeGenericType( typeof (object) );
 
-            var supportedFunctions =
+            List<MethodInfo> supportedFunctions =
                 runtimeClassType.GetMethods().Where( x => x.CustomAttributes.Any( c => c.AttributeType == typeof (InlineableAttribute) ) ).ToList();
-            var isSupportedFunctionCall = supportedFunctions.Any( x => x.Name == functionName );
-            var args = node.ArgumentList.Arguments;
+            bool isSupportedFunctionCall = supportedFunctions.Any( x => x.Name == functionName );
+            SeparatedSyntaxList<ArgumentSyntax> args = node.ArgumentList.Arguments;
 
             //((MemberAccessExpressionSyntax)((InvocationExpressionSyntax)args[0].Expression).Expression).Name.Identifier.Text
-            var allArgumentsAreFixedValues = args.All
+            bool allArgumentsAreFixedValues = args.All
                 (
                     x =>
                         x.Expression is InvocationExpressionSyntax && ( (InvocationExpressionSyntax) x.Expression ).Expression is MemberAccessExpressionSyntax &&
@@ -116,13 +117,13 @@ namespace AutoJIT.Parser.Optimizer
                 return base.VisitInvocationExpression( node );
             }
 
-            var compilerFunction = supportedFunctions.Single( x => x.Name == functionName && x.GetParameters().Length == args.Count );
+            MethodInfo compilerFunction = supportedFunctions.Single( x => x.Name == functionName && x.GetParameters().Length == args.Count );
 
-            var runtimeInstance =
+            object runtimeInstance =
                 runtimeClassType.GetConstructors()[0].Invoke(
-                    new[] { typeof (AutoitContext<>).MakeGenericType( typeof (object) ).GetConstructors()[0].Invoke( new object[] { new object() } ) } );
+                    new[] { typeof (AutoitContext<>).MakeGenericType( typeof (object) ).GetConstructors()[0].Invoke( new[] { new object() } ) } );
 
-            var parameters =
+            Variant[] parameters =
                 args.Select( x => (InvocationExpressionSyntax) x.Expression )
                     .Select( x => x.ArgumentList.Arguments.Single().Expression as LiteralExpressionSyntax )
                     .Select( x => Variant.Create( x.Token.Value ) )

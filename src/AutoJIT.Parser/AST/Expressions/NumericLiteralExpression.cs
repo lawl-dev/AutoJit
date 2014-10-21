@@ -7,14 +7,14 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class NumericLiteralExpression : LiteralExpression
     {
+        public NumericLiteralExpression( Token literalToken, IEnumerable<Token> signOperators ) : base( literalToken ) {
+            SignOperators = signOperators;
+        }
+
         public IEnumerable<Token> SignOperators { get; private set; }
 
         public bool Negativ {
             get { return SignOperators != null && SignOperators.Count( x => x.Type == TokenType.Minus ) % 2 != 0; }
-        }
-
-        public NumericLiteralExpression( Token literalToken, IEnumerable<Token> signOperators ) : base( literalToken ) {
-            SignOperators = signOperators;
         }
 
         public override IEnumerable<ISyntaxNode> Children {
@@ -22,7 +22,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override string ToSource() {
-            var toReturn = "";
+            string toReturn = "";
             if ( Negativ ) {
                 toReturn += "-";
             }

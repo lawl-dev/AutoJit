@@ -14,12 +14,12 @@ namespace AutoJITRuntime.Variants
             get { return DataType.Bool; }
         }
 
-        public override object GetValue() {
-            return _value;
-        }
-
         public override bool IsBool {
             get { return true; }
+        }
+
+        public override object GetValue() {
+            return _value;
         }
 
         public override string GetString() {

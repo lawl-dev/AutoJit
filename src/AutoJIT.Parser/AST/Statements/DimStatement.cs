@@ -7,17 +7,21 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class DimStatement : StatementBase
     {
-        public VariableExpression VariableExpression { get; private set; }
-        public IExpressionNode InitExpression { get; private set; }
-
         public DimStatement( VariableExpression variableExpression, IExpressionNode initExpression ) {
             VariableExpression = variableExpression;
             InitExpression = initExpression;
             Initialize();
         }
 
+        public VariableExpression VariableExpression { get; private set; }
+        public IExpressionNode InitExpression { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return new List<ISyntaxNode> { VariableExpression, InitExpression }; }
+        }
+
         public override string ToSource() {
-            var toReturn = string.Format( "Dim {0}", VariableExpression.ToSource() );
+            string toReturn = string.Format( "Dim {0}", VariableExpression.ToSource() );
             if ( InitExpression != null ) {
                 toReturn += string.Format( " = {0}", InitExpression.ToSource() );
             }
@@ -26,10 +30,6 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override object Clone() {
             return new DimStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ) );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>() { VariableExpression, InitExpression }; }
         }
     }
 }

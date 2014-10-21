@@ -19,13 +19,13 @@ namespace AutoJITRuntime.Variants
             get { return true; }
         }
 
-        public override object GetValue() {
-            return _value;
-        }
-
         public override Variant this[ params int[] index ] {
             get { return (int) _value[index.Single()]; }
             set { _value[index.Single()] = (byte) (int) value; }
+        }
+
+        public override object GetValue() {
+            return _value;
         }
 
         public override string GetString() {

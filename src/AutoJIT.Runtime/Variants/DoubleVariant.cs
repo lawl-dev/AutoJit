@@ -25,12 +25,12 @@ namespace AutoJITRuntime.Variants
             get { return DataType.Double; }
         }
 
-        public override object GetValue() {
-            return _value;
-        }
-
         public override bool IsDouble {
             get { return true; }
+        }
+
+        public override object GetValue() {
+            return _value;
         }
 
         public override string GetString() {

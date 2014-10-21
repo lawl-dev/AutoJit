@@ -5,11 +5,11 @@ namespace AutoJIT.Parser.Lex
 {
     public sealed class Token
     {
-        public TokenValue Value { get; set; }
-
         public Token() {
             Value = new TokenValue();
         }
+
+        public TokenValue Value { get; set; }
 
         public int Col { get; set; }
 

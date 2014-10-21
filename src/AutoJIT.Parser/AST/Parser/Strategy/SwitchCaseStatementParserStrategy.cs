@@ -24,38 +24,38 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private SwitchCaseStatement ParseSwitch( TokenQueue block ) {
-            var expression = ParseUntilNewLine( block );
+            TokenCollection expression = ParseUntilNewLine( block );
 
-            var condition = ExpressionParser.ParseBlock( expression, true );
+            IExpressionNode condition = ExpressionParser.ParseBlock( expression, true );
             SkipAndAssert( block, TokenType.NewLine );
             var cases = new Dictionary<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>>();
             IEnumerable<IStatementNode> @else = null;
             SkipAndAssert( block, Keywords.Case );
 
             while ( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
-                var line = ParseUntilNewLine( block );
+                TokenCollection line = ParseUntilNewLine( block );
                 if ( line.Any( x => x.Value.Keyword == Keywords.To ) ) {
-                    var parts = line.Split( x => x.Value.Keyword == Keywords.To );
+                    List<List<Token>> parts = line.Split( x => x.Value.Keyword == Keywords.To );
                     if ( parts.Count != 2 ) {
                         throw new SyntaxTreeException( "Unexpected To in statement", parts[0][0].Col, parts[0][0].Line );
                     }
-                    var left = ExpressionParser.ParseBlock( new TokenCollection( parts.First() ), true );
-                    var right = ExpressionParser.ParseBlock( new TokenCollection( parts.Skip( 1 ).First() ), true );
+                    IExpressionNode left = ExpressionParser.ParseBlock( new TokenCollection( parts.First() ), true );
+                    IExpressionNode right = ExpressionParser.ParseBlock( new TokenCollection( parts.Skip( 1 ).First() ), true );
 
-                    var caseBlock = ParseInnerUntilSwitchSelect( block );
+                    TokenCollection caseBlock = ParseInnerUntilSwitchSelect( block );
                     cases.Add( Utils.GetEnumerable( left, right ), StatementParser.ParseBlock( caseBlock ).ToList() );
                 }
                 else if ( line.Any() &&
                           line[0].Value.Keyword != Keywords.Else ) {
-                    var left = ExpressionParser.ParseBlock( line, true );
-                    var caseBlock = ParseInnerUntilSwitchSelect( block );
+                    IExpressionNode left = ExpressionParser.ParseBlock( line, true );
+                    TokenCollection caseBlock = ParseInnerUntilSwitchSelect( block );
                     cases.Add( left.ToEnumerable(), StatementParser.ParseBlock( caseBlock ).ToList() );
                 }
                 else {
                     if ( line[0].Value.Keyword != Keywords.Else ) {
                         throw new SyntaxTreeException( "Unexpected token", line[0].Col, line[0].Line );
                     }
-                    var elseTokens = ParseInnerUntilSwitchSelect( block );
+                    TokenCollection elseTokens = ParseInnerUntilSwitchSelect( block );
                     @else = StatementParser.ParseBlock( elseTokens ).ToList();
                 }
                 if ( block.Peek().Value.Keyword != Keywords.EndSwitch ) {

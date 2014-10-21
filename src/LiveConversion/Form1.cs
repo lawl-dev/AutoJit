@@ -13,10 +13,10 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-        private readonly IScriptParser _scriptParser;
         private readonly IAutoitToCSharpConverter _autoitToCSharpConverter;
+        private readonly ICompiler _instance;
         private readonly IOptimizer _optimizer;
-        private ICompiler _instance;
+        private readonly IScriptParser _scriptParser;
 
         public Form1() {
             InitializeComponent();
@@ -30,18 +30,18 @@ namespace WindowsFormsApplication1
 
         private void OnKeyDown( object sender, KeyEventArgs keyEventArgs ) {
             if ( keyEventArgs.KeyCode == Keys.F5 ) {
-                var compile = _instance.Compile(
-                    ( (TextBox) sender ).Text, OutputKind.ConsoleApplication, true);
-                var path = Path.GetTempPath() + "/" + Guid.NewGuid().ToString("N");
+                byte[] compile = _instance.Compile(
+                    ( (TextBox) sender ).Text, OutputKind.ConsoleApplication, true );
+                string path = Path.GetTempPath()+"/"+Guid.NewGuid().ToString( "N" );
                 File.WriteAllBytes( path, compile );
                 Process.Start( path );
             }
         }
 
         private void OnChange1( object sender, EventArgs e ) {
-            var text = ( (TextBox) sender ).Text;
+            string text = ( (TextBox) sender ).Text;
             try {
-                var autoitScriptRootNode = _scriptParser.ParseScript( text, new PragmaOptions() );
+                AutoitScriptRootNode autoitScriptRootNode = _scriptParser.ParseScript( text, new PragmaOptions() );
 
                 textBox2.Text = _optimizer.Optimize( _autoitToCSharpConverter.Convert( autoitScriptRootNode ).NormalizeWhitespace() ).ToFullString();
             }

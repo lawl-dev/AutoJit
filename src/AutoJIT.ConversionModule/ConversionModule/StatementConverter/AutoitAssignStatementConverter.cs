@@ -36,12 +36,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private FieldDeclarationSyntax DeclareGlobal( AssignStatement node ) {
-            var variableDeclarationSyntax = DeclareVariable( node );
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node );
             return CSharpStatementFactory.CreateFieldDeclarationStatement( variableDeclarationSyntax );
         }
 
         private StatementSyntax DeclareLocal( AssignStatement node ) {
-            var variableDeclarationSyntax = DeclareVariable( node );
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node );
             return CSharpStatementFactory.CreateLocalDeclarationStatement( variableDeclarationSyntax );
         }
 
@@ -50,7 +50,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private VariableDeclarationSyntax DeclareVariable( string identifierName ) {
-            var declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, identifierName );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, identifierName );
             return declarationSyntax;
         }
 

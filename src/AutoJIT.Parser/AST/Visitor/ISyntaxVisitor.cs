@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace AutoJIT.Parser.AST.Visitor
 {
     public interface ISyntaxVisitor

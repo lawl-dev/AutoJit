@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
@@ -20,8 +21,8 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private ExitStatement ParseExit( TokenQueue block ) {
-            var exitExpression = ParseUntilNewLine( block );
-            var expressionNode = ExpressionParser.ParseBlock( exitExpression, true );
+            TokenCollection exitExpression = ParseUntilNewLine( block );
+            IExpressionNode expressionNode = ExpressionParser.ParseBlock( exitExpression, true );
             return AutoitStatementFactory.CreateExitStatement( expressionNode );
         }
     }

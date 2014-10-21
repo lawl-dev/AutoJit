@@ -7,8 +7,8 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
 {
     public class SemanticCheckerVisitor : ISyntaxVisitor
     {
-        private readonly Dictionary<string, List<LocalDeclarationStatement>> _constLocal = new Dictionary<string, List<LocalDeclarationStatement>>();
         private readonly Dictionary<string, GlobalDeclarationStatement> _constGlobal = new Dictionary<string, GlobalDeclarationStatement>();
+        private readonly Dictionary<string, List<LocalDeclarationStatement>> _constLocal = new Dictionary<string, List<LocalDeclarationStatement>>();
 
         public void Visit( ISyntaxNode node ) {
             Visit( (dynamic) node );

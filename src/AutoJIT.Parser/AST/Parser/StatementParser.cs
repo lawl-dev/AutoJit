@@ -31,7 +31,7 @@ namespace AutoJIT.Parser.AST.Parser
             var statements = new List<IStatementNode>();
 
             while ( block.Any() ) {
-                var current = block.Peek();
+                Token current = block.Peek();
                 switch (current.Type) {
                     case TokenType.Variable:
                         statements.AddRange( ResolveStrategy<AssignStatement>().Parse( block ) );
@@ -108,7 +108,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         private IEnumerable<IStatementNode> ParseFor( TokenQueue block ) {
-            var isForInLoop = block.TakeWhile( x => x.Type != TokenType.NewLine ).Any( x => x.Value.Keyword == Keywords.In );
+            bool isForInLoop = block.TakeWhile( x => x.Type != TokenType.NewLine ).Any( x => x.Value.Keyword == Keywords.In );
 
             if ( isForInLoop ) {
                 return ResolveStrategy<ForInStatement>().Parse( block );

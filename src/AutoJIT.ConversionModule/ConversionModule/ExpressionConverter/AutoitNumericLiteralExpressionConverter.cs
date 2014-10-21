@@ -37,7 +37,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private ExpressionSyntax GetDoubleLiteralExpression( NumericLiteralExpression node ) {
-            var value = node.LiteralToken.Value.DoubleValue;
+            double value = node.LiteralToken.Value.DoubleValue;
             if ( node.Negativ ) {
                 value = -value;
             }
@@ -45,7 +45,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private ExpressionSyntax GetInt64LiteralExpression( NumericLiteralExpression node ) {
-            var value = node.LiteralToken.Value.Int64Value;
+            long value = node.LiteralToken.Value.Int64Value;
             if ( node.Negativ ) {
                 value = -value;
             }
@@ -53,7 +53,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private ExpressionSyntax GetIntLiteralExpression( NumericLiteralExpression node ) {
-            var value = node.LiteralToken.Value.Int32Value;
+            int value = node.LiteralToken.Value.Int32Value;
             if ( node.Negativ ) {
                 value = -value;
             }

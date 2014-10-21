@@ -7,6 +7,7 @@ using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Service;
 using AutoJITRuntime;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -47,12 +48,13 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private StatementSyntax DeclareLocal( LocalDeclarationStatement statement ) {
-            var variableDeclarationSyntax = DeclareVariable( statement );
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( statement );
             return CSharpStatementFactory.CreateLocalDeclarationStatement( variableDeclarationSyntax );
         }
 
         private VariableDeclarationSyntax DeclareVariable( LocalDeclarationStatement statement ) {
-            var declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, statement.VariableExpression.IdentifierName );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable(
+                typeof (Variant).Name, statement.VariableExpression.IdentifierName );
             return declarationSyntax;
         }
 
@@ -70,10 +72,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private ExpressionSyntax GetArrayInitExpression( LocalDeclarationStatement statement, IContextService contextService ) {
-            var openBracketToken =
+            SeparatedSyntaxList<ExpressionSyntax> openBracketToken =
                 ( (ArrayExpression) statement.VariableExpression ).AccessParameter.Select(
                     x => Convert( x, contextService ) ).ToSeparatedSyntaxList();
-            var arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
+            ArrayCreationExpressionSyntax arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
                 SyntaxFactory.ArrayType(
                     SyntaxFactory.IdentifierName(
                         typeof (Variant).Name ) )

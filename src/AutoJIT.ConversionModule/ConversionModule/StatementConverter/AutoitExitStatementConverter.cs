@@ -19,7 +19,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( ExitStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            var exitFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Exit( 0 ) );
+            string exitFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Exit( 0 ) );
 
             toReturn.Add(
                 CSharpStatementFactory.CreateInvocationExpression(

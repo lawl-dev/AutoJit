@@ -6,11 +6,15 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ReturnStatement : StatementBase
     {
-        public IExpressionNode ReturnExpression { get; private set; }
-
         public ReturnStatement( IExpressionNode returnExpression ) {
             ReturnExpression = returnExpression;
             Initialize();
+        }
+
+        public IExpressionNode ReturnExpression { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return new List<ISyntaxNode> { ReturnExpression }; }
         }
 
         public override string ToSource() {
@@ -19,10 +23,6 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override object Clone() {
             return new ReturnStatement( CloneAs<IExpressionNode>( ReturnExpression ) );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>() { ReturnExpression }; }
         }
     }
 }

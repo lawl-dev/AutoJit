@@ -3,7 +3,6 @@ using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Service;
 using AutoJITRuntime;
-using AutoJITRuntime.Variants;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 

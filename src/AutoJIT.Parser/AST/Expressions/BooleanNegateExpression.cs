@@ -8,16 +8,16 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class BooleanNegateExpression : ExpressionBase
     {
-        public IExpressionNode Left { get; private set; }
-        public Token Operator { get; private set; }
-        public string NOTCompilerFunctionName { get; private set; }
-
         public BooleanNegateExpression( IExpressionNode left, Token @operator ) {
             Left = left;
             Operator = @operator;
             NOTCompilerFunctionName = CompilerHelper.GetCompilerMemberName( x => x.NOT( null ) );
             Initialize();
         }
+
+        public IExpressionNode Left { get; private set; }
+        public Token Operator { get; private set; }
+        public string NOTCompilerFunctionName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return Left.ToEnumerable(); }

@@ -44,14 +44,14 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseIfCondition( TokenQueue block ) {
-            var innerExpressionsBlock = block.DequeueWhile( x => x.Value.Keyword != Keywords.Then )
+            List<Token> innerExpressionsBlock = block.DequeueWhile( x => x.Value.Keyword != Keywords.Then )
                 .ToList();
             SkipAndAssert( block, Keywords.Then );
             return new TokenCollection( innerExpressionsBlock );
         }
 
         protected TokenCollection ParseIfBlock( TokenQueue block ) {
-            var ifblock = ParseIfBlockUntil( block );
+            IEnumerable<Token> ifblock = ParseIfBlockUntil( block );
             return new TokenCollection( ifblock );
         }
 
@@ -65,7 +65,7 @@ namespace AutoJIT.Parser.AST.Parser
                         List<Token> line;
                         switch (token.Value.Keyword) {
                             case Keywords.Then:
-                                var nextToken = block.Skip( 1 ).FirstOrDefault();
+                                Token nextToken = block.Skip( 1 ).FirstOrDefault();
                                 hasBlock = nextToken != null && nextToken.Type == TokenType.NewLine;
                                 if ( hasBlock ) {
                                     count++;
@@ -84,7 +84,7 @@ namespace AutoJIT.Parser.AST.Parser
                             case Keywords.Else:
                                 line = block.TakeWhile( x => x.Type != TokenType.NewLine ).ToList();
                                 hasBlock = line.Count == 1;
-                                var isOuterLoop = count == 1;
+                                bool isOuterLoop = count == 1;
                                 if ( hasBlock &&
                                      isOuterLoop &&
                                      !nextIsCaseElse ) {
@@ -108,20 +108,20 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseElseIfBlock( TokenQueue block ) {
-            var elseIfblock = ParseIfBlockUntil( block );
+            IEnumerable<Token> elseIfblock = ParseIfBlockUntil( block );
             return new TokenCollection( elseIfblock );
         }
 
         protected TokenCollection ParseElseBlock( TokenQueue block ) {
-            var elseIfblock = ParseIfBlockUntil( block );
+            IEnumerable<Token> elseIfblock = ParseIfBlockUntil( block );
             return new TokenCollection( elseIfblock );
         }
 
         protected List<TokenCollection> ParseFunctionParameter( TokenQueue block ) {
-            var innerExpressionsBlock = ParseInner( block, TokenType.Leftparen, TokenType.Rightparen );
+            TokenCollection innerExpressionsBlock = ParseInner( block, TokenType.Leftparen, TokenType.Rightparen );
 
             var list = new List<TokenCollection> { new TokenCollection() };
-            foreach (var token in innerExpressionsBlock) {
+            foreach (Token token in innerExpressionsBlock) {
                 if ( token.Type == TokenType.Comma ) {
                     list.Add( new TokenCollection() );
                 }

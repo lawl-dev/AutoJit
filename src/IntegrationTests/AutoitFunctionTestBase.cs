@@ -5,19 +5,19 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using AutoJITRuntime;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Variant = AutoJITRuntime.Variant;
 
 namespace UnitTests
 {
     public abstract class AutoitFunctionTestBase
     {
-        private readonly string _resultPath = string.Format( "{0}/", Path.GetTempPath() );
         private readonly string _au3ExeName = Environment.CurrentDirectory+"/../../..//lib/Unittests.exe";
+        private readonly string _resultPath = string.Format( "{0}/", Path.GetTempPath() );
 
         protected object GetAu3Result( string functionCall, Type expectedType, params object[] parameters ) {
-            var enumerable = GetFormattedParameter( parameters );
+            IEnumerable<string> enumerable = GetFormattedParameter( parameters );
 
             if ( !functionCall.StartsWith( "@" ) &&
                  !functionCall.StartsWith( "f!" ) ) {
@@ -32,8 +32,8 @@ namespace UnitTests
             if ( functionCall.StartsWith( "f!" ) ) {
                 functionCall = "\""+functionCall.Substring( 2, functionCall.Length-2 )+"\"";
             }
-            var filePath = _resultPath+Guid.NewGuid();
-            var process = Process.Start( _au3ExeName, string.Format( "{0} {1}", functionCall, filePath ) );
+            string filePath = _resultPath+Guid.NewGuid();
+            Process process = Process.Start( _au3ExeName, string.Format( "{0} {1}", functionCall, filePath ) );
 
             if ( process == null ) {
                 throw new InvalidOperationException();
@@ -44,7 +44,7 @@ namespace UnitTests
             }
             var serializer = new JsonSerializer();
             var reader = new StreamReader( new FileStream( filePath, FileMode.Open, FileAccess.Read ) );
-            var o = serializer.Deserialize( reader, expectedType );
+            object o = serializer.Deserialize( reader, expectedType );
             reader.Dispose();
             File.Delete( filePath );
             return o;
@@ -53,7 +53,7 @@ namespace UnitTests
         private static IEnumerable<string> GetFormattedParameter( IEnumerable<object> parameters ) {
             var toReturn = new List<string>();
 
-            foreach (var parameter in parameters) {
+            foreach (object parameter in parameters) {
                 if ( parameter is double ) {
                     toReturn.Add( ( (double) parameter ).ToString( CultureInfo.InvariantCulture ) );
                 }
@@ -77,23 +77,23 @@ namespace UnitTests
             }
 
             if ( result.IsDouble ) {
-                if ( double.IsPositiveInfinity( ( (double) result ) ) ) {
+                if ( double.IsPositiveInfinity( result ) ) {
                     Assert.IsTrue( Equals( au3Result, 1.0d ) );
                     return;
                 }
 
-                if ( double.IsNegativeInfinity( ( (double) result ) ) ) {
+                if ( double.IsNegativeInfinity( result ) ) {
                     Assert.IsTrue( Equals( au3Result, -1.0d ) );
                     return;
                 }
-                var difference = Math.Abs( (double) result * .00000000000001 );
+                double difference = Math.Abs( (double) result * .00000000000001 );
                 Assert.IsTrue( Math.Abs( ( (double) result-(double) au3Result ) ) < difference );
                 return;
             }
 
             if ( result.IsString ||
                  result.IsBinary ) {
-                Assert.IsTrue( string.Equals( result, au3Result ) );
+                Assert.IsTrue( Equals( result, au3Result ) );
                 return;
             }
 

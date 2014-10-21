@@ -7,6 +7,7 @@ using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Service;
 using AutoJITRuntime;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -44,12 +45,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private FieldDeclarationSyntax DeclareGlobal( GlobalDeclarationStatement node ) {
-            var variableDeclarationSyntax = DeclareVariable( node );
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node );
             return CSharpStatementFactory.CreateFieldDeclarationStatement( variableDeclarationSyntax );
         }
 
         private VariableDeclarationSyntax DeclareVariable( GlobalDeclarationStatement node ) {
-            var declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, node.VariableExpression.IdentifierName );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, node.VariableExpression.IdentifierName );
             return declarationSyntax;
         }
 
@@ -67,10 +68,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private ExpressionSyntax GetArrayInitExpression( GlobalDeclarationStatement node, IContextService context ) {
-            var openBracketToken =
+            SeparatedSyntaxList<ExpressionSyntax> openBracketToken =
                 ( (ArrayExpression) node.VariableExpression ).AccessParameter.Select(
                     x => Convert( x, context ) ).ToSeparatedSyntaxList();
-            var arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
+            ArrayCreationExpressionSyntax arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression(
                 SyntaxFactory.ArrayType(
                     SyntaxFactory.IdentifierName(
                         typeof (Variant).Name ) )

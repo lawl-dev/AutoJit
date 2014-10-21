@@ -30,16 +30,16 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 SkipAndAssert( block, Keywords.Case );
 
                 if ( block.Peek().Value.Keyword != Keywords.Else ) {
-                    var expression = ParseUntilNewLine( block );
-                    var caseBlock = ParseInnerUntilSwitchSelect( block );
+                    TokenCollection expression = ParseUntilNewLine( block );
+                    TokenCollection caseBlock = ParseInnerUntilSwitchSelect( block );
 
-                    var caseCondition = ExpressionParser.ParseBlock( expression, true );
-                    var caseStatements = StatementParser.ParseBlock( caseBlock );
+                    IExpressionNode caseCondition = ExpressionParser.ParseBlock( expression, true );
+                    List<IStatementNode> caseStatements = StatementParser.ParseBlock( caseBlock );
                     cases.Add( caseCondition, caseStatements );
                 }
                 else {
                     SkipAndAssert( block, Keywords.Else );
-                    var elseBlock = ParseInnerUntil( block, Keywords.Select, Keywords.Endselect, true );
+                    TokenCollection elseBlock = ParseInnerUntil( block, Keywords.Select, Keywords.Endselect, true );
 
                     elseStatements = StatementParser.ParseBlock( elseBlock );
                 }

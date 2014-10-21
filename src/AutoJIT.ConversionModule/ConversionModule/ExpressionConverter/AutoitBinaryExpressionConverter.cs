@@ -1,4 +1,6 @@
-﻿using AutoJIT.Parser;
+﻿using System;
+using System.Collections.Generic;
+using AutoJIT.Parser;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Service;
@@ -23,9 +25,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private ExpressionSyntax CreateCompilerFunctionCall( BinaryExpressionBase node, IContextService context ) {
-            var operatorFunctionName = node.GetCompilerFunctionName( node.Operator.Type );
+            string operatorFunctionName = node.GetCompilerFunctionName( node.Operator.Type );
 
-            var arguments = Utils.GetEnumerable(
+            IEnumerable<ArgumentSyntax> arguments = Utils.GetEnumerable(
                 SyntaxFactory.Argument( ConverGeneric( node.Left, context ) ),
                 SyntaxFactory.Argument( ConverGeneric( node.Right, context ) ) );
 
@@ -55,7 +57,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                 case TokenType.Div:
                     return SyntaxKind.DivideExpression;
                 default:
-                    throw new System.NotImplementedException();
+                    throw new NotImplementedException();
             }
         }
     }

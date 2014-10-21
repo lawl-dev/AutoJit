@@ -22,7 +22,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private ContinueloopStatement ParseContinueloop( TokenQueue block ) {
-            var expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
+            Token expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
 
             int level = expressionPart != null
                 ? expressionPart.Value.Int32Value

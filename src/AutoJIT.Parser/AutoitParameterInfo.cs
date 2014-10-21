@@ -4,9 +4,9 @@ namespace AutoJIT.Parser
 {
     public struct AutoitParameterInfo
     {
-        public readonly bool IsConst;
-        public readonly bool IsByRef;
         public readonly IExpressionNode DefaultValue;
+        public readonly bool IsByRef;
+        public readonly bool IsConst;
         public readonly string ParameterName;
 
         public AutoitParameterInfo( string parameterName, IExpressionNode defaultValue, bool isByRef, bool isConst ) {

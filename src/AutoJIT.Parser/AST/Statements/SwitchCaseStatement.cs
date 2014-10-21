@@ -8,10 +8,6 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class SwitchCaseStatement : StatementBase
     {
-        public IExpressionNode Condition { get; private set; }
-        public Dictionary<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> Cases { get; private set; }
-        public IEnumerable<IStatementNode> Else { get; private set; }
-
         public SwitchCaseStatement(
             IExpressionNode condition,
             Dictionary<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> cases,
@@ -22,32 +18,9 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public override string ToSource() {
-            var toReturn = string.Format( "Switch {0}{1}", Condition.ToSource(), Environment.NewLine );
-            foreach (KeyValuePair<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> @case in Cases) {
-                toReturn += "Case "+@case.Key.First().ToSource();
-                foreach (var expr in @case.Key.Skip( 1 )) {
-                    toReturn += string.Format( " To {0}", expr.ToSource() );
-                }
-                toReturn += Environment.NewLine;
-                foreach (var statmnts in @case.Value) {
-                    toReturn += string.Format( "{0}{1}", statmnts.ToSource(), Environment.NewLine );
-                }
-            }
-            if ( Else != null ) {
-                toReturn += string.Format( "Case Else{0}", Environment.NewLine );
-                foreach (var node in Else) {
-                    toReturn += string.Format( "{0}{1}", node.ToSource(), Environment.NewLine );
-                }
-            }
-            return toReturn;
-        }
-
-        public override object Clone() {
-            var cases = Cases.ToDictionary(
-                @case => @case.Key.Select( x => (IExpressionNode) x.Clone() ), @case => @case.Value.Select( x => (IStatementNode) x.Clone() ) );
-            return new SwitchCaseStatement( (IExpressionNode) Condition.Clone(), cases, CloneEnumerableAs<IStatementNode>( Else ) );
-        }
+        public IExpressionNode Condition { get; private set; }
+        public Dictionary<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> Cases { get; private set; }
+        public IEnumerable<IStatementNode> Else { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -61,6 +34,33 @@ namespace AutoJIT.Parser.AST.Statements
 
                 return syntaxNodes;
             }
+        }
+
+        public override string ToSource() {
+            string toReturn = string.Format( "Switch {0}{1}", Condition.ToSource(), Environment.NewLine );
+            foreach (var @case in Cases) {
+                toReturn += "Case "+@case.Key.First().ToSource();
+                foreach (IExpressionNode expr in @case.Key.Skip( 1 )) {
+                    toReturn += string.Format( " To {0}", expr.ToSource() );
+                }
+                toReturn += Environment.NewLine;
+                foreach (IStatementNode statmnts in @case.Value) {
+                    toReturn += string.Format( "{0}{1}", statmnts.ToSource(), Environment.NewLine );
+                }
+            }
+            if ( Else != null ) {
+                toReturn += string.Format( "Case Else{0}", Environment.NewLine );
+                foreach (IStatementNode node in Else) {
+                    toReturn += string.Format( "{0}{1}", node.ToSource(), Environment.NewLine );
+                }
+            }
+            return toReturn;
+        }
+
+        public override object Clone() {
+            Dictionary<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> cases = Cases.ToDictionary(
+                @case => @case.Key.Select( x => (IExpressionNode) x.Clone() ), @case => @case.Value.Select( x => (IStatementNode) x.Clone() ) );
+            return new SwitchCaseStatement( (IExpressionNode) Condition.Clone(), cases, CloneEnumerableAs<IStatementNode>( Else ) );
         }
     }
 }

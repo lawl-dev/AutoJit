@@ -6,12 +6,12 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class ArrayInitExpression : ExpressionBase
     {
-        public List<IExpressionNode> ToAssign { get; private set; }
-
         public ArrayInitExpression( List<IExpressionNode> toAssign ) {
             ToAssign = toAssign;
             Initialize();
         }
+
+        public List<IExpressionNode> ToAssign { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode>( ToAssign ); }

@@ -1,4 +1,5 @@
-﻿using AutoJIT.Parser.AST;
+﻿using System;
+using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
@@ -16,6 +17,10 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
 
         ISyntaxNode ISyntaxVisitor<ISyntaxNode, ISyntaxNode>.Visit( ISyntaxNode node ) {
             return Visit( (dynamic) node );
+        }
+
+        public void Visit( ISyntaxNode node ) {
+            throw new NotImplementedException();
         }
 
         public virtual ISyntaxNode Visit( ArrayInitExpression node ) {
@@ -164,10 +169,6 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
 
         public virtual ISyntaxNode Visit( AutoitScriptRootNode node ) {
             return node;
-        }
-
-        public void Visit( ISyntaxNode node ) {
-            throw new System.NotImplementedException();
         }
     }
 }

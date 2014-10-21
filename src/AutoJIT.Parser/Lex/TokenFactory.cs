@@ -114,55 +114,55 @@ namespace AutoJIT.Parser.Lex
         }
 
         public Token CreateInt( int value, int pos, int line ) {
-            var res = CreateToken( TokenType.Int32, pos, line );
+            Token res = CreateToken( TokenType.Int32, pos, line );
             res.Value.Int32Value = value;
             return res;
         }
 
         public Token CreateDouble( double value, int pos, int line ) {
-            var res = CreateToken( TokenType.Double, pos, line );
+            Token res = CreateToken( TokenType.Double, pos, line );
             res.Value.DoubleValue = value;
             return res;
         }
 
         public Token CreateInt64( Int64 value, int pos, int line ) {
-            var res = CreateToken( TokenType.Int64, pos, line );
+            Token res = CreateToken( TokenType.Int64, pos, line );
             res.Value.Int64Value = value;
             return res;
         }
 
         public Token CreateKeyword( Keywords keywords, int pos, int line ) {
-            var res = CreateToken( TokenType.Keyword, pos, line );
+            Token res = CreateToken( TokenType.Keyword, pos, line );
             res.Value.Keyword = keywords;
             return res;
         }
 
         public Token CreateFunction( string functionName, int pos, int line ) {
-            var res = CreateToken( TokenType.Function, pos, line );
+            Token res = CreateToken( TokenType.Function, pos, line );
             res.Value.StringValue = functionName;
             return res;
         }
 
         public Token CreaeteUserfunction( string functionName, int pos, int line ) {
-            var res = CreateToken( TokenType.Userfunction, pos, line );
+            Token res = CreateToken( TokenType.Userfunction, pos, line );
             res.Value.StringValue = string.Format( "f_{0}", functionName );
             return res;
         }
 
         public Token CreateVariable( string variableName, int pos, int line ) {
-            var res = CreateToken( TokenType.Variable, pos, line );
+            Token res = CreateToken( TokenType.Variable, pos, line );
             res.Value.StringValue = string.Format( "v_{0}", variableName );
             return res;
         }
 
         public Token CreateMacro( string macroName, int pos, int line ) {
-            var res = CreateToken( TokenType.Macro, pos, line );
+            Token res = CreateToken( TokenType.Macro, pos, line );
             res.Value.StringValue = macroName;
             return res;
         }
 
         public Token CreateString( string value, int pos, int line ) {
-            var res = CreateToken( TokenType.String, pos, line );
+            Token res = CreateToken( TokenType.String, pos, line );
             res.Value.StringValue = value;
             return res;
         }

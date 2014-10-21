@@ -14,11 +14,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( ArrayInitExpression node, IContextService context ) {
-            var arrayRankSpecifierSyntax = SyntaxFactory.ArrayRankSpecifier(
+            ArrayRankSpecifierSyntax arrayRankSpecifierSyntax = SyntaxFactory.ArrayRankSpecifier(
                 SyntaxFactory.SingletonSeparatedList<ExpressionSyntax>(
                     SyntaxFactory.OmittedArraySizeExpression() ) );
 
-            var arrayCreationExpression =
+            ArrayCreationExpressionSyntax arrayCreationExpression =
                 SyntaxFactory.ArrayCreationExpression(
                     SyntaxFactory.ArrayType( SyntaxFactory.IdentifierName( typeof (Variant).Name ), SyntaxFactory.SingletonList( arrayRankSpecifierSyntax ) ) );
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
@@ -20,11 +21,11 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private WhileStatement ParseWhile( TokenQueue block ) {
-            var whileExpressionToken = ParseWhileExpression( block );
-            var whileBlock = ParseWhileBlock( block );
+            TokenCollection whileExpressionToken = ParseWhileExpression( block );
+            TokenCollection whileBlock = ParseWhileBlock( block );
 
-            var whileExpression = ExpressionParser.ParseBlock( whileExpressionToken, true );
-            var whileBlockStatements = StatementParser.ParseBlock( whileBlock );
+            IExpressionNode whileExpression = ExpressionParser.ParseBlock( whileExpressionToken, true );
+            List<IStatementNode> whileBlockStatements = StatementParser.ParseBlock( whileBlock );
 
             return AutoitStatementFactory.CreateWhileStatement( whileExpression, whileBlockStatements );
         }

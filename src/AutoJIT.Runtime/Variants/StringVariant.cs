@@ -16,12 +16,12 @@ namespace AutoJITRuntime.Variants
             get { return DataType.String; }
         }
 
-        public override object GetValue() {
-            return _value;
-        }
-
         public override bool IsString {
             get { return true; }
+        }
+
+        public override object GetValue() {
+            return _value;
         }
 
         public override string GetString() {
@@ -36,13 +36,13 @@ namespace AutoJITRuntime.Variants
             if ( _value.Length == 0 ) {
                 return 0;
             }
-            var isHex = _value[0] == '0' && ( _value[1] == 'x' || _value[1] == 'X' );
+            bool isHex = _value[0] == '0' && ( _value[1] == 'x' || _value[1] == 'X' );
             if ( isHex ) {
                 return int.Parse( _value.Substring( 2 ), NumberStyles.AllowHexSpecifier );
             }
             double result;
             return double.TryParse(
-                (string) _value, NumberStyles.AllowLeadingSign|NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out result )
+                _value, NumberStyles.AllowLeadingSign|NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out result )
                 ? result
                 : 0;
         }

@@ -4,9 +4,8 @@ namespace AutoJIT.Parser.Helper
 {
     public sealed class CSharpParameterInfo
     {
-        public readonly ExpressionSyntax Parameter;
-
         public readonly bool IsByRef;
+        public readonly ExpressionSyntax Parameter;
 
         public CSharpParameterInfo( ExpressionSyntax expressionNode, bool isByRef ) {
             IsByRef = isByRef;

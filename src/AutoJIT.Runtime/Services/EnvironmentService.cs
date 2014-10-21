@@ -1,17 +1,19 @@
+using System;
+
 namespace AutoJITRuntime.Services
 {
     public class EnvironmentService
     {
         public Variant ClipGet() {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant ClipPut( Variant value ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Variant EnvGet( Variant envvariable ) {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

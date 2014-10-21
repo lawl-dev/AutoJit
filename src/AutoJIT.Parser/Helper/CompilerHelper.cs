@@ -74,7 +74,8 @@ namespace AutoJIT.Parser.Helper
         }
 
         public static IEnumerable<CSharpParameterInfo> GetParameterInfo( string functionName, params ExpressionSyntax[] parameter ) {
-            var memberInfo = typeof (AutoitRuntime<object>).GetMethods().Single( x => x.Name == functionName && x.GetParameters().Length == parameter.Length );
+            MethodInfo memberInfo =
+                typeof (AutoitRuntime<object>).GetMethods().Single( x => x.Name == functionName && x.GetParameters().Length == parameter.Length );
             return memberInfo.GetParameters().Select( ( info, i ) => Map( info, parameter[i] ) );
         }
 

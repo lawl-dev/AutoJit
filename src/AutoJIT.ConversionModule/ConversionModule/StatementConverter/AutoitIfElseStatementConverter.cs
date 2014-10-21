@@ -22,7 +22,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( IfElseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            var ifStatement =
+            IfStatementSyntax ifStatement =
                 _cSharpStatementFactory.CreateIfStatement(
                     Convert( statement.Condition, context ),
                     statement.IfBlock.SelectMany( x => ConvertGeneric( x, context ) ) );
@@ -30,8 +30,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var elseIfs = new List<IfStatementSyntax>();
 
             if ( statement.ElseIfConditions != null ) {
-                for ( var i = 0; i < statement.ElseIfConditions.Count(); i++ ) {
-                    var innerIfStatement =
+                for ( int i = 0; i < statement.ElseIfConditions.Count(); i++ ) {
+                    IfStatementSyntax innerIfStatement =
                         _cSharpStatementFactory.CreateIfStatement(
                             Convert( statement.ElseIfConditions.ElementAt( i ), context ),
                             statement.ElseIfBlocks.ElementAt( i ).SelectMany( x => ConvertGeneric( x, context ) ) );
@@ -40,8 +40,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             }
 
             if ( elseIfs.Count > 1 ) {
-                for ( var index = elseIfs.Count-1; index > 0; index-- ) {
-                    var innerIf = elseIfs[index];
+                for ( int index = elseIfs.Count-1; index > 0; index-- ) {
+                    IfStatementSyntax innerIf = elseIfs[index];
                     elseIfs[index-1] = elseIfs[index-1].WithElse( innerIf.ToElseClause() );
                 }
             }

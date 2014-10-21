@@ -8,6 +8,10 @@ namespace AutoJITRuntime.Variants
             get { return DataType.Null; }
         }
 
+        public override bool IsNull {
+            get { return true; }
+        }
+
         public override object GetValue() {
             throw new NotImplementedException();
         }
@@ -42,10 +46,6 @@ namespace AutoJITRuntime.Variants
 
         public override Type GetRealType() {
             throw new NotImplementedException();
-        }
-
-        public override bool IsNull {
-            get { return true; }
         }
     }
 }

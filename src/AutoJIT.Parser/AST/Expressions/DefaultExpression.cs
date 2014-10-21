@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using AutoJIT.Parser.AST.Expressions.Interface;
 
 namespace AutoJIT.Parser.AST.Expressions
 {

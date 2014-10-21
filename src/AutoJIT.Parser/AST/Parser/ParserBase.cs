@@ -13,7 +13,7 @@ namespace AutoJIT.Parser.AST.Parser
             SkipAndAssert( block, s );
 
             int count = 1;
-            var innerExpressionsBlock = block.DequeueWhile(
+            List<Token> innerExpressionsBlock = block.DequeueWhile(
                 ( x, i ) => {
                     if ( x.Type == s ) {
                         count++;
@@ -165,7 +165,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         public Token ParseVariableAssign( TokenQueue block ) {
-            var token = block.Peek();
+            Token token = block.Peek();
             if ( !token.IsMathExpression &&
                  !token.IsNumberExpression &&
                  !token.IsBooleanExpression &&
@@ -212,7 +212,7 @@ namespace AutoJIT.Parser.AST.Parser
         protected IEnumerable<Token> ExtractUntilNextDeclaration( TokenQueue block ) {
             var toReturn = new List<Token>();
             bool isPartOfDeclaration;
-            var iC = 0;
+            int iC = 0;
             do {
                 if ( block.Peek().Type == TokenType.Leftparen ) {
                     iC++;
@@ -227,7 +227,7 @@ namespace AutoJIT.Parser.AST.Parser
                 if ( block.Peek().Type == TokenType.Rightsubscript ) {
                     iC--;
                 }
-                var isInner = iC > 0;
+                bool isInner = iC > 0;
                 isPartOfDeclaration = ( ( block.Peek().Type != TokenType.Comma ) || isInner ) && block.Peek().Type != TokenType.NewLine;
 
                 if ( isPartOfDeclaration ) {

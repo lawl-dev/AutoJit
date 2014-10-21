@@ -1,7 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
-using AutoJIT;
 using AutoJIT.Compiler;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
@@ -153,8 +151,8 @@ namespace UnitTests
         [TestCase( "Word.au3" )]
         [TestCase( "WordConstants.au3" )]
         public void Test_compile_includes( string file ) {
-            var path = string.Format( "{0}..\\..\\..\\testdata\\ParserTests\\{1}", Environment.CurrentDirectory, file );
-            var script = File.ReadAllText( path );
+            string path = string.Format( "{0}..\\..\\..\\testdata\\ParserTests\\{1}", Environment.CurrentDirectory, file );
+            string script = File.ReadAllText( path );
 
             Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false ) );
         }

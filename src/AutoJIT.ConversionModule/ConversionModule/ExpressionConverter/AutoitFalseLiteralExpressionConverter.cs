@@ -15,7 +15,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
         public override ExpressionSyntax Convert( FalseLiteralExpression node, IContextService context ) {
             {
-                var expression = SyntaxFactory.LiteralExpression( SyntaxKind.FalseLiteralExpression );
+                LiteralExpressionSyntax expression = SyntaxFactory.LiteralExpression( SyntaxKind.FalseLiteralExpression );
                 return SyntaxFactory.InvocationExpression(
                     SyntaxFactory.MemberAccessExpression(
                         SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),

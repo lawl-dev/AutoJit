@@ -24,16 +24,16 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             context.RegisterLoop();
 
-            var exitLoopLabelName = context.GetExitLoopLabelName();
-            var coninueLoopLabelName = context.GetConinueLoopLabelName();
+            string exitLoopLabelName = context.GetExitLoopLabelName();
+            string coninueLoopLabelName = context.GetConinueLoopLabelName();
 
-            var handlerName = GetHandlerName();
-            var handlerObjectExpression = CreateHandlerObject( statement, context );
-            var indexHandlerExpression = GetIndexFromHandlerExpression( handlerName );
-            var indexVariableDeclaration = GetIndexVariableDeclaration( statement );
-            var condition = GetConditionExpression( handlerName );
-            var getNextIndexEpression = GetNextIndexExpression( statement, handlerName );
-            var forStatementSyntax = CreateForStatement( statement, context, coninueLoopLabelName );
+            string handlerName = GetHandlerName();
+            ObjectCreationExpressionSyntax handlerObjectExpression = CreateHandlerObject( statement, context );
+            SeparatedSyntaxList<ExpressionSyntax> indexHandlerExpression = GetIndexFromHandlerExpression( handlerName );
+            VariableDeclarationSyntax indexVariableDeclaration = GetIndexVariableDeclaration( statement );
+            InvocationExpressionSyntax condition = GetConditionExpression( handlerName );
+            BinaryExpressionSyntax getNextIndexEpression = GetNextIndexExpression( statement, handlerName );
+            ForStatementSyntax forStatementSyntax = CreateForStatement( statement, context, coninueLoopLabelName );
 
             toReturn.Add( DeclareLoopObject( handlerName, handlerObjectExpression ) );
             toReturn.Add( InitLoopObject( handlerName, handlerObjectExpression ) );
@@ -41,7 +41,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             if ( !context.IsDeclared( statement.VariableExpression.IdentifierName ) ) {
                 context.Declare( statement.VariableExpression.IdentifierName );
-                var localDeclarationStatementSyntax = GetIndexLocalDeclaration( statement, indexVariableDeclaration );
+                LocalDeclarationStatementSyntax localDeclarationStatementSyntax = GetIndexLocalDeclaration( statement, indexVariableDeclaration );
                 toReturn.Add( localDeclarationStatementSyntax );
             }
             else {
@@ -70,7 +70,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private ForStatementSyntax CreateForStatement( ForToNextStatement node, IContextService context, string continueCaseLabelName ) {
-            var block = node.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
+            List<StatementSyntax> block = node.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
             block.Add( SyntaxFactory.LabeledStatement( continueCaseLabelName, SyntaxFactory.EmptyStatement() ) );
             return
                 SyntaxFactory.ForStatement( block.ToBlock() );
@@ -128,7 +128,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             return SyntaxFactory.ObjectCreationExpression( SyntaxFactory.IdentifierName( typeof (ForToNextLooper).Name ) )
                 .WithArgumentList(
                     SyntaxFactory.ArgumentList(
-                        SyntaxFactory.SeparatedList<ArgumentSyntax>(
+                        SyntaxFactory.SeparatedList(
                             new[] {
                                 SyntaxFactory.Argument( Convert( node.StartExpression, context ) ),
                                 SyntaxFactory.Argument( Convert( node.EndExpression, context ) ),

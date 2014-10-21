@@ -9,12 +9,6 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ForToNextStatement : StatementBase
     {
-        public IExpressionNode StartExpression { get; private set; }
-        public IExpressionNode EndExpression { get; private set; }
-        public IExpressionNode StepExpression { get; private set; }
-        public IEnumerable<IStatementNode> Block { get; private set; }
-        public VariableExpression VariableExpression { get; private set; }
-
         public ForToNextStatement(
             VariableExpression variableExpression,
             IExpressionNode startExpression,
@@ -29,24 +23,11 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public override string ToSource() {
-            var toReturn = string.Format( "For {0} = {1} To {2}", VariableExpression.ToSource(), StartExpression.ToSource(), EndExpression.ToSource() );
-            if ( StartExpression != null ) {
-                toReturn += string.Format( " Step {0}", StartExpression.ToSource() );
-            }
-            toReturn += Environment.NewLine;
-            foreach (var statement in Block) {
-                toReturn += string.Format( "{0}{1}", statement.ToSource(), Environment.NewLine );
-            }
-            toReturn += "NEXT";
-            return toReturn;
-        }
-
-        public override object Clone() {
-            return new ForToNextStatement(
-                (VariableExpression) VariableExpression.Clone(), (IExpressionNode) StartExpression.Clone(), (IExpressionNode) EndExpression.Clone(),
-                CloneAs<IExpressionNode>( StepExpression ), Block.Select( x => (IStatementNode) x.Clone() ) );
-        }
+        public IExpressionNode StartExpression { get; private set; }
+        public IExpressionNode EndExpression { get; private set; }
+        public IExpressionNode StepExpression { get; private set; }
+        public IEnumerable<IStatementNode> Block { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -58,6 +39,25 @@ namespace AutoJIT.Parser.AST.Statements
 
                 return syntaxNodes;
             }
+        }
+
+        public override string ToSource() {
+            string toReturn = string.Format( "For {0} = {1} To {2}", VariableExpression.ToSource(), StartExpression.ToSource(), EndExpression.ToSource() );
+            if ( StartExpression != null ) {
+                toReturn += string.Format( " Step {0}", StartExpression.ToSource() );
+            }
+            toReturn += Environment.NewLine;
+            foreach (IStatementNode statement in Block) {
+                toReturn += string.Format( "{0}{1}", statement.ToSource(), Environment.NewLine );
+            }
+            toReturn += "NEXT";
+            return toReturn;
+        }
+
+        public override object Clone() {
+            return new ForToNextStatement(
+                (VariableExpression) VariableExpression.Clone(), (IExpressionNode) StartExpression.Clone(), (IExpressionNode) EndExpression.Clone(),
+                CloneAs<IExpressionNode>( StepExpression ), Block.Select( x => (IStatementNode) x.Clone() ) );
         }
     }
 }

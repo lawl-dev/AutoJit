@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
+using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp;
@@ -19,23 +21,23 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( SwitchCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            var toFunctionName = CompilerHelper.GetCompilerMemberName( x => x.To( null, null, null ) );
-            var equalFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Equal( null, null ) );
+            string toFunctionName = CompilerHelper.GetCompilerMemberName( x => x.To( null, null, null ) );
+            string equalFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Equal( null, null ) );
 
             var conditions = new List<ExpressionSyntax>();
 
             foreach (var @case in statement.Cases) {
                 if ( @case.Key.Count() > 1 ) {
-                    var conditionParameterExpression = @case.Key.Select( x => Convert( x, context ) )
+                    ExpressionSyntax[] conditionParameterExpression = @case.Key.Select( x => Convert( x, context ) )
                         .Concat( new[] { Convert( statement.Condition, context ) } )
                         .ToArray();
 
-                    var caseExpression = CSharpStatementFactory.CreateInvocationExpression(
+                    InvocationExpressionSyntax caseExpression = CSharpStatementFactory.CreateInvocationExpression(
                         context.GetRuntimeInstanceName(), toFunctionName, CompilerHelper.GetParameterInfo( toFunctionName, conditionParameterExpression ) );
                     conditions.Add( caseExpression );
                 }
                 else {
-                    var caseExpression = CSharpStatementFactory.CreateInvocationExpression(
+                    InvocationExpressionSyntax caseExpression = CSharpStatementFactory.CreateInvocationExpression(
                         context.GetRuntimeInstanceName(), equalFunctionName,
                         CompilerHelper.GetParameterInfo(
                             equalFunctionName, Convert( statement.Condition, context ),
@@ -46,8 +48,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             var ifs = new List<IfStatementSyntax>();
             for ( int i = conditions.Count-1; i >= 0; i-- ) {
-                var currentCase = statement.Cases.Skip( i ).First();
-                var elseIf = CSharpStatementFactory.CreateIfStatement(
+                KeyValuePair<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> currentCase = statement.Cases.Skip( i ).First();
+                IfStatementSyntax elseIf = CSharpStatementFactory.CreateIfStatement(
                     conditions[i], currentCase.Value.SelectMany( x => ConvertGeneric( x, context ) ) );
                 ifs.Add( elseIf );
             }

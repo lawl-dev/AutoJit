@@ -7,11 +7,6 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class LocalDeclarationStatement : StatementBase
     {
-        public bool IsConst { get; private set; }
-        public bool IsStatic { get; private set; }
-        public VariableExpression VariableExpression { get; private set; }
-        public IExpressionNode InitExpression { get; private set; }
-
         public LocalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst, bool isStatic ) {
             IsConst = isConst;
             IsStatic = isStatic;
@@ -20,8 +15,17 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
+        public bool IsConst { get; private set; }
+        public bool IsStatic { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
+        public IExpressionNode InitExpression { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return new List<ISyntaxNode> { VariableExpression, InitExpression }; }
+        }
+
         public override string ToSource() {
-            var toReturn = string.Format( "Local {0}", VariableExpression.ToSource() );
+            string toReturn = string.Format( "Local {0}", VariableExpression.ToSource() );
             if ( InitExpression != null ) {
                 toReturn += string.Format( " = {0}", InitExpression.ToSource() );
             }
@@ -31,10 +35,6 @@ namespace AutoJIT.Parser.AST.Statements
         public override object Clone() {
             return new LocalDeclarationStatement(
                 (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ), IsConst, IsStatic );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>() { VariableExpression, InitExpression }; }
         }
     }
 }

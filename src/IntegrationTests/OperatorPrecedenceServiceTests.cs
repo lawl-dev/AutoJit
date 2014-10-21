@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using AutoJIT;
 using AutoJIT.Compiler;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.Collection;
@@ -202,9 +201,9 @@ namespace UnitTests
         [TestCase( "-++-13123 + -+-312 * +-+3 - -4 / 6" )]
         public void Test_PrepareOperatorPrecedence( string expression ) {
             var tokenList = new TokenCollection( _lexer.Lex( expression ) );
-            var preparedList = _operatorPrecedenceService.PrepareOperatorPrecedence( tokenList );
-            var unprepared = GetAu3Result( "f!"+expression, typeof (double) );
-            var prepared = GetAu3Result( "f!"+preparedList, typeof (double) );
+            TokenCollection preparedList = _operatorPrecedenceService.PrepareOperatorPrecedence( tokenList );
+            object unprepared = GetAu3Result( "f!"+expression, typeof (double) );
+            object prepared = GetAu3Result( "f!"+preparedList, typeof (double) );
             Assert.IsTrue( Equals( unprepared, prepared ) );
         }
 
@@ -220,8 +219,8 @@ namespace UnitTests
         public void Test_PrepareOperatorPrecedence2( string expression, string expected ) {
             expected = expected.Replace( " ", string.Empty );
             var tokenList = new TokenCollection( _lexer.Lex( expression ) );
-            var preparedList = _operatorPrecedenceService.PrepareOperatorPrecedence( tokenList );
-            var result = preparedList.ToString().Replace( " ", string.Empty ).Replace( "v_", string.Empty );
+            TokenCollection preparedList = _operatorPrecedenceService.PrepareOperatorPrecedence( tokenList );
+            string result = preparedList.ToString().Replace( " ", string.Empty ).Replace( "v_", string.Empty );
             Assert.AreEqual( expected, result );
         }
 
@@ -403,18 +402,18 @@ namespace UnitTests
         [TestCase( "--(-(123 + 321) / 4 * 9) + - 1" )]
         public void Test_PrepareOperatorPrecedenceVariables( string expression ) {
             var random = new Random();
-            var a = random.Next( 0, 1337 );
-            var b = random.Next( 0, 1337 );
-            var c = random.Next( 0, 1337 );
+            int a = random.Next( 0, 1337 );
+            int b = random.Next( 0, 1337 );
+            int c = random.Next( 0, 1337 );
 
             var tokenList = new TokenCollection( _lexer.Lex( expression ) );
 
-            var preparedList = _operatorPrecedenceService.PrepareOperatorPrecedence( tokenList );
-            var expression1 =
+            TokenCollection preparedList = _operatorPrecedenceService.PrepareOperatorPrecedence( tokenList );
+            string expression1 =
                 expression.Replace( "$a", a.ToString( CultureInfo.InvariantCulture ) )
                     .Replace( "$b", b.ToString( CultureInfo.InvariantCulture ) )
                     .Replace( "$c", c.ToString( CultureInfo.InvariantCulture ) );
-            var preparedList1 =
+            string preparedList1 =
                 preparedList.ToString()
                     .Replace( "$v_a", a.ToString( CultureInfo.InvariantCulture ) )
                     .Replace( "$v_b", b.ToString( CultureInfo.InvariantCulture ) )
@@ -423,8 +422,8 @@ namespace UnitTests
                     .Replace( "$b", b.ToString( CultureInfo.InvariantCulture ) )
                     .Replace( "$c", c.ToString( CultureInfo.InvariantCulture ) );
 
-            var unprepared = GetAu3Result( "f!"+expression1, typeof (double) );
-            var prepared = GetAu3Result( "f!"+preparedList1, typeof (double) );
+            object unprepared = GetAu3Result( "f!"+expression1, typeof (double) );
+            object prepared = GetAu3Result( "f!"+preparedList1, typeof (double) );
             Assert.IsTrue( Equals( unprepared, prepared ) );
         }
     }

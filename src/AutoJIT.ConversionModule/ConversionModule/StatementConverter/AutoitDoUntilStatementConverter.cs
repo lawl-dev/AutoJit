@@ -20,11 +20,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var toReturn = new List<StatementSyntax>();
 
             context.RegisterLoop();
-            var coninueLoopLabelName = context.GetConinueLoopLabelName();
+            string coninueLoopLabelName = context.GetConinueLoopLabelName();
 
-            var exitLoopLabelName = context.GetExitLoopLabelName();
+            string exitLoopLabelName = context.GetExitLoopLabelName();
 
-            var block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
+            List<StatementSyntax> block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
             block.Add( SyntaxFactory.LabeledStatement( coninueLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
             toReturn.Add(

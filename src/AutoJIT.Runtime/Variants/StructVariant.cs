@@ -9,27 +9,13 @@ namespace AutoJITRuntime.Variants
 {
     public sealed class StructVariant : Variant, IDisposable
     {
+        private readonly Dictionary<string, KeyValuePair<object, FieldInfo>> _fieldInfos = new Dictionary<string, KeyValuePair<object, FieldInfo>>();
         private readonly IRuntimeStruct _value;
         public IntPtr Ptr = IntPtr.Zero;
-
-        private readonly Dictionary<string, KeyValuePair<object, FieldInfo>> _fieldInfos = new Dictionary<string, KeyValuePair<object, FieldInfo>>();
 
         public StructVariant( IRuntimeStruct value ) {
             _value = value;
             InitFieldInfoRecursiv( value );
-        }
-
-        private void InitFieldInfoRecursiv( IRuntimeStruct value ) {
-            foreach (var fieldInfo in value.GetType().GetFields()) {
-                if ( typeof (IRuntimeStruct).IsAssignableFrom(  fieldInfo.FieldType) ) {
-                    var instance = fieldInfo.FieldType.CreateInstance<object>();
-                    fieldInfo.SetValue( value, instance );
-                    InitFieldInfoRecursiv( (IRuntimeStruct) instance );
-                }
-                else {
-                    _fieldInfos.Add( fieldInfo.Name.ToLower(), new KeyValuePair<object, FieldInfo>( value, fieldInfo ) );
-                }
-            }
         }
 
         protected override DataType DataType {
@@ -38,6 +24,25 @@ namespace AutoJITRuntime.Variants
 
         public override bool IsStruct {
             get { return true; }
+        }
+
+        public void Dispose() {
+            if ( Ptr != IntPtr.Zero ) {
+                Marshal.FreeHGlobal( Ptr );
+            }
+        }
+
+        private void InitFieldInfoRecursiv( IRuntimeStruct value ) {
+            foreach (FieldInfo fieldInfo in value.GetType().GetFields()) {
+                if ( typeof (IRuntimeStruct).IsAssignableFrom( fieldInfo.FieldType ) ) {
+                    var instance = fieldInfo.FieldType.CreateInstance<object>();
+                    fieldInfo.SetValue( value, instance );
+                    InitFieldInfoRecursiv( (IRuntimeStruct) instance );
+                }
+                else {
+                    _fieldInfos.Add( fieldInfo.Name.ToLower(), new KeyValuePair<object, FieldInfo>( value, fieldInfo ) );
+                }
+            }
         }
 
         public override object GetValue() {
@@ -75,7 +80,7 @@ namespace AutoJITRuntime.Variants
         public object GetElement( string name ) {
             SyntToManaged();
             if ( _fieldInfos.ContainsKey( name.ToLower() ) ) {
-                var info = _fieldInfos[name.ToLower()];
+                KeyValuePair<object, FieldInfo> info = _fieldInfos[name.ToLower()];
 
                 return info.Value.GetValue( info.Key );
             }
@@ -86,7 +91,7 @@ namespace AutoJITRuntime.Variants
             SyntToManaged();
             if ( index >= 0 &&
                  index <= _fieldInfos.Count ) {
-                var info = _fieldInfos.Values.ElementAt( index );
+                KeyValuePair<object, FieldInfo> info = _fieldInfos.Values.ElementAt( index );
 
                 return info.Value.GetValue( info.Key );
             }
@@ -95,8 +100,7 @@ namespace AutoJITRuntime.Variants
 
         public bool SetElement( string name, object value ) {
             if ( _fieldInfos.ContainsKey( name.ToLower() ) ) {
-                var info = _fieldInfos[name.ToLower()];
-
+                KeyValuePair<object, FieldInfo> info = _fieldInfos[name.ToLower()];
 
                 info.Value.SetValue( info.Key, value );
                 SyntToUnmanaged();
@@ -108,21 +112,19 @@ namespace AutoJITRuntime.Variants
         public bool SetElement( int index, object value ) {
             if ( index >= 0 &&
                  index <= _fieldInfos.Count ) {
-
-
-                var fieldInfo = _fieldInfos.Values.ElementAt( index );
+                KeyValuePair<object, FieldInfo> fieldInfo = _fieldInfos.Values.ElementAt( index );
                 object valueToSet;
-                
-                if(value.GetType() != fieldInfo.Value.FieldType) {
+
+                if ( value.GetType() != fieldInfo.Value.FieldType ) {
                     valueToSet = Convert.ChangeType( value, fieldInfo.Value.FieldType );
                 }
                 else {
                     valueToSet = value;
                 }
 
-                fieldInfo.Value.SetValue(fieldInfo.Key, valueToSet);
+                fieldInfo.Value.SetValue( fieldInfo.Key, valueToSet );
                 SyntToUnmanaged();
-            
+
                 return true;
             }
             return false;
@@ -136,46 +138,34 @@ namespace AutoJITRuntime.Variants
             return _value.GetType();
         }
 
-        public void Dispose() {
-            if ( Ptr != IntPtr.Zero ) {
-                Marshal.FreeHGlobal( Ptr );
-            }
-        }
-
         public void InitUnmanaged( IntPtr ptr ) {
-            Marshal.StructureToPtr(_value, ptr, false);
+            Marshal.StructureToPtr( _value, ptr, false );
             Ptr = ptr;
         }
 
-        public void InitUnmanaged()
-        {
-            if (Ptr == IntPtr.Zero)
-            {
-                var sizeOf = Marshal.SizeOf(_value);
-                var intPtr = Marshal.AllocHGlobal(sizeOf);
+        public void InitUnmanaged() {
+            if ( Ptr == IntPtr.Zero ) {
+                int sizeOf = Marshal.SizeOf( _value );
+                IntPtr intPtr = Marshal.AllocHGlobal( sizeOf );
                 Ptr = intPtr;
-                Marshal.StructureToPtr(_value, Ptr, false);
+                Marshal.StructureToPtr( _value, Ptr, false );
             }
         }
 
-        private void SyntToUnmanaged()
-        {
-            if (Ptr == IntPtr.Zero)
-            {
+        private void SyntToUnmanaged() {
+            if ( Ptr == IntPtr.Zero ) {
                 return;
             }
 
-            Marshal.StructureToPtr(_value, Ptr, true);
+            Marshal.StructureToPtr( _value, Ptr, true );
         }
 
-        private void SyntToManaged()
-        {
-            if (Ptr == IntPtr.Zero)
-            {
+        private void SyntToManaged() {
+            if ( Ptr == IntPtr.Zero ) {
                 return;
             }
 
-            Marshal.PtrToStructure(Ptr, _value);
+            Marshal.PtrToStructure( Ptr, _value );
         }
     }
 }

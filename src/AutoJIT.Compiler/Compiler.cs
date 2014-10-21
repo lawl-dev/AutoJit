@@ -8,15 +8,17 @@ using AutoJIT.Parser.Optimizer;
 using AutoJITRuntime;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Emit;
 
 namespace AutoJIT.Compiler
 {
     public sealed class Compiler : ICompiler
     {
-        private readonly IOptimizer _optimizer;
-        private readonly IScriptParser _scriptParser;
-        private readonly IPragmaParser _pragmaParser;
         private readonly IAutoitToCSharpConverter _autoitToCSharpConverter;
+        private readonly IOptimizer _optimizer;
+        private readonly IPragmaParser _pragmaParser;
+        private readonly IScriptParser _scriptParser;
 
         public Compiler(
             IOptimizer optimizer,
@@ -33,24 +35,24 @@ namespace AutoJIT.Compiler
             var pragmaOptions = new PragmaOptions();
             script = _pragmaParser.IncludeDependenciesAndResolvePragmas( script, pragmaOptions );
 
-            var autoJITScript = _scriptParser.ParseScript( script, pragmaOptions );
+            AutoitScriptRootNode autoJITScript = _scriptParser.ParseScript( script, pragmaOptions );
 
-            var cSharpTree = _autoitToCSharpConverter.Convert( autoJITScript );
+            NamespaceDeclarationSyntax cSharpTree = _autoitToCSharpConverter.Convert( autoJITScript );
 
-            var compilationUnit = SyntaxFactory.CompilationUnit()
+            CompilationUnitSyntax compilationUnit = SyntaxFactory.CompilationUnit()
                 .AddMembers( cSharpTree )
                 .AddUsings(
                     SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof (AutoitRuntime<>).Namespace ) ),
                     SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof (Variant).Namespace ) ),
                     SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof (object).Namespace ) ) );
 
-            var root = compilationUnit.SyntaxTree.GetRoot();
+            SyntaxNode root = compilationUnit.SyntaxTree.GetRoot();
 
             if ( optimize ) {
                 root = _optimizer.Optimize( root );
             }
 
-            var compilation = CSharpCompilation.Create(
+            CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName, new[] { root.SyntaxTree }, null, new CSharpCompilationOptions( outputKind, optimize: true, platform: Platform.X86 ) );
 
             compilation = compilation
@@ -60,7 +62,7 @@ namespace AutoJIT.Compiler
 
             var outputStream = new MemoryStream();
 
-            var emit = compilation.Emit( outputStream );
+            EmitResult emit = compilation.Emit( outputStream );
 
             if ( emit.Success ) {
                 return outputStream.ToArray();

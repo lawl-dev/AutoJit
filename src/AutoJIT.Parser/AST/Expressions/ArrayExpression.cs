@@ -6,11 +6,15 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class ArrayExpression : VariableExpression
     {
-        public IEnumerable<IExpressionNode> AccessParameter { get; private set; }
-
         public ArrayExpression( string identifierName, IEnumerable<IExpressionNode> accessParameter ) : base( identifierName ) {
             AccessParameter = accessParameter;
             Initialize();
+        }
+
+        public IEnumerable<IExpressionNode> AccessParameter { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return AccessParameter; }
         }
 
         public override string ToSource() {
@@ -19,10 +23,6 @@ namespace AutoJIT.Parser.AST.Expressions
 
         public override object Clone() {
             return new ArrayExpression( (string) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return AccessParameter; }
         }
     }
 }

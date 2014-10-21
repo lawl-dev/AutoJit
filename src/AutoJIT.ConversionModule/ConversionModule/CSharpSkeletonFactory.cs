@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -11,7 +12,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             string runtimeFieldName,
             string className,
             string contextInstanceName ) {
-            var constructorDeclarationSyntax = SyntaxFactory.ConstructorDeclaration(
+            ConstructorDeclarationSyntax constructorDeclarationSyntax = SyntaxFactory.ConstructorDeclaration(
                 SyntaxFactory.Identifier(
                     className ) )
                 .WithModifiers(
@@ -20,7 +21,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
                             SyntaxKind.PublicKeyword ) ) )
                 .WithBody(
                     SyntaxFactory.Block(
-                        SyntaxFactory.List<StatementSyntax>(
+                        SyntaxFactory.List(
                             new StatementSyntax[] {
                                 SyntaxFactory.ExpressionStatement(
                                     SyntaxFactory.BinaryExpression(
@@ -38,7 +39,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
                                                                 className ) ) ) ) )
                                             .WithArgumentList(
                                                 SyntaxFactory.ArgumentList(
-                                                    SyntaxFactory.SingletonSeparatedList<ArgumentSyntax>(
+                                                    SyntaxFactory.SingletonSeparatedList(
                                                         SyntaxFactory.Argument(
                                                             SyntaxFactory.ThisExpression() ) ) ) ) ) ),
                                 SyntaxFactory.ExpressionStatement(
@@ -69,7 +70,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 
             memberDeclarationSyntaxs.Add( constructorDeclarationSyntax );
 
-            var declarationSyntaxs = SyntaxFactory.List<MemberDeclarationSyntax>(
+            SyntaxList<MemberDeclarationSyntax> declarationSyntaxs = SyntaxFactory.List(
                 new MemberDeclarationSyntax[] {
                     SyntaxFactory.FieldDeclaration(
                         SyntaxFactory.VariableDeclaration(
@@ -82,7 +83,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
                                             SyntaxFactory.IdentifierName(
                                                 className ) ) ) ) )
                             .WithVariables(
-                                SyntaxFactory.SingletonSeparatedList<VariableDeclaratorSyntax>(
+                                SyntaxFactory.SingletonSeparatedList(
                                     SyntaxFactory.VariableDeclarator(
                                         SyntaxFactory.Identifier(
                                             contextInstanceName ) ) ) ) )
@@ -101,7 +102,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
                                             SyntaxFactory.IdentifierName(
                                                 className ) ) ) ) )
                             .WithVariables(
-                                SyntaxFactory.SingletonSeparatedList<VariableDeclaratorSyntax>(
+                                SyntaxFactory.SingletonSeparatedList(
                                     SyntaxFactory.VariableDeclarator(
                                         SyntaxFactory.Identifier(
                                             runtimeFieldName ) ) ) ) )
@@ -145,7 +146,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
                                         SyntaxKind.StaticKeyword ) ) )
                             .WithParameterList(
                                 SyntaxFactory.ParameterList(
-                                    SyntaxFactory.SingletonSeparatedList<ParameterSyntax>(
+                                    SyntaxFactory.SingletonSeparatedList(
                                         SyntaxFactory.Parameter(
                                             SyntaxFactory.Identifier(
                                                 @"args" ) )
@@ -155,7 +156,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
                                                         SyntaxFactory.Token(
                                                             SyntaxKind.StringKeyword ) ) )
                                                     .WithRankSpecifiers(
-                                                        SyntaxFactory.SingletonList<ArrayRankSpecifierSyntax>(
+                                                        SyntaxFactory.SingletonList(
                                                             SyntaxFactory.ArrayRankSpecifier(
                                                                 SyntaxFactory.SingletonSeparatedList<ExpressionSyntax>(
                                                                     SyntaxFactory.OmittedArraySizeExpression() ) ) ) ) ) ) ) )

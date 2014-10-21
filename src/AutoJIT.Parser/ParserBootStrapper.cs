@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoJIT.Parser.AST.Parser;
+﻿using AutoJIT.Parser.AST.Parser;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Parser.Strategy;
 using AutoJIT.Parser.AST.Parser.Strategy.Interface;

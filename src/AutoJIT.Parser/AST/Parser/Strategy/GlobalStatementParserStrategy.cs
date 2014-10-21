@@ -72,7 +72,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                     initExpression = ExpressionParser.ParseSingle<IExpressionNode>( new TokenCollection( ExtractUntilNextDeclaration( block ) ) );
                 }
 
-                var autoInitExpression = lastVariableExpression == null
+                IExpressionNode autoInitExpression = lastVariableExpression == null
                     ? (IExpressionNode) new NumericLiteralExpression(
                         _tokenFactory.CreateInt(
                             @operator.Type == TokenType.Mult

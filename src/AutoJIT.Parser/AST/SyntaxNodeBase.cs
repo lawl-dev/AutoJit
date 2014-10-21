@@ -8,6 +8,8 @@ namespace AutoJIT.Parser.AST
 {
     public abstract class SyntaxNodeBase : ISyntaxNode
     {
+        private ISyntaxNode _parent;
+
         public void AcceptSingle( ISyntaxVisitor visitor ) {
             visitor.Visit( this );
         }
@@ -15,7 +17,7 @@ namespace AutoJIT.Parser.AST
         public abstract IEnumerable<ISyntaxNode> Children { get; }
 
         public void Accept( ISyntaxVisitor visitor ) {
-            foreach (var child in Children) {
+            foreach (ISyntaxNode child in Children) {
                 child.Accept( visitor );
                 visitor.Visit( child );
             }
@@ -25,14 +27,6 @@ namespace AutoJIT.Parser.AST
             throw new NotImplementedException();
         }
 
-        protected void Initialize() {
-            foreach (var child in Children.Where( x => x != null )) {
-                child.Parent = this;
-            }
-        }
-
-        private ISyntaxNode _parent;
-
         public ISyntaxNode Parent {
             get { return _parent; }
             set {
@@ -41,6 +35,15 @@ namespace AutoJIT.Parser.AST
                     return;
                 }
                 throw new InvalidOperationException();
+            }
+        }
+
+        public abstract string ToSource();
+        public abstract object Clone();
+
+        protected void Initialize() {
+            foreach (ISyntaxNode child in Children.Where( x => x != null )) {
+                child.Parent = this;
             }
         }
 
@@ -55,8 +58,5 @@ namespace AutoJIT.Parser.AST
                 ? default( T ).ToEnumerable()
                 : objects.Select( x => (T) x.Clone() );
         }
-
-        public abstract string ToSource();
-        public abstract object Clone();
     }
 }

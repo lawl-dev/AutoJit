@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using AutoJITRuntime.Exceptions;
@@ -10,79 +9,7 @@ namespace AutoJITRuntime
 {
     public abstract class Variant : IEnumerable
     {
-        public static Variant Create( Int32 @int ) {
-            return new Int32Variant( @int );
-        }
-
-        public static Variant Create( Int64 int64 ) {
-            return new Int64Variant( int64 );
-        }
-
-        public static Variant Create( Double int64 ) {
-            return new DoubleVariant( int64 );
-        }
-
-        public static Variant Create( Boolean @bool ) {
-            return new BoolVariant( @bool );
-        }
-
-        public static Variant Create( String @string ) {
-            return new StringVariant( @string );
-        }
-        
-        
-        public static Variant Create( StringBuilder @string ) {
-            return new StringVariant( @string.ToString() );
-        }
-
-        public static Variant Create( Variant[] @array ) {
-            return new ArrayVariant( array );
-        }
-
-        public static Variant Create( Variant[,] @array ) {
-            return new ArrayVariant( array );
-        }
-
-        public static Variant Create( Variant[,,] @array ) {
-            return new ArrayVariant( array );
-        }
-
-        public static Variant Create( IntPtr ptr ) {
-            return new PtrVariant( ptr );
-        }
-
-        public static Variant Create( IRuntimeStruct @struct ) {
-            return new StructVariant( @struct );
-        }
-
-        public static Variant Create( byte[] binary ) {
-            return new BinaryVariant( binary );
-        }
-
-        public static Variant Create( Default @default ) {
-            return new DefaultVariant();
-        }
-
-        public static Variant Create( Char @char ) {
-            return new StringVariant( @char.ToString( CultureInfo.InvariantCulture ) );
-        }
-
-        public static Variant Create( object @object ) {
-            if ( @object == null ) {
-                return new NullVariant();
-            }
-            var variant = @object as Variant;
-            if ( variant != null ) {
-                return variant;
-            }
-
-            dynamic d = @object;
-            return Create( d );
-        }
-
         protected abstract DataType DataType { get; }
-
-        public abstract object GetValue();
 
         public virtual bool IsInt32 {
             get { return false; }
@@ -133,6 +60,81 @@ namespace AutoJITRuntime
             set { throw new AutoJITRuntimerException( "" ); }
         }
 
+        public virtual IEnumerator GetEnumerator() {
+            return new VariantEnumerator( (IEnumerable) GetValue() );
+        }
+
+        public static Variant Create( Int32 @int ) {
+            return new Int32Variant( @int );
+        }
+
+        public static Variant Create( Int64 int64 ) {
+            return new Int64Variant( int64 );
+        }
+
+        public static Variant Create( Double int64 ) {
+            return new DoubleVariant( int64 );
+        }
+
+        public static Variant Create( Boolean @bool ) {
+            return new BoolVariant( @bool );
+        }
+
+        public static Variant Create( String @string ) {
+            return new StringVariant( @string );
+        }
+
+        public static Variant Create( StringBuilder @string ) {
+            return new StringVariant( @string.ToString() );
+        }
+
+        public static Variant Create( Variant[] @array ) {
+            return new ArrayVariant( array );
+        }
+
+        public static Variant Create( Variant[,] @array ) {
+            return new ArrayVariant( array );
+        }
+
+        public static Variant Create( Variant[,,] @array ) {
+            return new ArrayVariant( array );
+        }
+
+        public static Variant Create( IntPtr ptr ) {
+            return new PtrVariant( ptr );
+        }
+
+        public static Variant Create( IRuntimeStruct @struct ) {
+            return new StructVariant( @struct );
+        }
+
+        public static Variant Create( byte[] binary ) {
+            return new BinaryVariant( binary );
+        }
+
+        public static Variant Create( Default @default ) {
+            return new DefaultVariant();
+        }
+
+        public static Variant Create( Char @char ) {
+            return new StringVariant( @char.ToString( CultureInfo.InvariantCulture ) );
+        }
+
+        public static Variant Create( object @object ) {
+            if ( @object == null ) {
+                return new NullVariant();
+            }
+            var variant = @object as Variant;
+            if ( variant != null ) {
+                return variant;
+            }
+
+            dynamic d = @object;
+            return Create( d );
+        }
+
+        public abstract object GetValue();
+
         public Variant PowAssign( Variant b ) {
             return Math.Pow( GetDouble(), b.GetDouble() );
         }
@@ -158,10 +160,6 @@ namespace AutoJITRuntime
 
         public abstract byte[] GetBinary();
         public abstract Type GetRealType();
-
-        public virtual IEnumerator GetEnumerator() {
-            return new VariantEnumerator( (IEnumerable) this.GetValue() );
-        }
 
         public static Variant operator +( Variant a, Variant b ) {
             switch (a.DataType) {
@@ -238,7 +236,7 @@ namespace AutoJITRuntime
                 return string.Compare( a.ToString(), b.ToString(), StringComparison.InvariantCultureIgnoreCase ) == 0;
             }
 
-            var dataType = GetDatatypeToCompare( a.DataType, b.DataType );
+            DataType dataType = GetDatatypeToCompare( a.DataType, b.DataType );
             switch (dataType) {
                 case DataType.Int32:
                     return a.GetInt() == b.GetInt();
@@ -303,7 +301,7 @@ namespace AutoJITRuntime
         }
 
         public static Variant operator >( Variant a, Variant b ) {
-            var toCompare = GetDatatypeToCompare( a.DataType, b.DataType );
+            DataType toCompare = GetDatatypeToCompare( a.DataType, b.DataType );
             switch (toCompare) {
                 case DataType.Int32:
                     return a.GetInt() > b.GetInt();
@@ -329,7 +327,7 @@ namespace AutoJITRuntime
         }
 
         public static Variant operator <( Variant a, Variant b ) {
-            var toCompare = GetDatatypeToCompare( a.DataType, b.DataType );
+            DataType toCompare = GetDatatypeToCompare( a.DataType, b.DataType );
             switch (toCompare) {
                 case DataType.Int32:
                     return a.GetInt() < b.GetInt();
@@ -393,38 +391,8 @@ namespace AutoJITRuntime
             return compareType;
         }
 
-        #region explicit_operaotr
-        public static implicit operator Int32( Variant a ) {
-            return a.GetInt();
-        }
-
-        public static implicit operator Int64( Variant a ) {
-            return a.GetInt64();
-        }
-
-        public static implicit operator Double( Variant a ) {
-            return a.GetDouble();
-        }
-
-        public static implicit operator String( Variant a ) {
-            return a.GetString();
-        }
-
-        public static implicit operator Boolean( Variant a ) {
-            return a.GetBool();
-        }
-
-        public static implicit operator IntPtr( Variant a ) {
-            return a.GetIntPtr();
-        }
-
-        public static implicit operator byte[]( Variant a ) {
-            return a.GetBinary();
-        }
-        #endregion
-
         public static implicit operator Variant( Variant[] a ) {
-            return Variant.Create( a );
+            return Create( a );
         }
 
         public static implicit operator Variant( Variant[,] a ) {
@@ -470,7 +438,7 @@ namespace AutoJITRuntime
         public override bool Equals( object obj ) {
             var variant = obj as Variant;
             if ( variant != null ) {
-                return this.GetValue().Equals( variant.GetValue() );
+                return GetValue().Equals( variant.GetValue() );
             }
             return GetValue().Equals( obj );
         }
@@ -501,5 +469,35 @@ namespace AutoJITRuntime
                 }
             }
         }
+
+        #region explicit_operaotr
+        public static implicit operator Int32( Variant a ) {
+            return a.GetInt();
+        }
+
+        public static implicit operator Int64( Variant a ) {
+            return a.GetInt64();
+        }
+
+        public static implicit operator Double( Variant a ) {
+            return a.GetDouble();
+        }
+
+        public static implicit operator String( Variant a ) {
+            return a.GetString();
+        }
+
+        public static implicit operator Boolean( Variant a ) {
+            return a.GetBool();
+        }
+
+        public static implicit operator IntPtr( Variant a ) {
+            return a.GetIntPtr();
+        }
+
+        public static implicit operator byte[]( Variant a ) {
+            return a.GetBinary();
+        }
+        #endregion
     }
 }

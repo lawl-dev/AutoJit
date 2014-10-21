@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using AutoJIT;
 using AutoJIT.Compiler;
 using AutoJITRuntime;
 using Lawl.Reflection;
@@ -22,41 +21,41 @@ namespace UnitTests
 
         [Test]
         public void Test_KDMemory() {
-            var script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\KDMemory.au3", Environment.CurrentDirectory ) );
+            string script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\KDMemory.au3", Environment.CurrentDirectory ) );
 
             Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false ) );
         }
 
         [Test]
         public void Test_KDMemoryX() {
-            var script = File.ReadAllText( "C:\\tests.au3" );
+            string script = File.ReadAllText( "C:\\tests.au3" );
             Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.WindowsApplication, false ) );
         }
 
         [Test]
         public void Test_algo() {
-            var script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\algo.au3", Environment.CurrentDirectory ) );
+            string script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\algo.au3", Environment.CurrentDirectory ) );
 
             Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.WindowsApplication, false ) );
         }
 
         [Test]
         public void Test_KDMemory_iflineblock() {
-            var script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\KDMemory_iflineblock.au3", Environment.CurrentDirectory ) );
+            string script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\KDMemory_iflineblock.au3", Environment.CurrentDirectory ) );
 
             Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false ) );
         }
 
         [Test]
         public void Test_testscript1() {
-            var script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\testscript1.au3", Environment.CurrentDirectory ) );
-            var assembly = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-            var asm = Assembly.Load( assembly );
-            var type = asm.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var dto2Screencoords = type.GetMethod( "f_Dto2Dscreencoords" );
-            var angle = type.GetMethod( "f__Angle" );
+            string script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\testscript1.au3", Environment.CurrentDirectory ) );
+            byte[] assembly = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
+            Assembly asm = Assembly.Load( assembly );
+            Type type = asm.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo dto2Screencoords = type.GetMethod( "f_Dto2Dscreencoords" );
+            MethodInfo angle = type.GetMethod( "f__Angle" );
 
-            var instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.CreateInstanceWithDefaultParameters();
 
             var parameters = new object[] {
                 Variant.Create( 1111 ),
@@ -75,11 +74,11 @@ namespace UnitTests
 
         [Test]
         public void Test_testscript2() {
-            var script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\testscript2.au3", Environment.CurrentDirectory ) );
-            var assembly = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-            var assembly2 = Assembly.Load( assembly );
-            var type = assembly2.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            var method = type.GetMethod( "f_DoWhileFor" );
+            string script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\testscript2.au3", Environment.CurrentDirectory ) );
+            byte[] assembly = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+            Assembly assembly2 = Assembly.Load( assembly );
+            Type type = assembly2.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+            MethodInfo method = type.GetMethod( "f_DoWhileFor" );
         }
     }
 }

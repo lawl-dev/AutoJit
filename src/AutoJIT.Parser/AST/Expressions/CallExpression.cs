@@ -1,19 +1,18 @@
 using System.Collections.Generic;
-using System.Linq;
 using AutoJIT.Parser.AST.Expressions.Interface;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
     public class CallExpression : ExpressionBase
     {
-        public string IdentifierName { get; private set; }
-        public IEnumerable<IExpressionNode> Parameter { get; private set; }
-
         public CallExpression( string identifierName, IEnumerable<IExpressionNode> parameter ) {
             IdentifierName = identifierName;
             Parameter = parameter;
             Initialize();
         }
+
+        public string IdentifierName { get; private set; }
+        public IEnumerable<IExpressionNode> Parameter { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode>( Parameter ); }

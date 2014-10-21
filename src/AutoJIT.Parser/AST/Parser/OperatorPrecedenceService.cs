@@ -19,7 +19,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         public TokenCollection PrepareOperatorPrecedence( TokenCollection expression ) {
-            var tokenList = AddParenthesesForOperator( expression, TokenType.NOT );
+            TokenCollection tokenList = AddParenthesesForOperator( expression, TokenType.NOT );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Pow );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Mult, TokenType.Div );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Plus, TokenType.Minus );
@@ -79,8 +79,8 @@ namespace AutoJIT.Parser.AST.Parser
                         case TokenType.Notequal:
                         case TokenType.AND:
                         case TokenType.OR:
-                            var rparenIndex = GetIndexBehindNextToken( getToken, i );
-                            var lparenIndex = GetIndexBeforeLastToken( getToken, i ).ToNullIfLessNull();
+                            int rparenIndex = GetIndexBehindNextToken( getToken, i );
+                            int lparenIndex = GetIndexBeforeLastToken( getToken, i ).ToNullIfLessNull();
 
                             while ( ( getToken( lparenIndex-1 ).IsSignOperator &&
                                       ( getToken( lparenIndex-2 ).IsSignOperator || getToken( lparenIndex-2 ).Type == TokenType.None ) ) ||
@@ -93,7 +93,7 @@ namespace AutoJIT.Parser.AST.Parser
                             i += 2;
                             break;
                         case TokenType.NOT:
-                            var lparenIndexNot = HandleParenthesesForNotExpression( getToken, i );
+                            int lparenIndexNot = HandleParenthesesForNotExpression( getToken, i );
                             insertRightParen( expressionToken, lparenIndexNot );
                             insertLeftParen( expressionToken, i );
                             i += 2;
@@ -107,7 +107,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         private int GetIndexBeforeLastToken( Func<int, Token> currentToken, int i ) {
-            var seperatorCount = 0;
+            int seperatorCount = 0;
             Func<bool> isInner = () => seperatorCount > 0;
             switch (currentToken( --i ).Type) {
                 case TokenType.Int32:

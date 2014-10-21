@@ -14,7 +14,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 
         public NamespaceDeclarationSyntax Convert( AutoitScriptRootNode root ) {
             _autoJITScriptConversionVisitor.InitializeContext( new Context( "_functions", "_context" ) );
-            var syntax = _autoJITScriptConversionVisitor.Visit( root );
+            NamespaceDeclarationSyntax syntax = _autoJITScriptConversionVisitor.Visit( root );
 
             return syntax;
         }

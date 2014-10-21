@@ -35,10 +35,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 lastBlockWasLine = true;
             }
 
-            var hasElseIf = block.Any() && block.Peek().Value.Keyword == Keywords.ElseIf;
+            bool hasElseIf = block.Any() && block.Peek().Value.Keyword == Keywords.ElseIf;
             while ( hasElseIf ) {
                 SkipAndAssert( block, Keywords.ElseIf );
-                var elseIfCondition = ParseElseIfCondition( block );
+                TokenCollection elseIfCondition = ParseElseIfCondition( block );
                 elseIfcondition.Add( elseIfCondition );
 
                 TokenCollection elseIfBlock2;
@@ -56,7 +56,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 hasElseIf = block.Any() && block.Peek().Value.Keyword == Keywords.ElseIf;
             }
 
-            var hasElse = block.Any() && block.Peek().Value.Keyword == Keywords.Else;
+            bool hasElse = block.Any() && block.Peek().Value.Keyword == Keywords.Else;
             if ( hasElse ) {
                 SkipAndAssert( block, Keywords.Else );
                 if ( Skip( block, TokenType.NewLine ) ) {
@@ -74,9 +74,9 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 SkipAndAssert( block, Keywords.EndIf );
             }
 
-            var conditionExpression = ExpressionParser.ParseBlock( condition, true );
+            IExpressionNode conditionExpression = ExpressionParser.ParseBlock( condition, true );
 
-            var ifBlockStatements = StatementParser.ParseBlock( ifBlock );
+            List<IStatementNode> ifBlockStatements = StatementParser.ParseBlock( ifBlock );
             Queue<IExpressionNode> elseIfConditionExpressions = null;
             Queue<List<IStatementNode>> elseIfBlockStatements = null;
             if ( elseIfcondition.Any() ) {

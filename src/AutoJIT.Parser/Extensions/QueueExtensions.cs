@@ -10,7 +10,7 @@ namespace AutoJIT.Parser.Extensions
             var list = new List<T>();
 
             if ( queue.Any() ) {
-                var peek = queue.Peek();
+                T peek = queue.Peek();
                 while ( expression( peek ) &&
                         queue.Any() ) {
                     list.Add( queue.Dequeue() );
@@ -26,7 +26,7 @@ namespace AutoJIT.Parser.Extensions
             var list = new List<T>();
 
             if ( queue.Any() ) {
-                var peek = queue.Peek();
+                T peek = queue.Peek();
                 while ( !expression( peek ) &&
                         queue.Any() ) {
                     list.Add( queue.Dequeue() );
@@ -54,7 +54,7 @@ namespace AutoJIT.Parser.Extensions
 
             if ( queue.Any() ) {
                 int i = 0;
-                var peek = queue.Peek();
+                T peek = queue.Peek();
                 while ( expression( peek, i++ ) &&
                         queue.Any() ) {
                     list.Add( queue.Dequeue() );

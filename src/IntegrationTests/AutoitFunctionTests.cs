@@ -24,8 +24,8 @@ namespace UnitTests
         [TestCase( "1--_", 4, "1--_" )]
         [TestCase( "Hallo", 5, "Hallo" )]
         public void Test_StringLeft( object @string, object count, object result ) {
-            var dotnetResult = _autoitRuntime.StringLeft( Variant.Create( @string ), Variant.Create( count ) );
-            var autoitResult = GetAu3Result( "StringLeft", dotnetResult.GetRealType(), @string, count );
+            Variant dotnetResult = _autoitRuntime.StringLeft( Variant.Create( @string ), Variant.Create( count ) );
+            object autoitResult = GetAu3Result( "StringLeft", dotnetResult.GetRealType(), @string, count );
             CompareResults( dotnetResult, autoitResult );
             CompareResults( dotnetResult, result );
         }
@@ -33,8 +33,8 @@ namespace UnitTests
         [TestCase( "0.123" )]
         [TestCase( 0.123 )]
         public void Test_ACos( object dec ) {
-            var dotnetResult = _autoitRuntime.ACos( Variant.Create( dec ) );
-            var autoitResult = GetAu3Result( "ACos", dotnetResult.GetRealType(), dec );
+            Variant dotnetResult = _autoitRuntime.ACos( Variant.Create( dec ) );
+            object autoitResult = GetAu3Result( "ACos", dotnetResult.GetRealType(), dec );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -42,8 +42,8 @@ namespace UnitTests
         [TestCase( 0.123 )]
         [TestCase( "a0.123" )]
         public void Test_ASin( object dec ) {
-            var dotnetResult = _autoitRuntime.ASin( Variant.Create( dec ) );
-            var autoitResult = GetAu3Result( "ASin", dotnetResult.GetRealType(), dec );
+            Variant dotnetResult = _autoitRuntime.ASin( Variant.Create( dec ) );
+            object autoitResult = GetAu3Result( "ASin", dotnetResult.GetRealType(), dec );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -52,8 +52,8 @@ namespace UnitTests
         [TestCase( "123.123" )]
         [TestCase( 123.123 )]
         public void Test_Abs( object dec ) {
-            var dotnetResult = _autoitRuntime.Abs( Variant.Create( dec ) );
-            var autoitResult = GetAu3Result( "Abs", dotnetResult.GetRealType(), dec );
+            Variant dotnetResult = _autoitRuntime.Abs( Variant.Create( dec ) );
+            object autoitResult = GetAu3Result( "Abs", dotnetResult.GetRealType(), dec );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -62,8 +62,8 @@ namespace UnitTests
         [TestCase( "AB" )]
         [TestCase( "awd" )]
         public void Test_Asc( object src ) {
-            var dotnetResult = _autoitRuntime.Asc( Variant.Create( src ) );
-            var autoitResult = GetAu3Result( "Asc", dotnetResult.GetRealType(), src );
+            Variant dotnetResult = _autoitRuntime.Asc( Variant.Create( src ) );
+            object autoitResult = GetAu3Result( "Asc", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -72,8 +72,8 @@ namespace UnitTests
         [TestCase( "AB" )]
         [TestCase( "awd" )]
         public void Test_AscW( object src ) {
-            var dotnetResult = _autoitRuntime.AscW( Variant.Create( src ) );
-            var autoitResult = GetAu3Result( "AscW", dotnetResult.GetRealType(), src );
+            Variant dotnetResult = _autoitRuntime.AscW( Variant.Create( src ) );
+            object autoitResult = GetAu3Result( "AscW", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -81,7 +81,7 @@ namespace UnitTests
         public void Test_Binary() {
             Variant src = "test";
             Variant dotnetResult = _autoitRuntime.Binary( src );
-            Variant autoitResult = (Variant) GetAu3Result( "Binary", dotnetResult.GetRealType(), src );
+            var autoitResult = (Variant) GetAu3Result( "Binary", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -97,7 +97,7 @@ namespace UnitTests
         public void Test_BinaryToString() {
             Variant src = "0x68656c6c6f";
             Variant dotnetResult = _autoitRuntime.BinaryToString( src );
-            var autoitResult = GetAu3Result( "BinaryToString", dotnetResult.GetRealType(), src );
+            object autoitResult = GetAu3Result( "BinaryToString", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -107,8 +107,8 @@ namespace UnitTests
             Variant num2 = 312;
             Variant numN = 1233;
 
-            var dotnetresult = _autoitRuntime.BitXOR( num1, num2, numN );
-            var autoitResult = GetAu3Result( "BitXOR", dotnetresult.GetRealType(), num1, num2, numN );
+            Variant dotnetresult = _autoitRuntime.BitXOR( num1, num2, numN );
+            object autoitResult = GetAu3Result( "BitXOR", dotnetresult.GetRealType(), num1, num2, numN );
             CompareResults( dotnetresult, autoitResult );
         }
 
@@ -118,8 +118,8 @@ namespace UnitTests
             Variant num2 = 312;
             Variant numN = 1233;
 
-            var dotnetresult = _autoitRuntime.BitAND( num1, num2, numN );
-            var autoitResult = GetAu3Result( "BitAND", dotnetresult.GetRealType(), num1, num2, numN );
+            Variant dotnetresult = _autoitRuntime.BitAND( num1, num2, numN );
+            object autoitResult = GetAu3Result( "BitAND", dotnetresult.GetRealType(), num1, num2, numN );
             CompareResults( dotnetresult, autoitResult );
         }
 
@@ -128,8 +128,8 @@ namespace UnitTests
         [TestCase( "123.123" )]
         [TestCase( 123.123 )]
         public void Test_Chr( object num1 ) {
-            var dotnetresult = _autoitRuntime.Chr( Variant.Create( num1 ) );
-            var autoitResult = GetAu3Result( "Chr", dotnetresult.GetRealType(), num1 );
+            Variant dotnetresult = _autoitRuntime.Chr( Variant.Create( num1 ) );
+            object autoitResult = GetAu3Result( "Chr", dotnetresult.GetRealType(), num1 );
             CompareResults( dotnetresult, autoitResult );
         }
 
@@ -138,8 +138,8 @@ namespace UnitTests
         [TestCase( "123.123" )]
         [TestCase( 123.123 )]
         public void Test_BitNOT( object src ) {
-            var dotnetResult = _autoitRuntime.BitNOT( Variant.Create( src ) );
-            var autoitResult = GetAu3Result( "BitNOT", dotnetResult.GetRealType(), src );
+            Variant dotnetResult = _autoitRuntime.BitNOT( Variant.Create( src ) );
+            object autoitResult = GetAu3Result( "BitNOT", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -149,8 +149,8 @@ namespace UnitTests
             Variant num2 = 312;
             Variant numN = 1233;
 
-            var dotnetresult = _autoitRuntime.BitOR( num1, num2, numN );
-            var autoitResult = GetAu3Result( "BitOR", dotnetresult.GetRealType(), num1, num2, numN );
+            Variant dotnetresult = _autoitRuntime.BitOR( num1, num2, numN );
+            object autoitResult = GetAu3Result( "BitOR", dotnetresult.GetRealType(), num1, num2, numN );
             CompareResults( dotnetresult, autoitResult );
         }
 
@@ -158,8 +158,8 @@ namespace UnitTests
         [TestCase( 222, 3 )]
         [TestCase( 1337, -3 )]
         public void Test_BitShift( object src, object shift ) {
-            var dotnetresult = _autoitRuntime.BitShift( Variant.Create( src ), Variant.Create( shift ) );
-            var autoitResult = GetAu3Result( "BitShift", dotnetresult.GetRealType(), src, shift );
+            Variant dotnetresult = _autoitRuntime.BitShift( Variant.Create( src ), Variant.Create( shift ) );
+            object autoitResult = GetAu3Result( "BitShift", dotnetresult.GetRealType(), src, shift );
             CompareResults( dotnetresult, autoitResult );
         }
 
@@ -169,8 +169,8 @@ namespace UnitTests
             Variant @string = "hallo";
             Variant count = 2;
 
-            var dotnetresult = _autoitRuntime.Call( function, @string, count );
-            var autoitResult = GetAu3Result( "Call", dotnetresult.GetRealType(), function, @string, count );
+            Variant dotnetresult = _autoitRuntime.Call( function, @string, count );
+            object autoitResult = GetAu3Result( "Call", dotnetresult.GetRealType(), function, @string, count );
             CompareResults( dotnetresult, autoitResult );
         }
 
@@ -183,8 +183,8 @@ namespace UnitTests
             staThread.Start();
             staThread.Join();
 
-            var dotnetresult = _autoitRuntime.ClipGet();
-            var autoitResult = GetAu3Result( "ClipGet", typeof (string) );
+            Variant dotnetresult = _autoitRuntime.ClipGet();
+            object autoitResult = GetAu3Result( "ClipGet", typeof (string) );
             CompareResults( dotnetresult, autoitResult );
         }
 
@@ -192,8 +192,8 @@ namespace UnitTests
         [TestCase( "123", false )]
         [TestCase( "123ka", false )]
         public void Test_IsNumber( object possibleNumber, bool isNumber ) {
-            var dotnetresult = _autoitRuntime.IsNumber( Variant.Create( possibleNumber ) );
-            var autoitresult = GetAu3Result( "IsNumber", dotnetresult.GetRealType(), possibleNumber );
+            Variant dotnetresult = _autoitRuntime.IsNumber( Variant.Create( possibleNumber ) );
+            object autoitresult = GetAu3Result( "IsNumber", dotnetresult.GetRealType(), possibleNumber );
             CompareResults( dotnetresult, autoitresult );
             CompareResults( dotnetresult, isNumber );
         }
@@ -203,8 +203,8 @@ namespace UnitTests
         [TestCase( "123.123" )]
         [TestCase( 123.123 )]
         public void Test_Ceiling( object src ) {
-            var dotnetResult = _autoitRuntime.Ceiling( Variant.Create( src ) );
-            var autoitResult = GetAu3Result( "Ceiling", dotnetResult.GetRealType(), src );
+            Variant dotnetResult = _autoitRuntime.Ceiling( Variant.Create( src ) );
+            object autoitResult = GetAu3Result( "Ceiling", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -213,8 +213,8 @@ namespace UnitTests
         [TestCase( "123.123" )]
         [TestCase( 123.123 )]
         public void Test_ChrW( object src ) {
-            var dotnetResult = _autoitRuntime.ChrW( Variant.Create( src ) );
-            var autoitResult = GetAu3Result( "ChrW", dotnetResult.GetRealType(), src );
+            Variant dotnetResult = _autoitRuntime.ChrW( Variant.Create( src ) );
+            object autoitResult = GetAu3Result( "ChrW", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -223,8 +223,8 @@ namespace UnitTests
         [TestCase( "123.123" )]
         [TestCase( 123.123 )]
         public void Test_Cos( object src ) {
-            var dotnetResult = _autoitRuntime.Cos( Variant.Create( src ) );
-            var autoitResult = GetAu3Result( "Cos", dotnetResult.GetRealType(), src );
+            Variant dotnetResult = _autoitRuntime.Cos( Variant.Create( src ) );
+            object autoitResult = GetAu3Result( "Cos", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -234,8 +234,8 @@ namespace UnitTests
         [TestCase( "321" )]
         [TestCase( "F" )]
         public void Test_Dec( object hex ) {
-            var dotnetResult = _autoitRuntime.Dec( Variant.Create( hex ) );
-            var autoitResult = GetAu3Result( "Dec", dotnetResult.GetRealType(), hex );
+            Variant dotnetResult = _autoitRuntime.Dec( Variant.Create( hex ) );
+            object autoitResult = GetAu3Result( "Dec", dotnetResult.GetRealType(), hex );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -260,8 +260,8 @@ namespace UnitTests
         [TestCase( "F", 2 )]
         [TestCase( "F", 3 )]
         public void Test_DecExtended( object hex, object flag ) {
-            var dotnetResult = _autoitRuntime.Dec( Variant.Create( hex ), Variant.Create( flag ) );
-            var autoitResult = GetAu3Result( "Dec", dotnetResult.GetRealType(), hex, flag );
+            Variant dotnetResult = _autoitRuntime.Dec( Variant.Create( hex ), Variant.Create( flag ) );
+            object autoitResult = GetAu3Result( "Dec", dotnetResult.GetRealType(), hex, flag );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -269,8 +269,8 @@ namespace UnitTests
         public void Test_DirGetSize() {
             Variant src = Path.GetTempPath();
 
-            var dotnetResult = _autoitRuntime.DirGetSize( src );
-            var autoitResult = GetAu3Result( "DirGetSize", dotnetResult.GetRealType(), src );
+            Variant dotnetResult = _autoitRuntime.DirGetSize( src );
+            object autoitResult = GetAu3Result( "DirGetSize", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -278,8 +278,8 @@ namespace UnitTests
         public void Test_DirGetSize_Extended() {
             Variant src = Path.GetTempPath();
 
-            var dotnetResult = _autoitRuntime.DirGetSize( src, true );
-            var autoitResult = GetAu3Result( "DirGetSize", dotnetResult.GetRealType(), src, true );
+            Variant dotnetResult = _autoitRuntime.DirGetSize( src, true );
+            object autoitResult = GetAu3Result( "DirGetSize", dotnetResult.GetRealType(), src, true );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -287,8 +287,8 @@ namespace UnitTests
         public void Test_DriveGetDrive() {
             Variant type = "ALL";
 
-            var dotnetResult = _autoitRuntime.DriveGetDrive( type );
-            var autoitResult = GetAu3Result( "DriveGetDrive", dotnetResult.GetRealType(), type );
+            Variant dotnetResult = _autoitRuntime.DriveGetDrive( type );
+            object autoitResult = GetAu3Result( "DriveGetDrive", dotnetResult.GetRealType(), type );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -296,8 +296,8 @@ namespace UnitTests
         public void Test_DriveGetFileSystem() {
             Variant path = @"C:\";
 
-            var dotnetResult = _autoitRuntime.DriveGetFileSystem( path );
-            var autoitResult = GetAu3Result( "DriveGetFileSystem", dotnetResult.GetRealType(), path );
+            Variant dotnetResult = _autoitRuntime.DriveGetFileSystem( path );
+            object autoitResult = GetAu3Result( "DriveGetFileSystem", dotnetResult.GetRealType(), path );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -305,8 +305,8 @@ namespace UnitTests
         public void Test_DriveGetLabel() {
             Variant path = @"C:\";
 
-            var dotnetResult = _autoitRuntime.DriveGetLabel( path );
-            var autoitResult = GetAu3Result( "DriveGetLabel", dotnetResult.GetRealType(), path );
+            Variant dotnetResult = _autoitRuntime.DriveGetLabel( path );
+            object autoitResult = GetAu3Result( "DriveGetLabel", dotnetResult.GetRealType(), path );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -314,8 +314,8 @@ namespace UnitTests
         public void Test_DriveGetSerial() {
             Variant path = @"C:\";
 
-            var dotnetResult = _autoitRuntime.DriveGetSerial( path );
-            var autoitResult = GetAu3Result( "DriveGetSerial", dotnetResult.GetRealType(), path );
+            Variant dotnetResult = _autoitRuntime.DriveGetSerial( path );
+            object autoitResult = GetAu3Result( "DriveGetSerial", dotnetResult.GetRealType(), path );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -323,8 +323,8 @@ namespace UnitTests
         public void Test_DriveGetType() {
             Variant path = @"C:\";
 
-            var dotnetResult = _autoitRuntime.DriveGetType( path );
-            var autoitResult = GetAu3Result( "DriveGetType", dotnetResult.GetRealType(), path );
+            Variant dotnetResult = _autoitRuntime.DriveGetType( path );
+            object autoitResult = GetAu3Result( "DriveGetType", dotnetResult.GetRealType(), path );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -332,8 +332,8 @@ namespace UnitTests
         public void Test_DriveSpaceFree() {
             Variant path = @"C:\";
 
-            var dotnetResult = _autoitRuntime.DriveSpaceFree( path );
-            var autoitResult = GetAu3Result( "DriveSpaceFree", dotnetResult.GetRealType(), path );
+            Variant dotnetResult = _autoitRuntime.DriveSpaceFree( path );
+            object autoitResult = GetAu3Result( "DriveSpaceFree", dotnetResult.GetRealType(), path );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -341,16 +341,16 @@ namespace UnitTests
         public void Test_DriveSpaceTotal() {
             Variant path = @"C:\";
 
-            var dotnetResult = _autoitRuntime.DriveSpaceTotal( path );
-            var autoitResult = GetAu3Result( "DriveSpaceTotal", dotnetResult.GetRealType(), path );
+            Variant dotnetResult = _autoitRuntime.DriveSpaceTotal( path );
+            object autoitResult = GetAu3Result( "DriveSpaceTotal", dotnetResult.GetRealType(), path );
             CompareResults( dotnetResult, autoitResult );
         }
 
         [TestCase( @"C:\", "READY" )]
         [TestCase( @"A:\", "INVALID" )]
         public void Test_DriveStatus( object path, object result ) {
-            var dotnetResult = _autoitRuntime.DriveStatus( Variant.Create( path ) );
-            var autoitResult = GetAu3Result( "DriveStatus", dotnetResult.GetRealType(), path );
+            Variant dotnetResult = _autoitRuntime.DriveStatus( Variant.Create( path ) );
+            object autoitResult = GetAu3Result( "DriveStatus", dotnetResult.GetRealType(), path );
             CompareResults( dotnetResult, autoitResult );
             CompareResults( dotnetResult, result );
         }
@@ -360,18 +360,18 @@ namespace UnitTests
             //given
             Variant srcPath = Path.GetTempPath()+@"\Test\";
             Variant destPath = Path.GetTempPath()+@"\Result\";
-            Directory.CreateDirectory( (string) srcPath );
+            Directory.CreateDirectory( srcPath );
 
             //when
             _autoitRuntime.DirCopy( srcPath, destPath );
 
             //then
-            Assert.AreEqual( true, Directory.Exists( (string) srcPath ) );
-            Assert.AreEqual( true, Directory.Exists( (string) destPath ) );
+            Assert.AreEqual( true, Directory.Exists( srcPath ) );
+            Assert.AreEqual( true, Directory.Exists( destPath ) );
 
             //teardown
-            Directory.Delete( (string) srcPath );
-            Directory.Delete( (string) destPath );
+            Directory.Delete( srcPath );
+            Directory.Delete( destPath );
         }
 
         [Test]
@@ -383,18 +383,18 @@ namespace UnitTests
             _autoitRuntime.DirCreate( srcPath );
 
             //then
-            Assert.AreEqual( true, Directory.Exists( (string) srcPath ) );
+            Assert.AreEqual( true, Directory.Exists( srcPath ) );
 
             //teardown
-            Directory.Delete( (string) srcPath );
+            Directory.Delete( srcPath );
         }
 
         [Test]
         public void Test_EnvGet() {
             Variant path = @"TMP";
 
-            var dotnetResult = _autoitRuntime.EnvGet( path );
-            var autoitResult = GetAu3Result( "EnvGet", dotnetResult.GetRealType(), path );
+            Variant dotnetResult = _autoitRuntime.EnvGet( path );
+            object autoitResult = GetAu3Result( "EnvGet", dotnetResult.GetRealType(), path );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -402,8 +402,8 @@ namespace UnitTests
         public void Test_Exp() {
             Variant src = 5;
 
-            var dotnetResult = _autoitRuntime.Exp( src );
-            var autoitResult = GetAu3Result( "Exp", dotnetResult.GetRealType(), src );
+            Variant dotnetResult = _autoitRuntime.Exp( src );
+            object autoitResult = GetAu3Result( "Exp", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -417,7 +417,7 @@ namespace UnitTests
         [TestCase( "123awd2", 123 )]
         [TestCase( "a123awd2", 0 )]
         public void Test_Number( object src, object result ) {
-            var dotnetresult = _autoitRuntime.Number( Variant.Create( src ) );
+            Variant dotnetresult = _autoitRuntime.Number( Variant.Create( src ) );
             CompareResults( dotnetresult, result );
         }
     }

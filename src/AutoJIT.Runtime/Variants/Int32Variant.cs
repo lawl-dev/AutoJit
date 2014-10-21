@@ -17,12 +17,12 @@ namespace AutoJITRuntime.Variants
             get { return DataType.Int32; }
         }
 
-        public override object GetValue() {
-            return _value;
-        }
-
         public override bool IsInt32 {
             get { return true; }
+        }
+
+        public override object GetValue() {
+            return _value;
         }
 
         public override string GetString() {

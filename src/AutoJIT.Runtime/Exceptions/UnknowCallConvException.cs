@@ -4,11 +4,11 @@ namespace AutoJITRuntime.Exceptions
 {
     internal class UnknowCallConvException : Exception
     {
-        public string CallConv { get; private set; }
-
         public UnknowCallConvException( string callConv ) {
             CallConv = callConv;
         }
+
+        public string CallConv { get; private set; }
 
         public override string Message {
             get { return ToString(); }

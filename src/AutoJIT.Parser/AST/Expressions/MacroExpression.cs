@@ -5,11 +5,11 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class MacroExpression : ExpressionBase
     {
-        public string MacroName { get; private set; }
-
         public MacroExpression( string macroName ) {
             MacroName = macroName;
         }
+
+        public string MacroName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return new List<IExpressionNode>(); }

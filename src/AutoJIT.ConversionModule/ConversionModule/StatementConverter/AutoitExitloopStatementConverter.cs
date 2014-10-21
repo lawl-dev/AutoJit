@@ -17,7 +17,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( ExitloopStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            var exitLoopLabelName = context.GetExitLoopLabelName( statement.Level );
+            string exitLoopLabelName = context.GetExitLoopLabelName( statement.Level );
             toReturn.Add( SyntaxFactory.GotoStatement( SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( exitLoopLabelName ) ) );
             return toReturn;
         }

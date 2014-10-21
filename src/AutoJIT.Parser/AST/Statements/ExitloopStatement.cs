@@ -5,10 +5,14 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class ExitloopStatement : StatementBase
     {
-        public int Level { get; private set; }
-
         public ExitloopStatement( int level ) {
             Level = level;
+        }
+
+        public int Level { get; private set; }
+
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return new List<ISyntaxNode>(); }
         }
 
         public override string ToSource() {
@@ -17,10 +21,6 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override object Clone() {
             return new ExitloopStatement( Level );
-        }
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>(); }
         }
     }
 }

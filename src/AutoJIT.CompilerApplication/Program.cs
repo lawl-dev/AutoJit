@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using AutoJIT.Compiler;
-using AutoJITRuntime;
 using AutoJITRuntime.Variants;
 using ILRepacking;
 using Lawl.Reflection;
@@ -13,7 +11,7 @@ namespace AutoJIT.CompilerApplication
 {
     internal class Program
     {
-        private static ICompiler _compiler;
+        private static readonly ICompiler _compiler;
 
         static Program() {
             var bootStrapper = new CompilerBootStrapper();
@@ -47,7 +45,7 @@ namespace AutoJIT.CompilerApplication
                 }
             }
 
-            var script = File.ReadAllText( compileOptions.InFile.AbsolutePath );
+            string script = File.ReadAllText( compileOptions.InFile.AbsolutePath );
 
             if ( compileOptions.IsConsole &&
                  compileOptions.IsForms ) {
@@ -58,18 +56,18 @@ namespace AutoJIT.CompilerApplication
                  !compileOptions.IsForms ) {
                 compileOptions.IsForms = true;
             }
-            var assemblyBytes = _compiler.Compile(
+            byte[] assemblyBytes = _compiler.Compile(
                 script, compileOptions.IsForms
                     ? OutputKind.WindowsApplication
                     : OutputKind.ConsoleApplication, false, compileOptions.Optimize );
 
             var toMerge = new List<string>();
-            var tempPath = Path.Combine( Path.GetTempPath(), Guid.NewGuid().ToString( "n" ) );
+            string tempPath = Path.Combine( Path.GetTempPath(), Guid.NewGuid().ToString( "n" ) );
             File.WriteAllBytes( tempPath, assemblyBytes );
 
             toMerge.Add( tempPath );
             toMerge.Add( typeof (StringVariant).Assembly.Location );
-            toMerge.Add( typeof(TypeExtensions).Assembly.Location );
+            toMerge.Add( typeof (TypeExtensions).Assembly.Location );
 
             File.Delete( compileOptions.OutFile.AbsolutePath );
             var repack = new ILRepack { OutputFile = compileOptions.OutFile.AbsolutePath, TargetKind = ILRepack.Kind.Exe, InputAssemblies = toMerge.ToArray() };

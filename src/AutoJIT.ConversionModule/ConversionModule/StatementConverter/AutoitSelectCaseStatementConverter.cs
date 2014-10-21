@@ -18,7 +18,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( SelectCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            var ifStatementSyntaxs =
+            IfStatementSyntax[] ifStatementSyntaxs =
                 statement.Cases.Select(
                     @case =>
                         CSharpStatementFactory.CreateIfStatement(

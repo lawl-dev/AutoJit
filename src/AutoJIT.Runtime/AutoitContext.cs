@@ -9,13 +9,9 @@ namespace AutoJITRuntime
 {
     public class AutoitContext<T>
     {
-        public Dictionary<MethodInfo, int> LibRegister = new Dictionary<MethodInfo, int>();
-
-        public Dictionary<string, object> AssignVariableStore = new Dictionary<string, object>();
-
-        public T Context { get; set; }
         public readonly Dictionary<string, MethodInfo> MethodStore;
-        public List<IntPtr> Guis { get; set; }
+        public Dictionary<string, object> AssignVariableStore = new Dictionary<string, object>();
+        public Dictionary<MethodInfo, int> LibRegister = new Dictionary<MethodInfo, int>();
 
         public AutoitContext( T context ) {
             Context = context;
@@ -24,6 +20,9 @@ namespace AutoJITRuntime
             @Extended = 0;
             Guis = new List<IntPtr>();
         }
+
+        public T Context { get; set; }
+        public List<IntPtr> Guis { get; set; }
 
         //http://www.autoitscript.com/autoit3/docs/macros.htm
         public Variant @AppDataCommonDir {
