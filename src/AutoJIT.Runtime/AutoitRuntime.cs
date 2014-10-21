@@ -599,43 +599,12 @@ namespace AutoJITRuntime
         public Variant DllCall( Variant dll, Variant returntype, Variant function, params Variant[] paramtypen ) {
             SetError( 0, 0, 0 );
 
-            if ( dll.IsPtr ) {
-                return DllCallInternal( dll.GetIntPtr(), returntype.GetString(), function.GetString(), paramtypen );
+            try
+            {
+                return _marshalService.DllCall(dll, returntype, function, paramtypen);
             }
-
-            Variant handle = DllOpen( dll );
-
-            if ( handle == -1 ) {
-                return SetError( 1, null, 0 );
-            }
-
-            Variant result = DllCallInternal( handle.GetIntPtr(), returntype.GetString(), function.GetString(), paramtypen );
-
-            if ( result.IsInt32 ) {
-                return result;
-            }
-
-            DllClose( handle );
-            return result;
-        }
-
-        private Variant DllCallInternal( IntPtr dll, string returntype, string function, Variant[] paramtypen ) {
-            SetError( 0, 0, 0 );
-
-            try {
-                return _marshalService.DllCall( dll, returntype, function, paramtypen );
-            }
-            catch (ProcAddressZeroException) {
-                return SetError( 1, null, 0 );
-            }
-            catch (BadReturnTypeException) {
-                return SetError( 2, null, 0 );
-            }
-            catch (BadNumberOfParameterException) {
-                return SetError( 4, null, 0 );
-            }
-            catch (BadParameterException) {
-                return SetError( 5, null, 0 );
+            catch (AutoJITExceptionBase ex) {
+                return SetError( Variant.Create( ex.Error ), Variant.Create( ex.Extended ), Variant.Create( ex.Return ) );
             }
         }
 
@@ -666,39 +635,40 @@ namespace AutoJITRuntime
         public Variant DllClose( Variant dllhandle ) {
             SetError( 0, 0, 0 );
 
-            MarshalService.FreeLibrary( dllhandle );
-            return 0;
+            try
+            {
+                return _marshalService.DllClose(dllhandle);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant DllOpen( Variant filename ) {
             SetError( 0, 0, 0 );
 
-            try {
-                IntPtr library = MarshalService.LoadLibrary( filename.GetString() );
-                if ( library == IntPtr.Zero ) {
-                    int error = Marshal.GetLastWin32Error();
-                }
-                return library;
+            try
+            {
+                return _marshalService.DllOpen(dllhandle);
             }
-            catch (Exception) {
-                return -1;
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
         }
 
         public Variant DllStructCreate( Variant Struct, Variant Pointer = null ) {
             SetError( 0, 0, 0 );
 
-            Type runtimeStruct = _marshalService.CreateRuntimeStruct( Struct.GetString() );
-
-            var instance = (IRuntimeStruct) runtimeStruct.CreateInstance<object>();
-
-            var @struct = (StructVariant) Variant.Create( instance );
-
-            if ( Pointer != null ) {
-                @struct.InitUnmanaged( Pointer.GetIntPtr() );
+            try
+            {
+                return _marshalService.DllStructCreate(Struct, Pointer);
             }
-
-            return @struct;
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant DllStructGetData( Variant Struct, Variant Element, Variant index = null ) {

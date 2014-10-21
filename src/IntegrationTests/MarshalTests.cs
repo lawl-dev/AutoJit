@@ -10,11 +10,12 @@ using NUnit.Framework;
 
 namespace UnitTests
 {
+    [TestFixture]
     public class MarshalTests
     {
         private object _compiledInstance;
 
-        [Test]
+        [SetUp]
         public void Setup() {
             var standardAutoJITContainer = new CompilerBootStrapper();
             var compiler = standardAutoJITContainer.GetInstance<ICompiler>();

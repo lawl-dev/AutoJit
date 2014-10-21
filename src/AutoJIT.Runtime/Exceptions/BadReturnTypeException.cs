@@ -2,16 +2,8 @@ using System;
 
 namespace AutoJITRuntime.Exceptions
 {
-    public class BadReturnTypeException : Exception
+    public class BadReturnTypeException : AutoJITExceptionBase
     {
-        public BadReturnTypeException( string returnType ) {
-            ReturnType = returnType;
-        }
-
-        public string ReturnType { get; private set; }
-
-        public override string ToString() {
-            return string.Format( "Type: {0}", ReturnType );
-        }
+        public BadReturnTypeException( object error, object extended, object @return ) : base( error, extended, @return ) {}
     }
 }

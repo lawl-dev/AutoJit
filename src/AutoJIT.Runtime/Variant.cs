@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Data.Odbc;
 using System.Globalization;
 using System.Text;
 using AutoJITRuntime.Exceptions;
@@ -124,13 +125,125 @@ namespace AutoJITRuntime
             if ( @object == null ) {
                 return new NullVariant();
             }
+
+            var bytes = @object as byte[];
+            if ( bytes != null ) {
+                return Create( bytes );
+            }
+
+            if ( @object is int ) {
+                return Create( (int)@object );
+            }
+
+            if (@object is Int64)
+            {
+                return Create((Int64)@object);
+            }
+
+            if (@object is double)
+            {
+                return Create((double)@object);
+            }
+
+            if (@object is bool)
+            {
+                return Create((bool)@object);
+            }
+
+            var str = @object as string;
+            if (str != null)
+            {
+                return Create(str);
+            }
+
+            if (@object is IntPtr)
+            {
+                return Create((IntPtr)@object);
+            }
+
+            var runtimeStruct = @object as IRuntimeStruct;
+            if (runtimeStruct != null)
+            {
+                return Create(runtimeStruct);
+            }
+
+            var @default = @object as Default;
+            if (@default != null)
+            {
+                return Create(@default);
+            }
+
+            if (@object is char)
+            {
+                return Create((char)@object);
+            }
+
+            var stringBuilder = @object as StringBuilder;
+            if (stringBuilder != null)
+            {
+                return Create(stringBuilder);
+            }
+
+            var vararr = @object as Variant[];
+            if (vararr != null)
+            {
+                return Create(vararr);
+            }
+
+            var var2d = @object as Variant[,];
+            if (var2d != null)
+            {
+                return Create(var2d);
+            }
+
+            var var3d = @object as Variant[,,];
+            if (var3d != null)
+            {
+                return Create(var3d);
+            }
+
             var variant = @object as Variant;
-            if ( variant != null ) {
+            if (variant != null)
+            {
                 return variant;
             }
 
-            dynamic d = @object;
-            return Create( d );
+            if (@object is byte)
+            {
+                return Create( (byte)@object );
+            }
+
+            if ( @object is UIntPtr ) {
+                return Create( unchecked( (IntPtr) (long) (ulong) (UIntPtr) @object ) );
+            }
+
+            if ( @object is Int16 ) {
+                return Create( (int) (Int16) @object );
+            }
+
+            if (@object is UInt16)
+            {
+                return Create((int)(UInt16)@object);
+            }
+
+            if (@object is UInt32) {
+                var uint32 = (UInt32)@object;
+                if ( uint32 > int.MaxValue ||
+                     uint32 < int.MinValue ) {
+                    return Create( (Int64) uint32 );
+                }
+                return Create( (Int32) uint32 );
+            }
+
+            if (@object is UInt64)
+            {
+                return Create((Int64)(UInt64)@object);
+            }
+
+            if ( @object is float ) {
+                return Create( (double) (float) @object );
+            }
+            throw new NotImplementedException();
         }
 
         public abstract object GetValue();
@@ -392,43 +505,43 @@ namespace AutoJITRuntime
         }
 
         public static implicit operator Variant( Variant[] a ) {
-            return Create( a );
+            return new ArrayVariant( a );
         }
 
         public static implicit operator Variant( Variant[,] a ) {
-            return Create( a );
+            return new ArrayVariant( a );
         }
 
         public static implicit operator Variant( Variant[,,] a ) {
-            return Create( a );
+            return new ArrayVariant(a);
         }
 
         public static implicit operator Variant( int a ) {
-            return Create( a );
+            return new Int32Variant( a );
         }
 
         public static implicit operator Variant( Int64 a ) {
-            return Create( a );
+            return new Int64Variant( a );
         }
 
         public static implicit operator Variant( double a ) {
-            return Create( a );
+            return new DoubleVariant( a );
         }
 
         public static implicit operator Variant( string a ) {
-            return Create( a );
+            return new StringVariant( a );
         }
 
         public static implicit operator Variant( bool a ) {
-            return Create( a );
+            return new BoolVariant( a );
         }
 
         public static implicit operator Variant( byte[] a ) {
-            return Create( a );
+            return new BinaryVariant( a );
         }
 
         public static implicit operator Variant( IntPtr a ) {
-            return Create( a );
+            return new PtrVariant( a );
         }
 
         public override string ToString() {

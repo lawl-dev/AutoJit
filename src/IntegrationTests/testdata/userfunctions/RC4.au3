@@ -6,6 +6,8 @@ $decrypted = _StringDecryptRC4($encrypted, "acvdelsfkselfslea37834")
 Next
 
 $diff = TimerDiff($timer)
+ConsoleWrite($diff)
+Sleep(2000)
 Exit $diff
 ;===============================================================================
 ;

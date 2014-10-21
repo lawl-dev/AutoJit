@@ -11,7 +11,7 @@ For $i = 1 To 20 ; 20 iterations of set
 	$go = TimerInit() ; Start your engines!
 
 	For $j = 1 To 10 ; 9999 iterations of commands her
-			_WinAPI_CreateSize(1, 2)
+			_WinAPI_EnumWindows()
 	Next ; $j
 
 	$Chrono[$i] = TimerDiff($go) ; Ok, how long did it take?

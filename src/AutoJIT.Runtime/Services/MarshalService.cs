@@ -7,6 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using AutoJITRuntime.Exceptions;
+using AutoJITRuntime.Variants;
+using Lawl.Reflection;
+using Microsoft.SqlServer.Server;
 
 namespace AutoJITRuntime.Services
 {
@@ -74,11 +77,25 @@ namespace AutoJITRuntime.Services
         [return: MarshalAs( UnmanagedType.Bool )]
         public static extern bool IsWindow( IntPtr hWnd );
 
-        public Variant DllCall( IntPtr dll, string returnType, string function, Variant[] paramtypen ) {
-            IntPtr procAddress = GetProcAddress( dll, function );
+        public Variant DllCall( Variant dll, string returnType, string function, Variant[] paramtypen ) {
+            Variant handle;
+            if (dll.IsPtr)
+            {
+                handle = dll.GetIntPtr();
+            }
+            else
+            {
+                handle = DllOpen(dll);
+                if ( !handle.IsPtr ) {
+                    throw new UnableToUseTheDllFileException( 1, null, string.Empty );
+                }
+            }
+
+
+            IntPtr procAddress = GetProcAddress(handle, function);
 
             if ( procAddress == IntPtr.Zero ) {
-                throw new ProcAddressZeroException();
+                throw new ProcAddressZeroException(3, null, string.Empty);
             }
 
             List<MarshalInfo> parameterMarshalInfo = GetParameterInfo( paramtypen );
@@ -103,7 +120,32 @@ namespace AutoJITRuntime.Services
             object result = @delegate.DynamicInvoke( args );
 
             Variant[] toReturn = MapReturnValues( args, result );
+
+
+            if (dll.IsPtr)
+            {
+                return toReturn;
+            }
+
+            DllClose(handle);
+            
             return toReturn;
+        }
+
+        public Variant DllOpen( Variant dll ) {
+            try
+            {
+                IntPtr library = MarshalService.LoadLibrary(dll.GetString());
+                if (library == IntPtr.Zero)
+                {
+                    int error = Marshal.GetLastWin32Error();
+                }
+                return library;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
         private static Variant[] MapReturnValues( object[] args, object result ) {
@@ -125,7 +167,7 @@ namespace AutoJITRuntime.Services
                 @delegate = Marshal.GetDelegateForFunctionPointer( procAddress, delegateType );
             }
             catch (Exception ex) {
-                throw new BadNumberOfParameterException();
+                throw new BadNumberOfParameterException(4, null, string.Empty);
             }
             return @delegate;
         }
@@ -136,7 +178,7 @@ namespace AutoJITRuntime.Services
                 returnMarshalInfo = GetMarshalInfo( returnType, null );
             }
             catch (UnknowTypeNameException) {
-                throw new BadReturnTypeException( returnType );
+                throw new BadReturnTypeException( 2, null, string.Empty );
             }
             return returnMarshalInfo;
         }
@@ -152,7 +194,7 @@ namespace AutoJITRuntime.Services
                     marshalInfo = GetMarshalInfo( typePart, value );
                 }
                 catch (UnknowTypeNameException) {
-                    throw new BadParameterException( typePart.GetString(), value.GetValue() );
+                    throw new BadParameterException( 5, null, string.Empty );
                 }
 
                 parameterMarshalInfo.Add( marshalInfo );
@@ -306,7 +348,7 @@ namespace AutoJITRuntime.Services
             if ( _structStore.ContainsKey( cacheKey ) ) {
                 return _structStore[cacheKey];
             }
-
+            
             IEnumerable<StructTypeInfo> typeInfos = GetTypeInfo( @struct );
 
             Type res = CreateStruct( typeInfos );
@@ -477,6 +519,36 @@ namespace AutoJITRuntime.Services
                 throw new InvalidOperationException();
             }
             return toReturn;
+        }
+
+        public Variant DllClose( Variant dllhandle ) {
+            FreeLibrary(dllhandle);
+            return 0;
+        }
+
+        public Variant DllStructCreate( Variant structString, Variant pointer ) {
+            if ( !structString.IsString ) {
+                throw new VariablePassedToDllStructCreateWasNotAStringException( 1, null, string.Empty );
+            }
+
+
+            try {
+                Type runtimeStruct = CreateRuntimeStruct(structString.GetString());
+            }
+            catch (UnknowTypeNameException)
+            {
+                throw new UnknowTypeException( 2, null, string.Empty );
+            }
+            var instance = (IRuntimeStruct)runtimeStruct.CreateInstance<object>();
+
+            var @struct = (StructVariant)Variant.Create(instance);
+
+            if (pointer != null)
+            {
+                @struct.InitUnmanaged(pointer.GetIntPtr());
+            }
+
+            return @struct;
         }
     }
 }

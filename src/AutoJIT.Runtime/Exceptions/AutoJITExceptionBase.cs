@@ -10,6 +10,7 @@ namespace AutoJITRuntime.Exceptions
             Return = @return;
         }
 
+
         public object Error { get; private set; }
         public object Extended { get; private set; }
         public object Return { get; private set; }
