@@ -68,6 +68,8 @@
     <Compile Include="Services\MathService.cs" />
     <Compile Include="Exceptions\OddNumberOfBytesException.cs" />
     <Compile Include="Exceptions\StringHadZeroLengthException.cs" />
+    <Compile Include="Services\ProcessService.cs" />
+    <Compile Include="Exceptions\ShellExcuteException.cs" />
     <Compile Include="Services\StringService.cs" />
     <Compile Include="Exceptions\UNICODEIsGreaterThan65535Exception.cs" />
     <Compile Include="Exceptions\StructNotAValidStructReturnedByDllStructCreateException.cs" />

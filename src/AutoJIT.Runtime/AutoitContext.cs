@@ -106,7 +106,7 @@ namespace AutoJITRuntime
         }
 
         public Variant @SW_SHOW {
-            get { return Environment.NewLine; }
+            get { throw new NotImplementedException(); }
         }
 
         public Variant @NumParams {

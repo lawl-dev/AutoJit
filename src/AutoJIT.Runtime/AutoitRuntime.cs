@@ -26,6 +26,7 @@ namespace AutoJITRuntime
         private readonly Dictionary<string, MethodInfo> _methodStore;
         private readonly StringService _stringService;
         private readonly VariablesAndConversionsService _variablesAndConversionsService;
+        private readonly ProcessService _processService;
 
         public AutoitRuntime( AutoitContext<T> context ) {
             _context = context;
@@ -36,6 +37,7 @@ namespace AutoJITRuntime
             _mathService = new MathService();
             _stringService = new StringService();
             _variablesAndConversionsService = new VariablesAndConversionsService();
+            _processService = new ProcessService();
         }
 
         [Inlineable]
@@ -2506,55 +2508,49 @@ namespace AutoJITRuntime
                 showflag = _context.SW_SHOW;
             }
 
-            var startInfo = new ProcessStartInfo( filename );
-            if ( verb != string.Empty ) {
-                startInfo.Verb = verb;
-            }
 
-            if ( workingdir != string.Empty ) {
-                startInfo.WorkingDirectory = workingdir;
+            try
+            {
+                return _processService.ShellExecute(filename, parameters, workingdir, verb, showflag);
             }
-
-            if ( parameters != string.Empty ) {
-                startInfo.Arguments = parameters;
-            }
-
-            int flag = showflag.GetInt();
-            if ( flag == _context.SW_HIDE ) {
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            }
-            else if ( flag == _context.SW_MINIMIZE ) {
-                startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            }
-            else if ( flag == _context.SW_MAXIMIZE ) {
-                startInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            }
-            startInfo.UseShellExecute = true;
-
-            try {
-                Process process = Process.Start( startInfo );
-                return process.Id;
-            }
-            catch (Win32Exception exception) {
-                return SetError( exception.NativeErrorCode, null, 0 );
-            }
-            catch (Exception) {
-                return SetError( 1, null, 0 );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
         }
 
         public Variant ShellExecuteWait( Variant filename, Variant parameters = null, Variant workingdir = null, Variant verb = null, Variant showflag = null ) {
             SetError( 0, 0, 0 );
 
-            Variant pid = ShellExecute( filename, parameters, workingdir, verb, showflag );
-            if ( pid ) {
-                Process process = Process.GetProcessById( pid );
-                while ( !process.HasExited ) {
-                    Thread.Sleep( 10 );
-                }
-                return process.ExitCode;
+            if (parameters == null)
+            {
+                parameters = string.Empty;
             }
-            return 0;
+
+            if (workingdir == null)
+            {
+                workingdir = string.Empty;
+            }
+
+            if (verb == null)
+            {
+                verb = string.Empty;
+            }
+
+            if (showflag == null)
+            {
+                showflag = _context.SW_SHOW;
+            }
+
+
+            try
+            {
+                return _processService.ShellExecuteWait(filename, parameters, workingdir, verb, showflag);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant Shutdown( Variant code ) {
