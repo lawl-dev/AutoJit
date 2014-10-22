@@ -11,6 +11,7 @@ using AutoJITRuntime.Exceptions;
 using AutoJITRuntime.Variants;
 using Lawl.Reflection;
 using Microsoft.SqlServer.Server;
+using IndexOutOfRangeException = AutoJITRuntime.Exceptions.IndexOutOfRangeException;
 
 namespace AutoJITRuntime.Services
 {
@@ -573,11 +574,11 @@ namespace AutoJITRuntime.Services
 
         public Variant DllStructSetData( StructVariant runtimeStruct, Variant elementVariant, Variant value, Variant index ) {
             if (runtimeStruct == null) {
-                throw new StructNotAValidStructReturnedByDllStructCreate( 1, null, string.Empty );
+                throw new StructNotAValidStructReturnedByDllStructCreateException( 1, null, string.Empty );
             }
 
             if ( index <= 0 ) {
-                throw new IndexSmallerEqualNull( 5, 0, string.Empty );
+                throw new IndexSmallerEqualNullException( 5, 0, string.Empty );
             }
 
             if (elementVariant.IsInt32)
@@ -587,7 +588,7 @@ namespace AutoJITRuntime.Services
                 {
                     object element = runtimeStruct.GetElement(elementVariant.GetInt() - 1);
                     if ( element == null ) {
-                        throw new ElementOutOfRange( 2, 0, string.Empty );
+                        throw new ElementOutOfRangeException( 2, 0, string.Empty );
                     }
 
                     if (element is Array)
@@ -603,7 +604,7 @@ namespace AutoJITRuntime.Services
                                 array.SetValue(Convert.ChangeType(o, elementType), i);
                             }
                             catch (Exception) {
-                                throw new IndexOutOfRange( 3, 0, string.Empty );
+                                throw new IndexOutOfRangeException( 3, 0, string.Empty );
                             }
                             i++;
                         }
@@ -650,7 +651,7 @@ namespace AutoJITRuntime.Services
         public Variant DllStructGetSize( IRuntimeStruct runtimeStruct ) {
             if (runtimeStruct == null)
             {
-                throw new StructNotAValidStructReturnedByDllStructCreate( 1, 0, string.Empty );
+                throw new StructNotAValidStructReturnedByDllStructCreateException( 1, 0, string.Empty );
             }
 
             return Marshal.SizeOf(runtimeStruct);
@@ -659,7 +660,7 @@ namespace AutoJITRuntime.Services
         public Variant DllStructGetPtr( StructVariant structVariant, Variant element ) {
             if (structVariant == null)
             {
-                throw new StructNotAValidStructReturnedByDllStructCreate(1, 0, string.Empty);
+                throw new StructNotAValidStructReturnedByDllStructCreateException(1, 0, string.Empty);
             }
 
             if (element != null)
@@ -675,13 +676,13 @@ namespace AutoJITRuntime.Services
 
             if (runtimeStruct == null)
             {
-                throw new StructNotAValidStructReturnedByDllStructCreate( 1, 0, string.Empty );
+                throw new StructNotAValidStructReturnedByDllStructCreateException( 1, 0, string.Empty );
             }
 
 
             if (index <= 0)
             {
-                throw new IndexSmallerEqualNull(5, 0, string.Empty);
+                throw new IndexSmallerEqualNullException(5, 0, string.Empty);
             }
 
             object element;
@@ -695,7 +696,7 @@ namespace AutoJITRuntime.Services
 
             if (element == null)
             {
-                throw new ElementOutOfRange(2, 0, string.Empty);
+                throw new ElementOutOfRangeException(2, 0, string.Empty);
             }
 
             if ( index.IsDefault || !(element is IEnumerable)) {
@@ -706,8 +707,8 @@ namespace AutoJITRuntime.Services
             try {
                 return Variant.Create(list[index - 1]);
             }
-            catch (IndexOutOfRangeException) {
-                throw new IndexOutOfRange( 3, 0, string.Empty );
+            catch (System.IndexOutOfRangeException) {
+                throw new IndexOutOfRangeException( 3, 0, string.Empty );
             }
         }
     }

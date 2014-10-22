@@ -1,6 +1,4 @@
-using AutoJITRuntime.Exceptions;
-
-namespace AutoJITRuntime.Services
+namespace AutoJITRuntime.Exceptions
 {
     public class VariablePassedToDllStructCreateWasNotAStringException : AutoJITExceptionBase
     {
