@@ -5,6 +5,12 @@ Global $Mess = "Timer values"&@CRLF ; String to contain MsgBox content.
 
 
 
+$a = TraySetState()
+
+ConsoleWrite("Int: " & IsInt($a) & "ARR: " & IsArray($a) & "BIN: " & IsBinary($a) & "BOOL: " & IsBool($a) & IsString($a))
+
+exit
+
 ; Actual timing loops
 ; ============================================================================
 For $i = 1 To 20 ; 20 iterations of set

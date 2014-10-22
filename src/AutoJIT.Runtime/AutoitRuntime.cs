@@ -681,46 +681,53 @@ namespace AutoJITRuntime
         public Variant DllStructGetData( Variant Struct, Variant Element, Variant index = null ) {
             SetError( 0, 0, 0 );
 
-            if ( index != null ) {
-                SetError( 0, 0, 0 );
 
-                throw new NotImplementedException();
-            }
-            var structVariant = Struct as StructVariant;
-            if ( structVariant == null ) {
-                return SetError( 1, null, 0 );
+
+            if (index == null) {
+                index = Variant.Create( new Default() );
             }
 
-            return Variant.Create( structVariant.GetElement( Element.GetInt()-1 ) );
+
+            var runtimeStruct = Struct as StructVariant;
+
+            try
+            {
+                return _marshalService.DllStructGetData(runtimeStruct, Element, index);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant DllStructGetPtr( Variant Struct, Variant Element = null ) {
             SetError( 0, 0, 0 );
 
             var structVariant = Struct as StructVariant;
-            if ( structVariant == null ) {
-                return SetError( 1, null, 0 );
+
+            try
+            {
+                return _marshalService.DllStructGetPtr(structVariant, Element);
             }
-
-            if ( Element != null ) {
-                SetError( 0, 0, 0 );
-
-                throw new NotImplementedException();
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
             }
-
-            structVariant.InitUnmanaged();
-            return structVariant.Ptr;
         }
 
         public Variant DllStructGetSize( Variant Struct ) {
             SetError( 0, 0, 0 );
 
             var runtimeStruct = Struct.GetValue() as IRuntimeStruct;
-            if ( runtimeStruct == null ) {
-                return SetError( 1, null, 0 );
+            
+            try
+            {
+                return _marshalService.DllStructGetSize(runtimeStruct);
             }
-
-            return Marshal.SizeOf( runtimeStruct );
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant DllStructSetData( Variant Struct, Variant Element, Variant value, Variant index = null ) {
@@ -731,34 +738,15 @@ namespace AutoJITRuntime
             }
 
             var runtimeStruct = Struct as StructVariant;
-            if ( runtimeStruct == null ) {
-                return SetError( 1, null, 0 );
-            }
 
-            if ( Element.IsInt32 ) {
-                object val = value.GetValue();
-                if ( val is IEnumerable ) {
-                    object element = runtimeStruct.GetElement( Element.GetInt()-1 );
-                    if ( element is Array ) {
-                        int i = index.GetInt()-1;
-                        foreach (object o in (IEnumerable) val) {
-                            var array = ( (Array) element );
-                            Type elementType = array.GetType().GetElementType();
-                            array.SetValue( Convert.ChangeType( o, elementType ), i );
-                            i++;
-                        }
-                        runtimeStruct.SetElement( Element.GetInt()-1, element );
-                        return Variant.Create( runtimeStruct.GetElement( Element.GetInt()-1 ) );
-                    }
-                }
-                else {
-                    runtimeStruct.SetElement( Element.GetInt()-1, value.GetValue() );
-                    return Variant.Create( runtimeStruct.GetElement( Element.GetInt()-1 ) );
-                }
+            try
+            {
+                return _marshalService.DllStructSetData(runtimeStruct, Element, value, index);
             }
-            SetError( 0, 0, 0 );
-
-            throw new NotImplementedException();
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant DriveGetDrive( Variant type ) {
@@ -2918,6 +2906,7 @@ namespace AutoJITRuntime
             SetError( 0, 0, 0 );
 
             string toMid = @string.GetString();
+
             if ( count == null ) {
                 count = toMid.Length-start;
             }

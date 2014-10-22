@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -568,6 +569,146 @@ namespace AutoJITRuntime.Services
             }
 
             return @struct;
+        }
+
+        public Variant DllStructSetData( StructVariant runtimeStruct, Variant elementVariant, Variant value, Variant index ) {
+            if (runtimeStruct == null) {
+                throw new StructNotAValidStructReturnedByDllStructCreate( 1, null, string.Empty );
+            }
+
+            if ( index <= 0 ) {
+                throw new IndexSmallerEqualNull( 5, 0, string.Empty );
+            }
+
+            if (elementVariant.IsInt32)
+            {
+                object val = value.GetValue();
+                if (val is IEnumerable)
+                {
+                    object element = runtimeStruct.GetElement(elementVariant.GetInt() - 1);
+                    if ( element == null ) {
+                        throw new ElementOutOfRange( 2, 0, string.Empty );
+                    }
+
+                    if (element is Array)
+                    {
+                        int i = index.GetInt() - 1;
+                        var array = ((Array)element);
+
+                        foreach (object o in (IEnumerable)val)
+                        {
+                            Type elementType = array.GetType().GetElementType();
+                            try
+                            {
+                                array.SetValue(Convert.ChangeType(o, elementType), i);
+                            }
+                            catch (Exception) {
+                                throw new IndexOutOfRange( 3, 0, string.Empty );
+                            }
+                            i++;
+                        }
+                        runtimeStruct.SetElement(elementVariant.GetInt() - 1, element);
+                        return Variant.Create(runtimeStruct.GetElement(elementVariant.GetInt() - 1));
+                    }
+                }
+                else
+                {
+                    runtimeStruct.SetElement(elementVariant.GetInt() - 1, value.GetValue());
+                    return Variant.Create(runtimeStruct.GetElement(elementVariant.GetInt() - 1));
+                }
+            }
+            else
+            {
+                object val = value.GetValue();
+                if (val is IEnumerable)
+                {
+                    object element = runtimeStruct.GetElement(elementVariant.GetString());
+                    if (element is Array)
+                    {
+                        int i = index.GetInt() - 1;
+                        var array = ((Array)element);
+
+                        foreach (object o in (IEnumerable)val)
+                        {
+                            Type elementType = array.GetType().GetElementType();
+                            array.SetValue(Convert.ChangeType(o, elementType), i);
+                            i++;
+                        }
+                        runtimeStruct.SetElement(elementVariant.GetString(), element);
+                        return Variant.Create(runtimeStruct.GetElement(elementVariant.GetInt() - 1));
+                    }
+                }
+                else
+                {
+                    runtimeStruct.SetElement(elementVariant.GetInt() - 1, value.GetValue());
+                    return Variant.Create(runtimeStruct.GetElement(elementVariant.GetInt() - 1));
+                }
+            }
+            throw new NotImplementedException();
+        }
+
+        public Variant DllStructGetSize( IRuntimeStruct runtimeStruct ) {
+            if (runtimeStruct == null)
+            {
+                throw new StructNotAValidStructReturnedByDllStructCreate( 1, 0, string.Empty );
+            }
+
+            return Marshal.SizeOf(runtimeStruct);
+        }
+
+        public Variant DllStructGetPtr( StructVariant structVariant, Variant element ) {
+            if (structVariant == null)
+            {
+                throw new StructNotAValidStructReturnedByDllStructCreate(1, 0, string.Empty);
+            }
+
+            if (element != null)
+            {
+                throw new NotImplementedException();
+            }
+
+            structVariant.InitUnmanaged();
+            return structVariant.Ptr;
+        }
+
+        public Variant DllStructGetData( StructVariant runtimeStruct, Variant elementVariant, Variant index ) {
+
+            if (runtimeStruct == null)
+            {
+                throw new StructNotAValidStructReturnedByDllStructCreate( 1, 0, string.Empty );
+            }
+
+
+            if (index <= 0)
+            {
+                throw new IndexSmallerEqualNull(5, 0, string.Empty);
+            }
+
+            object element;
+            if (elementVariant.IsInt32) {
+                element = runtimeStruct.GetElement( elementVariant.GetInt() );
+            }
+            else
+            {
+                element = runtimeStruct.GetElement(elementVariant.GetString());
+            }
+
+            if (element == null)
+            {
+                throw new ElementOutOfRange(2, 0, string.Empty);
+            }
+
+            if ( index.IsDefault || !(element is IEnumerable)) {
+                return Variant.Create( element );
+            }
+
+            var list = ( (IEnumerable) element ).Cast<object>().ToList();
+            try {
+                return Variant.Create(list[index - 1]);
+            }
+            catch (IndexOutOfRangeException) {
+                throw new IndexOutOfRange( 3, 0, string.Empty );
+            }
         }
     }
 }

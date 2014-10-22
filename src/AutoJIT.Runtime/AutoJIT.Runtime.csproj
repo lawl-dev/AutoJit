@@ -60,13 +60,17 @@
     <Compile Include="Exceptions\ClipboardIsEmptyException.cs" />
     <Compile Include="Exceptions\UnknowTypeException.cs" />
     <Compile Include="Services\AddressParameterIsNotAPointerException.cs" />
+    <Compile Include="Services\ElementOutOfRange.cs" />
     <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Exceptions\InvalidHexStringException.cs" />
+    <Compile Include="Services\IndexOutOfRange.cs" />
+    <Compile Include="Services\IndexSmallerEqualNull.cs" />
     <Compile Include="Services\MathService.cs" />
     <Compile Include="Exceptions\OddNumberOfBytesException.cs" />
     <Compile Include="Exceptions\StringHadZeroLengthException.cs" />
     <Compile Include="Services\StringService.cs" />
     <Compile Include="Exceptions\UNICODEIsGreaterThan65535Exception.cs" />
+    <Compile Include="Services\StructNotAValidStructReturnedByDllStructCreate.cs" />
     <Compile Include="Services\UnableToUseTheDllFileException.cs" />
     <Compile Include="Services\VariablePassedToDllStructCreateWasNotAStringException.cs" />
     <Compile Include="Services\VariablesAndConversionsService.cs" />
