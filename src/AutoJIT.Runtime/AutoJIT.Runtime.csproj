@@ -59,6 +59,7 @@
     <Compile Include="Exceptions\AutoJITExceptionBase.cs" />
     <Compile Include="Exceptions\ClipboardIsEmptyException.cs" />
     <Compile Include="Exceptions\UnknowTypeException.cs" />
+    <Compile Include="Services\AddressParameterIsNotAPointerException.cs" />
     <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Exceptions\InvalidHexStringException.cs" />
     <Compile Include="Services\MathService.cs" />

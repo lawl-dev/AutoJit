@@ -94,32 +94,7 @@ namespace AutoJITRuntime.Services
 
             IntPtr procAddress = GetProcAddress(handle, function);
 
-            if ( procAddress == IntPtr.Zero ) {
-                throw new ProcAddressZeroException(3, null, string.Empty);
-            }
-
-            List<MarshalInfo> parameterMarshalInfo = GetParameterInfo( paramtypen );
-
-            Type callingConvention = typeof (CallConvStdcall);
-
-            if ( returnType.Contains( ":" ) ) {
-                string[] split = returnType.Split( ':' );
-
-                string customCallingConvention = split[1];
-                returnType = split[0];
-
-                callingConvention = GetCallingConvention( customCallingConvention );
-            }
-
-            MarshalInfo returnMarshalInfo = GetReturnTypeInfo( returnType );
-
-            Delegate @delegate = GetFunctionDelegate( returnMarshalInfo, parameterMarshalInfo, callingConvention, procAddress );
-
-            object[] args = parameterMarshalInfo.Select( x => x.Parameter ).ToArray();
-
-            object result = @delegate.DynamicInvoke( args );
-
-            Variant[] toReturn = MapReturnValues( args, result );
+            Variant toReturn = DllCallAddressInternal( returnType, procAddress, paramtypen );
 
 
             if (dll.IsPtr)
@@ -129,6 +104,50 @@ namespace AutoJITRuntime.Services
 
             DllClose(handle);
             
+            return toReturn;
+        }
+
+
+        public Variant DllCallAddress(Variant returntype, Variant address, Variant[] paramtypen)
+        {
+            if ( !address.IsPtr ) {
+                throw new AddressParameterIsNotAPointerException( 1, null, string.Empty );
+            }
+            var ptr = address.GetIntPtr();
+            var returnType = returntype.GetString();
+
+            return DllCallAddressInternal( returnType, ptr, paramtypen );
+        }
+
+        private Variant DllCallAddressInternal( string returnType, IntPtr ptr, Variant[] paramtypen ) {
+            if (ptr == IntPtr.Zero)
+            {
+                throw new ProcAddressZeroException(3, null, string.Empty);
+            }
+
+            List<MarshalInfo> parameterMarshalInfo = GetParameterInfo(paramtypen);
+
+            Type callingConvention = typeof(CallConvStdcall);
+
+            if (returnType.Contains(":"))
+            {
+                string[] split = returnType.Split(':');
+
+                string customCallingConvention = split[1];
+                returnType = split[0];
+
+                callingConvention = GetCallingConvention(customCallingConvention);
+            }
+
+            MarshalInfo returnMarshalInfo = GetReturnTypeInfo(returnType);
+
+            Delegate @delegate = GetFunctionDelegate(returnMarshalInfo, parameterMarshalInfo, callingConvention, ptr);
+
+            object[] args = parameterMarshalInfo.Select(x => x.Parameter).ToArray();
+
+            object result = @delegate.DynamicInvoke(args);
+
+            Variant[] toReturn = MapReturnValues(args, result);
             return toReturn;
         }
 
@@ -531,9 +550,9 @@ namespace AutoJITRuntime.Services
                 throw new VariablePassedToDllStructCreateWasNotAStringException( 1, null, string.Empty );
             }
 
-
+            Type runtimeStruct;
             try {
-                Type runtimeStruct = CreateRuntimeStruct(structString.GetString());
+                runtimeStruct = CreateRuntimeStruct(structString.GetString());
             }
             catch (UnknowTypeNameException)
             {

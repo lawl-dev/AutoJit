@@ -611,7 +611,14 @@ namespace AutoJITRuntime
         public Variant DllCallAddress( Variant returntype, Variant address, params Variant[] paramtypen ) {
             SetError( 0, 0, 0 );
 
-            throw new NotImplementedException();
+            try
+            {
+                return _marshalService.DllCallAddress(returntype, address, paramtypen);
+            }
+            catch (AutoJITExceptionBase ex)
+            {
+                return SetError(Variant.Create(ex.Error), Variant.Create(ex.Extended), Variant.Create(ex.Return));
+            }
         }
 
         public Variant DllCallbackFree( Variant handle ) {
@@ -650,7 +657,7 @@ namespace AutoJITRuntime
 
             try
             {
-                return _marshalService.DllOpen(dllhandle);
+                return _marshalService.DllOpen(filename);
             }
             catch (AutoJITExceptionBase ex)
             {
