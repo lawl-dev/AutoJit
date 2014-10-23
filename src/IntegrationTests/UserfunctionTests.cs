@@ -157,6 +157,20 @@ namespace UnitTests
             object invoke = methodInfo.Invoke( instance, new object[0] );
         }
 
+        [TestCase("ContinueCase.au3")]
+        public void Test_compile_ContinueCase(string file)
+        {
+            string path = string.Format("{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file);
+            string script = File.ReadAllText(path);
+
+            var assemblyBytes = new byte[] { };
+            Assert.DoesNotThrow(
+                () => {
+                    assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
+                    File.WriteAllBytes( path + ".exe", assemblyBytes );
+                });
+        }
+
         [Test]
         public void Foo() {}
     }

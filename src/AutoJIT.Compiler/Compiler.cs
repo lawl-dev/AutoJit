@@ -16,6 +16,7 @@ namespace AutoJIT.Compiler
     public sealed class Compiler : ICompiler
     {
         private readonly IAutoitToCSharpConverter _autoitToCSharpConverter;
+        private readonly IContinueCaseMsilFixingService _continueCaseMsilFixingService;
         private readonly IOptimizer _optimizer;
         private readonly IPragmaParser _pragmaParser;
         private readonly IScriptParser _scriptParser;
@@ -24,11 +25,13 @@ namespace AutoJIT.Compiler
             IOptimizer optimizer,
             IScriptParser scriptParser,
             IPragmaParser pragmaParser,
-            IAutoitToCSharpConverter autoitToCSharpConverter ) {
+            IAutoitToCSharpConverter autoitToCSharpConverter,
+            IContinueCaseMsilFixingService continueCaseMsilFixingService) {
             _optimizer = optimizer;
             _scriptParser = scriptParser;
             _pragmaParser = pragmaParser;
             _autoitToCSharpConverter = autoitToCSharpConverter;
+            _continueCaseMsilFixingService = continueCaseMsilFixingService;
         }
 
         public byte[] Compile( string script, OutputKind outputKind, bool warningAsError, bool optimize = false, string assemblyName = "AutoJITAssembly" ) {
@@ -65,7 +68,8 @@ namespace AutoJIT.Compiler
             EmitResult emit = compilation.Emit( outputStream );
 
             if ( emit.Success ) {
-                return outputStream.ToArray();
+                var assembly = outputStream.ToArray();
+                return _continueCaseMsilFixingService.Fix( assembly,  "AutoJITScriptClass");
             }
 
             throw new EmitException( emit.Diagnostics );

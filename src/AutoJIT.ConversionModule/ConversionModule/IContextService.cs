@@ -21,5 +21,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         void Initialize( IContext context );
         bool GetIsGlobalContext();
         void SetGlobalContext( bool b );
+        void UnregisterSelectSwitch();
+        void RegisterSelectSwitch();
+        string GetContinueCaseLabelName(int caseCount);
+        void RegisterCase();
+        string GetContinueCaseLabelName();
     }
 }

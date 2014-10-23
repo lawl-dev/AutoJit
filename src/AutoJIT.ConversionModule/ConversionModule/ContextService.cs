@@ -56,6 +56,26 @@ namespace AutoJIT.CSharpConverter.ConversionModule
                     : 0 );
         }
 
+        public string GetContinueCaseLabelName(int caseCount) {
+            return string.Format(
+                "ContinueCase_level_{0}_count_{1}_{2}", ( _context.SelectLevel ).ToString( CultureInfo.InvariantCulture ),
+                _context.SelectLevelCount.ContainsKey( _context.SelectLevel )
+                    ? _context.SelectLevelCount[_context.SelectLevel]
+                    : 0, caseCount );
+        }
+
+        public void RegisterCase() {
+            _context.CaseCount++;
+        }
+
+        public string GetContinueCaseLabelName() {
+            return GetContinueCaseLabelName(_context.CaseCount);
+        }
+
+        public void UnregisterCase() {
+            _context.CaseCount++;
+        }
+
         public bool IsDeclared( string identifierName ) {
             return _context.DeclaredVariables.Contains( identifierName ) || _context.DeclaredGlobalVariables.Contains( identifierName );
         }
@@ -82,6 +102,27 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         public void UnregisterLoop() {
             _context.LoopLevel--;
         }
+
+
+        public void UnregisterSelectSwitch() {
+            _context.SelectLevel--;
+            _context.CaseCount = 0;
+        }
+
+        public void RegisterSelectSwitch()
+        {
+            _context.SelectLevel++;
+            if (_context.SelectLevelCount.ContainsKey(_context.SelectLevel))
+            {
+                _context.SelectLevelCount[_context.SelectLevel]++;
+            }
+            else
+            {
+                _context.SelectLevelCount.Add(_context.SelectLevel, 0);
+            }
+        }
+
+
 
         public void ResetFunctionContext() {
             _context.IsGlobalContext = false;

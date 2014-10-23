@@ -13,5 +13,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         IList<FieldDeclarationSyntax> FieldInstnaces { get; set; }
         Dictionary<int, int> LoopLevelCount { get; set; }
         int LoopLevel { get; set; }
+        int SelectLevel { get; set; }
+        Dictionary<int, int> SelectLevelCount { get; set; }
+        int CaseCount { get; set; }
     }
 }

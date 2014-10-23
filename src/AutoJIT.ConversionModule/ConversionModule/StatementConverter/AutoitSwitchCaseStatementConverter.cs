@@ -4,6 +4,7 @@ using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp;
@@ -20,6 +21,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         public override IEnumerable<StatementSyntax> Convert( SwitchCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
+            context.RegisterSelectSwitch();
 
             string toFunctionName = CompilerHelper.GetCompilerMemberName( x => x.To( null, null, null ) );
             string equalFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Equal( null, null ) );
@@ -47,19 +49,72 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             }
 
             var ifs = new List<IfStatementSyntax>();
-            for ( int i = conditions.Count-1; i >= 0; i-- ) {
-                KeyValuePair<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> currentCase = statement.Cases.Skip( i ).First();
+
+            for ( int i = 0; i < conditions.Count; i++ ) {
+                KeyValuePair<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> currentCase = statement.Cases.Skip(i).First();
+                context.RegisterCase();
+
+                var block = currentCase.Value.SelectMany(x => ConvertGeneric(x, context)).ToList();
+
+                var continueCaseLabelName = context.GetContinueCaseLabelName(i);
+
+                var format = string.Format("JUMPABHACK_{0}", continueCaseLabelName);
+                var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
+                    "Console", "WriteLine",
+                    new[] {
+                                new CSharpParameterInfo( SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,SyntaxFactory.Literal( format, format) ), false ),
+                            }).ToStatementSyntax();
+                block.Insert(0, statementSyntax);
+
+
                 IfStatementSyntax elseIf = CSharpStatementFactory.CreateIfStatement(
-                    conditions[i], currentCase.Value.SelectMany( x => ConvertGeneric( x, context ) ) );
-                ifs.Add( elseIf );
+                    conditions[i], block);
+                ifs.Add(elseIf);
             }
-            ifs.Reverse();
+            //for ( int i = conditions.Count-1; i >= 0; i-- ) {
+            //    KeyValuePair<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> currentCase = statement.Cases.Skip( i ).First();
+                
+            //    context.RegisterCase();
+
+            //    var block = currentCase.Value.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
+
+            //    var continueCaseLabelName = context.GetContinueCaseLabelName(conditions.Count - i);
+            //    var format = string.Format("JUMPABHACK_{0}", continueCaseLabelName);
+            //    var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
+            //        "Console", "WriteLine",
+            //        new[] {
+            //                    new CSharpParameterInfo( SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,SyntaxFactory.Literal( format, format) ), false ),
+            //                }).ToStatementSyntax();
+            //    block.Insert( 0, statementSyntax );
+
+
+            //    IfStatementSyntax elseIf = CSharpStatementFactory.CreateIfStatement(
+            //        conditions[i], block );
+            //    ifs.Add( elseIf );
+            //}
+            //ifs.Reverse();
 
             if ( statement.Else != null ) {
+                context.RegisterCase();
+
+                var block = statement.Else.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
+
+                var continueCaseLabelName = context.GetContinueCaseLabelName(conditions.Count);
+
+                var format = string.Format("JUMPABHACK_{0}", continueCaseLabelName);
+                var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
+                    "Console", "WriteLine",
+                    new[] {
+                                new CSharpParameterInfo( SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,SyntaxFactory.Literal( format, format) ), false ),
+                            }).ToStatementSyntax();
+
+                block.Insert( 0, statementSyntax );
+
+
                 ifs[ifs.Count-1] =
                     ifs[ifs.Count-1].WithElse(
                         SyntaxFactory.ElseClause(
-                            SyntaxFactory.Block( statement.Else.SelectMany( x => ConvertGeneric( x, context ) ) ) ) );
+                            SyntaxFactory.Block( block ) ) );
             }
 
             for ( int i = ifs.Count-1; i > 0; i-- ) {
@@ -68,6 +123,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             toReturn.Add( ifs[0] );
 
+
+            context.UnregisterSelectSwitch();
             return toReturn;
         }
     }

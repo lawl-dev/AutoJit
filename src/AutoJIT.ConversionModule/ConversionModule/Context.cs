@@ -14,6 +14,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             FieldInstnaces = new List<FieldDeclarationSyntax>();
             LoopLevelCount = new Dictionary<int, int>();
             LoopLevel = 0;
+            SelectLevel = 0;
+            SelectLevelCount = new Dictionary<int, int>();
+            CaseCount = 0;
         }
 
         public bool IsGlobalContext { get; set; }
@@ -25,5 +28,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         public IList<FieldDeclarationSyntax> FieldInstnaces { get; set; }
         public Dictionary<int, int> LoopLevelCount { get; set; }
         public int LoopLevel { get; set; }
+        public int SelectLevel { get; set; }
+        public Dictionary<int, int> SelectLevelCount { get; set; }
+        public int CaseCount { get; set; }
     }
 }

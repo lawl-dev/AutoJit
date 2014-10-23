@@ -8,6 +8,7 @@ namespace AutoJIT.Compiler
     {
         protected override void Bind() {
             Bind<ICompiler, Compiler>();
+            Bind<IContinueCaseMsilFixingService, ContinueCaseMsilFixingService>();
 
             RegisterModule( new ParserBootStrapper() );
             RegisterModule( new ConversionBootStrapper() );
