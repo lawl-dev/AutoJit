@@ -23,8 +23,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         void SetGlobalContext( bool b );
         void UnregisterSelectSwitch();
         void RegisterSelectSwitch();
-        string GetContinueCaseLabelName(int caseCount);
         void RegisterCase();
         string GetContinueCaseLabelName();
+        string GetContinueCaseLabelName(int i);
     }
 }

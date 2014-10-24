@@ -27,7 +27,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                         context.RegisterCase();
                         var block = @case.Value.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
 
-                        var continueCaseLabelName = context.GetContinueCaseLabelName( index );
+                        var continueCaseLabelName = context.GetContinueCaseLabelName();
                         //var continueCaseLabel = SyntaxFactory.LabeledStatement( continueCaseLabelName, SyntaxFactory.EmptyStatement() );
 
                         var format = string.Format( "JUMPABHACK_{0}", continueCaseLabelName );
@@ -52,7 +52,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
                 var block = statement.Else.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
 
-                var continueCaseLabelName = context.GetContinueCaseLabelName(statement.Cases.Count + 1);
+                var continueCaseLabelName = context.GetContinueCaseLabelName(1);
                 
                 
                 

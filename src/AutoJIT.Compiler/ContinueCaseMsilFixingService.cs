@@ -1,8 +1,5 @@
-using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 
@@ -48,7 +45,6 @@ namespace AutoJIT.Compiler
                     var instruction1 = ilProcessor.Create( OpCodes.Br, instruction );
                     continueCase.OpCode = instruction1.OpCode;
                     continueCase.Operand = instruction1.Operand;
-                    //ilProcessor.Replace( continueCase, ilProcessor.Create( OpCodes.Br, instruction ) );
                 }
 
                 var unusedTargets = methodDefinition.Body.Instructions.Where(x => x.OpCode == OpCodes.Ldstr).Where(x => ((string)x.Operand).StartsWith("JUMPABHACK")).ToList();
@@ -62,7 +58,7 @@ namespace AutoJIT.Compiler
                     var nop5 = ilProcessor.Create( OpCodes.Nop );
                     toNop.OpCode = nop5.OpCode;
                     toNop.Operand = nop5.Operand;
-                }
+                    }
 
                 methodDefinition.Body.OptimizeMacros();
             }

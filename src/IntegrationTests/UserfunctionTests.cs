@@ -167,6 +167,7 @@ namespace UnitTests
             Assert.DoesNotThrow(
                 () => {
                     assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
+                    var instanceWithDefaultParameters = Assembly.Load(assemblyBytes).GetTypes()[0].CreateInstanceWithDefaultParameters();
                     File.WriteAllBytes( path + ".exe", assemblyBytes );
                 });
         }

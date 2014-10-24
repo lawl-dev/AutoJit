@@ -19,7 +19,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( ContinueCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            string continueLoopLabelName = context.GetContinueCaseLabelName();
+            string continueLoopLabelName = context.GetContinueCaseLabelName(1);
             //toReturn.Add(SyntaxFactory.GotoStatement(SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName(continueLoopLabelName)));
 
             var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
