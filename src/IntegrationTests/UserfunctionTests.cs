@@ -168,6 +168,7 @@ namespace UnitTests
                 () => {
                     assemblyBytes = _compiler.Compile(script, OutputKind.ConsoleApplication, false);
                     var instanceWithDefaultParameters = Assembly.Load(assemblyBytes).GetTypes()[0].CreateInstanceWithDefaultParameters();
+                    var invoke = instanceWithDefaultParameters.GetType().GetMethods().Single( x=>x.Name.Contains( "Foo" ) ).Invoke( instanceWithDefaultParameters, null );
                     File.WriteAllBytes( path + ".exe", assemblyBytes );
                 });
         }

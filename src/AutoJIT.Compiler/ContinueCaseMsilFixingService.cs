@@ -42,8 +42,11 @@ namespace AutoJIT.Compiler
                     continueCase.Operand = jumpInstruction.Operand;
                 }
 
-                IEnumerable<Instruction> unusedTargets = GetContinueCaseInstructions( methodDefinition.Body.Instructions );
+                IEnumerable<Instruction> unusedTargets = GetContinueCaseDestinations( methodDefinition.Body.Instructions );
                 foreach (var unusedTarget in unusedTargets) {
+                    var unusedIndex = methodDefinition.Body.Instructions.IndexOf( unusedTarget ) + 1;
+                    var cwlCall = methodDefinition.Body.Instructions[unusedIndex];
+                    NopInstruction( cwlCall, ilProcessor );
                     NopInstruction( unusedTarget, ilProcessor );
                 }
 

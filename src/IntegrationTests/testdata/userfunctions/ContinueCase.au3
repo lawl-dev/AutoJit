@@ -1,74 +1,28 @@
+Func Foo()
 $i = 1
 $i2 = 2
 $i3 = 3
-$i4 = 4
-
-Switch $i2
+Switch $i
 	Case 1
-		If $i3 = 1337 Then ContinueCase
-		Switch $i
+		ConsoleWrite("1")
+		if $i2 = 2 Then ContinueCase
+		ConsoleWrite("2")
+		Return
+	Case 2
+		ConsoleWrite("3")
+		Switch $i3
 			Case 1
-				ConsoleWrite("Code1")
-				ConsoleWrite("Code1")
-				ConsoleWrite("Code1")
-				If $i4 == 5 Then
-					ContinueCase
-				EndIf
-				ConsoleWrite("Code1a")
-				If $i4 == 6 Then
-					Switch $i4
-						Case 3
-							ContinueCase
-						Case 4
-							ConsoleWrite("lol")
-					EndSwitch
-				EndIf
-				ConsoleWrite("Code1a")
-				ConsoleWrite("Code1a")
+				ConsoleWrite("4")
 			Case 2
-				ConsoleWrite("Code2")
-				ConsoleWrite("Code2")
-				ConsoleWrite("Code2")
-				ConsoleWrite("Code2")
-				If $i2 = "0" Then ContinueCase
-				ConsoleWrite("Code2a")
-				ConsoleWrite("Code2a")
-				ConsoleWrite("Code2a")
-				ConsoleWrite("Code2a")
-			Case 3
-				ConsoleWrite("Code3")
-				ConsoleWrite("Code3")
-				ConsoleWrite("Code3")
-				ConsoleWrite("Code3")
-				ConsoleWrite("Code3")
-			Case Else
+				ConsoleWrite("5")
+			case 3
+				ConsoleWrite("6")
 		EndSwitch
+	Case 3
+		ConsoleWrite("7")
 	Case 4
-		Switch $i
-			Case 1
-				ConsoleWrite("Code4")
-				ConsoleWrite("Code1")
-				ConsoleWrite("Code1")
-				ContinueCase
-				ConsoleWrite("Code1a")
-				ConsoleWrite("Code1a")
-				ConsoleWrite("Code1a")
-			Case 2
-				ConsoleWrite("Code2")
-				ConsoleWrite("Code2")
-				ConsoleWrite("Code2")
-				ConsoleWrite("Code2")
-				If $i2 = "0" Then ContinueCase
-				ConsoleWrite("Code2a")
-				ConsoleWrite("Code2a")
-				ConsoleWrite("Code2a")
-				ConsoleWrite("Code2a")
-			Case 3
-				ConsoleWrite("Code3")
-				ConsoleWrite("Code3")
-				ConsoleWrite("Code3")
-				ConsoleWrite("Code3")
-				ConsoleWrite("Code3")
-			Case Else
-		EndSwitch
+		ConsoleWrite("8")
+	Case 5
+		ConsoleWrite("9")
 EndSwitch
+EndFunc
