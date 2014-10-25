@@ -29,29 +29,43 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var conditions = new List<ExpressionSyntax>();
 
             foreach (var @case in statement.Cases) {
-                if ( @case.Key.Count() > 1 ) {
-                    ExpressionSyntax[] conditionParameterExpression = @case.Key.Select( x => Convert( x, context ) )
-                        .Concat( new[] { Convert( statement.Condition, context ) } )
-                        .ToArray();
+                var caseConditions = new List<ExpressionSyntax>();
 
-                    InvocationExpressionSyntax caseExpression = CSharpStatementFactory.CreateInvocationExpression(
-                        context.GetRuntimeInstanceName(), toFunctionName, CompilerHelper.GetParameterInfo( toFunctionName, conditionParameterExpression ) );
-                    conditions.Add( caseExpression );
+                foreach (var condition in @case.Key) {
+                    if ( condition.Value != null ) {
+                        var toParameter = new List<ExpressionSyntax> {
+                            Convert( condition.Key, context ),
+                            Convert( condition.Value, context ),
+                            Convert( statement.Condition, context )
+                        };
+                        InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression(
+                            context.GetRuntimeInstanceName(), toFunctionName, CompilerHelper.GetParameterInfo( toFunctionName, toParameter.ToArray() ) );
+                        caseConditions.Add( caseCondition );
+                    }
+                    else {
+                        InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression(
+                            context.GetRuntimeInstanceName(), equalFunctionName,
+                            CompilerHelper.GetParameterInfo(
+                                equalFunctionName, Convert( statement.Condition, context ),
+                                Convert( condition.Key, context ) ) );
+                        caseConditions.Add( caseCondition );
+                    }
                 }
-                else {
-                    InvocationExpressionSyntax caseExpression = CSharpStatementFactory.CreateInvocationExpression(
-                        context.GetRuntimeInstanceName(), equalFunctionName,
-                        CompilerHelper.GetParameterInfo(
-                            equalFunctionName, Convert( statement.Condition, context ),
-                            Convert( @case.Key.Single(), context ) ) );
-                    conditions.Add( caseExpression );
+                ExpressionSyntax currentResult = caseConditions[0];
+
+                for (int i = 1; i < caseConditions.Count; i++)
+                {
+                    currentResult = SyntaxFactory.BinaryExpression(
+                        SyntaxKind.LogicalOrExpression, currentResult, caseConditions[i]);
                 }
+                conditions.Add(currentResult);
             }
 
             var ifs = new List<IfStatementSyntax>();
 
-            for ( int i = 0; i < conditions.Count; i++ ) {
-                KeyValuePair<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> currentCase = statement.Cases.Skip(i).First();
+            for (int i = 0; i < statement.Cases.Count; i++)
+            {
+                var currentCase = statement.Cases.Skip(i).First();
                 context.RegisterCase();
                 
                 var continueCaseLabelName = context.GetContinueCaseLabelName();

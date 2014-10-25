@@ -85,11 +85,16 @@
     <Compile Include="StatementTests.cs" />
     <Compile Include="OperatorPrecedenceServiceTests.cs" />
     <Compile Include="StatementTestsBase.cs" />
+    <Compile Include="TestsByExitCode.cs" />
     <Compile Include="UserfunctionTests.cs" />
     <Compile Include="VariantTests.cs" />
     <Compile Include="WinApiDllTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoJIT.CompilerApplication\AutoJIT.CompilerApplication.csproj">
+      <Project>{948112e9-bc5f-4eda-8801-0d0e2779c728}</Project>
+      <Name>AutoJIT.CompilerApplication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Compiler\AutoJIT.Compiler.csproj">
       <Project>{A702CB78-13EA-414A-AFBE-C9CD3126DB77}</Project>
       <Name>AutoJIT.Compiler</Name>

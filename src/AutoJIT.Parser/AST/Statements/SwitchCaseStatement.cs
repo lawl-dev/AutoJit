@@ -10,7 +10,7 @@ namespace AutoJIT.Parser.AST.Statements
     {
         public SwitchCaseStatement(
             IExpressionNode condition,
-            Dictionary<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> cases,
+            Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>> cases,
             IEnumerable<IStatementNode> @else ) {
             Condition = condition;
             Cases = cases;
@@ -19,13 +19,14 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public IExpressionNode Condition { get; private set; }
-        public Dictionary<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> Cases { get; private set; }
+        public Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>> Cases { get; private set; }
         public IEnumerable<IStatementNode> Else { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
                 var syntaxNodes = new List<ISyntaxNode> { Condition };
-                syntaxNodes.AddRange( Cases.Keys.SelectMany( x => x ) );
+                syntaxNodes.AddRange( Cases.Keys.SelectMany( x => x.Select( y=>y.Key ) ) );
+                syntaxNodes.AddRange( Cases.Keys.SelectMany( x => x.Select( y => y.Value ).Where( e => e != null ) ) );
                 syntaxNodes.AddRange( Cases.Values.SelectMany( x => x ) );
 
                 if ( Else != null ) {
@@ -39,11 +40,14 @@ namespace AutoJIT.Parser.AST.Statements
         public override string ToSource() {
             string toReturn = string.Format( "Switch {0}{1}", Condition.ToSource(), Environment.NewLine );
             foreach (var @case in Cases) {
-                toReturn += "Case "+@case.Key.First().ToSource();
-                foreach (IExpressionNode expr in @case.Key.Skip( 1 )) {
-                    toReturn += string.Format( " To {0}", expr.ToSource() );
+                foreach (var pair in  @case.Key) {
+                    if ( pair.Value != null ) {
+                        toReturn += string.Format( ", {0} To {1}", pair.Key.ToSource(), pair.Value.ToSource() );
+                    }
+                    else {
+                        toReturn += string.Format( ", {0}", pair.Key.ToSource() );
+                    }
                 }
-                toReturn += Environment.NewLine;
                 foreach (IStatementNode statmnts in @case.Value) {
                     toReturn += string.Format( "{0}{1}", statmnts.ToSource(), Environment.NewLine );
                 }
@@ -58,8 +62,12 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            Dictionary<IEnumerable<IExpressionNode>, IEnumerable<IStatementNode>> cases = Cases.ToDictionary(
-                @case => @case.Key.Select( x => (IExpressionNode) x.Clone() ), @case => @case.Value.Select( x => (IStatementNode) x.Clone() ) );
+            var cases = Cases.ToDictionary(
+                @case => @case.Key.Select(
+                    x => new KeyValuePair<IExpressionNode, IExpressionNode>(
+                        (IExpressionNode) x.Key.Clone(), x.Value != null
+                            ? (IExpressionNode) x.Value.Clone()
+                            : null ) ), @case => @case.Value.Select( x => (IStatementNode) x.Clone() ) );
             return new SwitchCaseStatement( (IExpressionNode) Condition.Clone(), cases, CloneEnumerableAs<IStatementNode>( Else ) );
         }
     }

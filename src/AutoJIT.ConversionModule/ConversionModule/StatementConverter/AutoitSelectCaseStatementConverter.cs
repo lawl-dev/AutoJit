@@ -62,7 +62,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
                 var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
                 "Console", "WriteLine",
-                new[] { new CSharpParameterInfo(SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(SyntaxFactory.TriviaList(), format, format, SyntaxFactory.TriviaList())), false), }).ToStatementSyntax();
+                new[] { new CSharpParameterInfo(SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(format, format)), false) }).ToStatementSyntax();
 
 
 

@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis;
 
 namespace AutoJIT.CompilerApplication
 {
-    internal class Program
+    public class Program
     {
         private static readonly ICompiler _compiler;
 
@@ -19,6 +19,10 @@ namespace AutoJIT.CompilerApplication
         }
 
         private static void Main( string[] args ) {
+            Compile( args );
+        }
+
+        public static void Compile( params string[] args ) {
             var compileOptions = new CompileOptions();
             for ( int i = 0; i < args.Length; i++ ) {
                 switch (args[i].ToUpper()) {
