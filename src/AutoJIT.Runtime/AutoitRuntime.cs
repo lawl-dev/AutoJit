@@ -3551,7 +3551,7 @@ namespace AutoJITRuntime
         [Inlineable]
         [AutoJITCompilerFunction]
         public bool To( Variant from, Variant to, Variant toTest ) {
-            if(toTest.IsInt32) return toTest >= @from && toTest <= to;
+            if(toTest.IsInt32 || toTest.IsInt64 || toTest.IsDouble) return toTest >= @from && toTest <= to;
             if ( toTest.IsString )
                 return System.String.CompareOrdinal( toTest.GetString(), @from.GetString() ) >= 0 &&
                        string.CompareOrdinal( toTest.GetString(), to.GetString() ) <= 0;
