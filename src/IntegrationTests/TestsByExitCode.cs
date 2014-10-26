@@ -1,12 +1,5 @@
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
-using AutoJIT.Compiler;
-using AutoJITRuntime;
-using Lawl.Reflection;
-using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
 namespace UnitTests

@@ -23,64 +23,23 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var toReturn = new List<StatementSyntax>();
             context.RegisterSelectSwitch();
 
-            string toFunctionName = CompilerHelper.GetCompilerMemberName( x => x.To( null, null, null ) );
-            string equalFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Equal( null, null ) );
-
-            var conditions = new List<ExpressionSyntax>();
-
-            foreach (var @case in statement.Cases) {
-                var caseConditions = new List<ExpressionSyntax>();
-
-                foreach (var condition in @case.Key) {
-                    if ( condition.Value != null ) {
-                        var toParameter = new List<ExpressionSyntax> {
-                            Convert( condition.Key, context ),
-                            Convert( condition.Value, context ),
-                            Convert( statement.Condition, context )
-                        };
-                        InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression(
-                            context.GetRuntimeInstanceName(), toFunctionName, CompilerHelper.GetParameterInfo( toFunctionName, toParameter.ToArray() ) );
-                        caseConditions.Add( caseCondition );
-                    }
-                    else {
-                        InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression(
-                            context.GetRuntimeInstanceName(), equalFunctionName,
-                            CompilerHelper.GetParameterInfo(
-                                equalFunctionName, Convert( statement.Condition, context ),
-                                Convert( condition.Key, context ) ) );
-                        caseConditions.Add( caseCondition );
-                    }
-                }
-                ExpressionSyntax currentResult = caseConditions[0];
-
-                for (int i = 1; i < caseConditions.Count; i++)
-                {
-                    currentResult = SyntaxFactory.BinaryExpression(
-                        SyntaxKind.LogicalOrExpression, currentResult, caseConditions[i]);
-                }
-                conditions.Add(currentResult);
-            }
+            var conditions =
+                statement.Cases.Select( @case => @case.Key )
+                    .Select( caseConditionExpressions => ConvertCondition( statement, context, caseConditionExpressions) )
+                    .ToList();
 
             var ifs = new List<IfStatementSyntax>();
 
             for (int i = 0; i < statement.Cases.Count; i++)
             {
-                var currentCase = statement.Cases.Skip(i).First();
                 context.RegisterCase();
-                
                 var continueCaseLabelName = context.GetContinueCaseLabelName();
-
-                
                 var format = string.Format("JUMPABHACK_{0}", continueCaseLabelName);
-                var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
-                    "Console", "WriteLine",
-                    new[] {
-                                new CSharpParameterInfo( SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,SyntaxFactory.Literal( format, format) ), false ),
-                            }).ToStatementSyntax();
+                var continueCasePlaceholder = CreateContinueCasePlaceholder( format );
 
+                var currentCase = statement.Cases.Skip(i).First();
                 var block = currentCase.Value.SelectMany(x => ConvertGeneric(x, context)).ToList();
-
-                block.Insert(0, statementSyntax);
+                block.Insert(0, continueCasePlaceholder);
 
 
                 IfStatementSyntax elseIf = CSharpStatementFactory.CreateIfStatement(
@@ -90,18 +49,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             if ( statement.Else != null ) {
                 context.RegisterCase();
-
-                var block = statement.Else.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
-
                 var continueCaseLabelName = context.GetContinueCaseLabelName();
 
                 var format = string.Format("JUMPABHACK_{0}", continueCaseLabelName);
-                var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
-                    "Console", "WriteLine",
-                    new[] {
-                                new CSharpParameterInfo( SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,SyntaxFactory.Literal( format, format) ), false ),
-                            }).ToStatementSyntax();
+                var statementSyntax = CreateContinueCasePlaceholder( format );
 
+                var block = statement.Else.SelectMany(x => ConvertGeneric(x, context)).ToList();
                 block.Insert( 0, statementSyntax );
 
 
@@ -120,6 +73,54 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             context.UnregisterSelectSwitch();
             return toReturn;
+        }
+
+        private StatementSyntax CreateContinueCasePlaceholder( string format ) {
+            return CSharpStatementFactory.CreateInvocationExpression(
+                "Console", "WriteLine",
+                new[] {
+                    new CSharpParameterInfo(
+                        SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( format, format ) ), false ),
+                } ).ToStatementSyntax();
+        }
+
+        private ExpressionSyntax ConvertCondition(
+            SwitchCaseStatement statement,
+            IContextService context,
+            IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>> caseConditionExpressions) {
+            var caseConditions = new List<ExpressionSyntax>();
+            string toFunctionName = CompilerHelper.GetCompilerMemberName(x => x.To(null, null, null));
+            string equalFunctionName = CompilerHelper.GetCompilerMemberName(x => x.Equal(null, null));
+    
+
+
+            foreach (var condition in caseConditionExpressions) {
+                if ( condition.Value != null ) {
+                    var toParameter = new List<ExpressionSyntax> {
+                        Convert( condition.Key, context ),
+                        Convert( condition.Value, context ),
+                        Convert( statement.Condition, context )
+                    };
+                    InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression(
+                        context.GetRuntimeInstanceName(), toFunctionName, CompilerHelper.GetParameterInfo( toFunctionName, toParameter.ToArray() ) );
+                    caseConditions.Add( caseCondition );
+                }
+                else {
+                    InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression(
+                        context.GetRuntimeInstanceName(), equalFunctionName,
+                        CompilerHelper.GetParameterInfo(
+                            equalFunctionName, Convert( statement.Condition, context ),
+                            Convert( condition.Key, context ) ) );
+                    caseConditions.Add( caseCondition );
+                }
+            }
+            ExpressionSyntax currentResult = caseConditions[0];
+
+            for ( int i = 1; i < caseConditions.Count; i++ ) {
+                currentResult = SyntaxFactory.BinaryExpression(
+                    SyntaxKind.LogicalOrExpression, currentResult, caseConditions[i] );
+            }
+            return currentResult;
         }
     }
 }
