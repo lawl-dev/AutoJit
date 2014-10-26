@@ -47,11 +47,21 @@ namespace AutoJIT.Parser.AST.Parser
                                 statements.AddRange( ResolveStrategy<IfElseStatement>().Parse( block ) );
                                 break;
                             case Keywords.Global:
-                                statements.AddRange( ResolveStrategy<GlobalDeclarationStatement>().Parse( block ) );
+                                var globalStatement = Skip( block, Keywords.Enum )
+                                    ? ResolveStrategy<GlobalEnumDeclarationStatement>().Parse( block )
+                                    : ResolveStrategy<GlobalDeclarationStatement>().Parse( block );
+
+                                statements.AddRange( globalStatement );
                                 break;
                             case Keywords.Enum:
+                                statements.AddRange( ResolveStrategy<LocalEnumDeclarationStatement>().Parse( block ) );
+                                break;
                             case Keywords.Local:
-                                statements.AddRange( ResolveStrategy<LocalDeclarationStatement>().Parse( block ) );
+                                var localStatement = Skip( block, Keywords.Enum )
+                                    ? ResolveStrategy<LocalEnumDeclarationStatement>().Parse( block )
+                                    : ResolveStrategy<LocalDeclarationStatement>().Parse( block );
+
+                                statements.AddRange( localStatement );
                                 break;
                             case Keywords.Dim:
                                 statements.AddRange( ResolveStrategy<DimStatement>().Parse( block ) );
@@ -121,6 +131,14 @@ namespace AutoJIT.Parser.AST.Parser
                 throw new SyntaxTreeException( string.Format( "Expected {0} but was {1}", tokenType, block.Peek().Type ), block.Peek().Col, block.Peek().Line );
             }
             block.Dequeue();
+        }
+        
+        private bool Skip( TokenQueue block, Keywords keyword) {
+            if ( block.Peek().Value.Keyword != keyword ) {
+                return false;
+            }
+            block.Dequeue();
+            return true;
         }
     }
 }

@@ -140,8 +140,10 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             if ( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
             }
-
-            return new EnumDeclarationStatement( variableExpression, initExpression, autoInitExpression, true );
+            if ( global ) {
+                return new GlobalEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression );
+            }
+            return new LocalEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression);
         }
 
         public IfElseStatement CreateIfElseStatement(

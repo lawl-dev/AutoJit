@@ -122,11 +122,13 @@
     <Compile Include="AST\Statements\ForToNextStatement.cs" />
     <Compile Include="AST\Statements\FunctionCallStatement.cs" />
     <Compile Include="AST\Statements\GlobalDeclarationStatement.cs" />
+    <Compile Include="AST\Statements\GlobalEnumDeclarationStatement.cs" />
     <Compile Include="AST\Statements\IfElseStatement.cs" />
     <Compile Include="AST\Statements\InitDefaultParameterStatement.cs" />
     <Compile Include="AST\Statements\Interface\IStatementNode.cs" />
     <Compile Include="AST\Statements\Interface\StatementBase.cs" />
     <Compile Include="AST\Statements\LocalDeclarationStatement.cs" />
+    <Compile Include="AST\Statements\LocalEnumDeclarationStatement.cs" />
     <Compile Include="AST\Statements\ReDimStatement.cs" />
     <Compile Include="AST\Statements\ReturnStatement.cs" />
     <Compile Include="AST\Statements\SelectCaseStatement.cs" />

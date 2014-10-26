@@ -39,6 +39,8 @@ namespace AutoJIT.Parser
             Bind<IStatementParserStrategy<ForToNextStatement>, ForToNextStatementParserStrategy>();
             Bind<IStatementParserStrategy<FunctionCallStatement>, FunctionCallStatementParserStrategy>();
             Bind<IStatementParserStrategy<GlobalDeclarationStatement>, GlobalStatementParserStrategy>();
+            Bind<IStatementParserStrategy<GlobalEnumDeclarationStatement>, GlobalEnumParserStrategy>();
+            Bind<IStatementParserStrategy<LocalEnumDeclarationStatement>, LocalEnumParserStrategy>();
             Bind<IStatementParserStrategy<IfElseStatement>, IfStatementParserStrategy>();
             Bind<IStatementParserStrategy<LocalDeclarationStatement>, LocalStatementParserStrategy>();
             Bind<IStatementParserStrategy<ReDimStatement>, RedimStatementParserStrategy>();
