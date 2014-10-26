@@ -27,6 +27,7 @@ namespace AutoJITRuntime
         private readonly StringService _stringService;
         private readonly VariablesAndConversionsService _variablesAndConversionsService;
         private readonly ProcessService _processService;
+        private readonly MiscService _miscService;
 
         public AutoitRuntime( AutoitContext<T> context ) {
             _context = context;
@@ -38,6 +39,7 @@ namespace AutoJITRuntime
             _stringService = new StringService();
             _variablesAndConversionsService = new VariablesAndConversionsService();
             _processService = new ProcessService();
+            _miscService = new MiscService();
         }
 
         [Inlineable]
@@ -305,8 +307,13 @@ namespace AutoJITRuntime
 
         public Variant BlockInput( Variant flag ) {
             SetError( 0, 0, 0 );
-
-            throw new NotImplementedException();
+            
+            try {
+                return _miscService.BlockInput( flag );
+            }
+            catch (AutoJITExceptionBase ex) {
+                return SetError( Variant.Create( ex.Error ), Variant.Create( ex.Extended ), Variant.Create( ex.Return ) );
+            }
         }
 
         public Variant Break( Variant mode ) {
@@ -323,6 +330,8 @@ namespace AutoJITRuntime
 
         public Variant Call( Variant function, params Variant[] paramsN ) {
             SetError( 0, 0, 0 );
+
+
 
             if ( _methodStore.ContainsKey( function ) ) {
                 return Variant.Create( _methodStore[function].Invoke( this, paramsN ) );

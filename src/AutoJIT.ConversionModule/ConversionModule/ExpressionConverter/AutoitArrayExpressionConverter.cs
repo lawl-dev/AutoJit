@@ -12,7 +12,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( ArrayExpression node, IContextService context ) {
-            IdentifierNameSyntax variable = SyntaxFactory.IdentifierName( node.IdentifierName );
+            var variable = ConverGeneric(node, context);
             return SyntaxFactory.ElementAccessExpression(
                 variable,
                 SyntaxFactory.BracketedArgumentList(
