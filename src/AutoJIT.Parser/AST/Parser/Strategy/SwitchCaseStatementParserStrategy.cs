@@ -14,10 +14,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class SwitchCaseStatementParserStrategy : StatementParserStrategyBase<SwitchCaseStatement>
     {
-        public SwitchCaseStatementParserStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public SwitchCaseStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseSwitch( block ).ToEnumerable();
@@ -31,32 +28,30 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             var cases = new Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>>();
             IEnumerable<IStatementNode> @else = null;
             SkipAndAssert( block, Keywords.Case );
-            
-            
-            
-            while ( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
-                var line = new TokenQueue(ParseUntilNewLine( block ));
+
+            while( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
+                var line = new TokenQueue( ParseUntilNewLine( block ) );
 
                 var conditions = new List<TokenCollection>();
                 do {
-                    var conditionToken = ExtractUntilNextDeclaration( line );
+                    IEnumerable<Token> conditionToken = ExtractUntilNextDeclaration( line );
                     conditions.Add( new TokenCollection( conditionToken ) );
-                } while ( line.Any() &&
-                          Skip( line, TokenType.Comma ) );
+                } while( line.Any()
+                         && Skip( line, TokenType.Comma ) );
 
-                TokenCollection caseBlock = ParseInnerUntilSwitchSelect(block);
+                TokenCollection caseBlock = ParseInnerUntilSwitchSelect( block );
 
-                if ( conditions.Count == 1 &&
-                     conditions[0].Count == 1 &&
-                     conditions[0][0].Value.Keyword == Keywords.Else ) {
+                if( conditions.Count == 1
+                    && conditions[0].Count == 1
+                    && conditions[0][0].Value.Keyword == Keywords.Else ) {
                     @else = StatementParser.ParseBlock( caseBlock );
                 }
                 else {
-                    var conditionExpressions = conditions.Select(ParseCaseCondition).ToList();
-                    cases.Add(conditionExpressions, StatementParser.ParseBlock(caseBlock));
+                    List<KeyValuePair<IExpressionNode, IExpressionNode>> conditionExpressions = conditions.Select( ParseCaseCondition ).ToList();
+                    cases.Add( conditionExpressions, StatementParser.ParseBlock( caseBlock ) );
                 }
-                
-                if ( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
+
+                if( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
                     SkipAndAssert( block, Keywords.Case );
                 }
             }
@@ -64,34 +59,27 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             return new SwitchCaseStatement( condition, cases, @else );
         }
 
-        private KeyValuePair<IExpressionNode, IExpressionNode> ParseCaseCondition(TokenCollection line) {
+        private KeyValuePair<IExpressionNode, IExpressionNode> ParseCaseCondition( TokenCollection line ) {
             IExpressionNode left = null;
             IExpressionNode right = null;
-            if (line.Any(x => x.Value.Keyword == Keywords.To))
-            {
-                List<List<Token>> parts = line.Split(x => x.Value.Keyword == Keywords.To);
-                if (parts.Count != 2)
-                {
-                    throw new SyntaxTreeException("Unexpected To in statement", parts[0][0].Col, parts[0][0].Line);
+            if( line.Any( x => x.Value.Keyword == Keywords.To ) ) {
+                List<List<Token>> parts = line.Split( x => x.Value.Keyword == Keywords.To );
+                if( parts.Count != 2 ) {
+                    throw new SyntaxTreeException( "Unexpected To in statement", parts[0][0].Col, parts[0][0].Line );
                 }
-                left = ExpressionParser.ParseBlock(new TokenCollection(parts.First()), true);
-                right = ExpressionParser.ParseBlock(new TokenCollection(parts.Skip(1).First()), true);
-
-                
+                left = ExpressionParser.ParseBlock( new TokenCollection( parts.First() ), true );
+                right = ExpressionParser.ParseBlock( new TokenCollection( parts.Skip( 1 ).First() ), true );
             }
-            else if (line.Any() &&
-                      line[0].Value.Keyword != Keywords.Else)
-            {
-                left = ExpressionParser.ParseBlock(line, true);
+            else if( line.Any()
+                     && line[0].Value.Keyword != Keywords.Else ) {
+                left = ExpressionParser.ParseBlock( line, true );
             }
-            else
-            {
-                if (line[0].Value.Keyword != Keywords.Else)
-                {
-                    throw new SyntaxTreeException("Unexpected token", line[0].Col, line[0].Line);
+            else {
+                if( line[0].Value.Keyword != Keywords.Else ) {
+                    throw new SyntaxTreeException( "Unexpected token", line[0].Col, line[0].Line );
                 }
             }
-            return new KeyValuePair<IExpressionNode, IExpressionNode>(left, right);
+            return new KeyValuePair<IExpressionNode, IExpressionNode>( left, right );
         }
     }
 }

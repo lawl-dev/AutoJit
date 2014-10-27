@@ -14,8 +14,8 @@ namespace AutoJIT.Parser.AST.Parser
         protected IEnumerable<TokenCollection> GetArrayIndexExpressionTrees( TokenQueue block ) {
             var list = new List<TokenCollection>();
 
-            while ( block.Any() &&
-                    block.Peek().Type == TokenType.Leftsubscript ) {
+            while( block.Any()
+                   && block.Peek().Type == TokenType.Leftsubscript ) {
                 TokenCollection arrayIndexExpressionTree = ParseInner( block, TokenType.Leftsubscript, TokenType.Rightsubscript );
                 list.Add( new TokenCollection( arrayIndexExpressionTree ) );
             }

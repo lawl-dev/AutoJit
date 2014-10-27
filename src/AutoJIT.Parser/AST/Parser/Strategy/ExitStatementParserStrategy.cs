@@ -11,10 +11,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ExitStatementParserStrategy : StatementParserStrategyBase<ExitStatement>
     {
-        public ExitStatementParserStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ExitStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseExit( block ).ToEnumerable();

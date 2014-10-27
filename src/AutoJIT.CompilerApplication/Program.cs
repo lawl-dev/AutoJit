@@ -24,8 +24,8 @@ namespace AutoJIT.CompilerApplication
 
         public static void Compile( params string[] args ) {
             var compileOptions = new CompileOptions();
-            for ( int i = 0; i < args.Length; i++ ) {
-                switch (args[i].ToUpper()) {
+            for( int i = 0; i < args.Length; i++ ) {
+                switch(args[i].ToUpper()) {
                     case "/IN":
                         compileOptions.InFile = new Uri( args[++i] );
                         break;
@@ -51,30 +51,31 @@ namespace AutoJIT.CompilerApplication
 
             string script = File.ReadAllText( compileOptions.InFile.AbsolutePath );
 
-            if ( compileOptions.IsConsole &&
-                 compileOptions.IsForms ) {
+            if( compileOptions.IsConsole
+                && compileOptions.IsForms ) {
                 throw new InvalidOperationException();
             }
 
-            if ( !compileOptions.IsConsole &&
-                 !compileOptions.IsForms ) {
+            if( !compileOptions.IsConsole
+                && !compileOptions.IsForms ) {
                 compileOptions.IsForms = true;
             }
-            byte[] assemblyBytes = _compiler.Compile(
-                script, compileOptions.IsForms
-                    ? OutputKind.WindowsApplication
-                    : OutputKind.ConsoleApplication, false, compileOptions.Optimize );
+            byte[] assemblyBytes = _compiler.Compile( script, compileOptions.IsForms
+            ? OutputKind.WindowsApplication
+            : OutputKind.ConsoleApplication, false, compileOptions.Optimize );
 
             var toMerge = new List<string>();
             string tempPath = Path.Combine( Path.GetTempPath(), Guid.NewGuid().ToString( "n" ) );
             File.WriteAllBytes( tempPath, assemblyBytes );
 
             toMerge.Add( tempPath );
-            toMerge.Add( typeof (StringVariant).Assembly.Location );
-            toMerge.Add( typeof (TypeExtensions).Assembly.Location );
+            toMerge.Add( typeof(StringVariant).Assembly.Location );
+            toMerge.Add( typeof(TypeExtensions).Assembly.Location );
 
             File.Delete( compileOptions.OutFile.AbsolutePath );
-            var repack = new ILRepack { OutputFile = compileOptions.OutFile.AbsolutePath, TargetKind = ILRepack.Kind.Exe, InputAssemblies = toMerge.ToArray() };
+            var repack = new ILRepack {
+                OutputFile = compileOptions.OutFile.AbsolutePath, TargetKind = ILRepack.Kind.Exe, InputAssemblies = toMerge.ToArray()
+            };
             repack.Repack();
         }
     }

@@ -14,12 +14,20 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public IExpressionNode Condition { get; private set; }
-        public IEnumerable<IStatementNode> Block { get; private set; }
+        public IExpressionNode Condition {
+            get;
+            private set;
+        }
+        public IEnumerable<IStatementNode> Block {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
-                var syntaxNodes = new List<ISyntaxNode> { Condition };
+                var syntaxNodes = new List<ISyntaxNode> {
+                    Condition
+                };
                 syntaxNodes.AddRange( Block );
                 return syntaxNodes;
             }
@@ -28,7 +36,7 @@ namespace AutoJIT.Parser.AST.Statements
         public override string ToSource() {
             string toReturn = string.Format( "While {0}", Condition.ToSource() );
             toReturn += Environment.NewLine;
-            foreach (IStatementNode statement in Block) {
+            foreach(IStatementNode statement in Block) {
                 toReturn += string.Format( "{0}{1}", statement.ToSource(), Environment.NewLine );
             }
             toReturn += "WEnd";
@@ -36,7 +44,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new WhileStatement( (IExpressionNode) Condition.Clone(), Block.Select( x => (IStatementNode) x.Clone() ) );
+            return new WhileStatement( (IExpressionNode)Condition.Clone(), Block.Select( x => (IStatementNode)x.Clone() ) );
         }
     }
 }

@@ -11,10 +11,17 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public IExpressionNode ExpressionNode { get; private set; }
+        public IExpressionNode ExpressionNode {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode> { ExpressionNode }; }
+            get {
+                return new List<ISyntaxNode> {
+                    ExpressionNode
+                };
+            }
         }
 
         public override string ToSource() {
@@ -22,7 +29,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ExitStatement( (IExpressionNode) ExpressionNode.Clone() );
+            return new ExitStatement( (IExpressionNode)ExpressionNode.Clone() );
         }
     }
 }

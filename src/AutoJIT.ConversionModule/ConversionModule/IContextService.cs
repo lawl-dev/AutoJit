@@ -25,10 +25,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         void RegisterSelectSwitch();
         void RegisterCase();
         string GetContinueCaseLabelName();
-        string GetContinueCaseLabelName(int i);
-        string GetVariableName(string key);
-        string GetVariableName(string key, Scope scope);
-        bool IsDeclaredLocal(string identifierName);
+        string GetContinueCaseLabelName( int i );
+        string GetVariableName( string key );
+        string GetVariableName( string key, Scope scope );
+        bool IsDeclaredLocal( string identifierName );
         void DeclareGlobal( string identifierName );
         bool IsDeclaredGlobal( string identifierName );
     }

@@ -13,8 +13,6 @@ namespace UnitTests
     [TestFixture]
     public class MarshalTests
     {
-        private object _compiledInstance;
-
         [SetUp]
         public void Setup() {
             var standardAutoJITContainer = new CompilerBootStrapper();
@@ -22,15 +20,16 @@ namespace UnitTests
             string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, "Unmanaged.au3" );
             string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow(
-                () => {
-                    byte[] assemblyBytes = compiler.Compile( script, OutputKind.ConsoleApplication, false );
+            Assert.DoesNotThrow( () => {
+                                     byte[] assemblyBytes = compiler.Compile( script, OutputKind.ConsoleApplication, false );
 
-                    Assembly assembly = Assembly.Load( assemblyBytes );
-                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                    _compiledInstance = type.CreateInstanceWithDefaultParameters();
-                } );
+                                     Assembly assembly = Assembly.Load( assemblyBytes );
+                                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+                                     _compiledInstance = type.CreateInstanceWithDefaultParameters();
+                                 } );
         }
+
+        private object _compiledInstance;
 
         [TestCase( "FA" )]
         [TestCase( "FB" )]
@@ -55,7 +54,7 @@ namespace UnitTests
         [TestCase( "FRI" )]
         public void TestSimpleMarshaling( string functionName ) {
             MethodInfo methodInfo = _compiledInstance.GetType().GetMethods().Single( x => x.Name.Equals( "f_"+functionName ) );
-            var result = (Variant) methodInfo.Invoke( _compiledInstance, null );
+            var result = (Variant)methodInfo.Invoke( _compiledInstance, null );
             Assert.IsTrue( result );
         }
     }

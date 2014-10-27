@@ -27,12 +27,13 @@ namespace UnitTests
             TokenCollection tokens = _lexer.Lex( arrInitExpress );
 
             IExpressionNode node = null;
-            Assert.DoesNotThrow(
-                () => { node = _expressionParser.ParseBlock( tokens, true ); } );
+            Assert.DoesNotThrow( () => {
+                                     node = _expressionParser.ParseBlock( tokens, true );
+                                 } );
 
-            var arrayInitExpression = (ArrayInitExpression) node;
+            var arrayInitExpression = (ArrayInitExpression)node;
             List<IExpressionNode> childs = arrayInitExpression.ToAssign.ToList();
-            for ( int i = 0; i < childs.Count(); i++ ) {
+            for( int i = 0; i < childs.Count(); i++ ) {
                 Assert.IsTrue( childs[i].GetType() == GetExpectedType( i ) );
             }
         }
@@ -43,13 +44,13 @@ namespace UnitTests
         }
 
         public Type GetExpectedType( int i ) {
-            switch (i) {
+            switch(i) {
                 case 0:
-                    return typeof (BinaryExpression);
+                    return typeof(BinaryExpression);
                 case 2:
-                    return typeof (NumericLiteralExpression);
+                    return typeof(NumericLiteralExpression);
                 case 1:
-                    return typeof (UserfunctionCallExpression);
+                    return typeof(UserfunctionCallExpression);
             }
             throw new NotImplementedException();
         }

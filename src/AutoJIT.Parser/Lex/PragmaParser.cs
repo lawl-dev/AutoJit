@@ -12,24 +12,26 @@ namespace AutoJIT.Parser.Lex
     {
         public string IncludeDependenciesAndResolvePragmas( string autoitScript, PragmaOptions pragmaOptions ) {
             autoitScript = GetScriptWithResolvedIncludes( autoitScript );
-            string[] lines = autoitScript.Split( new[] { Environment.NewLine }, StringSplitOptions.None );
+            string[] lines = autoitScript.Split( new[] {
+                Environment.NewLine
+            }, StringSplitOptions.None );
 
             string toReturn = string.Empty;
 
-            for ( int index = 0; index < lines.Length; index++ ) {
+            for( int index = 0; index < lines.Length; index++ ) {
                 string line = lines[index].TrimStart( '	' ).TrimStart( ' ' );
                 bool isPragma = line.StartsWith( "#" );
-                if ( isPragma ) {
+                if( isPragma ) {
                     Queue<char> charQueue = line.ToQueue();
 
                     string pragmaType = string.Join( "", charQueue.DequeueWhile( x => char.IsLetterOrDigit( x ) || x == '#' || x == '-' ) ).ToLower();
-                    switch (pragmaType) {
+                    switch(pragmaType) {
                         case "#include-once":
                             pragmaOptions.IncludeOnce = true;
                             break;
                         case "#include":
                             string include = HandleInclude( charQueue );
-                            if ( !pragmaOptions.Includes.Contains( include ) ) {
+                            if( !pragmaOptions.Includes.Contains( include ) ) {
                                 pragmaOptions.Includes.Add( include );
                             }
                             break;
@@ -44,8 +46,8 @@ namespace AutoJIT.Parser.Lex
                             break;
                         case "#cs":
                         case "#comments-start":
-                            while ( !lines[index].TrimStart( '	' ).TrimStart( ' ' ).StartsWith( "#ce" ) &&
-                                    !lines[index].TrimStart( '	' ).TrimStart( ' ' ).StartsWith( "#comments-end" ) ) {
+                            while( !lines[index].TrimStart( '	' ).TrimStart( ' ' ).StartsWith( "#ce" )
+                                   && !lines[index].TrimStart( '	' ).TrimStart( ' ' ).StartsWith( "#comments-end" ) ) {
                                 index++;
                             }
                             break;
@@ -67,30 +69,36 @@ namespace AutoJIT.Parser.Lex
         private string GetScriptWithResolvedIncludes( string script ) {
             string toReturn = string.Empty;
 
-            var scripts = new Dictionary<string, string> { { "ToCompiler", script } };
+            var scripts = new Dictionary<string, string> {
+                {
+                    "ToCompiler", script
+                }
+            };
 
             IEnumerable<KeyValuePair<string, string>> includes = ResolveIncludesRecursiv( script );
-            foreach (var source in includes) {
-                if ( !scripts.ContainsKey( source.Key ) ) {
+            foreach(var source in includes) {
+                if( !scripts.ContainsKey( source.Key ) ) {
                     scripts.Add( source.Key, source.Value );
                 }
             }
-            foreach (string s in scripts.Select( x => x.Value )) {
+            foreach(string s in scripts.Select( x => x.Value )) {
                 toReturn = string.Format( "{0}{1}{2}", s, Environment.NewLine, toReturn );
             }
             return toReturn;
         }
 
         private string ExtractIncludes( string script, PragmaOptions pragmaOptions ) {
-            string[] lines = script.Split( new[] { Environment.NewLine }, StringSplitOptions.None );
+            string[] lines = script.Split( new[] {
+                Environment.NewLine
+            }, StringSplitOptions.None );
             string toReturn = string.Empty;
-            foreach (string line in lines) {
+            foreach(string line in lines) {
                 bool isPragma = line.StartsWith( "#" );
-                if ( isPragma ) {
+                if( isPragma ) {
                     Queue<char> charQueue = line.ToQueue();
 
                     string pragmaType = string.Join( "", charQueue.DequeueWhile( x => char.IsLetterOrDigit( x ) || x == '#' || x == '-' ) ).ToLower();
-                    switch (pragmaType) {
+                    switch(pragmaType) {
                         case "#include":
                             string include = HandleInclude( charQueue );
                             pragmaOptions.Includes.Add( include );
@@ -116,7 +124,7 @@ namespace AutoJIT.Parser.Lex
             string toReturn;
             charQueue.DequeueWhile( x => x == ' ' ).ToList();
 
-            if ( Skip( charQueue, '"' ) ) {
+            if( Skip( charQueue, '"' ) ) {
                 toReturn = string.Join( "", charQueue.DequeueWhile( x => x != '"' ) );
                 SkipAndAssert( charQueue, '"' );
                 return toReturn;
@@ -128,14 +136,14 @@ namespace AutoJIT.Parser.Lex
         }
 
         private void SkipAndAssert( Queue<char> queue, char c ) {
-            if ( queue.Peek() != c ) {
+            if( queue.Peek() != c ) {
                 throw new InvalidOperationException();
             }
             queue.Dequeue();
         }
 
         private bool Skip( Queue<char> queue, char c ) {
-            if ( queue.Peek() == c ) {
+            if( queue.Peek() == c ) {
                 queue.Dequeue();
                 return true;
             }
@@ -146,7 +154,7 @@ namespace AutoJIT.Parser.Lex
             var toReturn = new List<KeyValuePair<string, string>>();
 
             IEnumerable<string> includes = GetIncludes( currentScript );
-            foreach (string include in includes) {
+            foreach(string include in includes) {
                 string includeScript = File.ReadAllText( string.Format( @"C:\Program Files (x86)\AutoIt3\Include\{0}", include ) );
                 toReturn.Add( new KeyValuePair<string, string>( include, includeScript ) );
                 toReturn.AddRange( ResolveIncludesRecursiv( includeScript ) );

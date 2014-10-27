@@ -21,7 +21,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         }
 
         public IEnumerable<StatementSyntax> Visit( IStatementNode node ) {
-            return Visit( (dynamic) node );
+            return Visit( (dynamic)node );
         }
 
         public void Visit( ISyntaxNode node ) {

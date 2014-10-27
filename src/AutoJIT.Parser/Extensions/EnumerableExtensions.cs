@@ -14,8 +14,8 @@ namespace AutoJIT.Parser.Extensions
         public static List<List<T>> Split<T>( this IEnumerable<T> source, Func<T, bool> expression ) {
             var res = new List<List<T>>();
             res.Add( new List<T>() );
-            foreach (T item in source) {
-                if ( expression( item ) ) {
+            foreach(T item in source) {
+                if( expression( item ) ) {
                     res.Add( new List<T>() );
                 }
                 else {

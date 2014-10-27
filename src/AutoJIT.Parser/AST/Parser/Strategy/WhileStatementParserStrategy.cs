@@ -11,10 +11,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class WhileStatementParserStrategy : StatementParserStrategyBase<WhileStatement>
     {
-        public WhileStatementParserStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public WhileStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseWhile( block ).ToEnumerable();

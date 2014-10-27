@@ -8,7 +8,7 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
     public class SyntaxVisitorBase : ISyntaxVisitor
     {
         public void Visit( ISyntaxNode node ) {
-            Visit( (dynamic) node );
+            Visit( (dynamic)node );
         }
 
         public virtual void Visit( ArrayInitExpression node ) {}

@@ -58,17 +58,15 @@ namespace UnitTests
             object instance = type.CreateInstanceWithDefaultParameters();
 
             var parameters = new object[] {
-                Variant.Create( 1111 ),
-                Variant.Create( 111 ),
-                Variant.Create( 11 ),
-                Variant.Create( 100000 ),
-                Variant.Create( 100888 )
+                Variant.Create( 1111 ), Variant.Create( 111 ), Variant.Create( 11 ), Variant.Create( 100000 ), Variant.Create( 100888 )
             };
-            var resDto2Dscreencoords = (Variant) dto2Screencoords.Invoke( instance, parameters );
+            var resDto2Dscreencoords = (Variant)dto2Screencoords.Invoke( instance, parameters );
             Assert.AreEqual( resDto2Dscreencoords[0], 50101 );
 
-            var parameters2 = new object[] { Variant.Create( 111 ), Variant.Create( 222 ), Variant.Create( 333 ), Variant.Create( 444 ) };
-            var angleres = (Variant) angle.Invoke( instance, parameters2 );
+            var parameters2 = new object[] {
+                Variant.Create( 111 ), Variant.Create( 222 ), Variant.Create( 333 ), Variant.Create( 444 )
+            };
+            var angleres = (Variant)angle.Invoke( instance, parameters2 );
             Assert.AreEqual( angleres, 135 );
         }
 

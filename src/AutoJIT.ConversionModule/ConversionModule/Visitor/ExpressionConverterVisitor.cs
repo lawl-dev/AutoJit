@@ -20,9 +20,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
 
         public ExpressionSyntax Visit( IExpressionNode node ) {
             try {
-                return Visit( (dynamic) node );
+                return Visit( (dynamic)node );
             }
-            catch (RuntimeBinderException ex) {
+            catch(RuntimeBinderException ex) {
                 throw new NotImplementedException();
             }
         }

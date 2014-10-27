@@ -8,7 +8,7 @@ namespace AutoJIT.Parser.AST.Expressions
         public UserfunctionCallExpression( string identifierName, IEnumerable<IExpressionNode> parameter ) : base( identifierName, parameter ) {}
 
         public override object Clone() {
-            return new UserfunctionCallExpression( (string) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
+            return new UserfunctionCallExpression( (string)IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
         }
     }
 }

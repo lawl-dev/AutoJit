@@ -9,10 +9,15 @@ namespace AutoJIT.Parser.AST.Expressions
             MacroName = macroName;
         }
 
-        public string MacroName { get; private set; }
+        public string MacroName {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<IExpressionNode>(); }
+            get {
+                return new List<IExpressionNode>();
+            }
         }
 
         public override string ToSource() {
@@ -20,7 +25,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new MacroExpression( (string) MacroName.Clone() );
+            return new MacroExpression( (string)MacroName.Clone() );
         }
     }
 }

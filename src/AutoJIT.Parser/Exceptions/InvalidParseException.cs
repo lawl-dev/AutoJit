@@ -9,7 +9,13 @@ namespace AutoJIT.Parser.Exceptions
             Pos = pos;
         }
 
-        public int Line { get; private set; }
-        public int Pos { get; private set; }
+        public int Line {
+            get;
+            private set;
+        }
+        public int Pos {
+            get;
+            private set;
+        }
     }
 }

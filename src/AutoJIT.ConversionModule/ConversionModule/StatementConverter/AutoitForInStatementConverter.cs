@@ -9,24 +9,17 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitForInStatementConverter : AutoitStatementConverterBase<ForInStatement>
     {
-        public AutoitForInStatementConverter(
-            ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService )
-            : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitForInStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ForInStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            context.DeclareLocal(statement.VariableExpression.IdentifierName);
+            context.DeclareLocal( statement.VariableExpression.IdentifierName );
 
-            var variableName = context.GetVariableName(statement.VariableExpression.IdentifierName);
-            var block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) );
+            string variableName = context.GetVariableName( statement.VariableExpression.IdentifierName );
+            IEnumerable<StatementSyntax> block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) );
 
-
-            toReturn.Add(
-                CSharpStatementFactory.CreateForInStatement(
-                    variableName, Convert( statement.ToEnumerate, context ),
-                    block ) );
+            toReturn.Add( CSharpStatementFactory.CreateForInStatement( variableName, Convert( statement.ToEnumerate, context ), block ) );
 
             return toReturn;
         }

@@ -11,14 +11,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal abstract class AutoitStatementConverterBase<TStatement> : IAutoitStatementConverter<TStatement, StatementSyntax>
-        where TStatement : IStatementNode
+    where TStatement : IStatementNode
     {
         protected readonly ICSharpStatementFactory CSharpStatementFactory;
         private readonly IInjectionService _injectionService;
 
-        protected AutoitStatementConverterBase(
-            ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService ) {
+        protected AutoitStatementConverterBase( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) {
             CSharpStatementFactory = cSharpStatementFactory;
             _injectionService = injectionService;
         }
@@ -30,7 +28,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         public IEnumerable<StatementSyntax> Convert( IStatementNode node, IContextService contextService ) {
-            return Convert( (TStatement) node, contextService );
+            return Convert( (TStatement)node, contextService );
         }
 
         protected ExpressionSyntax Convert( IExpressionNode node, IContextService contextService ) {
@@ -38,12 +36,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private IAutoitExpressionConverter<ExpressionSyntax> GetConverter( IExpressionNode node ) {
-            Type converterType = typeof (IAutoitExpressionConverter<,>).MakeGenericType( node.GetType(), typeof (ExpressionSyntax) );
+            Type converterType = typeof(IAutoitExpressionConverter<,>).MakeGenericType( node.GetType(), typeof(ExpressionSyntax) );
             return _injectionService.Inject<IAutoitExpressionConverter<ExpressionSyntax>>( converterType );
         }
 
         private IAutoitStatementConverter<StatementSyntax> GetConverter( IStatementNode node ) {
-            Type converterType = typeof (IAutoitStatementConverter<,>).MakeGenericType( node.GetType(), typeof (StatementSyntax) );
+            Type converterType = typeof(IAutoitStatementConverter<,>).MakeGenericType( node.GetType(), typeof(StatementSyntax) );
             return _injectionService.Inject<IAutoitStatementConverter<StatementSyntax>>( converterType );
         }
     }

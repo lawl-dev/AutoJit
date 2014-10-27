@@ -5,11 +5,15 @@ namespace AutoJITRuntime.Variants
     public sealed class NullVariant : Variant
     {
         protected override DataType DataType {
-            get { return DataType.Null; }
+            get {
+                return DataType.Null;
+            }
         }
 
         public override bool IsNull {
-            get { return true; }
+            get {
+                return true;
+            }
         }
 
         public override object GetValue() {
@@ -41,7 +45,9 @@ namespace AutoJITRuntime.Variants
         }
 
         public override byte[] GetBinary() {
-            return new byte[] { 0x00, 0x00, 0x00, 0x00 };
+            return new byte[] {
+                0x00, 0x00, 0x00, 0x00
+            };
         }
 
         public override Type GetRealType() {

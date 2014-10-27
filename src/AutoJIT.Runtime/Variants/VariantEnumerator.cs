@@ -19,7 +19,9 @@ namespace AutoJITRuntime.Variants
         }
 
         public object Current {
-            get { return Variant.Create( _innerEnumerator.Current ); }
+            get {
+                return Variant.Create( _innerEnumerator.Current );
+            }
         }
     }
 }

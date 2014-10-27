@@ -19,27 +19,27 @@ namespace UnitTests
         protected object GetAu3Result( string functionCall, Type expectedType, params object[] parameters ) {
             IEnumerable<string> enumerable = GetFormattedParameter( parameters );
 
-            if ( !functionCall.StartsWith( "@" ) &&
-                 !functionCall.StartsWith( "f!" ) ) {
+            if( !functionCall.StartsWith( "@" )
+                && !functionCall.StartsWith( "f!" ) ) {
                 functionCall += "(";
 
-                if ( parameters.Any() ) {
+                if( parameters.Any() ) {
                     functionCall += string.Join( ",", enumerable );
                 }
 
                 functionCall += ")";
             }
-            if ( functionCall.StartsWith( "f!" ) ) {
+            if( functionCall.StartsWith( "f!" ) ) {
                 functionCall = "\""+functionCall.Substring( 2, functionCall.Length-2 )+"\"";
             }
             string filePath = _resultPath+Guid.NewGuid();
             Process process = Process.Start( _au3ExeName, string.Format( "{0} {1}", functionCall, filePath ) );
 
-            if ( process == null ) {
+            if( process == null ) {
                 throw new InvalidOperationException();
             }
 
-            while ( !process.HasExited ) {
+            while( !process.HasExited ) {
                 Thread.Sleep( 5 );
             }
             var serializer = new JsonSerializer();
@@ -53,13 +53,13 @@ namespace UnitTests
         private static IEnumerable<string> GetFormattedParameter( IEnumerable<object> parameters ) {
             var toReturn = new List<string>();
 
-            foreach (object parameter in parameters) {
-                if ( parameter is double ) {
-                    toReturn.Add( ( (double) parameter ).ToString( CultureInfo.InvariantCulture ) );
+            foreach(object parameter in parameters) {
+                if( parameter is double ) {
+                    toReturn.Add( ( (double)parameter ).ToString( CultureInfo.InvariantCulture ) );
                 }
-                else if ( parameter is int ||
-                          parameter is Int64 ||
-                          parameter is bool ) {
+                else if( parameter is int
+                         || parameter is Int64
+                         || parameter is bool ) {
                     toReturn.Add( ( parameter ).ToString() );
                 }
                 else {
@@ -70,34 +70,34 @@ namespace UnitTests
         }
 
         protected void CompareResults( Variant result, object au3Result ) {
-            if ( result.IsInt32 ||
-                 result.IsInt64 ) {
+            if( result.IsInt32
+                || result.IsInt64 ) {
                 Assert.IsTrue( Equals( result, au3Result ) );
                 return;
             }
 
-            if ( result.IsDouble ) {
-                if ( double.IsPositiveInfinity( result ) ) {
+            if( result.IsDouble ) {
+                if( double.IsPositiveInfinity( result ) ) {
                     Assert.IsTrue( Equals( au3Result, 1.0d ) );
                     return;
                 }
 
-                if ( double.IsNegativeInfinity( result ) ) {
+                if( double.IsNegativeInfinity( result ) ) {
                     Assert.IsTrue( Equals( au3Result, -1.0d ) );
                     return;
                 }
-                double difference = Math.Abs( (double) result * .00000000000001 );
-                Assert.IsTrue( Math.Abs( ( (double) result-(double) au3Result ) ) < difference );
+                double difference = Math.Abs( (double)result * .00000000000001 );
+                Assert.IsTrue( Math.Abs( ( (double)result-(double)au3Result ) ) < difference );
                 return;
             }
 
-            if ( result.IsString ||
-                 result.IsBinary ) {
+            if( result.IsString
+                || result.IsBinary ) {
                 Assert.IsTrue( Equals( result, au3Result ) );
                 return;
             }
 
-            if ( result.IsBool ) {
+            if( result.IsBool ) {
                 Assert.IsTrue( result.Equals( au3Result ) );
                 return;
             }

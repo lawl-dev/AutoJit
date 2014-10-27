@@ -14,8 +14,14 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public Dictionary<IExpressionNode, IEnumerable<IStatementNode>> Cases { get; private set; }
-        public IEnumerable<IStatementNode> Else { get; private set; }
+        public Dictionary<IExpressionNode, IEnumerable<IStatementNode>> Cases {
+            get;
+            private set;
+        }
+        public IEnumerable<IStatementNode> Else {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -23,7 +29,7 @@ namespace AutoJIT.Parser.AST.Statements
                 syntaxNodes.AddRange( Cases.Keys );
                 syntaxNodes.AddRange( Cases.Values.SelectMany( x => x ).ToArray() );
 
-                if ( Else != null ) {
+                if( Else != null ) {
                     syntaxNodes.AddRange( Else );
                 }
 
@@ -33,16 +39,16 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override string ToSource() {
             string toReturn = string.Format( "Select{0}", Environment.NewLine );
-            foreach (var @case in Cases) {
+            foreach(var @case in Cases) {
                 toReturn += "Case "+@case.Key.ToSource()+Environment.NewLine;
-                foreach (IStatementNode caseStatement in @case.Value) {
+                foreach(IStatementNode caseStatement in @case.Value) {
                     toReturn += string.Format( "{0}{1}", caseStatement.ToSource(), Environment.NewLine );
                 }
             }
 
-            if ( Else != null ) {
+            if( Else != null ) {
                 toReturn += string.Format( "Case Else{0}", Environment.NewLine );
-                foreach (IStatementNode elseStatement in Else) {
+                foreach(IStatementNode elseStatement in Else) {
                     toReturn += string.Format( "{0}{1}", elseStatement.ToSource(), Environment.NewLine );
                 }
             }
@@ -52,8 +58,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            Dictionary<IExpressionNode, IEnumerable<IStatementNode>> cases = Cases.ToDictionary(
-                @case => (IExpressionNode) @case.Key.Clone(), @case => @case.Value.Select( x => (IStatementNode) x.Clone() ) );
+            Dictionary<IExpressionNode, IEnumerable<IStatementNode>> cases = Cases.ToDictionary( @case => (IExpressionNode)@case.Key.Clone(), @case => @case.Value.Select( x => (IStatementNode)x.Clone() ) );
             return new SelectCaseStatement( cases, CloneEnumerableAs<IStatementNode>( Else ) );
         }
     }

@@ -27,8 +27,7 @@ namespace UnitTests
         [TestCase( "APIProcConstants.au3" )]
         [TestCase( "APIRegConstants.au3" )]
         [TestCase( "APIResConstants.au3" )]
-        [TestCase( "APIShellExConstants.au3" )
-        ]
+        [TestCase( "APIShellExConstants.au3" )]
         [TestCase( "APIShPathConstants.au3" )]
         [TestCase( "APISysConstants.au3" )]
         [TestCase( "APIThemeConstants.au3" )]

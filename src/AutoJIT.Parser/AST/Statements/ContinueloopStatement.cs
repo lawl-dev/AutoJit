@@ -9,10 +9,15 @@ namespace AutoJIT.Parser.AST.Statements
             Level = level;
         }
 
-        public int Level { get; private set; }
+        public int Level {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>(); }
+            get {
+                return new List<ISyntaxNode>();
+            }
         }
 
         public override string ToSource() {

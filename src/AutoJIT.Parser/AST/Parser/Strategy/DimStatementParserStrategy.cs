@@ -12,10 +12,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class DimStatementParserStrategy : StatementParserStrategyBase<DimStatement>
     {
-        public DimStatementParserStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public DimStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseDim( block );
@@ -23,11 +20,11 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
         private IEnumerable<DimStatement> ParseDim( TokenQueue block ) {
             var toReturn = new List<DimStatement>();
-            while ( block.Peek().Type == TokenType.Variable ) {
+            while( block.Peek().Type == TokenType.Variable ) {
                 var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
 
                 IExpressionNode initExpression = null;
-                if ( Skip( block, TokenType.Equal ) ) {
+                if( Skip( block, TokenType.Equal ) ) {
                     initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
                 }
 

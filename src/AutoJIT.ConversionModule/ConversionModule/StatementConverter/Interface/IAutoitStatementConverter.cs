@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter.Interface
 {
     internal interface IAutoitStatementConverter<in TInStatement, out TOutStatement> : IAutoitStatementConverter<TOutStatement>
-        where TInStatement : IStatementNode
+    where TInStatement : IStatementNode
     {
         IEnumerable<TOutStatement> Convert( TInStatement statement, IContextService context );
     }

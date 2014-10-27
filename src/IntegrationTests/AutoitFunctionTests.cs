@@ -81,7 +81,7 @@ namespace UnitTests
         public void Test_Binary() {
             Variant src = "test";
             Variant dotnetResult = _autoitRuntime.Binary( src );
-            var autoitResult = (Variant) GetAu3Result( "Binary", dotnetResult.GetRealType(), src );
+            var autoitResult = (Variant)GetAu3Result( "Binary", dotnetResult.GetRealType(), src );
             CompareResults( dotnetResult, autoitResult );
         }
 
@@ -176,15 +176,14 @@ namespace UnitTests
 
         [Test]
         public void Test_ClipGet() {
-            var staThread = new Thread(
-                () => Clipboard.SetText( Guid.NewGuid().ToString() ) );
+            var staThread = new Thread( () => Clipboard.SetText( Guid.NewGuid().ToString() ) );
 
             staThread.SetApartmentState( ApartmentState.STA );
             staThread.Start();
             staThread.Join();
 
             Variant dotnetresult = _autoitRuntime.ClipGet();
-            object autoitResult = GetAu3Result( "ClipGet", typeof (string) );
+            object autoitResult = GetAu3Result( "ClipGet", typeof(string) );
             CompareResults( dotnetresult, autoitResult );
         }
 

@@ -17,7 +17,9 @@ namespace AutoJITRuntime
         }
 
         public Variant Index {
-            get { return _start; }
+            get {
+                return _start;
+            }
         }
 
         public bool MoveNext() {
@@ -27,22 +29,22 @@ namespace AutoJITRuntime
         }
 
         private Func<double, double, bool> GetCondition() {
-            if ( _start > _to &&
-                 _step > 0 ) {
+            if( _start > _to
+                && _step > 0 ) {
                 return ( a, b ) => false;
             }
-            if ( _start > _to ) {
+            if( _start > _to ) {
                 return ( a, b ) => a >= _to;
             }
 
-            if ( _start < _to &&
-                 _step < 0 ) {
+            if( _start < _to
+                && _step < 0 ) {
                 return ( a, b ) => false;
             }
-            if ( _start < _to ) {
+            if( _start < _to ) {
                 return ( a, b ) => a <= _to;
             }
-            if ( _start == _to ) {
+            if( _start == _to ) {
                 return ( a, b ) => a == b;
             }
             throw new NotImplementedException( "_start "+_start+"to "+_to+"step "+_step );

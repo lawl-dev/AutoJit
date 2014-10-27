@@ -12,11 +12,15 @@ namespace AutoJITRuntime.Variants
         }
 
         protected override DataType DataType {
-            get { return DataType.Int64; }
+            get {
+                return DataType.Int64;
+            }
         }
 
         public override bool IsInt64 {
-            get { return true; }
+            get {
+                return true;
+            }
         }
 
         public override object GetValue() {
@@ -40,7 +44,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override int GetInt() {
-            return (int) _value;
+            return (int)_value;
         }
 
         public override IntPtr GetIntPtr() {
@@ -52,7 +56,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override Type GetRealType() {
-            return typeof (Int64);
+            return typeof(Int64);
         }
     }
 }

@@ -11,13 +11,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 {
     internal sealed class AutoitNumericLiteralExpressionConverter : AutoitExpressionConverterBase<NumericLiteralExpression>
     {
-        public AutoitNumericLiteralExpressionConverter( IInjectionService injectionService )
-            : base( injectionService ) {}
+        public AutoitNumericLiteralExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( NumericLiteralExpression node, IContextService context ) {
             ExpressionSyntax expression = null;
 
-            switch (node.LiteralToken.Type) {
+            switch(node.LiteralToken.Type) {
                 case TokenType.Int32:
                     expression = GetIntLiteralExpression( node );
                     break;
@@ -29,16 +28,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                     break;
             }
 
-            return SyntaxFactory.InvocationExpression(
-                SyntaxFactory.MemberAccessExpression(
-                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
-                    SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) ) ) )
-                .WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( expression ).ToSeparatedSyntaxList() ) );
+            return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof(Variant).Name ), SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) ) ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( expression ).ToSeparatedSyntaxList() ) );
         }
 
         private ExpressionSyntax GetDoubleLiteralExpression( NumericLiteralExpression node ) {
             double value = node.LiteralToken.Value.DoubleValue;
-            if ( node.Negativ ) {
+            if( node.Negativ ) {
                 value = -value;
             }
             return SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( value ) );
@@ -46,7 +41,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
         private ExpressionSyntax GetInt64LiteralExpression( NumericLiteralExpression node ) {
             long value = node.LiteralToken.Value.Int64Value;
-            if ( node.Negativ ) {
+            if( node.Negativ ) {
                 value = -value;
             }
             return SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( value ) );
@@ -54,7 +49,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
         private ExpressionSyntax GetIntLiteralExpression( NumericLiteralExpression node ) {
             int value = node.LiteralToken.Value.Int32Value;
-            if ( node.Negativ ) {
+            if( node.Negativ ) {
                 value = -value;
             }
             return SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( value ) );

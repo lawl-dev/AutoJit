@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 {
     internal abstract class AutoitExpressionConverterBase<TExpression> : IAutoitExpressionConverter<TExpression, ExpressionSyntax>
-        where TExpression : IExpressionNode
+    where TExpression : IExpressionNode
     {
         private readonly IInjectionService _injectionService;
 
@@ -22,20 +22,20 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         public ExpressionSyntax Convert( IExpressionNode node, IContextService contextService ) {
-            return Convert( (TExpression) node, contextService );
+            return Convert( (TExpression)node, contextService );
         }
-        
+
         public ExpressionSyntax Convert<TNode>( IExpressionNode node, IContextService contextService ) {
             return GetConverter<TNode>().Convert( node, contextService );
         }
 
         private IAutoitExpressionConverter<ExpressionSyntax> GetConverter( IExpressionNode node ) {
-            Type converterType = typeof (IAutoitExpressionConverter<,>).MakeGenericType( node.GetType(), typeof (ExpressionSyntax) );
+            Type converterType = typeof(IAutoitExpressionConverter<,>).MakeGenericType( node.GetType(), typeof(ExpressionSyntax) );
             return _injectionService.Inject<IAutoitExpressionConverter<ExpressionSyntax>>( converterType );
         }
-        
+
         private IAutoitExpressionConverter<ExpressionSyntax> GetConverter<TNode>() {
-            Type converterType = typeof (IAutoitExpressionConverter<,>).MakeGenericType( typeof (TNode), typeof (ExpressionSyntax) );
+            Type converterType = typeof(IAutoitExpressionConverter<,>).MakeGenericType( typeof(TNode), typeof(ExpressionSyntax) );
             return _injectionService.Inject<IAutoitExpressionConverter<ExpressionSyntax>>( converterType );
         }
     }

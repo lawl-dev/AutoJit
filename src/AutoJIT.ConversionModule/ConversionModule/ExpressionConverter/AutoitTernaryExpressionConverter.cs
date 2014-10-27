@@ -7,18 +7,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 {
     internal sealed class AutoitTernaryExpressionConverter : AutoitExpressionConverterBase<TernaryExpression>
     {
-        public AutoitTernaryExpressionConverter( IInjectionService injectionService )
-            : base( injectionService ) {}
+        public AutoitTernaryExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( TernaryExpression node, IContextService context ) {
-            var conditionExpression = ConverGeneric( node.Condition, context );
-            var ifTrueExpression = ConverGeneric( node.IfTrue, context );
-            var ifFalseExpression = ConverGeneric( node.IfFalse, context );
+            ExpressionSyntax conditionExpression = ConverGeneric( node.Condition, context );
+            ExpressionSyntax ifTrueExpression = ConverGeneric( node.IfTrue, context );
+            ExpressionSyntax ifFalseExpression = ConverGeneric( node.IfFalse, context );
 
-            return SyntaxFactory.ConditionalExpression(
-                conditionExpression,
-                ifTrueExpression,
-                ifFalseExpression );
+            return SyntaxFactory.ConditionalExpression( conditionExpression, ifTrueExpression, ifFalseExpression );
         }
     }
 }

@@ -12,10 +12,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class SelectStatementParserStrategy : StatementParserStrategyBase<SelectCaseStatement>
     {
-        public SelectStatementParserStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public SelectStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseSelect( block ).ToEnumerable();
@@ -26,10 +23,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             var cases = new Dictionary<IExpressionNode, IEnumerable<IStatementNode>>();
 
             IEnumerable<IStatementNode> elseStatements = new List<IStatementNode>();
-            while ( block.Peek().Value.Keyword != Keywords.Endselect ) {
+            while( block.Peek().Value.Keyword != Keywords.Endselect ) {
                 SkipAndAssert( block, Keywords.Case );
 
-                if ( block.Peek().Value.Keyword != Keywords.Else ) {
+                if( block.Peek().Value.Keyword != Keywords.Else ) {
                     TokenCollection expression = ParseUntilNewLine( block );
                     TokenCollection caseBlock = ParseInnerUntilSwitchSelect( block );
 

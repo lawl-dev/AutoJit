@@ -11,10 +11,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitDoUntilStatementConverter : AutoitStatementConverterBase<DoUntilStatement>
     {
-        public AutoitDoUntilStatementConverter(
-            ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService )
-            : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitDoUntilStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( DoUntilStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
@@ -27,9 +24,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             List<StatementSyntax> block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
             block.Add( SyntaxFactory.LabeledStatement( coninueLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
-            toReturn.Add(SyntaxFactory.DoStatement( block.ToBlock(), SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, Convert( statement.Condition, context ) ) ) );
+            toReturn.Add( SyntaxFactory.DoStatement( block.ToBlock(), SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, Convert( statement.Condition, context ) ) ) );
             toReturn.Add( SyntaxFactory.LabeledStatement( exitLoopLabelName, SyntaxFactory.EmptyStatement() ) );
-
 
             context.UnregisterLoop();
 

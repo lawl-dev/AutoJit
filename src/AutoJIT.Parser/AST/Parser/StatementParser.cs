@@ -25,33 +25,32 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         private IEnumerable<IStatementNode> ParseStatementNodes( TokenQueue block ) {
-            if ( block == null ) {
+            if( block == null ) {
                 return new List<IStatementNode>();
             }
 
             var statements = new List<IStatementNode>();
 
-            while ( block.Any() ) {
-                ConsumeNewLine(block);
+            while( block.Any() ) {
+                ConsumeNewLine( block );
 
-                if ( !block.Any() ) {
+                if( !block.Any() ) {
                     break;
                 }
 
                 Token current = block.Peek();
-                
+
                 IStatementParserStrategy parser = GetParser( block, current );
 
-                var nodes = parser.Parse( block );
-                
-                statements.AddRange(nodes);
+                IEnumerable<IStatementNode> nodes = parser.Parse( block );
+
+                statements.AddRange( nodes );
             }
             return statements;
         }
 
-
         private IStatementParserStrategy GetParser( TokenQueue block, Token current ) {
-            switch (current.Type) {
+            switch(current.Type) {
                 case TokenType.Variable:
                     return ResolveStrategy<AssignStatement>();
                 case TokenType.Userfunction:
@@ -59,11 +58,11 @@ namespace AutoJIT.Parser.AST.Parser
                     return ResolveStrategy<FunctionCallStatement>();
                 case TokenType.Keyword:
                     SkipAndAssert( block, TokenType.Keyword );
-                    switch (current.Value.Keyword) {
+                    switch(current.Value.Keyword) {
                         case Keywords.If:
                             return ResolveStrategy<IfElseStatement>();
                         case Keywords.Global:
-                            if ( Skip( block, Keywords.Enum ) ) {
+                            if( Skip( block, Keywords.Enum ) ) {
                                 return ResolveStrategy<GlobalEnumDeclarationStatement>();
                             }
                             return ResolveStrategy<GlobalDeclarationStatement>();
@@ -71,7 +70,7 @@ namespace AutoJIT.Parser.AST.Parser
                         case Keywords.Enum:
                             return ResolveStrategy<LocalEnumDeclarationStatement>();
                         case Keywords.Local:
-                            if ( Skip( block, Keywords.Enum ) ) {
+                            if( Skip( block, Keywords.Enum ) ) {
                                 return ResolveStrategy<LocalEnumDeclarationStatement>();
                             }
                             return ResolveStrategy<LocalDeclarationStatement>();
@@ -86,7 +85,7 @@ namespace AutoJIT.Parser.AST.Parser
                         case Keywords.Do:
                             return ResolveStrategy<DoUntilStatement>();
                         case Keywords.For:
-                            return ParseFor( block);
+                            return ParseFor( block );
                         case Keywords.Switch:
                             return ResolveStrategy<SwitchCaseStatement>();
                         case Keywords.Select:
@@ -114,31 +113,29 @@ namespace AutoJIT.Parser.AST.Parser
         private IStatementParserStrategy ParseFor( IEnumerable<Token> block ) {
             bool isForInLoop = block.TakeWhile( x => x.Type != TokenType.NewLine ).Any( x => x.Value.Keyword == Keywords.In );
 
-            if ( isForInLoop ) {
+            if( isForInLoop ) {
                 return ResolveStrategy<ForInStatement>();
             }
             return ResolveStrategy<ForToNextStatement>();
         }
 
         private void SkipAndAssert( TokenQueue block, TokenType tokenType ) {
-            if ( block.Peek().Type != tokenType ) {
+            if( block.Peek().Type != tokenType ) {
                 throw new SyntaxTreeException( string.Format( "Expected {0} but was {1}", tokenType, block.Peek().Type ), block.Peek().Col, block.Peek().Line );
             }
             block.Dequeue();
         }
-        
-        private bool Skip( TokenQueue block, Keywords keyword) {
-            if ( block.Peek().Value.Keyword != keyword ) {
+
+        private bool Skip( TokenQueue block, Keywords keyword ) {
+            if( block.Peek().Value.Keyword != keyword ) {
                 return false;
             }
             block.Dequeue();
             return true;
         }
 
-
-        private void ConsumeNewLine(TokenQueue block)
-        {
-            block.DequeueWhile(x => x.Type == TokenType.NewLine).ToList();
+        private void ConsumeNewLine( TokenQueue block ) {
+            block.DequeueWhile( x => x.Type == TokenType.NewLine ).ToList();
         }
     }
 }

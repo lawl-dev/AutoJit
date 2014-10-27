@@ -11,10 +11,15 @@ namespace AutoJIT.Parser.AST.Expressions
             Initialize();
         }
 
-        public IEnumerable<IExpressionNode> AccessParameter { get; private set; }
+        public IEnumerable<IExpressionNode> AccessParameter {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return AccessParameter; }
+            get {
+                return AccessParameter;
+            }
         }
 
         public override string ToSource() {
@@ -22,7 +27,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new ArrayExpression( (string) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
+            return new ArrayExpression( (string)IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
         }
     }
 }

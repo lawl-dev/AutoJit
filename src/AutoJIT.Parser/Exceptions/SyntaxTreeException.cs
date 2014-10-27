@@ -9,7 +9,13 @@ namespace AutoJIT.Parser.Exceptions
             Line = line;
         }
 
-        public int Col { get; set; }
-        public int Line { get; set; }
+        public int Col {
+            get;
+            set;
+        }
+        public int Line {
+            get;
+            set;
+        }
     }
 }

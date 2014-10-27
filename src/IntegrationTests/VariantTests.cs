@@ -612,29 +612,31 @@ namespace UnitTests
             a[1] = GetArray();
             a[2] = GetArray();
 
-            foreach (Variant i in a) {
-                foreach (Variant z in i) {
+            foreach(Variant i in a) {
+                foreach(Variant z in i) {
                     Assert.IsTrue( z == 1 || z == 2 || z == "awd" );
                 }
             }
 
             var variants = new Variant[1000];
-            for ( int i = 0; i < variants.Length; i++ ) {
+            for( int i = 0; i < variants.Length; i++ ) {
                 variants[i] = new Variant[10];
-                for ( int j = 0; j < 10; j++ ) {
+                for( int j = 0; j < 10; j++ ) {
                     variants[i][j] = "abcd";
                 }
             }
 
-            foreach (Variant variant in variants) {
-                foreach (Variant v in variant) {
+            foreach(Variant variant in variants) {
+                foreach(Variant v in variant) {
                     Assert.IsTrue( v == "abcd" );
                 }
             }
         }
 
         private Variant GetArray() {
-            return new Variant[] { 1, 2, "awd" };
+            return new Variant[] {
+                1, 2, "awd"
+            };
         }
     }
 }

@@ -11,35 +11,33 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 {
     internal sealed class AutoitBinaryExpressionConverter : AutoitInvocationExpressionConverterBase<BinaryExpressionBase>
     {
-        public AutoitBinaryExpressionConverter( IInjectionService injectionService )
-            : base( injectionService ) {}
+        public AutoitBinaryExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( BinaryExpressionBase node, IContextService context ) {
-            if ( node.NeedsCompilerFunctionCall ) {
+            if( node.NeedsCompilerFunctionCall ) {
                 return CreateCompilerFunctionCall( node, context );
             }
 
-            var syntaxKind = GetSyntaxKind( node.Operator );
-            var leftExpressionSyntax = ConverGeneric( node.Left, context );
-            var rightExpressionSyntax = ConverGeneric( node.Right, context );
+            SyntaxKind syntaxKind = GetSyntaxKind( node.Operator );
+            ExpressionSyntax leftExpressionSyntax = ConverGeneric( node.Left, context );
+            ExpressionSyntax rightExpressionSyntax = ConverGeneric( node.Right, context );
 
-            return SyntaxFactory.BinaryExpression(syntaxKind, leftExpressionSyntax, rightExpressionSyntax);
+            return SyntaxFactory.BinaryExpression( syntaxKind, leftExpressionSyntax, rightExpressionSyntax );
         }
 
         private ExpressionSyntax CreateCompilerFunctionCall( BinaryExpressionBase node, IContextService context ) {
             string operatorFunctionName = node.GetCompilerFunctionName( node.Operator.Type );
 
-            var leftExpressionSyntax = ConverGeneric( node.Left, context );
-            var rightExpressionSyntax = ConverGeneric( node.Right, context );
+            ExpressionSyntax leftExpressionSyntax = ConverGeneric( node.Left, context );
+            ExpressionSyntax rightExpressionSyntax = ConverGeneric( node.Right, context );
 
-
-            IEnumerable<ArgumentSyntax> arguments = Utils.GetEnumerable(SyntaxFactory.Argument( leftExpressionSyntax ), SyntaxFactory.Argument( rightExpressionSyntax ) );
+            IEnumerable<ArgumentSyntax> arguments = Utils.GetEnumerable( SyntaxFactory.Argument( leftExpressionSyntax ), SyntaxFactory.Argument( rightExpressionSyntax ) );
 
             return CreateInvocationExpression( context.GetRuntimeInstanceName(), operatorFunctionName, arguments );
         }
 
         private SyntaxKind GetSyntaxKind( Token @operator ) {
-            switch (@operator.Type) {
+            switch(@operator.Type) {
                 case TokenType.Greater:
                     return SyntaxKind.GreaterThanExpression;
                 case TokenType.GreaterEqual:

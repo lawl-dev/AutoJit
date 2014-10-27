@@ -11,24 +11,15 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitRedimStatementConverter : AutoitStatementConverterBase<ReDimStatement>
     {
-        public AutoitRedimStatementConverter(
-            ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService )
-            : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitRedimStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ReDimStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            var variableName = context.GetVariableName( statement.ArrayExpression.IdentifierName);
-            var parameter = statement.ArrayExpression.AccessParameter.Select(
-                x => new CSharpParameterInfo( Convert( x, context ), false ) );
+            string variableName = context.GetVariableName( statement.ArrayExpression.IdentifierName );
+            IEnumerable<CSharpParameterInfo> parameter = statement.ArrayExpression.AccessParameter.Select( x => new CSharpParameterInfo( Convert( x, context ), false ) );
 
-
-            toReturn.Add(
-                CSharpStatementFactory.CreateInvocationExpression(
-                    variableName, CompilerHelper.GetVariantMemberName( x => x.ReDim() ),
-                    parameter )
-                    .ToStatementSyntax() );
+            toReturn.Add( CSharpStatementFactory.CreateInvocationExpression( variableName, CompilerHelper.GetVariantMemberName( x => x.ReDim() ), parameter ).ToStatementSyntax() );
 
             return toReturn;
         }

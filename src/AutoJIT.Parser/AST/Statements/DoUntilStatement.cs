@@ -14,14 +14,22 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public IExpressionNode Condition { get; private set; }
-        public IEnumerable<IStatementNode> Block { get; private set; }
+        public IExpressionNode Condition {
+            get;
+            private set;
+        }
+        public IEnumerable<IStatementNode> Block {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
-                var syntaxNodes = new List<ISyntaxNode> { Condition };
+                var syntaxNodes = new List<ISyntaxNode> {
+                    Condition
+                };
 
-                if ( Block != null ) {
+                if( Block != null ) {
                     syntaxNodes.AddRange( Block );
                 }
 
@@ -32,7 +40,7 @@ namespace AutoJIT.Parser.AST.Statements
         public override string ToSource() {
             string toReturn = string.Empty;
             toReturn += string.Format( "Do{0}", Environment.NewLine );
-            foreach (IStatementNode node in Block) {
+            foreach(IStatementNode node in Block) {
                 toReturn += string.Format( "{0}{1}", node.ToSource(), Environment.NewLine );
             }
             toReturn += string.Format( "Until {0}{1}", Condition.ToSource(), Environment.NewLine );
@@ -40,7 +48,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new DoUntilStatement( (IExpressionNode) Condition.Clone(), Block.Select( x => (IStatementNode) x.Clone() ) );
+            return new DoUntilStatement( (IExpressionNode)Condition.Clone(), Block.Select( x => (IStatementNode)x.Clone() ) );
         }
     }
 }

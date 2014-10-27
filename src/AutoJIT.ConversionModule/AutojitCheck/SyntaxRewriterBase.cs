@@ -16,7 +16,7 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
         }
 
         ISyntaxNode ISyntaxVisitor<ISyntaxNode, ISyntaxNode>.Visit( ISyntaxNode node ) {
-            return Visit( (dynamic) node );
+            return Visit( (dynamic)node );
         }
 
         public void Visit( ISyntaxNode node ) {

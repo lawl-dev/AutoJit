@@ -11,10 +11,15 @@ namespace AutoJIT.Parser.AST.Expressions
             Initialize();
         }
 
-        public List<IExpressionNode> ToAssign { get; private set; }
+        public List<IExpressionNode> ToAssign {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>( ToAssign ); }
+            get {
+                return new List<ISyntaxNode>( ToAssign );
+            }
         }
 
         public override string ToSource() {
@@ -22,7 +27,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new ArrayInitExpression( ToAssign.Select( x => (IExpressionNode) x.Clone() ).ToList() );
+            return new ArrayInitExpression( ToAssign.Select( x => (IExpressionNode)x.Clone() ).ToList() );
         }
     }
 }

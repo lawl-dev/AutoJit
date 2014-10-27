@@ -12,71 +12,49 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitSelectCaseStatementConverter : AutoitStatementConverterBase<SelectCaseStatement>
     {
-        public AutoitSelectCaseStatementConverter(
-            ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService )
-            : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitSelectCaseStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( SelectCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
             context.RegisterSelectSwitch();
 
-            IfStatementSyntax[] ifStatementSyntaxs =
-                statement.Cases.Select(
-                    ( @case, index ) => {
-                        context.RegisterCase();
-                        var block = @case.Value.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
+            IfStatementSyntax[] ifStatementSyntaxs = statement.Cases.Select( ( @case, index ) => {
+                                                                                 context.RegisterCase();
+                                                                                 List<StatementSyntax> block = @case.Value.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
 
-                        var continueCaseLabelName = context.GetContinueCaseLabelName();
-                        
+                                                                                 string continueCaseLabelName = context.GetContinueCaseLabelName();
 
-                        var format = string.Format( "JUMPABHACK_{0}", continueCaseLabelName );
-                        var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
-                            "Console", "WriteLine",
-                            new[] {
-                                new CSharpParameterInfo( SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,SyntaxFactory.Literal( format, format) ), false ),
-                            } ).ToStatementSyntax();
+                                                                                 string format = string.Format( "JUMPABHACK_{0}", continueCaseLabelName );
+                                                                                 StatementSyntax statementSyntax = CSharpStatementFactory.CreateInvocationExpression( "Console", "WriteLine", new[] {
+                                                                                     new CSharpParameterInfo( SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( format, format ) ), false )
+                                                                                 } ).ToStatementSyntax();
 
+                                                                                 block.Insert( 0, statementSyntax );
 
-                        block.Insert(0, statementSyntax);
+                                                                                 IfStatementSyntax ifStatementSyntax = CSharpStatementFactory.CreateIfStatement( Convert( @case.Key, context ), block );
+                                                                                 return ifStatementSyntax;
+                                                                             } ).ToArray();
 
-                        var ifStatementSyntax = CSharpStatementFactory.CreateIfStatement( Convert( @case.Key, context ), block );
-                        return ifStatementSyntax;
-                    }
-                    ).ToArray();
-
-
-
-            if ( statement.Else.Any() ) {
+            if( statement.Else.Any() ) {
                 context.RegisterCase();
 
-                var block = statement.Else.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
+                List<StatementSyntax> block = statement.Else.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
 
-                var continueCaseLabelName = context.GetContinueCaseLabelName(1);
-                
-                
-                
+                string continueCaseLabelName = context.GetContinueCaseLabelName( 1 );
+
                 //var continueCaseLabel = SyntaxFactory.LabeledStatement(continueCaseLabelName, SyntaxFactory.EmptyStatement());
 
-                var format = string.Format("JUMPABHACK_{0}", continueCaseLabelName);
+                string format = string.Format( "JUMPABHACK_{0}", continueCaseLabelName );
 
-                var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
-                "Console", "WriteLine",
-                new[] { new CSharpParameterInfo(SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(format, format)), false) }).ToStatementSyntax();
+                StatementSyntax statementSyntax = CSharpStatementFactory.CreateInvocationExpression( "Console", "WriteLine", new[] {
+                    new CSharpParameterInfo( SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( format, format ) ), false )
+                } ).ToStatementSyntax();
 
+                block.Insert( 0, statementSyntax );
 
-
-
-                block.Insert(0, statementSyntax);
-
-
-
-                ifStatementSyntaxs[ifStatementSyntaxs.Length-1] = ifStatementSyntaxs[ifStatementSyntaxs.Length-1].WithElse(
-                    SyntaxFactory.ElseClause(
-                        SyntaxFactory.Block( block ) ) );
-
+                ifStatementSyntaxs[ifStatementSyntaxs.Length-1] = ifStatementSyntaxs[ifStatementSyntaxs.Length-1].WithElse( SyntaxFactory.ElseClause( SyntaxFactory.Block( block ) ) );
             }
-            for ( int i = ifStatementSyntaxs.Length-1; i > 0; i-- ) {
+            for( int i = ifStatementSyntaxs.Length-1; i > 0; i-- ) {
                 ifStatementSyntaxs[i-1] = ifStatementSyntaxs[i-1].WithElse( SyntaxFactory.ElseClause( ifStatementSyntaxs[i] ) );
             }
             toReturn.Add( ifStatementSyntaxs[0] );

@@ -1,6 +1,7 @@
 namespace AutoJIT.CSharpConverter.ConversionModule
 {
-    public interface IContinueCaseMsilFixingService {
+    public interface IContinueCaseMsilFixingService
+    {
         byte[] Fix( byte[] assembly, string scriptClassName );
     }
 }

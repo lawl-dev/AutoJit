@@ -10,10 +10,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ContinueCaseStatementStrategy : StatementParserStrategyBase<ContinueCaseStatement>
     {
-        public ContinueCaseStatementStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ContinueCaseStatementStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseContinueCase().ToEnumerable();

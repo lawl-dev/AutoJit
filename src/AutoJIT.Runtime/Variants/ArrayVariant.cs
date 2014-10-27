@@ -20,16 +20,24 @@ namespace AutoJITRuntime.Variants
         }
 
         protected override DataType DataType {
-            get { return DataType.Array; }
+            get {
+                return DataType.Array;
+            }
         }
 
         public override bool IsArray {
-            get { return true; }
+            get {
+                return true;
+            }
         }
 
         public override Variant this[ params int[] index ] {
-            get { return (Variant) _value.GetValue( index ); }
-            set { _value.SetValue( value, index ); }
+            get {
+                return (Variant)_value.GetValue( index );
+            }
+            set {
+                _value.SetValue( value, index );
+            }
         }
 
         public override object GetValue() {
@@ -65,27 +73,27 @@ namespace AutoJITRuntime.Variants
         }
 
         public override Type GetRealType() {
-            return typeof (Variant[]);
+            return typeof(Variant[]);
         }
 
         public override void InitArray( Variant[] variants ) {
-            switch (_value.Rank) {
+            switch(_value.Rank) {
                 case 1:
-                    for ( int i = 0; i < variants.Length; i++ ) {
+                    for( int i = 0; i < variants.Length; i++ ) {
                         this[i] = variants[i];
                     }
                     break;
                 case 2:
-                    for ( int i = 0; i < variants.Length; i++ ) {
-                        for ( int j = 0; j < ( (Array) variants[i].GetValue() ).Length; j++ ) {
+                    for( int i = 0; i < variants.Length; i++ ) {
+                        for( int j = 0; j < ( (Array)variants[i].GetValue() ).Length; j++ ) {
                             this[i, j] = variants[i][j];
                         }
                     }
                     break;
                 case 3:
-                    for ( int i = 0; i < variants.Length; i++ ) {
-                        for ( int j = 0; j < ( (Array) variants[i] ).Length; j++ ) {
-                            for ( int k = 0; k < ( (Array) variants[i][j] ).Length; k++ ) {
+                    for( int i = 0; i < variants.Length; i++ ) {
+                        for( int j = 0; j < ( (Array)variants[i] ).Length; j++ ) {
+                            for( int k = 0; k < ( (Array)variants[i][j] ).Length; k++ ) {
                                 this[i, j, k] = ( variants[i][j] )[k];
                             }
                         }
@@ -95,8 +103,8 @@ namespace AutoJITRuntime.Variants
         }
 
         public override void ReDim( params Variant[] indexs ) {
-            Array newInstance = Array.CreateInstance( typeof (Variant), indexs.Select( x => x.GetInt() ).ToArray() );
-            if ( _value.Rank == indexs.Length ) {
+            Array newInstance = Array.CreateInstance( typeof(Variant), indexs.Select( x => x.GetInt() ).ToArray() );
+            if( _value.Rank == indexs.Length ) {
                 Init( newInstance, _value );
             }
             _value = newInstance;
@@ -108,17 +116,17 @@ namespace AutoJITRuntime.Variants
         }
 
         private static void SetDimension( Array array, int[] indicies, int dimension, Array oldArr ) {
-            for ( int i = 0; i <= array.GetUpperBound( dimension ); i++ ) {
+            for( int i = 0; i <= array.GetUpperBound( dimension ); i++ ) {
                 indicies[dimension] = i;
 
-                if ( dimension < array.Rank-1 ) {
+                if( dimension < array.Rank-1 ) {
                     SetDimension( array, indicies, dimension+1, oldArr );
                 }
                 else {
                     try {
                         array.SetValue( oldArr.GetValue( indicies ), indicies );
                     }
-                    catch (IndexOutOfRangeException exception) {
+                    catch(IndexOutOfRangeException exception) {
                         array.SetValue( new NullVariant(), indicies );
                     }
                 }

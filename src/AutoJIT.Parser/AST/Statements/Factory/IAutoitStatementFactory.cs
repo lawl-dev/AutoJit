@@ -17,34 +17,16 @@ namespace AutoJIT.Parser.AST.Statements.Factory
         ExitStatement CreateExitStatement( IExpressionNode exitCode );
         ForInStatement CreateForInStatement( VariableExpression variableName, IExpressionNode toEnumerate, List<IStatementNode> block );
 
-        ForToNextStatement CreateForToNextStatement(
-            VariableExpression variableExpression,
-            IExpressionNode startExpression,
-            IExpressionNode endExpression,
-            IExpressionNode stepExpression,
-            List<IStatementNode> block );
+        ForToNextStatement CreateForToNextStatement( VariableExpression variableExpression, IExpressionNode startExpression, IExpressionNode endExpression, IExpressionNode stepExpression, List<IStatementNode> block );
 
         FunctionCallStatement CreateFunctionCallStatement( CallExpression functionCallExpression );
         GlobalDeclarationStatement CreateGlobalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst );
 
-        EnumDeclarationStatement CreateEnumDeclarationStatement(
-            VariableExpression variableExpression,
-            IExpressionNode initExpression,
-            IExpressionNode autoInitExpression,
-            bool global );
+        EnumDeclarationStatement CreateEnumDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, IExpressionNode autoInitExpression, bool global );
 
-        IfElseStatement CreateIfElseStatement(
-            IExpressionNode condition,
-            List<IStatementNode> ifBlock,
-            Queue<IExpressionNode> elseIfConditions,
-            Queue<List<IStatementNode>> elseIfBlocks,
-            IEnumerable<IStatementNode> elseBlock );
+        IfElseStatement CreateIfElseStatement( IExpressionNode condition, List<IStatementNode> ifBlock, Queue<IExpressionNode> elseIfConditions, Queue<List<IStatementNode>> elseIfBlocks, IEnumerable<IStatementNode> elseBlock );
 
-        LocalDeclarationStatement CreateLocalDeclarationStatement(
-            VariableExpression variableExpression,
-            IExpressionNode initExpression,
-            bool isConst,
-            bool isStatic );
+        LocalDeclarationStatement CreateLocalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst, bool isStatic );
 
         ReDimStatement CreateReDimStatement( ArrayExpression arrayExpression );
         ReturnStatement CreateReturnStatement( IExpressionNode returnExpression );

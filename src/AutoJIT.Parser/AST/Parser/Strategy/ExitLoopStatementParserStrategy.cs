@@ -12,10 +12,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ExitLoopStatementParserStrategy : StatementParserStrategyBase<ExitloopStatement>
     {
-        public ExitLoopStatementParserStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ExitLoopStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseExitloop( block ).ToEnumerable();
@@ -25,8 +22,8 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             Token expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
 
             int level = expressionPart != null
-                ? expressionPart.Value.Int32Value
-                : 1;
+            ? expressionPart.Value.Int32Value
+            : 1;
 
             SkipAndAssert( block, TokenType.NewLine );
 

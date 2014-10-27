@@ -9,25 +9,22 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 {
     internal sealed class AutoitArrayExpressionConverter : AutoitExpressionConverterBase<ArrayExpression>
     {
-        public AutoitArrayExpressionConverter( IInjectionService injectionService )
-            : base( injectionService ) {}
+        public AutoitArrayExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( ArrayExpression node, IContextService context ) {
-            var variable = Convert<VariableExpression>(node, context);
+            ExpressionSyntax variable = Convert<VariableExpression>( node, context );
 
             return AddElementAccessExpression( node, context, variable );
         }
 
         private ElementAccessExpressionSyntax AddElementAccessExpression( ArrayExpression node, IContextService context, ExpressionSyntax variable ) {
-            var argumentList = SyntaxFactory.BracketedArgumentList(SyntaxFactory.SeparatedList<ArgumentSyntax>()
-                                                                  .AddRange(CreateArguments( node, context ) ) );
+            BracketedArgumentListSyntax argumentList = SyntaxFactory.BracketedArgumentList( SyntaxFactory.SeparatedList<ArgumentSyntax>().AddRange( CreateArguments( node, context ) ) );
 
-            return SyntaxFactory.ElementAccessExpression(variable, argumentList );
+            return SyntaxFactory.ElementAccessExpression( variable, argumentList );
         }
 
         private IEnumerable<ArgumentSyntax> CreateArguments( ArrayExpression node, IContextService context ) {
-            return node.AccessParameter.Select(
-                x => SyntaxFactory.Argument( ConverGeneric( x, context ) ) );
+            return node.AccessParameter.Select( x => SyntaxFactory.Argument( ConverGeneric( x, context ) ) );
         }
     }
 }

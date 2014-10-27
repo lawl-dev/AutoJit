@@ -68,7 +68,7 @@ namespace AutoJITRuntime.Services
 
         public Variant StringLeft( Variant variant, Variant count ) {
             string fullString = variant.GetString();
-            if ( fullString.Length <= count ) {
+            if( fullString.Length <= count ) {
                 return fullString;
             }
             return fullString.Substring( 0, count );
@@ -83,12 +83,12 @@ namespace AutoJITRuntime.Services
         }
 
         public Variant StringMid( string toMid, Variant start, Variant count ) {
-            if ( start < 1 ||
-                 start-1 > toMid.Length ) {
+            if( start < 1
+                || start-1 > toMid.Length ) {
                 return string.Empty;
             }
 
-            if ( start-1+count > toMid.Length ) {
+            if( start-1+count > toMid.Length ) {
                 return toMid.Substring( start-1, toMid.Length-( start-1 ) );
             }
 
@@ -113,7 +113,7 @@ namespace AutoJITRuntime.Services
 
         public Variant StringRight( Variant variant, Variant count ) {
             string fullString = variant.GetString();
-            if ( fullString.Length <= count ) {
+            if( fullString.Length <= count ) {
                 return fullString;
             }
             return fullString.Substring( fullString.Length-count, count );
@@ -132,13 +132,13 @@ namespace AutoJITRuntime.Services
         }
 
         public Variant StringToASCIIArray( string toConvert, Variant start, Variant end, Variant encoding ) {
-            if ( start+end >= toConvert.Length ) {
+            if( start+end >= toConvert.Length ) {
                 return string.Empty;
             }
 
             byte[] bytes;
 
-            switch (encoding.GetInt()) {
+            switch(encoding.GetInt()) {
                 case 0:
                     bytes = Encoding.Unicode.GetBytes( toConvert.Substring( start, end ) );
                     break;
@@ -157,7 +157,7 @@ namespace AutoJITRuntime.Services
 
         public Variant StringTrimLeft( Variant variant, Variant count ) {
             string toTrim = variant.GetString();
-            if ( toTrim.Length-count <= 0 ) {
+            if( toTrim.Length-count <= 0 ) {
                 return string.Empty;
             }
             return toTrim.Substring( count, toTrim.Length-count );
@@ -165,7 +165,7 @@ namespace AutoJITRuntime.Services
 
         public Variant StringTrimRight( Variant variant, Variant count ) {
             string toTrim = variant.GetString();
-            if ( toTrim.Length-count <= 0 ) {
+            if( toTrim.Length-count <= 0 ) {
                 return string.Empty;
             }
             return toTrim.Substring( 0, toTrim.Length-count );

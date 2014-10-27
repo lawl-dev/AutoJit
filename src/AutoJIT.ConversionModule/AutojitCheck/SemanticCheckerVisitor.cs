@@ -11,13 +11,13 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
         private readonly Dictionary<string, List<LocalDeclarationStatement>> _constLocal = new Dictionary<string, List<LocalDeclarationStatement>>();
 
         public void Visit( ISyntaxNode node ) {
-            Visit( (dynamic) node );
+            Visit( (dynamic)node );
         }
 
         public void Visit( object o ) {}
 
         public void Visit( GlobalDeclarationStatement global ) {
-            if ( _constGlobal.ContainsKey( global.VariableExpression.IdentifierName ) ) {
+            if( _constGlobal.ContainsKey( global.VariableExpression.IdentifierName ) ) {
                 throw new InvalidSemanticException( string.Format( "{0} previously declared as a 'Const'", global.VariableExpression.IdentifierName ) );
             }
             _constGlobal.Add( global.VariableExpression.IdentifierName, global );

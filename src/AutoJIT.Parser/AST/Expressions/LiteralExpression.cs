@@ -8,6 +8,9 @@ namespace AutoJIT.Parser.AST.Expressions
             LiteralToken = literalToken;
         }
 
-        public Token LiteralToken { get; private set; }
+        public Token LiteralToken {
+            get;
+            private set;
+        }
     }
 }

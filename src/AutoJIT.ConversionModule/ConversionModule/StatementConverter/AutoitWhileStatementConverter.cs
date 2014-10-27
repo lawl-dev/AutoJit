@@ -10,10 +10,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitWhileStatementConverter : AutoitStatementConverterBase<WhileStatement>
     {
-        public AutoitWhileStatementConverter(
-            ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService )
-            : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitWhileStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( WhileStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();

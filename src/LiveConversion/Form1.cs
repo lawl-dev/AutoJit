@@ -29,9 +29,8 @@ namespace WindowsFormsApplication1
         }
 
         private void OnKeyDown( object sender, KeyEventArgs keyEventArgs ) {
-            if ( keyEventArgs.KeyCode == Keys.F5 ) {
-                byte[] compile = _instance.Compile(
-                    ( (TextBox) sender ).Text, OutputKind.ConsoleApplication, true );
+            if( keyEventArgs.KeyCode == Keys.F5 ) {
+                byte[] compile = _instance.Compile( ( (TextBox)sender ).Text, OutputKind.ConsoleApplication, true );
                 string path = Path.GetTempPath()+"/"+Guid.NewGuid().ToString( "N" );
                 File.WriteAllBytes( path, compile );
                 Process.Start( path );
@@ -39,13 +38,13 @@ namespace WindowsFormsApplication1
         }
 
         private void OnChange1( object sender, EventArgs e ) {
-            string text = ( (TextBox) sender ).Text;
+            string text = ( (TextBox)sender ).Text;
             try {
                 AutoitScriptRootNode autoitScriptRootNode = _scriptParser.ParseScript( text, new PragmaOptions() );
 
                 textBox2.Text = _optimizer.Optimize( _autoitToCSharpConverter.Convert( autoitScriptRootNode ).NormalizeWhitespace() ).ToFullString();
             }
-            catch (Exception ex) {}
+            catch(Exception ex) {}
         }
 
         private void Form1_Load( object sender, EventArgs e ) {}

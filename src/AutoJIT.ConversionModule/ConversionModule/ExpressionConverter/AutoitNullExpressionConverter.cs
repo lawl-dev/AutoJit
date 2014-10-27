@@ -13,20 +13,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitNullExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( NullExpression node, IContextService context ) {
-            return
-                SyntaxFactory.InvocationExpression(
-                    SyntaxFactory.MemberAccessExpression(
-                        SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
-                        SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) ) ) )
-                    .WithArgumentList(
-                        SyntaxFactory.ArgumentList(
-                            SyntaxFactory.Argument(
-                                SyntaxFactory.CastExpression(
-                                    SyntaxFactory.PredefinedType(
-                                        SyntaxFactory.Token(
-                                            SyntaxKind.ObjectKeyword ) ),
-                                    SyntaxFactory.LiteralExpression(
-                                        SyntaxKind.NullLiteralExpression ) ) ).ToSeparatedSyntaxList() ) );
+            return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof(Variant).Name ), SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) ) ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( SyntaxFactory.CastExpression( SyntaxFactory.PredefinedType( SyntaxFactory.Token( SyntaxKind.ObjectKeyword ) ), SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ) ).ToSeparatedSyntaxList() ) );
         }
     }
 }

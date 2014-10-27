@@ -1,5 +1,3 @@
-using System;
-
 namespace AutoJITRuntime.Exceptions
 {
     public class BadReturnTypeException : AutoJITExceptionBase

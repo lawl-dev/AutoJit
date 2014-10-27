@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter.Interface
 {
     public interface IAutoitExpressionConverter<in TInExpression, out TOutExpression> : IAutoitExpressionConverter<TOutExpression>
-        where TInExpression : IExpressionNode
+    where TInExpression : IExpressionNode
     {
         TOutExpression Convert( TInExpression node, IContextService contextService );
     }

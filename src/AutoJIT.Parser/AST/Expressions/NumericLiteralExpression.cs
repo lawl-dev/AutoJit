@@ -11,19 +11,26 @@ namespace AutoJIT.Parser.AST.Expressions
             SignOperators = signOperators;
         }
 
-        public IEnumerable<Token> SignOperators { get; private set; }
+        public IEnumerable<Token> SignOperators {
+            get;
+            private set;
+        }
 
         public bool Negativ {
-            get { return SignOperators != null && SignOperators.Count( x => x.Type == TokenType.Minus ) % 2 != 0; }
+            get {
+                return SignOperators != null && SignOperators.Count( x => x.Type == TokenType.Minus ) % 2 != 0;
+            }
         }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<IExpressionNode>(); }
+            get {
+                return new List<IExpressionNode>();
+            }
         }
 
         public override string ToSource() {
             string toReturn = "";
-            if ( Negativ ) {
+            if( Negativ ) {
                 toReturn += "-";
             }
             toReturn += LiteralToken;

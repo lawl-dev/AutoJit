@@ -1,11 +1,4 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using AutoJIT.Compiler;
-using AutoJITRuntime;
-using Lawl.Reflection;
-using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
 namespace UnitTests
@@ -19,7 +12,6 @@ namespace UnitTests
         }
 
         [Test]
-        public void Foo() {
-        }
+        public void Foo() {}
     }
 }

@@ -20,11 +20,19 @@ namespace AutoJIT.Parser.AST
             Queue = new TokenQueue( new Token[0] );
         }
 
-        public string Name { get; private set; }
-        public IEnumerable<AutoitParameterInfo> Parameter { get; private set; }
+        public string Name {
+            get;
+            private set;
+        }
+        public IEnumerable<AutoitParameterInfo> Parameter {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return Statements; }
+            get {
+                return Statements;
+            }
         }
 
         public MemberDeclarationSyntax Accept( IFunctionVisitor<MemberDeclarationSyntax> visitor ) {
@@ -33,7 +41,7 @@ namespace AutoJIT.Parser.AST
 
         public override string ToSource() {
             string toReturn = string.Format( "Func {0}({1})", Name, string.Join( ", ", Parameter ) );
-            foreach (IStatementNode statement in Statements) {
+            foreach(IStatementNode statement in Statements) {
                 toReturn += string.Format( "{0}{1}", statement.ToSource(), Environment.NewLine );
             }
             toReturn += "EndFunc";
@@ -41,7 +49,9 @@ namespace AutoJIT.Parser.AST
         }
 
         public override object Clone() {
-            return new FunctionNode( (string) Name.Clone(), Parameter ) { Statements = Statements.Select( x => (IStatementNode) x.Clone() ).ToList() };
+            return new FunctionNode( (string)Name.Clone(), Parameter ) {
+                Statements = Statements.Select( x => (IStatementNode)x.Clone() ).ToList()
+            };
         }
 
         public override string ToString() {

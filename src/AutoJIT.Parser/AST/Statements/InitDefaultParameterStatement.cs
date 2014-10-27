@@ -12,11 +12,21 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public string ParameterName { get; private set; }
-        public IExpressionNode DefaultValue { get; private set; }
+        public string ParameterName {
+            get;
+            private set;
+        }
+        public IExpressionNode DefaultValue {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode> { DefaultValue }; }
+            get {
+                return new List<ISyntaxNode> {
+                    DefaultValue
+                };
+            }
         }
 
         public override string ToSource() {
@@ -24,7 +34,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new InitDefaultParameterStatement( (string) ParameterName.Clone(), (IExpressionNode) DefaultValue.Clone() );
+            return new InitDefaultParameterStatement( (string)ParameterName.Clone(), (IExpressionNode)DefaultValue.Clone() );
         }
     }
 }

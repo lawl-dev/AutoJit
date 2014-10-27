@@ -9,24 +9,28 @@ namespace AutoJITRuntime.Variants
         private readonly double _value;
 
         public DoubleVariant( double value ) {
-            if ( Math.Abs( value-Math.Floor( value ) ) <= double.Epsilon ) {
-                if ( value > int.MaxValue ||
-                     value < int.MinValue ) {
-                    _value = (Int64) value;
+            if( Math.Abs( value-Math.Floor( value ) ) <= double.Epsilon ) {
+                if( value > int.MaxValue
+                    || value < int.MinValue ) {
+                    _value = (Int64)value;
                     return;
                 }
-                _value = (int) value;
+                _value = (int)value;
                 return;
             }
             _value = value;
         }
 
         protected override DataType DataType {
-            get { return DataType.Double; }
+            get {
+                return DataType.Double;
+            }
         }
 
         public override bool IsDouble {
-            get { return true; }
+            get {
+                return true;
+            }
         }
 
         public override object GetValue() {
@@ -46,11 +50,11 @@ namespace AutoJITRuntime.Variants
         }
 
         public override long GetInt64() {
-            return (long) _value;
+            return (long)_value;
         }
 
         public override int GetInt() {
-            return (int) _value;
+            return (int)_value;
         }
 
         public override IntPtr GetIntPtr() {
@@ -62,7 +66,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override Type GetRealType() {
-            return typeof (Double);
+            return typeof(Double);
         }
     }
 }

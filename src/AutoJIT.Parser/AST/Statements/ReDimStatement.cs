@@ -11,10 +11,17 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public ArrayExpression ArrayExpression { get; private set; }
+        public ArrayExpression ArrayExpression {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode> { ArrayExpression }; }
+            get {
+                return new List<ISyntaxNode> {
+                    ArrayExpression
+                };
+            }
         }
 
         public override string ToSource() {
@@ -22,7 +29,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ReDimStatement( (ArrayExpression) ArrayExpression.Clone() );
+            return new ReDimStatement( (ArrayExpression)ArrayExpression.Clone() );
         }
     }
 }

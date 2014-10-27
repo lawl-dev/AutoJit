@@ -8,10 +8,15 @@ namespace AutoJITRuntime.Exceptions
             CallConv = callConv;
         }
 
-        public string CallConv { get; private set; }
+        public string CallConv {
+            get;
+            private set;
+        }
 
         public override string Message {
-            get { return ToString(); }
+            get {
+                return ToString();
+            }
         }
 
         public override string ToString() {

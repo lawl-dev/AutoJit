@@ -16,15 +16,26 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public IEnumerable<IStatementNode> Block { get; private set; }
-        public IExpressionNode ToEnumerate { get; private set; }
-        public VariableExpression VariableExpression { get; private set; }
+        public IEnumerable<IStatementNode> Block {
+            get;
+            private set;
+        }
+        public IExpressionNode ToEnumerate {
+            get;
+            private set;
+        }
+        public VariableExpression VariableExpression {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
-                var syntaxNodes = new List<ISyntaxNode> { ToEnumerate, VariableExpression };
+                var syntaxNodes = new List<ISyntaxNode> {
+                    ToEnumerate, VariableExpression
+                };
 
-                if ( Block != null ) {
+                if( Block != null ) {
                     syntaxNodes.AddRange( Block );
                 }
 
@@ -35,7 +46,7 @@ namespace AutoJIT.Parser.AST.Statements
         public override string ToSource() {
             string toReturn = string.Empty;
             toReturn += string.Format( "For {0} In {1}{2}", VariableExpression.ToSource(), ToEnumerate.ToSource(), Environment.NewLine );
-            foreach (IStatementNode node in Block) {
+            foreach(IStatementNode node in Block) {
                 toReturn += string.Format( "{0}{1}", node.ToSource(), Environment.NewLine );
             }
             toReturn += string.Format( "Next{0}", Environment.NewLine );
@@ -43,8 +54,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ForInStatement(
-                (VariableExpression) VariableExpression.Clone(), (IExpressionNode) ToEnumerate.Clone(), Block.Select( x => (IStatementNode) x.Clone() ) );
+            return new ForInStatement( (VariableExpression)VariableExpression.Clone(), (IExpressionNode)ToEnumerate.Clone(), Block.Select( x => (IStatementNode)x.Clone() ) );
         }
     }
 }

@@ -315,16 +315,16 @@ namespace UnitTests
 
         private string SwitchStatementTest_1_CSharp() {
             int hour = DateTime.Now.Hour;
-            if ( hour >= 6 &&
-                 hour <= 11 ) {
+            if( hour >= 6
+                && hour <= 11 ) {
                 return "Good Morning";
             }
-            if ( hour >= 12 &&
-                 hour <= 17 ) {
+            if( hour >= 12
+                && hour <= 17 ) {
                 return "Good Afternoon";
             }
-            if ( hour >= 18 &&
-                 hour <= 21 ) {
+            if( hour >= 18
+                && hour <= 21 ) {
                 return "Good Evening";
             }
             return "What are you still doing up?";

@@ -19,25 +19,29 @@ namespace AutoJITRuntime.Variants
         }
 
         protected override DataType DataType {
-            get { return DataType.Struct; }
+            get {
+                return DataType.Struct;
+            }
         }
 
         public override bool IsStruct {
-            get { return true; }
+            get {
+                return true;
+            }
         }
 
         public void Dispose() {
-            if ( Ptr != IntPtr.Zero ) {
+            if( Ptr != IntPtr.Zero ) {
                 Marshal.FreeHGlobal( Ptr );
             }
         }
 
         private void InitFieldInfoRecursiv( IRuntimeStruct value ) {
-            foreach (FieldInfo fieldInfo in value.GetType().GetFields()) {
-                if ( typeof (IRuntimeStruct).IsAssignableFrom( fieldInfo.FieldType ) ) {
+            foreach(FieldInfo fieldInfo in value.GetType().GetFields()) {
+                if( typeof(IRuntimeStruct).IsAssignableFrom( fieldInfo.FieldType ) ) {
                     var instance = fieldInfo.FieldType.CreateInstance<object>();
                     fieldInfo.SetValue( value, instance );
-                    InitFieldInfoRecursiv( (IRuntimeStruct) instance );
+                    InitFieldInfoRecursiv( (IRuntimeStruct)instance );
                 }
                 else {
                     _fieldInfos.Add( fieldInfo.Name.ToLower(), new KeyValuePair<object, FieldInfo>( value, fieldInfo ) );
@@ -79,7 +83,7 @@ namespace AutoJITRuntime.Variants
 
         public object GetElement( string name ) {
             SyntToManaged();
-            if ( _fieldInfos.ContainsKey( name.ToLower() ) ) {
+            if( _fieldInfos.ContainsKey( name.ToLower() ) ) {
                 KeyValuePair<object, FieldInfo> info = _fieldInfos[name.ToLower()];
 
                 return info.Value.GetValue( info.Key );
@@ -89,8 +93,8 @@ namespace AutoJITRuntime.Variants
 
         public object GetElement( int index ) {
             SyntToManaged();
-            if ( index >= 0 &&
-                 index <= _fieldInfos.Count ) {
+            if( index >= 0
+                && index <= _fieldInfos.Count ) {
                 KeyValuePair<object, FieldInfo> info = _fieldInfos.Values.ElementAt( index );
 
                 return info.Value.GetValue( info.Key );
@@ -99,7 +103,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public bool SetElement( string name, object value ) {
-            if ( _fieldInfos.ContainsKey( name.ToLower() ) ) {
+            if( _fieldInfos.ContainsKey( name.ToLower() ) ) {
                 KeyValuePair<object, FieldInfo> info = _fieldInfos[name.ToLower()];
 
                 info.Value.SetValue( info.Key, value );
@@ -110,12 +114,12 @@ namespace AutoJITRuntime.Variants
         }
 
         public bool SetElement( int index, object value ) {
-            if ( index >= 0 &&
-                 index <= _fieldInfos.Count ) {
+            if( index >= 0
+                && index <= _fieldInfos.Count ) {
                 KeyValuePair<object, FieldInfo> fieldInfo = _fieldInfos.Values.ElementAt( index );
                 object valueToSet;
 
-                if ( value.GetType() != fieldInfo.Value.FieldType ) {
+                if( value.GetType() != fieldInfo.Value.FieldType ) {
                     valueToSet = Convert.ChangeType( value, fieldInfo.Value.FieldType );
                 }
                 else {
@@ -144,7 +148,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public void InitUnmanaged() {
-            if ( Ptr == IntPtr.Zero ) {
+            if( Ptr == IntPtr.Zero ) {
                 int sizeOf = Marshal.SizeOf( _value );
                 IntPtr intPtr = Marshal.AllocHGlobal( sizeOf );
                 Ptr = intPtr;
@@ -153,7 +157,7 @@ namespace AutoJITRuntime.Variants
         }
 
         private void SyntToUnmanaged() {
-            if ( Ptr == IntPtr.Zero ) {
+            if( Ptr == IntPtr.Zero ) {
                 return;
             }
 
@@ -161,7 +165,7 @@ namespace AutoJITRuntime.Variants
         }
 
         private void SyntToManaged() {
-            if ( Ptr == IntPtr.Zero ) {
+            if( Ptr == IntPtr.Zero ) {
                 return;
             }
 

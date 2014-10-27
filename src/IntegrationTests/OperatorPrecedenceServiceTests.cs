@@ -202,8 +202,8 @@ namespace UnitTests
         public void Test_PrepareOperatorPrecedence( string expression ) {
             var tokenList = new TokenCollection( _lexer.Lex( expression ) );
             TokenCollection preparedList = _operatorPrecedenceService.PrepareOperatorPrecedence( tokenList );
-            object unprepared = GetAu3Result( "f!"+expression, typeof (double) );
-            object prepared = GetAu3Result( "f!"+preparedList, typeof (double) );
+            object unprepared = GetAu3Result( "f!"+expression, typeof(double) );
+            object prepared = GetAu3Result( "f!"+preparedList, typeof(double) );
             Assert.IsTrue( Equals( unprepared, prepared ) );
         }
 
@@ -409,21 +409,11 @@ namespace UnitTests
             var tokenList = new TokenCollection( _lexer.Lex( expression ) );
 
             TokenCollection preparedList = _operatorPrecedenceService.PrepareOperatorPrecedence( tokenList );
-            string expression1 =
-                expression.Replace( "$a", a.ToString( CultureInfo.InvariantCulture ) )
-                    .Replace( "$b", b.ToString( CultureInfo.InvariantCulture ) )
-                    .Replace( "$c", c.ToString( CultureInfo.InvariantCulture ) );
-            string preparedList1 =
-                preparedList.ToString()
-                    .Replace( "$v_a", a.ToString( CultureInfo.InvariantCulture ) )
-                    .Replace( "$v_b", b.ToString( CultureInfo.InvariantCulture ) )
-                    .Replace( "$v_c", c.ToString( CultureInfo.InvariantCulture ) )
-                    .Replace( "$a", a.ToString( CultureInfo.InvariantCulture ) )
-                    .Replace( "$b", b.ToString( CultureInfo.InvariantCulture ) )
-                    .Replace( "$c", c.ToString( CultureInfo.InvariantCulture ) );
+            string expression1 = expression.Replace( "$a", a.ToString( CultureInfo.InvariantCulture ) ).Replace( "$b", b.ToString( CultureInfo.InvariantCulture ) ).Replace( "$c", c.ToString( CultureInfo.InvariantCulture ) );
+            string preparedList1 = preparedList.ToString().Replace( "$v_a", a.ToString( CultureInfo.InvariantCulture ) ).Replace( "$v_b", b.ToString( CultureInfo.InvariantCulture ) ).Replace( "$v_c", c.ToString( CultureInfo.InvariantCulture ) ).Replace( "$a", a.ToString( CultureInfo.InvariantCulture ) ).Replace( "$b", b.ToString( CultureInfo.InvariantCulture ) ).Replace( "$c", c.ToString( CultureInfo.InvariantCulture ) );
 
-            object unprepared = GetAu3Result( "f!"+expression1, typeof (double) );
-            object prepared = GetAu3Result( "f!"+preparedList1, typeof (double) );
+            object unprepared = GetAu3Result( "f!"+expression1, typeof(double) );
+            object prepared = GetAu3Result( "f!"+preparedList1, typeof(double) );
             Assert.IsTrue( Equals( unprepared, prepared ) );
         }
     }

@@ -15,12 +15,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
     {
         private readonly ITokenFactory _tokenFactory;
 
-        public GlobalStatementParserStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            ITokenFactory tokenFactory,
-            IAutoitStatementFactory autoitStatementFactory )
-            : base( statementParser, expressionParser, autoitStatementFactory ) {
+        public GlobalStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, ITokenFactory tokenFactory, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
             _tokenFactory = tokenFactory;
         }
 
@@ -31,12 +26,12 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         private IEnumerable<IStatementNode> ParseGlobal( TokenQueue block ) {
             var toReturn = new List<IStatementNode>();
             bool isConst = Skip( block, Keywords.Const );
-            
-            while ( block.Peek().Type == TokenType.Variable ) {
+
+            while( block.Peek().Type == TokenType.Variable ) {
                 var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
 
                 IExpressionNode initExpression = null;
-                if ( Skip( block, TokenType.Equal ) ) {
+                if( Skip( block, TokenType.Equal ) ) {
                     initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
                 }
 

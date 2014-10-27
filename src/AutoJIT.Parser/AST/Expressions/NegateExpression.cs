@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.Extensions;
-using AutoJIT.Parser.Helper;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
@@ -9,15 +8,18 @@ namespace AutoJIT.Parser.AST.Expressions
     {
         public NegateExpression( IExpressionNode expressionNode ) {
             ExpressionNode = expressionNode;
-            NegateFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Negate( null ) );
             Initialize();
         }
 
-        public IExpressionNode ExpressionNode { get; private set; }
-        public string NegateFunctionName { get; private set; }
+        public IExpressionNode ExpressionNode {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return ExpressionNode.ToEnumerable(); }
+            get {
+                return ExpressionNode.ToEnumerable();
+            }
         }
 
         public override string ToSource() {
@@ -25,7 +27,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new NegateExpression( (IExpressionNode) ExpressionNode.Clone() );
+            return new NegateExpression( (IExpressionNode)ExpressionNode.Clone() );
         }
     }
 }

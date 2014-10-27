@@ -4,11 +4,11 @@ using AutoJIT.Parser.Collection;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy.Interface
 {
-    public interface IStatementParserStrategy {
+    public interface IStatementParserStrategy
+    {
         IEnumerable<IStatementNode> Parse( TokenQueue block );
     }
 
     public interface IStatementParserStrategy<out TStatement> : IStatementParserStrategy
-        where TStatement : IStatementNode
-    {}
+    where TStatement : IStatementNode {}
 }

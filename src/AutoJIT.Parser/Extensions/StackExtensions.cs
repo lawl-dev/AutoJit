@@ -10,7 +10,7 @@ namespace AutoJIT.Parser.Extensions
             var list = new List<T>();
 
             T peek = stack.Peek();
-            while ( expression( peek ) ) {
+            while( expression( peek ) ) {
                 list.Add( stack.Pop() );
                 peek = stack.Peek();
             }
@@ -22,10 +22,10 @@ namespace AutoJIT.Parser.Extensions
             var list = new List<T>();
             int i = 0;
             T peek = stack.Peek();
-            while ( expression( peek, i++ ) &&
-                    stack.Any() ) {
+            while( expression( peek, i++ )
+                   && stack.Any() ) {
                 list.Add( stack.Pop() );
-                if ( stack.Any() ) {
+                if( stack.Any() ) {
                     peek = stack.Peek();
                 }
             }

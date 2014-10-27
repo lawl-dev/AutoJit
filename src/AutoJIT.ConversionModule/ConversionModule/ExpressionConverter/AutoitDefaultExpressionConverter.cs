@@ -10,21 +10,13 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 {
     internal sealed class AutoitDefaultExpressionConverter : AutoitExpressionConverterBase<DefaultExpression>
     {
-        public AutoitDefaultExpressionConverter( IInjectionService injectionService )
-            : base( injectionService ) {}
+        public AutoitDefaultExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( DefaultExpression node, IContextService context ) {
-            var typeName = SyntaxFactory.IdentifierName( typeof (Variant).Name );
-            var variantCreateName = CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) );
+            IdentifierNameSyntax typeName = SyntaxFactory.IdentifierName( typeof(Variant).Name );
+            string variantCreateName = CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) );
 
-
-            return SyntaxFactory.InvocationExpression(
-                SyntaxFactory.MemberAccessExpression(
-                    SyntaxKind.SimpleMemberAccessExpression, typeName,
-                    SyntaxFactory.IdentifierName( variantCreateName ) ) ).
-                WithArgumentList(SyntaxFactory.ArgumentList(
-                        SyntaxFactory.Argument( SyntaxFactory.ObjectCreationExpression( SyntaxFactory.IdentifierName( typeof (Default).Name ) ) )
-                            .ToSeparatedSyntaxList() ) );
+            return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, typeName, SyntaxFactory.IdentifierName( variantCreateName ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( SyntaxFactory.ObjectCreationExpression( SyntaxFactory.IdentifierName( typeof(Default).Name ) ) ).ToSeparatedSyntaxList() ) );
         }
     }
 }

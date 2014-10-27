@@ -28,7 +28,7 @@ namespace AutoJIT.Parser.AST.Parser
 
             AutoitScriptRootNode autoJITScript = GetAutoJITScript( token, pragmaOptions );
 
-            foreach (FunctionNode function in autoJITScript.Functions) {
+            foreach(FunctionNode function in autoJITScript.Functions) {
                 function.Statements = _statementParser.ParseBlock( function.Queue ).ToList();
                 function.Statements.Add( new ReturnStatement( new NullExpression() ) );
             }
@@ -45,11 +45,11 @@ namespace AutoJIT.Parser.AST.Parser
             var functions = new List<FunctionNode>();
             bool isFunctionBody = false;
 
-            while ( tokenQueue.Any() ) {
+            while( tokenQueue.Any() ) {
                 Token token = tokenQueue.Dequeue();
 
-                if ( token.Value.Keyword == Keywords.Endfunc ) {
-                    if ( isFunctionBody ) {
+                if( token.Value.Keyword == Keywords.Endfunc ) {
+                    if( isFunctionBody ) {
                         isFunctionBody = false;
                     }
                     else {
@@ -57,17 +57,17 @@ namespace AutoJIT.Parser.AST.Parser
                     }
                 }
 
-                if ( isFunctionBody ) {
+                if( isFunctionBody ) {
                     functions.Last().Queue.Enqueue( token );
                 }
-                else if ( token.Value.Keyword == Keywords.Func ) {
+                else if( token.Value.Keyword == Keywords.Func ) {
                     isFunctionBody = true;
                     Token functionName = tokenQueue.Dequeue();
                     string name = functionName.Value.StringValue;
 
                     functions.Add( new FunctionNode( name, ParseFunctionParameter( tokenQueue ) ) );
                 }
-                else if ( token.Value.Keyword != Keywords.Endfunc ) {
+                else if( token.Value.Keyword != Keywords.Endfunc ) {
                     main.Queue.Enqueue( token );
                 }
             }
@@ -78,7 +78,7 @@ namespace AutoJIT.Parser.AST.Parser
             var parameterPart = new TokenQueue( ParseInner( tokenQueue, TokenType.Leftparen, TokenType.Rightparen ) );
             var toReturn = new List<AutoitParameterInfo>();
 
-            if ( !parameterPart.Any() ) {
+            if( !parameterPart.Any() ) {
                 return toReturn;
             }
 
@@ -91,13 +91,13 @@ namespace AutoJIT.Parser.AST.Parser
                 string name = parameterPart.Dequeue().Value.StringValue;
 
                 IExpressionNode initExpression = null;
-                if ( parameterPart.Any() &&
-                     Skip( parameterPart, TokenType.Equal ) ) {
+                if( parameterPart.Any()
+                    && Skip( parameterPart, TokenType.Equal ) ) {
                     initExpression = _expressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( parameterPart ) ), true );
                 }
                 toReturn.Add( new AutoitParameterInfo( name, initExpression, isByRef, isConst ) );
-            } while ( parameterPart.Any() &&
-                      parameterPart.Peek().Type == TokenType.Comma );
+            } while( parameterPart.Any()
+                     && parameterPart.Peek().Type == TokenType.Comma );
             return toReturn;
         }
     }

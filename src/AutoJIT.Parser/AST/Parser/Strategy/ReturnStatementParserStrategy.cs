@@ -12,10 +12,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ReturnStatementParserStrategy : StatementParserStrategyBase<ReturnStatement>
     {
-        public ReturnStatementParserStrategy(
-            IStatementParser statementParser,
-            IExpressionParser expressionParser,
-            IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ReturnStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseReturn( block ).ToEnumerable();
@@ -26,7 +23,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             IExpressionNode returnExpression = ExpressionParser.ParseBlock( returnExpressionTokenCollection, true );
 
-            if ( returnExpression == null ) {
+            if( returnExpression == null ) {
                 returnExpression = new NullExpression();
             }
 

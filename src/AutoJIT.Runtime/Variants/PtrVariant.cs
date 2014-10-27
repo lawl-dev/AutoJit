@@ -11,11 +11,15 @@ namespace AutoJITRuntime.Variants
         }
 
         protected override DataType DataType {
-            get { return DataType.IntPtr; }
+            get {
+                return DataType.IntPtr;
+            }
         }
 
         public override bool IsPtr {
-            get { return true; }
+            get {
+                return true;
+            }
         }
 
         public override object GetValue() {
@@ -51,7 +55,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override Type GetRealType() {
-            return typeof (IntPtr);
+            return typeof(IntPtr);
         }
     }
 }

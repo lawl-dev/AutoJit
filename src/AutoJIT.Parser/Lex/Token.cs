@@ -9,72 +9,64 @@ namespace AutoJIT.Parser.Lex
             Value = new TokenValue();
         }
 
-        public TokenValue Value { get; set; }
+        public TokenValue Value {
+            get;
+            set;
+        }
 
-        public int Col { get; set; }
+        public int Col {
+            get;
+            set;
+        }
 
-        public TokenType Type { get; set; }
+        public TokenType Type {
+            get;
+            set;
+        }
 
         public bool IsLiteral {
             get {
-                return Type == TokenType.String
-                       || Type == TokenType.Int32
-                       || Type == TokenType.Int64
-                       || Type == TokenType.Double
-                       || Type == TokenType.Macro;
+                return Type == TokenType.String || Type == TokenType.Int32 || Type == TokenType.Int64 || Type == TokenType.Double || Type == TokenType.Macro;
             }
         }
 
         public bool IsMathExpression {
             get {
-                return Type == TokenType.Div
-                       || Type == TokenType.Mult
-                       || Type == TokenType.Minus
-                       || Type == TokenType.Plus
-                       || Type == TokenType.Pow;
+                return Type == TokenType.Div || Type == TokenType.Mult || Type == TokenType.Minus || Type == TokenType.Plus || Type == TokenType.Pow;
             }
         }
 
         public bool IsNumberExpression {
             get {
-                return Type == TokenType.Greater
-                       || Type == TokenType.GreaterEqual
-                       || Type == TokenType.Less
-                       || Type == TokenType.LessEqual
-                       || Type == TokenType.StringEqual
-                       || Type == TokenType.Equal
-                       || Type == TokenType.Notequal;
+                return Type == TokenType.Greater || Type == TokenType.GreaterEqual || Type == TokenType.Less || Type == TokenType.LessEqual || Type == TokenType.StringEqual || Type == TokenType.Equal || Type == TokenType.Notequal;
             }
         }
 
         public bool IsBooleanExpression {
             get {
-                return Type == TokenType.OR
-                       || Type == TokenType.AND
-                       || Type == TokenType.NOT;
+                return Type == TokenType.OR || Type == TokenType.AND || Type == TokenType.NOT;
             }
         }
 
         public bool IsAssignExpression {
             get {
-                return Type == TokenType.DivAssign
-                       || Type == TokenType.MinusAssign
-                       || Type == TokenType.MultAssign
-                       || Type == TokenType.PlusAssign
-                       || Type == TokenType.PowAssign
-                       || Type == TokenType.Equal
-                       || Type == TokenType.ConcatAssign;
+                return Type == TokenType.DivAssign || Type == TokenType.MinusAssign || Type == TokenType.MultAssign || Type == TokenType.PlusAssign || Type == TokenType.PowAssign || Type == TokenType.Equal || Type == TokenType.ConcatAssign;
             }
         }
 
         public bool IsSignOperator {
-            get { return Type == TokenType.Plus || Type == TokenType.Minus; }
+            get {
+                return Type == TokenType.Plus || Type == TokenType.Minus;
+            }
         }
 
-        public int Line { get; set; }
+        public int Line {
+            get;
+            set;
+        }
 
         public override string ToString() {
-            switch (Type) {
+            switch(Type) {
                 case TokenType.Keyword:
                     return Value.Keyword.ToString();
                 case TokenType.Int32:

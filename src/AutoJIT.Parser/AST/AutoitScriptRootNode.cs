@@ -15,12 +15,20 @@ namespace AutoJIT.Parser.AST
             Initialize();
         }
 
-        public FunctionNode MainFunctionNode { get; set; }
-        public IEnumerable<FunctionNode> Functions { get; set; }
+        public FunctionNode MainFunctionNode {
+            get;
+            set;
+        }
+        public IEnumerable<FunctionNode> Functions {
+            get;
+            set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
-                var syntaxNodes = new List<ISyntaxNode> { MainFunctionNode };
+                var syntaxNodes = new List<ISyntaxNode> {
+                    MainFunctionNode
+                };
                 syntaxNodes.AddRange( Functions );
                 return syntaxNodes;
             }
@@ -30,14 +38,14 @@ namespace AutoJIT.Parser.AST
             string toReturn = string.Empty;
             toReturn += MainFunctionNode.ToSource();
 
-            foreach (FunctionNode function in Functions) {
+            foreach(FunctionNode function in Functions) {
                 toReturn += string.Format( "{0}{1}", function.ToSource(), Environment.NewLine );
             }
             return toReturn;
         }
 
         public override object Clone() {
-            return new AutoitScriptRootNode( Functions.Select( x => (FunctionNode) x.Clone() ), (FunctionNode) MainFunctionNode.Clone(), PragmaOptions );
+            return new AutoitScriptRootNode( Functions.Select( x => (FunctionNode)x.Clone() ), (FunctionNode)MainFunctionNode.Clone(), PragmaOptions );
         }
     }
 }

@@ -16,7 +16,7 @@ namespace AutoJIT.Parser.Service
         }
 
         public T Inject<T>( Type t ) {
-            return (T) _container.GetInstance( t );
+            return (T)_container.GetInstance( t );
         }
     }
 }

@@ -32,9 +32,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseWhileExpression( TokenQueue block ) {
-            var whileExpression = new TokenCollection(
-                block.DequeueWhile( x => x.Type != TokenType.NewLine )
-                    .Where( x => x.Value.Keyword != Keywords.While ) );
+            var whileExpression = new TokenCollection( block.DequeueWhile( x => x.Type != TokenType.NewLine ).Where( x => x.Value.Keyword != Keywords.While ) );
 
             return whileExpression;
         }
@@ -44,8 +42,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseIfCondition( TokenQueue block ) {
-            List<Token> innerExpressionsBlock = block.DequeueWhile( x => x.Value.Keyword != Keywords.Then )
-                .ToList();
+            List<Token> innerExpressionsBlock = block.DequeueWhile( x => x.Value.Keyword != Keywords.Then ).ToList();
             SkipAndAssert( block, Keywords.Then );
             return new TokenCollection( innerExpressionsBlock );
         }
@@ -58,48 +55,46 @@ namespace AutoJIT.Parser.AST.Parser
         protected IEnumerable<Token> ParseIfBlockUntil( TokenQueue block ) {
             int count = 1;
             bool nextIsCaseElse = false;
-            var res = new TokenCollection(
-                block.DequeueWhile(
-                    ( token, i ) => {
-                        bool hasBlock;
-                        List<Token> line;
-                        switch (token.Value.Keyword) {
-                            case Keywords.Then:
-                                Token nextToken = block.Skip( 1 ).FirstOrDefault();
-                                hasBlock = nextToken != null && nextToken.Type == TokenType.NewLine;
-                                if ( hasBlock ) {
-                                    count++;
-                                }
-                                break;
-                            case Keywords.ElseIf:
-                                line = block.TakeWhile( x => x.Type != TokenType.NewLine ).ToList();
-                                hasBlock = line[line.Count-1].Value.Keyword == Keywords.Then;
-                                if ( hasBlock ) {
-                                    count--;
-                                }
-                                break;
-                            case Keywords.EndIf:
-                                count--;
-                                break;
-                            case Keywords.Else:
-                                line = block.TakeWhile( x => x.Type != TokenType.NewLine ).ToList();
-                                hasBlock = line.Count == 1;
-                                bool isOuterLoop = count == 1;
-                                if ( hasBlock &&
-                                     isOuterLoop &&
-                                     !nextIsCaseElse ) {
-                                    count--;
-                                }
-                                if ( nextIsCaseElse ) {
-                                    nextIsCaseElse = false;
-                                }
-                                break;
-                            case Keywords.Case:
-                                nextIsCaseElse = block.Skip( 1 ).First().Value.Keyword == Keywords.Else;
-                                break;
-                        }
-                        return count != 0;
-                    } ) );
+            var res = new TokenCollection( block.DequeueWhile( ( token, i ) => {
+                                                                   bool hasBlock;
+                                                                   List<Token> line;
+                                                                   switch(token.Value.Keyword) {
+                                                                       case Keywords.Then:
+                                                                           Token nextToken = block.Skip( 1 ).FirstOrDefault();
+                                                                           hasBlock = nextToken != null && nextToken.Type == TokenType.NewLine;
+                                                                           if( hasBlock ) {
+                                                                               count++;
+                                                                           }
+                                                                           break;
+                                                                       case Keywords.ElseIf:
+                                                                           line = block.TakeWhile( x => x.Type != TokenType.NewLine ).ToList();
+                                                                           hasBlock = line[line.Count-1].Value.Keyword == Keywords.Then;
+                                                                           if( hasBlock ) {
+                                                                               count--;
+                                                                           }
+                                                                           break;
+                                                                       case Keywords.EndIf:
+                                                                           count--;
+                                                                           break;
+                                                                       case Keywords.Else:
+                                                                           line = block.TakeWhile( x => x.Type != TokenType.NewLine ).ToList();
+                                                                           hasBlock = line.Count == 1;
+                                                                           bool isOuterLoop = count == 1;
+                                                                           if( hasBlock
+                                                                               && isOuterLoop
+                                                                               && !nextIsCaseElse ) {
+                                                                               count--;
+                                                                           }
+                                                                           if( nextIsCaseElse ) {
+                                                                               nextIsCaseElse = false;
+                                                                           }
+                                                                           break;
+                                                                       case Keywords.Case:
+                                                                           nextIsCaseElse = block.Skip( 1 ).First().Value.Keyword == Keywords.Else;
+                                                                           break;
+                                                                   }
+                                                                   return count != 0;
+                                                               } ) );
             return res;
         }
 
@@ -120,9 +115,11 @@ namespace AutoJIT.Parser.AST.Parser
         protected List<TokenCollection> ParseFunctionParameter( TokenQueue block ) {
             TokenCollection innerExpressionsBlock = ParseInner( block, TokenType.Leftparen, TokenType.Rightparen );
 
-            var list = new List<TokenCollection> { new TokenCollection() };
-            foreach (Token token in innerExpressionsBlock) {
-                if ( token.Type == TokenType.Comma ) {
+            var list = new List<TokenCollection> {
+                new TokenCollection()
+            };
+            foreach(Token token in innerExpressionsBlock) {
+                if( token.Type == TokenType.Comma ) {
                     list.Add( new TokenCollection() );
                 }
                 else {

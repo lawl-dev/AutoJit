@@ -11,11 +11,15 @@ namespace AutoJITRuntime.Variants
         }
 
         protected override DataType DataType {
-            get { return DataType.Bool; }
+            get {
+                return DataType.Bool;
+            }
         }
 
         public override bool IsBool {
-            get { return true; }
+            get {
+                return true;
+            }
         }
 
         public override object GetValue() {
@@ -24,8 +28,8 @@ namespace AutoJITRuntime.Variants
 
         public override string GetString() {
             return _value
-                ? "True"
-                : "False";
+            ? "True"
+            : "False";
         }
 
         public override bool GetBool() {
@@ -34,8 +38,8 @@ namespace AutoJITRuntime.Variants
 
         public override double GetDouble() {
             return _value
-                ? 1.0d
-                : 0.0d;
+            ? 1.0d
+            : 0.0d;
         }
 
         public override long GetInt64() {
@@ -55,7 +59,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override Type GetRealType() {
-            return typeof (Boolean);
+            return typeof(Boolean);
         }
     }
 }

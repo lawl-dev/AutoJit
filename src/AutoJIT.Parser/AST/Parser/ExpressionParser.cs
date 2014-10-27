@@ -21,12 +21,12 @@ namespace AutoJIT.Parser.AST.Parser
 
         public IExpressionNode ParseBlock( TokenCollection block, bool prepareExpression ) {
             TokenQueue queue = prepareExpression
-                ? new TokenQueue( _operatorPrecedenceService.PrepareOperatorPrecedence( block ) )
-                : new TokenQueue( block );
+            ? new TokenQueue( _operatorPrecedenceService.PrepareOperatorPrecedence( block ) )
+            : new TokenQueue( block );
 
             IExpressionNode res = ParseBlock( queue );
 
-            if ( queue.Any() ) {
+            if( queue.Any() ) {
                 throw new InvalidOperationException( queue.ToString() );
             }
 
@@ -35,12 +35,12 @@ namespace AutoJIT.Parser.AST.Parser
 
         public TExpression ParseSingle<TExpression>( TokenQueue block ) where TExpression : IExpressionNode {
             IExpressionNode expressionNode = ParseExpressionNode( block );
-            return (TExpression) expressionNode;
+            return (TExpression)expressionNode;
         }
 
         private IExpressionNode ParseBlock( TokenQueue block ) {
-            if ( block == null ||
-                 !block.Any() ) {
+            if( block == null
+                || !block.Any() ) {
                 return null;
             }
 
@@ -48,19 +48,18 @@ namespace AutoJIT.Parser.AST.Parser
 
             IExpressionNode leftNode = ParseExpressionNode( block );
 
-            if ( !block.Any() ) {
+            if( !block.Any() ) {
                 return leftNode;
             }
 
-            bool isOperatableExpression = block.Peek().IsMathExpression || block.Peek().IsNumberExpression || block.Peek().IsBooleanExpression ||
-                                          block.Peek().Type == TokenType.StringEqual || block.Peek().Type == TokenType.Concat;
-            
+            bool isOperatableExpression = block.Peek().IsMathExpression || block.Peek().IsNumberExpression || block.Peek().IsBooleanExpression || block.Peek().Type == TokenType.StringEqual || block.Peek().Type == TokenType.Concat;
+
             bool isTernaryExpression = block.Peek().Type == TokenType.QuestionMark;
 
-            if ( isOperatableExpression ) {
+            if( isOperatableExpression ) {
                 @operator = block.Dequeue();
             }
-            else if ( isTernaryExpression ) {
+            else if( isTernaryExpression ) {
                 return ParseTernaryExpression( block, leftNode );
             }
             else {
@@ -69,11 +68,11 @@ namespace AutoJIT.Parser.AST.Parser
 
             IExpressionNode rightNode = ParseExpressionNode( block );
 
-            if ( block.Any() ) {
+            if( block.Any() ) {
                 throw new SyntaxTreeException( "Unresolved expression", block.First().Col, block.First().Line );
             }
 
-            switch (@operator.Type) {
+            switch(@operator.Type) {
                 case TokenType.Plus:
                 case TokenType.Minus:
                 case TokenType.Div:
@@ -100,7 +99,7 @@ namespace AutoJIT.Parser.AST.Parser
             IExpressionNode ifTrue = ParseExpressionNode( block );
             SkipAndAssert( block, TokenType.DoubleDot );
             IExpressionNode ifFalse = ParseExpressionNode( block );
-            if ( block.Any() ) {
+            if( block.Any() ) {
                 throw new SyntaxTreeException( "Unresolved expression", block.First().Col, block.First().Line );
             }
             return new TernaryExpression( leftNode, ifTrue, ifFalse );
@@ -112,11 +111,11 @@ namespace AutoJIT.Parser.AST.Parser
 
             bool hasSignOperators = block.Peek().IsSignOperator;
 
-            if ( hasSignOperators ) {
+            if( hasSignOperators ) {
                 signOperators = block.DequeueWhile( x => x.IsSignOperator ).ToList();
             }
 
-            switch (block.Peek().Type) {
+            switch(block.Peek().Type) {
                 case TokenType.Leftparen:
                     toReturn = ParseBlock( GetInnerExpression( block ) );
                     break;
@@ -151,7 +150,7 @@ namespace AutoJIT.Parser.AST.Parser
                     toReturn = new BooleanNegateExpression( ParseExpressionNode( block ), @operator );
                     break;
                 case TokenType.Keyword:
-                    switch (block.Peek().Value.Keyword) {
+                    switch(block.Peek().Value.Keyword) {
                         case Keywords.True:
                             toReturn = ParseTrueKeywordExpression( block );
                             break;
@@ -167,9 +166,9 @@ namespace AutoJIT.Parser.AST.Parser
                     break;
             }
 
-            if ( !( toReturn is LiteralExpression ) &&
-                 hasSignOperators &&
-                 signOperators.Count( x => x.Type == TokenType.Minus ) % 2 != 0 ) {
+            if( !( toReturn is LiteralExpression )
+                && hasSignOperators
+                && signOperators.Count( x => x.Type == TokenType.Minus ) % 2 != 0 ) {
                 return new NegateExpression( toReturn );
             }
             return toReturn;
@@ -195,7 +194,7 @@ namespace AutoJIT.Parser.AST.Parser
             var toInit = new List<IExpressionNode>();
             do {
                 toInit.Add( ParseBlock( block ) );
-            } while ( Skip( block, TokenType.Comma ) );
+            } while( Skip( block, TokenType.Comma ) );
             SkipAndAssert( block, TokenType.Rightsubscript );
             return new ArrayInitExpression( toInit );
         }
@@ -227,8 +226,8 @@ namespace AutoJIT.Parser.AST.Parser
         private IExpressionNode ParseVariableExpression( TokenQueue block ) {
             string identifierName = block.Dequeue().Value.StringValue;
             IExpressionNode toReturn;
-            if ( block.Any() &&
-                 block.Peek().Type == TokenType.Leftsubscript ) {
+            if( block.Any()
+                && block.Peek().Type == TokenType.Leftsubscript ) {
                 IEnumerable<TokenCollection> arrayIndexExpressionTrees = GetArrayIndexExpressionTrees( block );
                 List<IExpressionNode> leftParameter = arrayIndexExpressionTrees.Select( x => ParseBlock( x, true ) ).ToList();
                 toReturn = new ArrayExpression( identifierName, leftParameter );
@@ -248,24 +247,24 @@ namespace AutoJIT.Parser.AST.Parser
             bool isInner = false;
             int iC = 0;
 
-            while ( innerExpressionsBlock.Any() ) {
-                if ( innerExpressionsBlock.Peek().Type == TokenType.Comma &&
-                     !isInner ) {
+            while( innerExpressionsBlock.Any() ) {
+                if( innerExpressionsBlock.Peek().Type == TokenType.Comma
+                    && !isInner ) {
                     @params.Add( new TokenCollection() );
                     innerExpressionsBlock.Dequeue();
                 }
                 else {
-                    if ( innerExpressionsBlock.Peek().Type == TokenType.Leftparen ) {
+                    if( innerExpressionsBlock.Peek().Type == TokenType.Leftparen ) {
                         iC++;
                     }
-                    if ( innerExpressionsBlock.Peek().Type == TokenType.Rightparen ) {
+                    if( innerExpressionsBlock.Peek().Type == TokenType.Rightparen ) {
                         iC--;
                     }
 
-                    if ( innerExpressionsBlock.Peek().Type == TokenType.Leftsubscript ) {
+                    if( innerExpressionsBlock.Peek().Type == TokenType.Leftsubscript ) {
                         iC++;
                     }
-                    if ( innerExpressionsBlock.Peek().Type == TokenType.Rightsubscript ) {
+                    if( innerExpressionsBlock.Peek().Type == TokenType.Rightsubscript ) {
                         iC--;
                     }
 

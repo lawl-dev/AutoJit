@@ -5,7 +5,9 @@ namespace AutoJITRuntime.Variants
     public sealed class DefaultVariant : Variant
     {
         protected override DataType DataType {
-            get { return DataType.Default; }
+            get {
+                return DataType.Default;
+            }
         }
 
         public override object GetValue() {
@@ -37,11 +39,13 @@ namespace AutoJITRuntime.Variants
         }
 
         public override byte[] GetBinary() {
-            return new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
+            return new byte[] {
+                0xFF, 0xFF, 0xFF, 0xFF
+            };
         }
 
         public override Type GetRealType() {
-            return typeof (Default);
+            return typeof(Default);
         }
     }
 }

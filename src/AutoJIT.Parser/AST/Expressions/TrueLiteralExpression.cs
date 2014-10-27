@@ -6,7 +6,9 @@ namespace AutoJIT.Parser.AST.Expressions
     public sealed class TrueLiteralExpression : ExpressionBase
     {
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<IExpressionNode>(); }
+            get {
+                return new List<IExpressionNode>();
+            }
         }
 
         public override string ToSource() {

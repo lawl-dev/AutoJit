@@ -12,11 +12,22 @@ namespace AutoJIT.Parser.AST.Expressions
             Initialize();
         }
 
-        public IExpressionNode Left { get; private set; }
-        public IExpressionNode Right { get; private set; }
-        public Token Operator { get; private set; }
+        public IExpressionNode Left {
+            get;
+            private set;
+        }
+        public IExpressionNode Right {
+            get;
+            private set;
+        }
+        public Token Operator {
+            get;
+            private set;
+        }
 
-        public abstract bool NeedsCompilerFunctionCall { get; }
+        public abstract bool NeedsCompilerFunctionCall {
+            get;
+        }
 
         public override string ToSource() {
             return string.Format( "{0} {1} {2}", Left.ToSource(), Operator, Right.ToSource() );

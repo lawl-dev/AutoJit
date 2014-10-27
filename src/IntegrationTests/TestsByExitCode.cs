@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Threading;
+using AutoJIT.CompilerApplication;
 using NUnit.Framework;
 
 namespace UnitTests
@@ -7,26 +8,24 @@ namespace UnitTests
     public class TestsByExitCode
     {
         private const string Path = @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\userfunctions\";
-        
 
-
-        [TestCase("ContinueCase2.au3")]
-        [TestCase("ContinueCase3.au3")]
-        [TestCase("GlobalLocalPriority.au3")]
+        [TestCase( "ContinueCase2.au3" )]
+        [TestCase( "ContinueCase3.au3" )]
+        [TestCase( "GlobalLocalPriority.au3" )]
         public void TestByExitCode( string fileName ) {
-            var exePath = string.Format( "{0}{1}.exe", Path, fileName );
+            string exePath = string.Format( "{0}{1}.exe", Path, fileName );
 
-            AutoJIT.CompilerApplication.Program.Compile("/IN", Path + fileName, "/OUT", exePath, "/CONSOLE" );
+            Program.Compile( "/IN", Path+fileName, "/OUT", exePath, "/CONSOLE" );
 
-            var process = Process.Start( exePath );
+            Process process = Process.Start( exePath );
 
             Assert.NotNull( process );
 
-            while ( !process.HasExited ) {
+            while( !process.HasExited ) {
                 Thread.Sleep( 100 );
             }
 
-            Assert.AreEqual(0, process.ExitCode);
+            Assert.AreEqual( 0, process.ExitCode );
         }
     }
 }

@@ -118,7 +118,6 @@
     <Compile Include="ConversionModule\StatementConverter\AutoitForInStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitForToNextStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitFunctionCallStatementConverter.cs" />
-    <Compile Include="ConversionModule\StatementConverter\AutoitFunctionConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitGlobalDeclarationStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitIfElseStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitInitDefaultParameterStatementConverter.cs" />

@@ -11,25 +11,19 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitExitStatementConverter : AutoitStatementConverterBase<ExitStatement>
     {
-        public AutoitExitStatementConverter(
-            ICSharpStatementFactory cSharpStatementFactory,
-            IInjectionService injectionService )
-            : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitExitStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ExitStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
             string exitFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Exit( 0 ) );
-            var runtimeInstanceName = context.GetRuntimeInstanceName();
+            string runtimeInstanceName = context.GetRuntimeInstanceName();
 
-            var exitExpression = statement.ExpressionNode == null
-                ? SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( 0 ) )
-                : Convert( statement.ExpressionNode, context );
+            ExpressionSyntax exitExpression = statement.ExpressionNode == null
+            ? SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( 0 ) )
+            : Convert( statement.ExpressionNode, context );
 
-            toReturn.Add(
-                CSharpStatementFactory.CreateInvocationExpression(
-                    runtimeInstanceName, exitFunctionName,
-                    CompilerHelper.GetParameterInfo(exitFunctionName, exitExpression ) ).ToStatementSyntax() );
+            toReturn.Add( CSharpStatementFactory.CreateInvocationExpression( runtimeInstanceName, exitFunctionName, CompilerHelper.GetParameterInfo( exitFunctionName, exitExpression ) ).ToStatementSyntax() );
 
             return toReturn;
         }

@@ -10,20 +10,15 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 {
     internal sealed class AutoitFalseLiteralExpressionConverter : AutoitExpressionConverterBase<FalseLiteralExpression>
     {
-        public AutoitFalseLiteralExpressionConverter( IInjectionService injectionService )
-            : base( injectionService ) {}
+        public AutoitFalseLiteralExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( FalseLiteralExpression node, IContextService context ) {
             {
                 LiteralExpressionSyntax falseExpression = SyntaxFactory.LiteralExpression( SyntaxKind.FalseLiteralExpression );
-                var typeName = SyntaxFactory.IdentifierName( typeof (Variant).Name );
-                var variantCreateName = CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) );
+                IdentifierNameSyntax typeName = SyntaxFactory.IdentifierName( typeof(Variant).Name );
+                string variantCreateName = CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) );
 
-                return SyntaxFactory.InvocationExpression(
-                    SyntaxFactory.MemberAccessExpression(
-                        SyntaxKind.SimpleMemberAccessExpression, typeName,
-                        SyntaxFactory.IdentifierName( variantCreateName ) ) )
-                    .WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( falseExpression ).ToSeparatedSyntaxList() ) );
+                return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, typeName, SyntaxFactory.IdentifierName( variantCreateName ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( falseExpression ).ToSeparatedSyntaxList() ) );
             }
         }
     }

@@ -12,17 +12,15 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         private readonly ICSharpStatementFactory _cSharpStatementFactory;
 
-        public AutoitMacroExpressionConverter(
-            IInjectionService injectionService,
-            ICSharpStatementFactory cSharpStatementFactory ) : base( injectionService ) {
+        public AutoitMacroExpressionConverter( IInjectionService injectionService, ICSharpStatementFactory cSharpStatementFactory ) : base( injectionService ) {
             _cSharpStatementFactory = cSharpStatementFactory;
         }
 
         public override ExpressionSyntax Convert( MacroExpression node, IContextService context ) {
-            var contextInstanceName = context.GetContextInstanceName();
-            var macroName = CompilerHelper.GetMacros( x => x.Name.Equals( node.MacroName, StringComparison.CurrentCultureIgnoreCase ) ).Single();
+            string contextInstanceName = context.GetContextInstanceName();
+            string macroName = CompilerHelper.GetMacros( x => x.Name.Equals( node.MacroName, StringComparison.CurrentCultureIgnoreCase ) ).Single();
 
-            return _cSharpStatementFactory.CreateMemberAccessExpression(contextInstanceName, macroName );
+            return _cSharpStatementFactory.CreateMemberAccessExpression( contextInstanceName, macroName );
         }
     }
 }

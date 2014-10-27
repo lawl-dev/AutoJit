@@ -11,10 +11,17 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public IExpressionNode ReturnExpression { get; private set; }
+        public IExpressionNode ReturnExpression {
+            get;
+            private set;
+        }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode> { ReturnExpression }; }
+            get {
+                return new List<ISyntaxNode> {
+                    ReturnExpression
+                };
+            }
         }
 
         public override string ToSource() {

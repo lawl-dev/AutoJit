@@ -1,4 +1,5 @@
-﻿using AutoJIT.Parser.AST.Expressions;
+﻿using System.Collections.Generic;
+using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -9,10 +10,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitCallExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( CallExpression node, IContextService context ) {
-            var runtimeInstanceName = context.GetRuntimeInstanceName();
-            var functionName = node.IdentifierName;
-            var parameter = CreateParameter( node.Parameter, context );
-            
+            string runtimeInstanceName = context.GetRuntimeInstanceName();
+            string functionName = node.IdentifierName;
+            IEnumerable<ArgumentSyntax> parameter = CreateParameter( node.Parameter, context );
+
             return CreateInvocationExpression( runtimeInstanceName, functionName, parameter );
         }
     }

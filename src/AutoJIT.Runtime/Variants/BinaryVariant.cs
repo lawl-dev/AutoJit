@@ -12,16 +12,24 @@ namespace AutoJITRuntime.Variants
         }
 
         protected override DataType DataType {
-            get { return DataType.Binary; }
+            get {
+                return DataType.Binary;
+            }
         }
 
         public override bool IsBinary {
-            get { return true; }
+            get {
+                return true;
+            }
         }
 
         public override Variant this[ params int[] index ] {
-            get { return (int) _value[index.Single()]; }
-            set { _value[index.Single()] = (byte) (int) value; }
+            get {
+                return (int)_value[index.Single()];
+            }
+            set {
+                _value[index.Single()] = (byte)(int)value;
+            }
         }
 
         public override object GetValue() {
@@ -30,13 +38,13 @@ namespace AutoJITRuntime.Variants
 
         public override string GetString() {
             var c = new char[_value.Length * 2+2];
-            c[0] = (char) 0x30;
-            c[1] = (char) 0x78;
-            for ( int i = 0; i < _value.Length; i++ ) {
+            c[0] = (char)0x30;
+            c[1] = (char)0x78;
+            for( int i = 0; i < _value.Length; i++ ) {
                 int b = _value[i] >> 4;
-                c[i * 2+2] = (char) ( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
+                c[i * 2+2] = (char)( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
                 b = _value[i]&0xF;
-                c[i * 2+1+2] = (char) ( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
+                c[i * 2+1+2] = (char)( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
             }
             return new string( c );
         }
@@ -66,7 +74,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override Type GetRealType() {
-            return typeof (byte[]);
+            return typeof(byte[]);
         }
     }
 }

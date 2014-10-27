@@ -7,7 +7,10 @@ namespace AutoJITRuntime.Exceptions
         public UnknowTypeNameException( string typeName ) {
             TypeName = typeName;
         }
-        
-        public string TypeName { get; set; }
+
+        public string TypeName {
+            get;
+            set;
+        }
     }
 }

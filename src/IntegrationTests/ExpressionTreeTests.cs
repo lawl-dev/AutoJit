@@ -14,8 +14,7 @@ namespace UnitTests
     {
         private readonly ICompiler _compiler;
         private readonly string _scriptTemplate = string.Format( "Func ExpressionReturner(){0}Return {{0}}{0}Endfunc{0}", Environment.NewLine );
-        private readonly string _scriptTemplateWithParameters = string.Format(
-            "Func ExpressionReturner($a, $b, $c){0}Return {{0}}{0}Endfunc{0}", Environment.NewLine );
+        private readonly string _scriptTemplateWithParameters = string.Format( "Func ExpressionReturner($a, $b, $c){0}Return {{0}}{0}Endfunc{0}", Environment.NewLine );
 
         public ExpressionTreeTests() {
             var componentContainer = new CompilerBootStrapper();
@@ -623,11 +622,11 @@ namespace UnitTests
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
             object instance = type.CreateInstanceWithDefaultParameters();
-            var result = method.Invoke( instance, new object[] { a, b, c } ) as Variant;
+            var result = method.Invoke( instance, new object[] {
+                a, b, c
+            } ) as Variant;
 
-            string au3Expression = expression.Replace( "$a", a.ToString() )
-                .Replace( "$b", b.ToString() )
-                .Replace( "$c", c.ToString() );
+            string au3Expression = expression.Replace( "$a", a.ToString() ).Replace( "$b", b.ToString() ).Replace( "$c", c.ToString() );
 
             object au3Result = GetAu3Result( string.Format( "f!{0}", au3Expression ), result.GetRealType() );
 
@@ -652,20 +651,27 @@ namespace UnitTests
         [TestCase( "--(-($a[$a[0]] + $c[$a[0]]) / 4 * 9) + - 1" )]
         [TestCase( "$a[0]" )]
         public void Test_ExpressionArray( string expression ) {
-            Assert.DoesNotThrow(
-                () => {
-                    string script = string.Format( _scriptTemplateWithParameters, expression );
-                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
-                    Assembly assembly = Assembly.Load( assemblyBytes );
-                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                    MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-                    object instance = type.CreateInstanceWithDefaultParameters();
+            Assert.DoesNotThrow( () => {
+                                     string script = string.Format( _scriptTemplateWithParameters, expression );
+                                     byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
+                                     Assembly assembly = Assembly.Load( assemblyBytes );
+                                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+                                     MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+                                     object instance = type.CreateInstanceWithDefaultParameters();
 
-                    Variant variants = new Variant[] { 0, 0 };
-                    Variant variants1 = new Variant[] { 0, 0 };
-                    Variant variants2 = new Variant[] { 0, 0 };
-                    object result = method.Invoke( instance, new object[] { variants, variants1, variants2 } );
-                } );
+                                     Variant variants = new Variant[] {
+                                         0, 0
+                                     };
+                                     Variant variants1 = new Variant[] {
+                                         0, 0
+                                     };
+                                     Variant variants2 = new Variant[] {
+                                         0, 0
+                                     };
+                                     object result = method.Invoke( instance, new object[] {
+                                         variants, variants1, variants2
+                                     } );
+                                 } );
         }
 
         [TestCase( "$a[0][0]" )]
@@ -686,25 +692,26 @@ namespace UnitTests
         [TestCase( "-1 - -1 - -8 + -1" )]
         [TestCase( "--(-($a[1][0] + $c[$a[0][0]][0]) / 4 * 9) + - 1" )]
         public void Test_ExpressionArray2D( string expression ) {
-            Assert.DoesNotThrow(
-                () => {
-                    string script = string.Format( _scriptTemplateWithParameters, expression );
-                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-                    Assembly assembly = Assembly.Load( assemblyBytes );
-                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                    MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-                    object instance = type.CreateInstanceWithDefaultParameters();
+            Assert.DoesNotThrow( () => {
+                                     string script = string.Format( _scriptTemplateWithParameters, expression );
+                                     byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+                                     Assembly assembly = Assembly.Load( assemblyBytes );
+                                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+                                     MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+                                     object instance = type.CreateInstanceWithDefaultParameters();
 
-                    Variant variants = new Variant[4, 4];
-                    for ( int i = 0; i < 4; i++ ) {
-                        for ( int j = 0; j < 4; j++ ) {
-                            variants[i, j] = 0;
-                        }
-                    }
-                    Variant variant = variants[variants[0, 0], variants[0, 0]];
-                    var parameters = new object[] { variants, variants, variants };
-                    var result = method.Invoke( instance, parameters ) as Variant;
-                } );
+                                     Variant variants = new Variant[4, 4];
+                                     for( int i = 0; i < 4; i++ ) {
+                                         for( int j = 0; j < 4; j++ ) {
+                                             variants[i, j] = 0;
+                                         }
+                                     }
+                                     Variant variant = variants[variants[0, 0], variants[0, 0]];
+                                     var parameters = new object[] {
+                                         variants, variants, variants
+                                     };
+                                     var result = method.Invoke( instance, parameters ) as Variant;
+                                 } );
         }
 
         [Test]
@@ -716,7 +723,7 @@ namespace UnitTests
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
             object instance = type.CreateInstanceWithDefaultParameters();
-            var array = (Variant) method.Invoke( instance, null );
+            var array = (Variant)method.Invoke( instance, null );
             Assert.IsTrue( array[0, 0] == 0 );
             Assert.IsTrue( array[1, 0] != 0 );
         }
@@ -730,29 +737,21 @@ namespace UnitTests
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
             object instance = type.CreateInstanceWithDefaultParameters();
-            var array = (Variant) method.Invoke( instance, null );
+            var array = (Variant)method.Invoke( instance, null );
         }
 
         [Test]
         public void Test_ArrayInitExpression2() {
-            var vGaInProcessWinApi = (Variant) new Variant[3, 3];
+            var vGaInProcessWinApi = (Variant)new Variant[3, 3];
             var variants = new Variant[] {
                 new[] {
-                    Variant.Create( 1 ),
-                    Variant.Create( 2 ),
-                    Variant.Create( 3 )
-                }
-                ,
+                    Variant.Create( 1 ), Variant.Create( 2 ), Variant.Create( 3 )
+                },
                 new[] {
-                    Variant.Create( 2 ),
-                    Variant.Create( 3 ),
-                    Variant.Create( 4 )
-                }
-                ,
+                    Variant.Create( 2 ), Variant.Create( 3 ), Variant.Create( 4 )
+                },
                 new[] {
-                    Variant.Create( 3 ),
-                    Variant.Create( 4 ),
-                    Variant.Create( 5 )
+                    Variant.Create( 3 ), Variant.Create( 4 ), Variant.Create( 5 )
                 }
             };
             vGaInProcessWinApi.InitArray( variants );

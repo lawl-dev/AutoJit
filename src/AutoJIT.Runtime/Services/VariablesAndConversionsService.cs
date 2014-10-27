@@ -9,36 +9,36 @@ namespace AutoJITRuntime.Services
     public class VariablesAndConversionsService
     {
         public Variant Asc( Variant variant ) {
-            char character = ( (string) variant ).FirstOrDefault();
+            char character = ( (string)variant ).FirstOrDefault();
             return character;
         }
 
         public Variant AscW( Variant variant ) {
-            char character = ( (string) variant ).FirstOrDefault();
+            char character = ( (string)variant ).FirstOrDefault();
             return character;
         }
 
         public Variant Chr( Variant chr ) {
-            if ( chr < 0 ) {
+            if( chr < 0 ) {
                 return string.Empty;
             }
-            if ( chr > 255 ) {
+            if( chr > 255 ) {
                 throw new ASCIIcodeIsGreaterThan255Exception( 1, null, string.Empty );
             }
 
-            return ( (char) chr ).ToString( CultureInfo.InvariantCulture );
+            return ( (char)chr ).ToString( CultureInfo.InvariantCulture );
         }
 
         public Variant ChrW( Variant unicodEcode ) {
-            if ( unicodEcode > ushort.MaxValue ) {
+            if( unicodEcode > ushort.MaxValue ) {
                 throw new UNICODEIsGreaterThan65535Exception( unicodEcode, null, string.Empty );
             }
 
-            if ( unicodEcode < 0 ) {
+            if( unicodEcode < 0 ) {
                 return string.Empty;
             }
 
-            return (char) unicodEcode;
+            return (char)unicodEcode;
         }
 
         public Variant Binary( Variant expression ) {
@@ -51,9 +51,9 @@ namespace AutoJITRuntime.Services
 
         public Variant BinaryMid( Variant binary, Variant start, Variant count ) {
             byte[] bytes = binary.GetBinary();
-            if ( start < 1 ||
-                 start >= bytes.Length ||
-                 ( count != null && start >= count ) ) {
+            if( start < 1
+                || start >= bytes.Length
+                || ( count != null && start >= count ) ) {
                 return new byte[0];
             }
             return bytes.Skip( start-1 ).Take( count ?? bytes.Length-start-1 ).ToArray();
@@ -62,15 +62,15 @@ namespace AutoJITRuntime.Services
         public Variant BinaryToString( Variant expression, Variant flag ) {
             string @string = expression.GetString();
 
-            if ( @string.Length % 2 != 0 ) {
+            if( @string.Length % 2 != 0 ) {
                 throw new OddNumberOfBytesException( 2, null, string.Empty );
             }
-            if ( @string.Length == 0 ) {
+            if( @string.Length == 0 ) {
                 throw new StringHadZeroLengthException( 1, null, string.Empty );
             }
 
             Encoding encoding;
-            switch (flag.GetInt()) {
+            switch(flag.GetInt()) {
                 case 1:
                     encoding = Encoding.Default;
                     break;
@@ -85,14 +85,11 @@ namespace AutoJITRuntime.Services
                     break;
             }
 
-            if ( @string.StartsWith( "0x", StringComparison.InvariantCultureIgnoreCase ) &&
-                 @string.Skip( 2 ).All(
-                     c => ( c >= '0' && c <= '9' ) ||
-                          ( c >= 'a' && c <= 'f' ) ||
-                          ( c >= 'A' && c <= 'F' ) ) ) {
+            if( @string.StartsWith( "0x", StringComparison.InvariantCultureIgnoreCase )
+                && @string.Skip( 2 ).All( c => ( c >= '0' && c <= '9' ) || ( c >= 'a' && c <= 'f' ) || ( c >= 'A' && c <= 'F' ) ) ) {
                 string hex = @string.Substring( 2, @string.Length-2 );
                 var raw = new byte[hex.Length / 2];
-                for ( int i = 0; i < raw.Length; i++ ) {
+                for( int i = 0; i < raw.Length; i++ ) {
                     raw[i] = Convert.ToByte( hex.Substring( i * 2, 2 ), 16 );
                 }
                 return encoding.GetString( raw );
@@ -103,10 +100,10 @@ namespace AutoJITRuntime.Services
 
         public Variant Dec( Variant hex, Variant flag ) {
             Int64 result;
-            if ( Int64.TryParse( hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result ) ) {
-                if ( result <= int.MaxValue &&
-                     result >= int.MinValue ) {
-                    return (int) result;
+            if( Int64.TryParse( hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result ) ) {
+                if( result <= int.MaxValue
+                    && result >= int.MinValue ) {
+                    return (int)result;
                 }
                 return result;
             }
@@ -114,40 +111,40 @@ namespace AutoJITRuntime.Services
         }
 
         public Variant Hex( Variant expression, Variant length ) {
-            if ( expression.IsInt32 ) {
-                if ( length == null ||
-                     length.IsDefault ) {
+            if( expression.IsInt32 ) {
+                if( length == null
+                    || length.IsDefault ) {
                     return expression.GetInt().ToString( "x8" ).ToUpper();
                 }
-                if ( length > 16 ) {
+                if( length > 16 ) {
                     length = 16;
                 }
                 return expression.GetInt().ToString( "x"+length ).ToUpper();
             }
-            if ( expression.IsInt64 ) {
-                if ( length == null ||
-                     length.IsDefault ) {
+            if( expression.IsInt64 ) {
+                if( length == null
+                    || length.IsDefault ) {
                     return expression.GetInt64().ToString( "x16" ).ToUpper();
                 }
-                if ( length > 16 ) {
+                if( length > 16 ) {
                     length = 16;
                 }
                 return expression.GetInt().ToString( "x"+length ).ToUpper();
             }
-            if ( expression.IsPtr ) {
+            if( expression.IsPtr ) {
                 IntPtr intPtr = expression.GetIntPtr();
                 int size = IntPtr.Size * 2;
                 return intPtr.ToString( "x"+size );
             }
 
-            if ( expression.IsBinary ) {
+            if( expression.IsBinary ) {
                 byte[] bytes = expression.GetBinary();
                 var c = new char[bytes.Length * 2];
-                for ( int i = 0; i < bytes.Length; i++ ) {
+                for( int i = 0; i < bytes.Length; i++ ) {
                     int b = bytes[i] >> 4;
-                    c[i * 2] = (char) ( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
+                    c[i * 2] = (char)( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
                     b = bytes[i]&0xF;
-                    c[i * 2+1] = (char) ( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
+                    c[i * 2+1] = (char)( 55+b+( ( ( b-10 ) >> 31 )&-7 ) );
                 }
                 return new string( c ).ToUpper();
             }
@@ -234,7 +231,7 @@ namespace AutoJITRuntime.Services
             string @string = expression.GetString();
 
             Encoding encoding;
-            switch (flag.GetInt()) {
+            switch(flag.GetInt()) {
                 case 1:
                     encoding = Encoding.Default;
                     break;
@@ -255,11 +252,11 @@ namespace AutoJITRuntime.Services
         public Variant UBound( Variant Array, Variant dimension ) {
             var array = Array.GetValue() as Array;
 
-            if ( array == null ) {
+            if( array == null ) {
                 throw new ArrayGivenIsNotAnArrayException( 1, null, 0 );
             }
 
-            switch (dimension.GetInt()) {
+            switch(dimension.GetInt()) {
                 case 0:
                     return array.Rank;
                 case 1:

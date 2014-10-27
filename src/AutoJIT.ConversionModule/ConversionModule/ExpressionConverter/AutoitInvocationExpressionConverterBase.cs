@@ -9,29 +9,21 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 {
     internal abstract class AutoitInvocationExpressionConverterBase<TExpression> : AutoitExpressionConverterBase<TExpression>
-        where TExpression : IExpressionNode
+    where TExpression : IExpressionNode
     {
-        protected AutoitInvocationExpressionConverterBase( IInjectionService injectionService )
-            : base( injectionService ) {}
+        protected AutoitInvocationExpressionConverterBase( IInjectionService injectionService ) : base( injectionService ) {}
 
         protected InvocationExpressionSyntax CreateInvocationExpression( string runtimeName, string functionName, IEnumerable<ArgumentSyntax> arguments ) {
-            return SyntaxFactory.InvocationExpression(
-                SyntaxFactory.MemberAccessExpression(
-                    SyntaxKind.SimpleMemberAccessExpression,
-                    SyntaxFactory.IdentifierName( runtimeName ),
-                    SyntaxFactory.IdentifierName( functionName ) ) )
-                .WithArgumentList( SyntaxFactory.ArgumentList( arguments.ToSeparatedSyntaxList() ) );
+            return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( runtimeName ), SyntaxFactory.IdentifierName( functionName ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( arguments.ToSeparatedSyntaxList() ) );
         }
 
         protected InvocationExpressionSyntax CreateInvocationExpression( string functionName, IEnumerable<ArgumentSyntax> arguments ) {
-            return SyntaxFactory.InvocationExpression(
-                SyntaxFactory.IdentifierName( functionName ) )
-                .WithArgumentList( SyntaxFactory.ArgumentList( arguments.ToSeparatedSyntaxList() ) );
+            return SyntaxFactory.InvocationExpression( SyntaxFactory.IdentifierName( functionName ) ).WithArgumentList( SyntaxFactory.ArgumentList( arguments.ToSeparatedSyntaxList() ) );
         }
 
         protected IEnumerable<ArgumentSyntax> CreateParameter( IEnumerable<IExpressionNode> parameter, IContextService context ) {
-            if ( parameter == null ||
-                 !parameter.Any() ) {
+            if( parameter == null
+                || !parameter.Any() ) {
                 return new ArgumentSyntax[0];
             }
 

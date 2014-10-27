@@ -6,7 +6,9 @@ namespace AutoJIT.Parser.AST.Statements
     public sealed class ContinueCaseStatement : StatementBase
     {
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>(); }
+            get {
+                return new List<ISyntaxNode>();
+            }
         }
 
         public override string ToSource() {

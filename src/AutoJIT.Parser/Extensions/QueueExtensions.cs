@@ -9,12 +9,12 @@ namespace AutoJIT.Parser.Extensions
         public static IEnumerable<T> DequeueWhile<T>( this Queue<T> queue, Func<T, bool> expression ) {
             var list = new List<T>();
 
-            if ( queue.Any() ) {
+            if( queue.Any() ) {
                 T peek = queue.Peek();
-                while ( expression( peek ) &&
-                        queue.Any() ) {
+                while( expression( peek )
+                       && queue.Any() ) {
                     list.Add( queue.Dequeue() );
-                    if ( queue.Any() ) {
+                    if( queue.Any() ) {
                         peek = queue.Peek();
                     }
                 }
@@ -25,12 +25,12 @@ namespace AutoJIT.Parser.Extensions
         public static IEnumerable<T> DequeueUntil<T>( this Queue<T> queue, Func<T, bool> expression ) {
             var list = new List<T>();
 
-            if ( queue.Any() ) {
+            if( queue.Any() ) {
                 T peek = queue.Peek();
-                while ( !expression( peek ) &&
-                        queue.Any() ) {
+                while( !expression( peek )
+                       && queue.Any() ) {
                     list.Add( queue.Dequeue() );
-                    if ( queue.Any() ) {
+                    if( queue.Any() ) {
                         peek = queue.Peek();
                     }
                 }
@@ -43,7 +43,7 @@ namespace AutoJIT.Parser.Extensions
         public static IEnumerable<T> Dequeue<T>( this Queue<T> queue, int count ) {
             var list = new List<T>();
 
-            for ( int i = 0; i < count; i++ ) {
+            for( int i = 0; i < count; i++ ) {
                 list.Add( queue.Dequeue() );
             }
             return list;
@@ -52,13 +52,13 @@ namespace AutoJIT.Parser.Extensions
         public static IEnumerable<T> DequeueWhile<T>( this Queue<T> queue, Func<T, int, bool> expression ) {
             var list = new List<T>();
 
-            if ( queue.Any() ) {
+            if( queue.Any() ) {
                 int i = 0;
                 T peek = queue.Peek();
-                while ( expression( peek, i++ ) &&
-                        queue.Any() ) {
+                while( expression( peek, i++ )
+                       && queue.Any() ) {
                     list.Add( queue.Dequeue() );
-                    if ( queue.Any() ) {
+                    if( queue.Any() ) {
                         peek = queue.Peek();
                     }
                 }

@@ -9,10 +9,15 @@ namespace AutoJIT.Parser.Lex
         private long _int64Value;
         private Keywords _keyword;
         private string _stringValue;
-        public object CurrentValue { get; private set; }
+        public object CurrentValue {
+            get;
+            private set;
+        }
 
         public Keywords Keyword {
-            get { return _keyword; }
+            get {
+                return _keyword;
+            }
             set {
                 _keyword = value;
                 CurrentValue = value;
@@ -20,7 +25,9 @@ namespace AutoJIT.Parser.Lex
         }
 
         public int Int32Value {
-            get { return _int32Value; }
+            get {
+                return _int32Value;
+            }
             set {
                 _int32Value = value;
                 CurrentValue = value;
@@ -28,7 +35,9 @@ namespace AutoJIT.Parser.Lex
         }
 
         public Int64 Int64Value {
-            get { return _int64Value; }
+            get {
+                return _int64Value;
+            }
             set {
                 _int64Value = value;
                 CurrentValue = value;
@@ -36,7 +45,9 @@ namespace AutoJIT.Parser.Lex
         }
 
         public double DoubleValue {
-            get { return _doubleValue; }
+            get {
+                return _doubleValue;
+            }
             set {
                 _doubleValue = value;
                 CurrentValue = value;
@@ -44,7 +55,9 @@ namespace AutoJIT.Parser.Lex
         }
 
         public string StringValue {
-            get { return _stringValue; }
+            get {
+                return _stringValue;
+            }
             set {
                 _stringValue = value;
                 CurrentValue = value;
