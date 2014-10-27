@@ -41,6 +41,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             return toReturn;
         }
 
+
+
         private StatementSyntax AssignArray( GlobalDeclarationStatement statement, IContextService context ) {
             return CSharpStatementFactory.CreateInvocationExpression(
                 context.GetVariableName( statement.VariableExpression.IdentifierName, Scope.Global), CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ),

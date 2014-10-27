@@ -22,26 +22,45 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         public override IEnumerable<StatementSyntax> Convert( DimStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
-            if ( !context.IsDeclared( statement.VariableExpression.IdentifierName ) ) {
-                context.DeclareLocal( statement.VariableExpression.IdentifierName );
-                toReturn.Add( DeclareLocal( statement ) );
+
+            if ( context.GetIsGlobalContext() ) {
+                context.DeclareGlobal( statement.VariableExpression.IdentifierName );
+                context.PushGlobalVariable(statement.VariableExpression.IdentifierName, DeclareGlobal(statement, context));
             }
-            if ( statement.VariableExpression is ArrayExpression ) {
-                toReturn.Add( InitArray( statement, context ) );
+            else {
+                if (!context.IsDeclaredLocal(statement.VariableExpression.IdentifierName))
+                {
+                    context.DeclareLocal(statement.VariableExpression.IdentifierName);
+                    toReturn.Add(DeclareLocal(statement, context));
+                }
             }
-            if ( statement.InitExpression != null ) {
-                toReturn.Add( AssignVariable( statement, context ) );
+
+
+            if (statement.VariableExpression is ArrayExpression)
+            {
+                toReturn.Add(InitArray(statement, context));
+            }
+            if (statement.InitExpression != null)
+            {
+                toReturn.Add(AssignVariable(statement, context));
             }
             return toReturn;
         }
 
-        private StatementSyntax DeclareLocal( DimStatement node ) {
-            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node );
+        private FieldDeclarationSyntax DeclareGlobal(DimStatement node, IContextService context)
+        {
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable(node, context);
+            return CSharpStatementFactory.CreateFieldDeclarationStatement(variableDeclarationSyntax);
+        }
+
+
+        private StatementSyntax DeclareLocal( DimStatement node, IContextService context ) {
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node, context );
             return CSharpStatementFactory.CreateLocalDeclarationStatement( variableDeclarationSyntax );
         }
 
-        private VariableDeclarationSyntax DeclareVariable( DimStatement node ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, node.VariableExpression.IdentifierName );
+        private VariableDeclarationSyntax DeclareVariable( DimStatement node, IContextService context ) {
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, context.GetVariableName(node.VariableExpression.IdentifierName) );
             return declarationSyntax;
         }
 
