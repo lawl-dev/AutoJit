@@ -21,7 +21,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             toReturn.Add(
                 CSharpStatementFactory.CreateInvocationExpression(
-                    statement.ArrayExpression.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.ReDim() ),
+                    context.GetVariableName( statement.ArrayExpression.IdentifierName), CompilerHelper.GetVariantMemberName( x => x.ReDim() ),
                     statement.ArrayExpression.AccessParameter.Select(
                         x => new CSharpParameterInfo( Convert( x, context ), false ) ) )
                     .ToStatementSyntax() );

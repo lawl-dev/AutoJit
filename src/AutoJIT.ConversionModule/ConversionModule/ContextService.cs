@@ -20,8 +20,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             _context.IsGlobalContext = b;
         }
 
-        public void Declare( string identifierName ) {
+        public void DeclareLocal( string identifierName ) {
             _context.DeclaredVariables.Add( identifierName );
+            if ( _context.VariableMap.ContainsKey( identifierName ) ) {
+               _context.VariableMap[identifierName] = Scope.Local;
+            }
+            else {
+                _context.VariableMap.Add(identifierName, Scope.Local);                
+            }
         }
 
         public string GetConinueLoopLabelName() {
@@ -73,14 +79,33 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         }
 
 
-
         public bool IsDeclared( string identifierName ) {
             return _context.DeclaredVariables.Contains( identifierName ) || _context.DeclaredGlobalVariables.Contains( identifierName );
         }
 
+
+        public bool IsDeclaredLocal(string identifierName) {
+            return _context.DeclaredVariables.Contains( identifierName );
+        }
+        
+        public bool IsDeclaredGlobal(string identifierName) {
+            return _context.DeclaredGlobalVariables.Contains( identifierName );
+        }
+
+        public void DeclareGlobal( string identifierName ) {
+            if ( !_context.VariableMap.ContainsKey( identifierName ) ) {
+                _context.VariableMap.Add( identifierName, Scope.Global );
+            }
+
+            if (!_context.DeclaredGlobalVariables.Contains( identifierName ))
+            {
+                _context.DeclaredGlobalVariables.Add( identifierName );
+            }
+        }
+
+
         public void PushGlobalVariable( string identifierName, FieldDeclarationSyntax instance ) {
             _context.FieldInstnaces.Add( instance );
-            _context.DeclaredGlobalVariables.Add( identifierName );
         }
 
         public IEnumerable<FieldDeclarationSyntax> PopGlobalVariables() {
@@ -128,6 +153,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             _context.FieldInstnaces.Clear();
             _context.LoopLevel = 0;
             _context.LoopLevelCount.Clear();
+            _context.VariableMap.Clear();
+            foreach (var globalVariable in _context.DeclaredGlobalVariables) {
+                _context.VariableMap.Add( globalVariable, Scope.Global );
+            }
         }
 
         public string GetContextInstanceName() {
@@ -136,6 +165,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 
         public string GetRuntimeInstanceName() {
             return _context.RuntimeInstanceName;
+        }
+
+        public string GetVariableName(string key) {
+            return string.Format( "{0}{1}", _context.VariableMap[key], key );
+        }
+
+        public string GetVariableName(string key, Scope scope) {
+            return string.Format( "{0}{1}", scope, key);
         }
     }
 }

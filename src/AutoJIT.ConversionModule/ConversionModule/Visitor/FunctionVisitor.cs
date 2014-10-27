@@ -34,7 +34,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
 
             return SyntaxFactory.MethodDeclaration( SyntaxFactory.IdentifierName( typeof (Variant).Name ), function.Name )
                 .AddModifiers( SyntaxFactory.Token( SyntaxKind.PublicKeyword ) )
-                .WithParameterList( SyntaxFactory.ParameterList( CreaterParameter( function.Parameter ).ToSeparatedSyntaxList() ) )
+                .WithParameterList( SyntaxFactory.ParameterList( CreaterParameter( function.Parameter,context ).ToSeparatedSyntaxList() ) )
                 .WithBody( body );
         }
 
@@ -43,9 +43,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             IEnumerable<AutoitParameterInfo> parameter,
             IContextService context ) {
             foreach (AutoitParameterInfo parameterInfo in parameter) {
-                context.Declare( parameterInfo.ParameterName );
+                context.DeclareLocal( parameterInfo.ParameterName );
                 if ( parameterInfo.DefaultValue != null ) {
-                    statementNodes.Insert( 0, new InitDefaultParameterStatement( parameterInfo.ParameterName, parameterInfo.DefaultValue ) );
+                    statementNodes.Insert( 0, new InitDefaultParameterStatement(context.GetVariableName( parameterInfo.ParameterName), parameterInfo.DefaultValue ) );
                 }
             }
             return statementNodes;
@@ -66,10 +66,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
                 x => x.Accpet( this ) ).ToList();
         }
 
-        private IEnumerable<ParameterSyntax> CreaterParameter( IEnumerable<AutoitParameterInfo> parameters ) {
+        private IEnumerable<ParameterSyntax> CreaterParameter( IEnumerable<AutoitParameterInfo> parameters, IContextService context ) {
             return parameters.Select(
                 p => {
-                    ParameterSyntax parameter = SyntaxFactory.Parameter( SyntaxFactory.Identifier( p.ParameterName ) ).WithType(
+                    ParameterSyntax parameter = SyntaxFactory.Parameter( SyntaxFactory.Identifier( context.GetVariableName(p.ParameterName )) ).WithType(
                         SyntaxFactory.IdentifierName( typeof (Variant).Name )
                         );
                     if ( p.DefaultValue != null ) {

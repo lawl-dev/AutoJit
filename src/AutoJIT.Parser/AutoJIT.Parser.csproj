@@ -93,10 +93,12 @@
     <Compile Include="AST\Parser\Strategy\ForInStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\ForToNextStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\FunctionCallStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\GlobalEnumParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\GlobalStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\IfStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\Interface\IStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\Interface\IStatementParserStrategyResolver.cs" />
+    <Compile Include="AST\Parser\Strategy\LocalEnumParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\LocalStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\RedimStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\ReturnStatementParserStrategy.cs" />

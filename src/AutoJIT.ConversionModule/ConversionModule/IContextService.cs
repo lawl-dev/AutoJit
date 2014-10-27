@@ -5,7 +5,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 {
     public interface IContextService
     {
-        void Declare( string identifierName );
+        void DeclareLocal( string identifierName );
         string GetConinueLoopLabelName();
         string GetConinueLoopLabelName( int level );
         string GetExitLoopLabelName();
@@ -26,5 +26,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         void RegisterCase();
         string GetContinueCaseLabelName();
         string GetContinueCaseLabelName(int i);
+        string GetVariableName(string key);
+        string GetVariableName(string key, Scope scope);
+        bool IsDeclaredLocal(string identifierName);
+        void DeclareGlobal( string identifierName );
+        bool IsDeclaredGlobal( string identifierName );
     }
 }

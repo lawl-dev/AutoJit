@@ -16,5 +16,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         int SelectLevel { get; set; }
         Dictionary<int, int> SelectLevelCount { get; set; }
         int CaseCount { get; set; }
+        Dictionary<string, Scope> VariableMap { get; set; }
     }
 }

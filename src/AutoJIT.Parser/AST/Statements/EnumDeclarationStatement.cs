@@ -24,15 +24,10 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return new List<ISyntaxNode> { AutoInitExpression, VariableExpression, UserInitExpression }; }
-        }
+        } 
 
         public override string ToSource() {
             throw new NotImplementedException();
-        }
-
-        public override object Clone() {
-            return new EnumDeclarationStatement(
-                (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( UserInitExpression ), CloneAs<IExpressionNode>( AutoInitExpression ) );
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.Extensions;
@@ -24,33 +25,35 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             if ( !context.IsDeclared( statement.Variable.IdentifierName ) ) {
                 if ( context.GetIsGlobalContext() ) {
-                    context.PushGlobalVariable( statement.Variable.IdentifierName, DeclareGlobal( statement ) );
+                    context.DeclareGlobal( statement.Variable.IdentifierName );
+                    context.PushGlobalVariable( statement.Variable.IdentifierName, DeclareGlobal( statement, context ) );
                 }
                 else {
-                    context.Declare( statement.Variable.IdentifierName );
-                    toReturn.Add( DeclareLocal( statement ) );
+                    context.DeclareLocal( statement.Variable.IdentifierName );
+                    toReturn.Add( DeclareLocal( statement, context ) );
                 }
             }
-            toReturn.Add( AssignVariable( statement, context ) );
+            toReturn.Add(AssignVariable(statement, context));
             return toReturn;
         }
 
-        private FieldDeclarationSyntax DeclareGlobal( AssignStatement node ) {
-            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node );
+        private FieldDeclarationSyntax DeclareGlobal( AssignStatement node, IContextService context ) {
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node, context );
             return CSharpStatementFactory.CreateFieldDeclarationStatement( variableDeclarationSyntax );
         }
 
-        private StatementSyntax DeclareLocal( AssignStatement node ) {
-            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node );
+        private StatementSyntax DeclareLocal( AssignStatement node, IContextService context ) {
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node, context );
             return CSharpStatementFactory.CreateLocalDeclarationStatement( variableDeclarationSyntax );
         }
 
-        private VariableDeclarationSyntax DeclareVariable( AssignStatement node ) {
-            return DeclareVariable( node.Variable.IdentifierName );
+        private VariableDeclarationSyntax DeclareVariable( AssignStatement node, IContextService context ) {
+            return DeclareVariable( node.Variable.IdentifierName, context) ;
         }
 
-        private VariableDeclarationSyntax DeclareVariable( string identifierName ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, identifierName );
+        private VariableDeclarationSyntax DeclareVariable( string identifierName, IContextService context ) {
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable(
+                typeof (Variant).Name, context.GetVariableName( identifierName ) );
             return declarationSyntax;
         }
 
@@ -61,14 +64,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                 case TokenType.PowAssign:
                     kind = SyntaxKind.SimpleAssignmentExpression;
                     toAssign = CSharpStatementFactory.CreateInvocationExpression(
-                        node.Variable.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.PowAssign( null ) ),
+                        context.GetVariableName( node.Variable.IdentifierName), CompilerHelper.GetVariantMemberName( x => x.PowAssign( null ) ),
                         new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false )
                             .ToEnumerable() );
                     break;
                 case TokenType.ConcatAssign:
                     kind = SyntaxKind.SimpleAssignmentExpression;
                     toAssign = CSharpStatementFactory.CreateInvocationExpression(
-                        node.Variable.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.ConcatAssign( null ) ),
+                        context.GetVariableName( node.Variable.IdentifierName), CompilerHelper.GetVariantMemberName( x => x.ConcatAssign( null ) ),
                         new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false )
                             .ToEnumerable() );
                     break;

@@ -22,8 +22,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         public override IEnumerable<StatementSyntax> Convert( GlobalDeclarationStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
+            if (!context.IsDeclaredGlobal(statement.VariableExpression.IdentifierName))
+            {
+                context.DeclareGlobal(statement.VariableExpression.IdentifierName);
+                context.PushGlobalVariable(statement.VariableExpression.IdentifierName, DeclareGlobal(statement, context));
+            }
 
-            context.PushGlobalVariable( statement.VariableExpression.IdentifierName, DeclareGlobal( statement ) );
             if ( statement.VariableExpression is ArrayExpression ) {
                 toReturn.Add( InitArray( statement, context ) );
                 if ( statement.InitExpression != null ) {
@@ -39,30 +43,30 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         private StatementSyntax AssignArray( GlobalDeclarationStatement statement, IContextService context ) {
             return CSharpStatementFactory.CreateInvocationExpression(
-                statement.VariableExpression.IdentifierName, CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ),
+                context.GetVariableName( statement.VariableExpression.IdentifierName, Scope.Global), CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ),
                 new CSharpParameterInfo( Convert( statement.InitExpression, context ), false )
                     .ToEnumerable() ).ToStatementSyntax();
         }
 
-        private FieldDeclarationSyntax DeclareGlobal( GlobalDeclarationStatement node ) {
-            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node );
+        private FieldDeclarationSyntax DeclareGlobal( GlobalDeclarationStatement node, IContextService context ) {
+            VariableDeclarationSyntax variableDeclarationSyntax = DeclareVariable( node, context );
             return CSharpStatementFactory.CreateFieldDeclarationStatement( variableDeclarationSyntax );
         }
 
-        private VariableDeclarationSyntax DeclareVariable( GlobalDeclarationStatement node ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, node.VariableExpression.IdentifierName );
+        private VariableDeclarationSyntax DeclareVariable( GlobalDeclarationStatement node, IContextService context ) {
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, context.GetVariableName(node.VariableExpression.IdentifierName, Scope.Global) );
             return declarationSyntax;
         }
 
         private StatementSyntax AssignVariable( GlobalDeclarationStatement node, IContextService context ) {
             return SyntaxFactory.BinaryExpression(
-                SyntaxKind.SimpleAssignmentExpression, Convert( node.VariableExpression, context ),
+                SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( node.VariableExpression.IdentifierName, Scope.Global)) ,
                 Convert( node.InitExpression, context ) ).ToStatementSyntax();
         }
 
         private StatementSyntax InitArray( GlobalDeclarationStatement node, IContextService context ) {
             return SyntaxFactory.BinaryExpression(
-                SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( node.VariableExpression.IdentifierName ),
+                SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName(node.VariableExpression.IdentifierName, Scope.Global) ),
                 GetArrayInitExpression( node, context ) )
                 .ToStatementSyntax();
         }

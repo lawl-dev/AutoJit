@@ -92,6 +92,7 @@
     <Compile Include="ConversionModule\IContext.cs" />
     <Compile Include="ConversionModule\IContextService.cs" />
     <Compile Include="ConversionModule\ICSharpSkeletonFactory.cs" />
+    <Compile Include="ConversionModule\Scope.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitAssignStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitContinueCaseStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitContinueloopStatementConverter.cs" />

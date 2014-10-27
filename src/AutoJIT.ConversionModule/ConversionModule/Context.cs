@@ -17,8 +17,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             SelectLevel = 0;
             SelectLevelCount = new Dictionary<int, int>();
             CaseCount = 0;
+            VariableMap = new Dictionary<string, Scope>();
         }
 
+        public Dictionary<string, Scope> VariableMap { get; set; }
         public bool IsGlobalContext { get; set; }
         public string RuntimeInstanceName { get; private set; }
         public string ContextInstanceName { get; private set; }

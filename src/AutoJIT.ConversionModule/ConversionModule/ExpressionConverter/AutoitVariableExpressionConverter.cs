@@ -11,7 +11,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( VariableExpression node, IContextService context ) {
-            return SyntaxFactory.IdentifierName( node.IdentifierName );
+            return SyntaxFactory.IdentifierName( context.GetVariableName(node.IdentifierName) );
         }
     }
 }

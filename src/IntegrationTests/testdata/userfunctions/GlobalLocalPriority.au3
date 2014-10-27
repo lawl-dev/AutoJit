@@ -11,7 +11,6 @@ if $res <> 4 Then Exit 4
 $res = Foo3()
 if $res <> 7 Then Exit 4
 
-
 $res = Foo4()
 if $res <> 3 Then Exit 4
 

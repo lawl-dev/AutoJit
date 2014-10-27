@@ -23,8 +23,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( DimStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
             if ( !context.IsDeclared( statement.VariableExpression.IdentifierName ) ) {
-                context.Declare( statement.VariableExpression.IdentifierName );
-
+                context.DeclareLocal( statement.VariableExpression.IdentifierName );
                 toReturn.Add( DeclareLocal( statement ) );
             }
             if ( statement.VariableExpression is ArrayExpression ) {
@@ -54,7 +53,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         private StatementSyntax InitArray( DimStatement node, IContextService context ) {
             return SyntaxFactory.BinaryExpression(
-                SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( node.VariableExpression.IdentifierName ),
+                SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName(node.VariableExpression.IdentifierName) ),
                 GetArrayInitExpression( node, context ) )
                 .ToStatementSyntax();
         }
