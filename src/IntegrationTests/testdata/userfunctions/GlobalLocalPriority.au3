@@ -14,6 +14,12 @@ if $res <> 7 Then Exit 4
 $res = Foo4()
 if $res <> 3 Then Exit 4
 
+$res = Foo5()
+if $res <> 1338 Then Exit 4
+$res = Foo5()
+if $res <> 1339 Then Exit 4
+$res = Foo5()
+if $res <> 1340 Then Exit 4
 
 Func Foo()
 $b = $a + 1
@@ -39,3 +45,11 @@ Func Foo4()
 	Global Enum $c, $d, $e
 	Return $c + $d + $e
 EndFunc
+
+Func Foo5()
+	Local Static $a = 1337
+	$a+=1
+	Return $a
+EndFunc
+
+

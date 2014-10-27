@@ -54,6 +54,7 @@ namespace AutoJIT.Parser.AST.Parser
 
             bool isOperatableExpression = block.Peek().IsMathExpression || block.Peek().IsNumberExpression || block.Peek().IsBooleanExpression ||
                                           block.Peek().Type == TokenType.StringEqual || block.Peek().Type == TokenType.Concat;
+            
             bool isTernaryExpression = block.Peek().Type == TokenType.QuestionMark;
 
             if ( isOperatableExpression ) {

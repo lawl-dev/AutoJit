@@ -91,13 +91,15 @@ namespace UnitTests
         public void Test_compile_DES( string file ) {
             string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
             string script = File.ReadAllText( path );
-
+            
             Assert.DoesNotThrow(
                 () => {
-                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-                    File.WriteAllBytes( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe", assemblyBytes );
+                    AutoJIT.CompilerApplication.Program.Compile("/IN", path, "/OUT", path + ".exe", "/CONSOLE");
 
-                    Process process = Process.Start( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe" );
+                    Process process = Process.Start(path + ".exe");
+                    
+                    Assert.NotNull( process );
+
                     while ( !process.HasExited ) {
                         Thread.Sleep( 1000 );
                     }
@@ -112,11 +114,13 @@ namespace UnitTests
 
             Assert.DoesNotThrow(
                 () => {
-                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+                    AutoJIT.CompilerApplication.Program.Compile("/IN", path, "/OUT", path + ".exe", "/CONSOLE");
 
-                    File.WriteAllBytes( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe", assemblyBytes );
 
-                    Process process = Process.Start( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe" );
+                    Process process = Process.Start(path + ".exe");
+
+                    Assert.NotNull( process );
+
                     while ( !process.HasExited ) {
                         Thread.Sleep( 1000 );
                     }
