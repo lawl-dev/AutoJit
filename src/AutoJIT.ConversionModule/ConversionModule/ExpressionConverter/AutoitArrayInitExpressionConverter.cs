@@ -18,14 +18,18 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                 SyntaxFactory.SingletonSeparatedList<ExpressionSyntax>(
                     SyntaxFactory.OmittedArraySizeExpression() ) );
 
+            var arrayType = SyntaxFactory.IdentifierName( typeof (Variant).Name );
+
             ArrayCreationExpressionSyntax arrayCreationExpression =
                 SyntaxFactory.ArrayCreationExpression(
-                    SyntaxFactory.ArrayType( SyntaxFactory.IdentifierName( typeof (Variant).Name ), SyntaxFactory.SingletonList( arrayRankSpecifierSyntax ) ) );
+                    SyntaxFactory.ArrayType( arrayType, SyntaxFactory.SingletonList( arrayRankSpecifierSyntax ) ) );
+
+            var expressionToAssign = node.ToAssign.Select( x => ConverGeneric( x, context ) );
 
             return arrayCreationExpression.WithInitializer(
                 SyntaxFactory.InitializerExpression(
                     SyntaxKind.ArrayInitializerExpression,
-                    node.ToAssign.Select( x => ConverGeneric( x, context ) ).ToSeparatedSyntaxList() ) );
+                    expressionToAssign.ToSeparatedSyntaxList() ) );
         }
     }
 }

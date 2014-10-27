@@ -19,17 +19,21 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                 return CreateCompilerFunctionCall( node, context );
             }
 
-            return SyntaxFactory.BinaryExpression(
-                GetSyntaxKind( node.Operator ), ConverGeneric( node.Left, context ),
-                ConverGeneric( node.Right, context ) );
+            var syntaxKind = GetSyntaxKind( node.Operator );
+            var leftExpressionSyntax = ConverGeneric( node.Left, context );
+            var rightExpressionSyntax = ConverGeneric( node.Right, context );
+
+            return SyntaxFactory.BinaryExpression(syntaxKind, leftExpressionSyntax, rightExpressionSyntax);
         }
 
         private ExpressionSyntax CreateCompilerFunctionCall( BinaryExpressionBase node, IContextService context ) {
             string operatorFunctionName = node.GetCompilerFunctionName( node.Operator.Type );
 
-            IEnumerable<ArgumentSyntax> arguments = Utils.GetEnumerable(
-                SyntaxFactory.Argument( ConverGeneric( node.Left, context ) ),
-                SyntaxFactory.Argument( ConverGeneric( node.Right, context ) ) );
+            var leftExpressionSyntax = ConverGeneric( node.Left, context );
+            var rightExpressionSyntax = ConverGeneric( node.Right, context );
+
+
+            IEnumerable<ArgumentSyntax> arguments = Utils.GetEnumerable(SyntaxFactory.Argument( leftExpressionSyntax ), SyntaxFactory.Argument( rightExpressionSyntax ) );
 
             return CreateInvocationExpression( context.GetRuntimeInstanceName(), operatorFunctionName, arguments );
         }

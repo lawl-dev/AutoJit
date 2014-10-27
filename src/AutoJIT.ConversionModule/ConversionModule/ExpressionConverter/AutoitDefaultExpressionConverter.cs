@@ -14,12 +14,15 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( DefaultExpression node, IContextService context ) {
+            var typeName = SyntaxFactory.IdentifierName( typeof (Variant).Name );
+            var variantCreateName = CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) );
+
+
             return SyntaxFactory.InvocationExpression(
                 SyntaxFactory.MemberAccessExpression(
-                    SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
-                    SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) ) ) ).
-                WithArgumentList(
-                    SyntaxFactory.ArgumentList(
+                    SyntaxKind.SimpleMemberAccessExpression, typeName,
+                    SyntaxFactory.IdentifierName( variantCreateName ) ) ).
+                WithArgumentList(SyntaxFactory.ArgumentList(
                         SyntaxFactory.Argument( SyntaxFactory.ObjectCreationExpression( SyntaxFactory.IdentifierName( typeof (Default).Name ) ) )
                             .ToSeparatedSyntaxList() ) );
         }

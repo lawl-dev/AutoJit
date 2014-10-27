@@ -16,8 +16,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ContinueloopStatement statement, IContextService context ) {
-            GotoStatementSyntax toReturn = SyntaxFactory.GotoStatement(
-                SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( context.GetConinueLoopLabelName( statement.Level ) ) );
+            var coninueLoopLabelName = context.GetConinueLoopLabelName( statement.Level );
+
+            GotoStatementSyntax toReturn = SyntaxFactory.GotoStatement(SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( coninueLoopLabelName ) );
+            
             return toReturn.ToEnumerable();
         }
     }

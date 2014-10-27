@@ -9,7 +9,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitCallExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( CallExpression node, IContextService context ) {
-            return CreateInvocationExpression( context.GetRuntimeInstanceName(), node.IdentifierName, CreateParameter( node.Parameter, context ) );
+            var runtimeInstanceName = context.GetRuntimeInstanceName();
+            var functionName = node.IdentifierName;
+            var parameter = CreateParameter( node.Parameter, context );
+            
+            return CreateInvocationExpression( runtimeInstanceName, functionName, parameter );
         }
     }
 }

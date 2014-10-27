@@ -20,14 +20,16 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var toReturn = new List<StatementSyntax>();
 
             string exitFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Exit( 0 ) );
+            var runtimeInstanceName = context.GetRuntimeInstanceName();
+
+            var exitExpression = statement.ExpressionNode == null
+                ? SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( 0 ) )
+                : Convert( statement.ExpressionNode, context );
 
             toReturn.Add(
                 CSharpStatementFactory.CreateInvocationExpression(
-                    context.GetRuntimeInstanceName(), exitFunctionName,
-                    CompilerHelper.GetParameterInfo(
-                        exitFunctionName, statement.ExpressionNode == null
-                            ? SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( 0 ) )
-                            : Convert( statement.ExpressionNode, context ) ) ).ToStatementSyntax() );
+                    runtimeInstanceName, exitFunctionName,
+                    CompilerHelper.GetParameterInfo(exitFunctionName, exitExpression ) ).ToStatementSyntax() );
 
             return toReturn;
         }

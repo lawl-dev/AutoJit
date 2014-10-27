@@ -19,21 +19,25 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( ContinueCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            string continueLoopLabelName = context.GetContinueCaseLabelName(1);
-            //toReturn.Add(SyntaxFactory.GotoStatement(SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName(continueLoopLabelName)));
+            string continueCaseLabelName = context.GetContinueCaseLabelName(1);
+            
 
-            var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(
-                "Console", "WriteLine",
-                new[] {
-                    new CSharpParameterInfo(
-                        SyntaxFactory.LiteralExpression(
-                            SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( string.Format( "JUMPTOHACK_{0}", continueLoopLabelName ) ) ), false ),
-                } ).ToStatementSyntax();
+            var statementSyntax = GetPlaceholder( continueCaseLabelName );
 
             toReturn.Add(
                 statementSyntax );
 
             return toReturn;
+        }
+
+        private StatementSyntax GetPlaceholder( string continueCaseLabelName ) {
+            return CSharpStatementFactory.CreateInvocationExpression(
+                "Console", "WriteLine",
+                new[] {
+                    new CSharpParameterInfo(
+                        SyntaxFactory.LiteralExpression(
+                            SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( string.Format( "JUMPTOHACK_{0}", continueCaseLabelName ) ) ), false ),
+                } ).ToStatementSyntax();
         }
     }
 }

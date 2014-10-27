@@ -19,10 +19,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
             context.DeclareLocal(statement.VariableExpression.IdentifierName);
 
+            var variableName = context.GetVariableName(statement.VariableExpression.IdentifierName);
+            var block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) );
+
+
             toReturn.Add(
                 CSharpStatementFactory.CreateForInStatement(
-                    context.GetVariableName(statement.VariableExpression.IdentifierName), Convert( statement.ToEnumerate, context ),
-                    statement.Block.SelectMany( x => ConvertGeneric( x, context ) ) ) );
+                    variableName, Convert( statement.ToEnumerate, context ),
+                    block ) );
 
             return toReturn;
         }

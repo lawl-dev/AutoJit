@@ -5,7 +5,7 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 
-namespace AutoJIT.Compiler
+namespace AutoJIT.CSharpConverter.ConversionModule
 {
     public class ContinueCaseMsilFixingService : IContinueCaseMsilFixingService
     {

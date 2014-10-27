@@ -18,7 +18,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var toReturn = new List<StatementSyntax>();
 
             string exitLoopLabelName = context.GetExitLoopLabelName( statement.Level );
-            toReturn.Add( SyntaxFactory.GotoStatement( SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( exitLoopLabelName ) ) );
+
+            var gotoStatement = SyntaxFactory.GotoStatement( SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( exitLoopLabelName ) );
+
+            toReturn.Add( gotoStatement );
+            
             return toReturn;
         }
     }

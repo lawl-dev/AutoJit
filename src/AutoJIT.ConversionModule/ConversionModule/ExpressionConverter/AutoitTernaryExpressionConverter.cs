@@ -11,10 +11,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( TernaryExpression node, IContextService context ) {
+            var conditionExpression = ConverGeneric( node.Condition, context );
+            var ifTrueExpression = ConverGeneric( node.IfTrue, context );
+            var ifFalseExpression = ConverGeneric( node.IfFalse, context );
+
             return SyntaxFactory.ConditionalExpression(
-                ConverGeneric( node.Condition, context ),
-                ConverGeneric( node.IfTrue, context ),
-                ConverGeneric( node.IfFalse, context ) );
+                conditionExpression,
+                ifTrueExpression,
+                ifFalseExpression );
         }
     }
 }

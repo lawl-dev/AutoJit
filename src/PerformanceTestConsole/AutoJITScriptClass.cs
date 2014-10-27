@@ -1,6 +1,6 @@
 ﻿using AutoJITRuntime;
 
-namespace AutoJITScript
+namespace PerformanceTestConsole
 {
     public class AutoJITScriptClass
     {

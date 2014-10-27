@@ -28,7 +28,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                         var block = @case.Value.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
 
                         var continueCaseLabelName = context.GetContinueCaseLabelName();
-                        //var continueCaseLabel = SyntaxFactory.LabeledStatement( continueCaseLabelName, SyntaxFactory.EmptyStatement() );
+                        
 
                         var format = string.Format( "JUMPABHACK_{0}", continueCaseLabelName );
                         var statementSyntax = CSharpStatementFactory.CreateInvocationExpression(

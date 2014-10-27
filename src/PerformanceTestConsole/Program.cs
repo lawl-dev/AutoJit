@@ -1,5 +1,4 @@
 ﻿using AutoJITRuntime;
-using AutoJITScript;
 
 namespace PerformanceTestConsole
 {

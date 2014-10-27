@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp;
@@ -13,13 +14,20 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
         public override ExpressionSyntax Convert( ArrayExpression node, IContextService context ) {
             var variable = Convert<VariableExpression>(node, context);
-            return SyntaxFactory.ElementAccessExpression(
-                variable,
-                SyntaxFactory.BracketedArgumentList(
-                    SyntaxFactory.SeparatedList<ArgumentSyntax>()
-                        .AddRange(
-                            node.AccessParameter.Select(
-                                x => SyntaxFactory.Argument( ConverGeneric( x, context ) ) ) ) ) );
+
+            return AddElementAccessExpression( node, context, variable );
+        }
+
+        private ElementAccessExpressionSyntax AddElementAccessExpression( ArrayExpression node, IContextService context, ExpressionSyntax variable ) {
+            var argumentList = SyntaxFactory.BracketedArgumentList(SyntaxFactory.SeparatedList<ArgumentSyntax>()
+                                                                  .AddRange(CreateArguments( node, context ) ) );
+
+            return SyntaxFactory.ElementAccessExpression(variable, argumentList );
+        }
+
+        private IEnumerable<ArgumentSyntax> CreateArguments( ArrayExpression node, IContextService context ) {
+            return node.AccessParameter.Select(
+                x => SyntaxFactory.Argument( ConverGeneric( x, context ) ) );
         }
     }
 }

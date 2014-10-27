@@ -1,5 +1,6 @@
 ﻿using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Extensions;
+using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -11,10 +12,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( NegateExpression node, IContextService context ) {
+            var runtimeInstanceName = context.GetRuntimeInstanceName();
+            var negateFunctionName = CompilerHelper.GetCompilerMemberName(x => x.Negate(null));
+            var parameter = CreateParameter( node.ExpressionNode.ToEnumerable(), context );
+
             return CreateInvocationExpression(
-                context.GetRuntimeInstanceName(),
-                node.NegateFunctionName,
-                CreateParameter( node.ExpressionNode.ToEnumerable(), context ) );
+                runtimeInstanceName,
+                negateFunctionName,
+                parameter );
         }
     }
 }

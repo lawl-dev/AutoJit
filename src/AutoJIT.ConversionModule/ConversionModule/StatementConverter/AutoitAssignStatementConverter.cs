@@ -23,6 +23,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( AssignStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
+            
             if ( !context.IsDeclared( statement.Variable.IdentifierName ) ) {
                 if ( context.GetIsGlobalContext() ) {
                     context.DeclareGlobal( statement.Variable.IdentifierName );
@@ -33,7 +34,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                     toReturn.Add( DeclareLocal( statement, context ) );
                 }
             }
+
             toReturn.Add(AssignVariable(statement, context));
+            
             return toReturn;
         }
 

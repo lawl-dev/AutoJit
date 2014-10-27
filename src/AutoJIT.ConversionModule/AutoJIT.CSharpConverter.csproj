@@ -49,6 +49,18 @@
       <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.1.20.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -67,6 +79,7 @@
     <Compile Include="ConversionModule\AutoitToCSharpConverter.cs" />
     <Compile Include="ConversionModule\Context.cs" />
     <Compile Include="ConversionModule\ContextService.cs" />
+    <Compile Include="ConversionModule\ContinueCaseMsilFixingService.cs" />
     <Compile Include="ConversionModule\ConversionBootStrapper.cs" />
     <Compile Include="ConversionModule\CSharpSkeletonFactory.cs" />
     <Compile Include="ConversionModule\ExpressionConverter\AutoitArrayExpressionConverter.cs" />
@@ -91,6 +104,7 @@
     <Compile Include="ConversionModule\IAutoitToCSharpConverter.cs" />
     <Compile Include="ConversionModule\IContext.cs" />
     <Compile Include="ConversionModule\IContextService.cs" />
+    <Compile Include="ConversionModule\IContinueCaseMsilFixingService.cs" />
     <Compile Include="ConversionModule\ICSharpSkeletonFactory.cs" />
     <Compile Include="ConversionModule\Scope.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitAssignStatementConverter.cs" />

@@ -20,19 +20,16 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var toReturn = new List<StatementSyntax>();
 
             context.RegisterLoop();
-            string coninueLoopLabelName = context.GetConinueLoopLabelName();
 
+            string coninueLoopLabelName = context.GetConinueLoopLabelName();
             string exitLoopLabelName = context.GetExitLoopLabelName();
 
             List<StatementSyntax> block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
             block.Add( SyntaxFactory.LabeledStatement( coninueLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
-            toReturn.Add(
-                SyntaxFactory.DoStatement(
-                    block.ToBlock(),
-                    SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, Convert( statement.Condition, context ) ) ) );
-
+            toReturn.Add(SyntaxFactory.DoStatement( block.ToBlock(), SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, Convert( statement.Condition, context ) ) ) );
             toReturn.Add( SyntaxFactory.LabeledStatement( exitLoopLabelName, SyntaxFactory.EmptyStatement() ) );
+
 
             context.UnregisterLoop();
 

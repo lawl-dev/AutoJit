@@ -15,12 +15,15 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
         public override ExpressionSyntax Convert( FalseLiteralExpression node, IContextService context ) {
             {
-                LiteralExpressionSyntax expression = SyntaxFactory.LiteralExpression( SyntaxKind.FalseLiteralExpression );
+                LiteralExpressionSyntax falseExpression = SyntaxFactory.LiteralExpression( SyntaxKind.FalseLiteralExpression );
+                var typeName = SyntaxFactory.IdentifierName( typeof (Variant).Name );
+                var variantCreateName = CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) );
+
                 return SyntaxFactory.InvocationExpression(
                     SyntaxFactory.MemberAccessExpression(
-                        SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ),
-                        SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object) null ) ) ) ) )
-                    .WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( expression ).ToSeparatedSyntaxList() ) );
+                        SyntaxKind.SimpleMemberAccessExpression, typeName,
+                        SyntaxFactory.IdentifierName( variantCreateName ) ) )
+                    .WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( falseExpression ).ToSeparatedSyntaxList() ) );
             }
         }
     }
