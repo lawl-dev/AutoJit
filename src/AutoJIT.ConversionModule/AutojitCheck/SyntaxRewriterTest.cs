@@ -1,6 +1,6 @@
 using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Expressions;
-using AutoJIT.Parser.AST.Statements.Factory;
+using AutoJIT.Parser.AST.Factory;
 
 namespace AutoJIT.CSharpConverter.AutojitCheck
 {

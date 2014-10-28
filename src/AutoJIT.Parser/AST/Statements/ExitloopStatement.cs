@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoJIT.Parser.AST.Statements.Interface;
 
 namespace AutoJIT.Parser.AST.Statements
@@ -13,7 +14,7 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
-                return new List<ISyntaxNode>();
+                return Enumerable.Empty<ISyntaxNode>();
             }
         }
 

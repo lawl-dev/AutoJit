@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using AutoJIT.Parser.AST.Expressions.Interface;
+using System.Linq;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
@@ -7,7 +7,7 @@ namespace AutoJIT.Parser.AST.Expressions
     {
         public override IEnumerable<ISyntaxNode> Children {
             get {
-                return new List<IExpressionNode>();
+                return Enumerable.Empty<ISyntaxNode>();
             }
         }
 

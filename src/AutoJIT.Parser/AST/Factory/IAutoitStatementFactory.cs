@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
+using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Lex;
 
-namespace AutoJIT.Parser.AST.Statements.Factory
+namespace AutoJIT.Parser.AST.Factory
 {
     public interface IAutoitStatementFactory
     {

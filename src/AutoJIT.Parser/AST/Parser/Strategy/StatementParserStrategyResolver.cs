@@ -1,19 +1,19 @@
 using AutoJIT.Parser.AST.Parser.Strategy.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
-using Lawl.Architekture;
+using AutoJIT.Parser.Service;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class StatementParserStrategyResolver : IStatementParserStrategyResolver
     {
-        private readonly IDependencyContainer _dependencyContainer;
+        private readonly IInjectionService _injectionService;
 
-        public StatementParserStrategyResolver( IDependencyContainer dependencyContainer ) {
-            _dependencyContainer = dependencyContainer;
+        public StatementParserStrategyResolver( IInjectionService injectionService ) {
+            _injectionService = injectionService;
         }
 
         public IStatementParserStrategy<TStatement> Resolve<TStatement>() where TStatement : IStatementNode {
-            return _dependencyContainer.GetInstance<IStatementParserStrategy<TStatement>>();
+            return _injectionService.Inject<IStatementParserStrategy<TStatement>>();
         }
     }
 }

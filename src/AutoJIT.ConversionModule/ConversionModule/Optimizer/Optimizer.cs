@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using AutoJIT.CSharpConverter.ConversionModule.Helper;
 using AutoJIT.Parser.Extensions;
-using AutoJIT.Parser.Helper;
 using AutoJITRuntime;
 using AutoJITRuntime.Attrubutes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace AutoJIT.Parser.Optimizer
+namespace AutoJIT.CSharpConverter.ConversionModule.Optimizer
 {
     public sealed class Optimizer : CSharpSyntaxRewriter, IOptimizer
     {

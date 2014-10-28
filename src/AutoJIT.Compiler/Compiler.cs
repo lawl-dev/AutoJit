@@ -1,10 +1,10 @@
 using System.IO;
 using AutoJIT.CSharpConverter.ConversionModule;
+using AutoJIT.CSharpConverter.ConversionModule.Optimizer;
 using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.Exceptions;
 using AutoJIT.Parser.Lex.Interface;
-using AutoJIT.Parser.Optimizer;
 using AutoJITRuntime;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;

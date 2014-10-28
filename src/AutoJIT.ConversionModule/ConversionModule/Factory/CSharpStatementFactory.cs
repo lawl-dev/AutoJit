@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.CSharpConverter.ConversionModule.Helper;
 using AutoJIT.Parser.Extensions;
-using AutoJIT.Parser.Helper;
 using AutoJITRuntime;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace AutoJIT.Parser.AST.Statements.Factory
+namespace AutoJIT.CSharpConverter.ConversionModule.Factory
 {
     public sealed class CSharpStatementFactory : ICSharpStatementFactory
     {

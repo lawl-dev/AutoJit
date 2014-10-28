@@ -81,6 +81,7 @@ namespace AutoJIT.Parser.AST.Parser
                             if( Consume( block, Keywords.Enum ) ) {
                                 return ResolveStrategy<LocalEnumDeclarationStatement>();
                             }
+
                             if( Consume( block, Keywords.Static ) ) {
                                 return ResolveStrategy<StaticDeclarationStatement>();
                             }

@@ -73,29 +73,6 @@ namespace AutoJIT.Parser.AST.Parser
             return res;
         }
 
-        protected TokenCollection ParseInnerUntilSwitchSelect( TokenQueue block ) {
-            int count = 1;
-            var res = new TokenCollection(
-            block.DequeueWhile(
-                               delegate( Token token, int i ) {
-                                   if( token.Value.Keyword == Keywords.Switch
-                                       || token.Value.Keyword == Keywords.Select ) {
-                                       count++;
-                                   }
-                                   else if( token.Value.Keyword == Keywords.Case
-                                            && count == 1 ) {
-                                       count--;
-                                   }
-                                   else if( token.Value.Keyword == Keywords.Endselect
-                                            || token.Value.Keyword == Keywords.EndSwitch ) {
-                                       count--;
-                                   }
-                                   return count != 0;
-                               } ) );
-
-            return res;
-        }
-
         protected TokenCollection ParseInnerUntil( TokenQueue block, Keywords s, IEnumerable<Keywords> e, bool sOver = false ) {
             if( !sOver ) {
                 ConsumeAndEnsure( block, s );

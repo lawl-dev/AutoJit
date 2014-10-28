@@ -1,8 +1,8 @@
 ﻿using System;
 using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Expressions;
+using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Statements;
-using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.CSharpConverter.AutojitCheck

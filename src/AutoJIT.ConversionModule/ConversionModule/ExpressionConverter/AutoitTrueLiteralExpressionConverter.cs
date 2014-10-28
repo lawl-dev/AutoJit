@@ -1,6 +1,6 @@
-﻿using AutoJIT.Parser.AST.Expressions;
+﻿using AutoJIT.CSharpConverter.ConversionModule.Helper;
+using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Extensions;
-using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Service;
 using AutoJITRuntime;
 using Microsoft.CodeAnalysis.CSharp;

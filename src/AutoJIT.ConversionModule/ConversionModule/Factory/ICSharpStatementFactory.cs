@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using AutoJIT.Parser.Helper;
+using AutoJIT.CSharpConverter.ConversionModule.Helper;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace AutoJIT.Parser.AST.Statements.Factory
+namespace AutoJIT.CSharpConverter.ConversionModule.Factory
 {
     public interface ICSharpStatementFactory
     {

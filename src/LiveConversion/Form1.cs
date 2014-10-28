@@ -4,9 +4,9 @@ using System.IO;
 using System.Windows.Forms;
 using AutoJIT.Compiler;
 using AutoJIT.CSharpConverter.ConversionModule;
+using AutoJIT.CSharpConverter.ConversionModule.Optimizer;
 using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Parser.Interface;
-using AutoJIT.Parser.Optimizer;
 using Microsoft.CodeAnalysis;
 
 namespace WindowsFormsApplication1

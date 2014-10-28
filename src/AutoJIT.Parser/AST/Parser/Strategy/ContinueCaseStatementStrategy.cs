@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
-using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Extensions;

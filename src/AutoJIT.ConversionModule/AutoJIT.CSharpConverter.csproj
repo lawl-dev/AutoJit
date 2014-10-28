@@ -101,11 +101,17 @@
     <Compile Include="ConversionModule\ExpressionConverter\AutoitUserfunctionCallExpressionConverter.cs" />
     <Compile Include="ConversionModule\ExpressionConverter\AutoitVariableExpressionConverter.cs" />
     <Compile Include="ConversionModule\ExpressionConverter\Interface\IAutoitExpressionConverter.cs" />
+    <Compile Include="ConversionModule\Factory\CSharpStatementFactory.cs" />
+    <Compile Include="ConversionModule\Factory\ICSharpStatementFactory.cs" />
+    <Compile Include="ConversionModule\Helper\CompilerHelper.cs" />
+    <Compile Include="ConversionModule\Helper\CSharpParameterInfo.cs" />
     <Compile Include="ConversionModule\IAutoitToCSharpConverter.cs" />
     <Compile Include="ConversionModule\IContext.cs" />
     <Compile Include="ConversionModule\IContextService.cs" />
     <Compile Include="ConversionModule\IContinueCaseMsilFixingService.cs" />
     <Compile Include="ConversionModule\ICSharpSkeletonFactory.cs" />
+    <Compile Include="ConversionModule\Optimizer\IOptimizer.cs" />
+    <Compile Include="ConversionModule\Optimizer\Optimizer.cs" />
     <Compile Include="ConversionModule\Scope.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitAssignStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitContinueCaseStatementConverter.cs" />

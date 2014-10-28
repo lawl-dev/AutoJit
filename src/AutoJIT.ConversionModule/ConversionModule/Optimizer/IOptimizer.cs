@@ -1,6 +1,6 @@
 using Microsoft.CodeAnalysis;
 
-namespace AutoJIT.Parser.Optimizer
+namespace AutoJIT.CSharpConverter.ConversionModule.Optimizer
 {
     public interface IOptimizer
     {

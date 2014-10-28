@@ -6,7 +6,7 @@ using System.Reflection;
 using AutoJITRuntime;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace AutoJIT.Parser.Helper
+namespace AutoJIT.CSharpConverter.ConversionModule.Helper
 {
     public static class CompilerHelper
     {

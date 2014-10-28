@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using AutoJIT.CSharpConverter.ConversionModule.Factory;
+using AutoJIT.CSharpConverter.ConversionModule.Helper;
 using AutoJIT.Parser.AST.Statements;
-using AutoJIT.Parser.AST.Statements.Factory;
 using AutoJIT.Parser.Extensions;
-using AutoJIT.Parser.Helper;
 using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Service;
 using AutoJITRuntime;

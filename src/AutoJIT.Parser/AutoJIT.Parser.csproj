@@ -69,6 +69,8 @@
     <Compile Include="AST\Expressions\TrueLiteralExpression.cs" />
     <Compile Include="AST\Expressions\UserfunctionCallExpression.cs" />
     <Compile Include="AST\Expressions\VariableExpression.cs" />
+    <Compile Include="AST\Factory\AutoitStatementFactory.cs" />
+    <Compile Include="AST\Factory\IAutoitStatementFactory.cs" />
     <Compile Include="AST\FunctionNode.cs" />
     <Compile Include="AST\ISyntaxNode.cs" />
     <Compile Include="AST\Parser\ExpressionParseBase.cs" />
@@ -116,10 +118,6 @@
     <Compile Include="AST\Statements\EnumDeclarationStatement.cs" />
     <Compile Include="AST\Statements\ExitloopStatement.cs" />
     <Compile Include="AST\Statements\ExitStatement.cs" />
-    <Compile Include="AST\Statements\Factory\AutoitStatementFactory.cs" />
-    <Compile Include="AST\Statements\Factory\CSharpStatementFactory.cs" />
-    <Compile Include="AST\Statements\Factory\IAutoitStatementFactory.cs" />
-    <Compile Include="AST\Statements\Factory\ICSharpStatementFactory.cs" />
     <Compile Include="AST\Statements\ForInStatement.cs" />
     <Compile Include="AST\Statements\ForToNextStatement.cs" />
     <Compile Include="AST\Statements\FunctionCallStatement.cs" />
@@ -160,8 +158,6 @@
     <Compile Include="Extensions\StatementSyntaxExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Helper\CompilerHelper.cs" />
-    <Compile Include="Helper\CSharpParameterInfo.cs" />
     <Compile Include="Keywords.cs" />
     <Compile Include="Lex\Interface\ILexer.cs" />
     <Compile Include="Lex\Interface\IPragmaParser.cs" />
@@ -172,8 +168,6 @@
     <Compile Include="Lex\TokenFactory.cs" />
     <Compile Include="Lex\TokenType.cs" />
     <Compile Include="Lex\TokenValue.cs" />
-    <Compile Include="Optimizer\IOptimizer.cs" />
-    <Compile Include="Optimizer\Optimizer.cs" />
     <Compile Include="ParserBootStrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IInjectionService.cs" />
