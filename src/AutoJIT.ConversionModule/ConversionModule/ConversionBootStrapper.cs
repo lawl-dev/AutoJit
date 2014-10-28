@@ -44,7 +44,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             Bind<IAutoitStatementConverter<ReDimStatement, StatementSyntax>, AutoitRedimStatementConverter>();
             Bind<IAutoitStatementConverter<InitDefaultParameterStatement, StatementSyntax>, AutoitInitDefaultParameterStatementConverter>();
             Bind<IAutoitStatementConverter<ContinueCaseStatement, StatementSyntax>, AutoitContinueCaseStatementConverter>();
-            Bind<IAutoitStatementConverter<EnumDeclarationStatement, StatementSyntax>, AutoitEnumDeclarationStatementConverter>();
+            Bind<IAutoitStatementConverter<GlobalEnumDeclarationStatement, StatementSyntax>, AutoitEnumDeclarationStatementConverter>();
+            Bind<IAutoitStatementConverter<LocalEnumDeclarationStatement, StatementSyntax>, AutoitEnumDeclarationStatementConverter>();
+            Bind<IAutoitStatementConverter<StaticDeclarationStatement, StatementSyntax>, AutoitStaticDeclarationStatementConverter>();
         }
 
         private void RegisterExpressionConverter() {

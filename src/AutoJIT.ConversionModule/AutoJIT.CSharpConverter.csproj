@@ -126,9 +126,9 @@
     <Compile Include="ConversionModule\StatementConverter\AutoitReturnStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitSelectCaseStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitStatementConverterBase.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitStaticDeclarationStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitSwitchCaseStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitWhileStatementConverter.cs" />
-    <Compile Include="ConversionModule\StatementConverter\Interface\IAutoitFunctionConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\Interface\IAutoitStatementConverter.cs" />
     <Compile Include="ConversionModule\Visitor\AutoJITScriptConversionVisitor.cs" />
     <Compile Include="ConversionModule\Visitor\ExpressionConverterVisitor.cs" />

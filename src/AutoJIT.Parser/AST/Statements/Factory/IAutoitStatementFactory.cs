@@ -40,15 +40,12 @@ namespace AutoJIT.Parser.AST.Statements.Factory
         Queue<List<IStatementNode>> elseIfBlocks,
         IEnumerable<IStatementNode> elseBlock );
 
-        LocalDeclarationStatement CreateLocalDeclarationStatement(
-        VariableExpression variableExpression,
-        IExpressionNode initExpression,
-        bool isConst,
-        bool isStatic );
+        LocalDeclarationStatement CreateLocalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst );
 
         ReDimStatement CreateReDimStatement( ArrayExpression arrayExpression );
         ReturnStatement CreateReturnStatement( IExpressionNode returnExpression );
         SelectCaseStatement CreateSelectStatement( Dictionary<IExpressionNode, IEnumerable<IStatementNode>> cases, IEnumerable<IStatementNode> elseStatements );
         WhileStatement CreateWhileStatement( IExpressionNode condition, List<IStatementNode> block );
+        IStatementNode CreateStaticDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression );
     }
 }

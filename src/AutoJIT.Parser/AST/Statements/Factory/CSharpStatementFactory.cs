@@ -76,6 +76,10 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return CreateVariable( typeName, identifierName, CreateNullExpression() );
         }
 
+        public VariableDeclarationSyntax CreateVariableUninit( string typeName, string identifierName ) {
+            return CreateVariable( typeName, identifierName, SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) );
+        }
+
         public MemberAccessExpressionSyntax CreateMemberAccessExpression( string contextInstanceName, string macroName ) {
             return SyntaxFactory.MemberAccessExpression(
                                                         SyntaxKind.SimpleMemberAccessExpression,

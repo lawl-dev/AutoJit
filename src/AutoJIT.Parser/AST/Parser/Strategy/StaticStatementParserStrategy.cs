@@ -12,11 +12,11 @@ using AutoJIT.Parser.Lex.Interface;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-    public sealed class LocalStatementParserStrategy : StatementParserStrategyBase<LocalDeclarationStatement>
+    public sealed class StaticStatementParserStrategy : StatementParserStrategyBase<StaticDeclarationStatement>
     {
         private readonly ITokenFactory _tokenFactory;
 
-        public LocalStatementParserStrategy(
+        public StaticStatementParserStrategy(
         IStatementParser statementParser,
         IExpressionParser expressionParser,
         ITokenFactory tokenFactory,
@@ -31,7 +31,6 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         private IEnumerable<IStatementNode> ParseLocal( TokenQueue block ) {
             var toReturn = new List<IStatementNode>();
 
-            bool isConst = Consume( block, Keywords.Const );
 
             while( block.Any()
                    && block.Peek().Type == TokenType.Variable ) {
@@ -41,7 +40,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 if( Consume( block, TokenType.Equal ) ) {
                     initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
                 }
-                toReturn.Add( AutoitStatementFactory.CreateLocalDeclarationStatement( variableExpression, initExpression, isConst ) );
+                toReturn.Add( AutoitStatementFactory.CreateStaticDeclarationStatement( variableExpression, initExpression ) );
 
                 Consume( block, TokenType.Comma );
             }

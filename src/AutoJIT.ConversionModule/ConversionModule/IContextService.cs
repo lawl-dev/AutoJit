@@ -31,5 +31,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         bool IsDeclaredLocal( string identifierName );
         void DeclareGlobal( string identifierName );
         bool IsDeclaredGlobal( string identifierName );
+        void DeclareStatic( string identifierName );
+        bool IsDeclaredStatic( string identifierName );
     }
 }

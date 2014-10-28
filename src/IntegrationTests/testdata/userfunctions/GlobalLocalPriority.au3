@@ -9,17 +9,21 @@ if $a <> 2 Then Exit 3
 if $res <> 4 Then Exit 4
 
 $res = Foo3()
-if $res <> 7 Then Exit 4
+if $res <> 7 Then Exit 5
 
 $res = Foo4()
-if $res <> 3 Then Exit 4
+if $res <> 3 Then Exit 6
 
 $res = Foo5()
-if $res <> 1338 Then Exit 4
+if $res <> 1338 Then Exit 7
 $res = Foo5()
-if $res <> 1339 Then Exit 4
+if $res <> 1339 Then Exit 8
 $res = Foo5()
-if $res <> 1340 Then Exit 4
+if $res <> 1340 Then Exit 9
+$res = Foo6()
+$res = Foo6()
+if $res <> 1338 Then Exit 10
+
 
 Func Foo()
 $b = $a + 1
@@ -52,4 +56,9 @@ Func Foo5()
 	Return $a
 EndFunc
 
+Func Foo6()
+	Global $a = 1337
+	$a+=1
+	Return $a
+EndFunc
 

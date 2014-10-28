@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -18,7 +19,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             SelectLevelCount = new Dictionary<int, int>();
             CaseCount = 0;
             VariableMap = new Dictionary<string, Scope>();
+            StaticVariableGuids = new Dictionary<string, Guid>();
         }
+
+        public Dictionary<string, Guid> StaticVariableGuids { get; set; }
 
         public Dictionary<string, Scope> VariableMap { get; set; }
         public bool IsGlobalContext { get; set; }

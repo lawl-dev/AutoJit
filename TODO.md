@@ -6,12 +6,10 @@ TODO
 
 ## Parser
 * COM Obj Expressions / Statements
-* Static Keyword
 
 ## Converter
 * COM Obj Statements
-* Static
-* Local and global variables with same name
+
 
 ## Runtime
 

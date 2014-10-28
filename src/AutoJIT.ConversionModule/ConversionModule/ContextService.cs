@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -28,6 +29,21 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             else {
                 _context.VariableMap.Add( identifierName, Scope.Local );
             }
+        }
+
+        public void DeclareStatic( string identifierName ) {
+            _context.DeclaredVariables.Add( identifierName );
+            if( _context.VariableMap.ContainsKey( identifierName ) ) {
+                _context.VariableMap[identifierName] = Scope.Static;
+            }
+            else {
+                _context.VariableMap.Add( identifierName, Scope.Static );
+            }
+            _context.StaticVariableGuids.Add( identifierName, Guid.NewGuid() );
+        }
+
+        public bool IsDeclaredStatic( string identifierName ) {
+            return _context.DeclaredVariables.Contains( identifierName );
         }
 
         public string GetConinueLoopLabelName() {
@@ -149,6 +165,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
             _context.LoopLevel = 0;
             _context.LoopLevelCount.Clear();
             _context.VariableMap.Clear();
+            _context.StaticVariableGuids.Clear();
             foreach(string globalVariable in _context.DeclaredGlobalVariables) {
                 _context.VariableMap.Add( globalVariable, Scope.Global );
             }
@@ -163,7 +180,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         }
 
         public string GetVariableName( string key ) {
-            return string.Format( "{0}{1}", _context.VariableMap[key], key );
+            Scope scope = _context.VariableMap[key];
+            if( scope == Scope.Static ) {
+                Guid guid = _context.StaticVariableGuids[key];
+                return string.Format( "{0}{1}{2}", scope, key, guid.ToString( "N" ) );
+            }
+            return string.Format( "{0}{1}", scope, key );
         }
 
         public string GetVariableName( string key, Scope scope ) {

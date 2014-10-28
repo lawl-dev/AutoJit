@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -17,5 +18,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         Dictionary<int, int> SelectLevelCount { get; set; }
         int CaseCount { get; set; }
         Dictionary<string, Scope> VariableMap { get; set; }
+        Dictionary<string, Guid> StaticVariableGuids { get; set; }
     }
 }

@@ -13,7 +13,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-    internal sealed class AutoitLocalDeclarationStatementConverter : AutoitStatementConverterBase<LocalDeclarationStatement>
+    internal class AutoitLocalDeclarationStatementConverter : AutoitStatementConverterBase<LocalDeclarationStatement>
     {
         public AutoitLocalDeclarationStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
         : base( cSharpStatementFactory, injectionService ) {}

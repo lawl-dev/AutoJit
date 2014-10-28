@@ -88,7 +88,6 @@
     <Compile Include="TestsByExitCode.cs" />
     <Compile Include="UserfunctionTests.cs" />
     <Compile Include="VariantTests.cs" />
-    <Compile Include="WinApiDllTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoJIT.CompilerApplication\AutoJIT.CompilerApplication.csproj">

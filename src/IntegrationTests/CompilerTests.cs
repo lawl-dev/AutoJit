@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AutoJIT.Compiler;
+using AutoJIT.CompilerApplication;
 using AutoJITRuntime;
 using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
@@ -21,9 +22,9 @@ namespace UnitTests
 
         [Test]
         public void Test_KDMemory() {
-            string script = File.ReadAllText( string.Format( "{0}..\\..\\..\\testdata\\KDMemory.au3", Environment.CurrentDirectory ) );
+            string path = string.Format( "{0}..\\..\\..\\testdata\\KDMemory.au3", Environment.CurrentDirectory );
 
-            Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false ) );
+            Assert.DoesNotThrow( () => Program.Compile( "/IN", path, "/OUT", path+".exe", "/CONSOLE", "/Opt" ) );
         }
 
         [Test]

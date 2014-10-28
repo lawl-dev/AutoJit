@@ -92,6 +92,18 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             return GetConverter<LocalDeclarationStatement>().Convert( node, ContextService );
         }
 
+        public IEnumerable<StatementSyntax> Visit( StaticDeclarationStatement node ) {
+            return GetConverter<StaticDeclarationStatement>().Convert( node, ContextService );
+        }
+
+        public IEnumerable<StatementSyntax> Visit( GlobalEnumDeclarationStatement node ) {
+            return GetConverter<GlobalEnumDeclarationStatement>().Convert( node, ContextService );
+        }
+
+        public IEnumerable<StatementSyntax> Visit( LocalEnumDeclarationStatement node ) {
+            return GetConverter<LocalEnumDeclarationStatement>().Convert( node, ContextService );
+        }
+
         public IEnumerable<StatementSyntax> Visit( ReDimStatement node ) {
             return GetConverter<ReDimStatement>().Convert( node, ContextService );
         }

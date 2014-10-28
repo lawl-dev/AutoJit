@@ -104,6 +104,7 @@
     <Compile Include="AST\Parser\Strategy\SelectStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\StatementParserStrategyBase.cs" />
     <Compile Include="AST\Parser\Strategy\StatementParserStrategyResolver.cs" />
+    <Compile Include="AST\Parser\Strategy\StaticStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\SwitchCaseStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\WhileStatementParserStrategy.cs" />
     <Compile Include="AST\PragmaOptions.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="AST\Statements\ReDimStatement.cs" />
     <Compile Include="AST\Statements\ReturnStatement.cs" />
     <Compile Include="AST\Statements\SelectCaseStatement.cs" />
+    <Compile Include="AST\Statements\StaticDeclarationStatement.cs" />
     <Compile Include="AST\Statements\SwitchCaseStatement.cs" />
     <Compile Include="AST\Statements\WhileStatement.cs" />
     <Compile Include="AST\SyntaxNodeBase.cs" />

@@ -162,16 +162,12 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return new IfElseStatement( condition, ifBlock, elseIfConditions, elseIfBlocks, elseBlock );
         }
 
-        public LocalDeclarationStatement CreateLocalDeclarationStatement(
-        VariableExpression variableExpression,
-        IExpressionNode initExpression,
-        bool isConst,
-        bool isStatic ) {
+        public LocalDeclarationStatement CreateLocalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst ) {
             if( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
             }
 
-            return new LocalDeclarationStatement( variableExpression, initExpression, isConst, isStatic );
+            return new LocalDeclarationStatement( variableExpression, initExpression, isConst );
         }
 
         public ReDimStatement CreateReDimStatement( ArrayExpression arrayExpression ) {
@@ -206,6 +202,13 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             }
 
             return new WhileStatement( condition, block );
+        }
+
+        public IStatementNode CreateStaticDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression ) {
+            if( variableExpression == null ) {
+                throw new ArgumentNullException( "variableExpression" );
+            }
+            return new StaticDeclarationStatement( variableExpression, initExpression );
         }
     }
 }

@@ -59,19 +59,30 @@ namespace AutoJIT.Parser.AST.Parser
                 case TokenType.Keyword:
                     ConsumeAndEnsure( block, TokenType.Keyword );
                     switch(current.Value.Keyword) {
-                        case Keywords.If:
-                            return ResolveStrategy<IfElseStatement>();
+                        case Keywords.Static:
+                            if( Consume( block, Keywords.Global ) ) {
+                                goto case Keywords.Global;
+                            }
+                            if( Consume( block, Keywords.Local ) ) {
+                                return ResolveStrategy<StaticDeclarationStatement>();
+                            }
+                            break;
                         case Keywords.Global:
                             if( Consume( block, Keywords.Enum ) ) {
                                 return ResolveStrategy<GlobalEnumDeclarationStatement>();
                             }
+                            Consume( block, Keywords.Static ); //irrelevant
                             return ResolveStrategy<GlobalDeclarationStatement>();
-
+                        case Keywords.If:
+                            return ResolveStrategy<IfElseStatement>();
                         case Keywords.Enum:
                             return ResolveStrategy<LocalEnumDeclarationStatement>();
                         case Keywords.Local:
                             if( Consume( block, Keywords.Enum ) ) {
                                 return ResolveStrategy<LocalEnumDeclarationStatement>();
+                            }
+                            if( Consume( block, Keywords.Static ) ) {
+                                return ResolveStrategy<StaticDeclarationStatement>();
                             }
                             return ResolveStrategy<LocalDeclarationStatement>();
                         case Keywords.Dim:
@@ -101,9 +112,9 @@ namespace AutoJIT.Parser.AST.Parser
                         default:
                             throw new NotImplementedException( string.Format( "Keyword Strategy: {0}", current.Value.Keyword ) );
                     }
-                default:
-                    throw new NotImplementedException( current.Type.ToString() );
+                    break;
             }
+            throw new NotImplementedException( current.Type.ToString() );
         }
 
         private IStatementParserStrategy<T> ResolveStrategy<T>() where T : IStatementNode {
