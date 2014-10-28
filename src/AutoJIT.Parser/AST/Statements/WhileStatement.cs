@@ -14,14 +14,8 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public IExpressionNode Condition {
-            get;
-            private set;
-        }
-        public IEnumerable<IStatementNode> Block {
-            get;
-            private set;
-        }
+        public IExpressionNode Condition { get; private set; }
+        public IEnumerable<IStatementNode> Block { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

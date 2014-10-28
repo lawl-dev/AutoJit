@@ -8,25 +8,19 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class SwitchCaseStatement : StatementBase
     {
-        public SwitchCaseStatement( IExpressionNode condition, Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>> cases, IEnumerable<IStatementNode> @else ) {
+        public SwitchCaseStatement(
+        IExpressionNode condition,
+        Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>> cases,
+        IEnumerable<IStatementNode> @else ) {
             Condition = condition;
             Cases = cases;
             Else = @else;
             Initialize();
         }
 
-        public IExpressionNode Condition {
-            get;
-            private set;
-        }
-        public Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>> Cases {
-            get;
-            private set;
-        }
-        public IEnumerable<IStatementNode> Else {
-            get;
-            private set;
-        }
+        public IExpressionNode Condition { get; private set; }
+        public Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>> Cases { get; private set; }
+        public IEnumerable<IStatementNode> Else { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -70,9 +64,16 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>> cases = Cases.ToDictionary( @case => @case.Key.Select( x => new KeyValuePair<IExpressionNode, IExpressionNode>( (IExpressionNode)x.Key.Clone(), x.Value != null
-            ? (IExpressionNode)x.Value.Clone()
-            : null ) ), @case => @case.Value.Select( x => (IStatementNode)x.Clone() ) );
+            Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>> cases =
+            Cases.ToDictionary(
+                               @case =>
+                               @case.Key.Select(
+                                                x => new KeyValuePair<IExpressionNode, IExpressionNode>(
+                                                (IExpressionNode)x.Key.Clone(),
+                                                x.Value != null
+                                                ? (IExpressionNode)x.Value.Clone()
+                                                : null ) ),
+                               @case => @case.Value.Select( x => (IStatementNode)x.Clone() ) );
             return new SwitchCaseStatement( (IExpressionNode)Condition.Clone(), cases, CloneEnumerableAs<IStatementNode>( Else ) );
         }
     }

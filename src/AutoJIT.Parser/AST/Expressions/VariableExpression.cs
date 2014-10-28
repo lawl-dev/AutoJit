@@ -9,10 +9,7 @@ namespace AutoJIT.Parser.AST.Expressions
             IdentifierName = identifierName;
         }
 
-        public string IdentifierName {
-            get;
-            private set;
-        }
+        public string IdentifierName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

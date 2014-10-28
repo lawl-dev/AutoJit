@@ -12,20 +12,26 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
     {
         private readonly ICSharpStatementFactory _cSharpStatementFactory;
 
-        public AutoitIfElseStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {
+        public AutoitIfElseStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+        : base( cSharpStatementFactory, injectionService ) {
             _cSharpStatementFactory = cSharpStatementFactory;
         }
 
         public override IEnumerable<StatementSyntax> Convert( IfElseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            IfStatementSyntax ifStatement = _cSharpStatementFactory.CreateIfStatement( Convert( statement.Condition, context ), statement.IfBlock.SelectMany( x => ConvertGeneric( x, context ) ) );
+            IfStatementSyntax ifStatement = _cSharpStatementFactory.CreateIfStatement(
+                                                                                      Convert( statement.Condition, context ),
+                                                                                      statement.IfBlock.SelectMany( x => ConvertGeneric( x, context ) ) );
 
             var elseIfs = new List<IfStatementSyntax>();
 
             if( statement.ElseIfConditions != null ) {
                 for( int i = 0; i < statement.ElseIfConditions.Count(); i++ ) {
-                    IfStatementSyntax innerIfStatement = _cSharpStatementFactory.CreateIfStatement( Convert( statement.ElseIfConditions.ElementAt( i ), context ), statement.ElseIfBlocks.ElementAt( i ).SelectMany( x => ConvertGeneric( x, context ) ) );
+                    IfStatementSyntax innerIfStatement =
+                    _cSharpStatementFactory.CreateIfStatement(
+                                                              Convert( statement.ElseIfConditions.ElementAt( i ), context ),
+                                                              statement.ElseIfBlocks.ElementAt( i ).SelectMany( x => ConvertGeneric( x, context ) ) );
                     elseIfs.Add( innerIfStatement );
                 }
             }

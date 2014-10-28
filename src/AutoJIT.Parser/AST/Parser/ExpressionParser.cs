@@ -11,7 +11,7 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser
 {
-    public class ExpressionParser : ExpressionParseBase, IExpressionParser
+    public sealed class ExpressionParser : ExpressionParseBase, IExpressionParser
     {
         private readonly IOperatorPrecedenceService _operatorPrecedenceService;
 
@@ -52,11 +52,11 @@ namespace AutoJIT.Parser.AST.Parser
                 return leftNode;
             }
 
-            bool isOperatableExpression = block.Peek().IsMathExpression || block.Peek().IsNumberExpression || block.Peek().IsBooleanExpression || block.Peek().Type == TokenType.StringEqual || block.Peek().Type == TokenType.Concat;
+            bool isBinaryExpression = block.Peek().IsBinaryExpression;
 
             bool isTernaryExpression = block.Peek().Type == TokenType.QuestionMark;
 
-            if( isOperatableExpression ) {
+            if( isBinaryExpression ) {
                 @operator = block.Dequeue();
             }
             else if( isTernaryExpression ) {
@@ -72,33 +72,16 @@ namespace AutoJIT.Parser.AST.Parser
                 throw new SyntaxTreeException( "Unresolved expression", block.First().Col, block.First().Line );
             }
 
-            switch(@operator.Type) {
-                case TokenType.Plus:
-                case TokenType.Minus:
-                case TokenType.Div:
-                case TokenType.Mult:
-                case TokenType.Concat:
-                case TokenType.PowAssign:
-                case TokenType.Greater:
-                case TokenType.GreaterEqual:
-                case TokenType.Less:
-                case TokenType.LessEqual:
-                case TokenType.StringEqual:
-                case TokenType.Equal:
-                case TokenType.Notequal:
-                case TokenType.Pow:
-                case TokenType.OR:
-                case TokenType.AND:
-                    return new BinaryExpression( leftNode, rightNode, @operator );
-            }
-            throw new NotImplementedException();
+            return new BinaryExpression( leftNode, rightNode, @operator );
         }
 
         private IExpressionNode ParseTernaryExpression( TokenQueue block, IExpressionNode leftNode ) {
-            SkipAndAssert( block, TokenType.QuestionMark );
+            ConsumeAndEnsure( block, TokenType.QuestionMark );
             IExpressionNode ifTrue = ParseExpressionNode( block );
-            SkipAndAssert( block, TokenType.DoubleDot );
+
+            ConsumeAndEnsure( block, TokenType.DoubleDot );
             IExpressionNode ifFalse = ParseExpressionNode( block );
+
             if( block.Any() ) {
                 throw new SyntaxTreeException( "Unresolved expression", block.First().Col, block.First().Line );
             }
@@ -175,27 +158,27 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         private IExpressionNode ParseDefaultKeywordExpression( TokenQueue block ) {
-            SkipAndAssert( block, Keywords.Default );
+            ConsumeAndEnsure( block, Keywords.Default );
             return new DefaultExpression();
         }
 
         private IExpressionNode ParseTrueKeywordExpression( TokenQueue block ) {
-            SkipAndAssert( block, Keywords.True );
+            ConsumeAndEnsure( block, Keywords.True );
             return new TrueLiteralExpression();
         }
 
         private IExpressionNode ParseFalseKeywordExpression( TokenQueue block ) {
-            SkipAndAssert( block, Keywords.False );
+            ConsumeAndEnsure( block, Keywords.False );
             return new FalseLiteralExpression();
         }
 
         private IExpressionNode ParseArrayInitializerExpression( TokenQueue block ) {
-            SkipAndAssert( block, TokenType.Leftsubscript );
+            ConsumeAndEnsure( block, TokenType.Leftsubscript );
             var toInit = new List<IExpressionNode>();
             do {
                 toInit.Add( ParseBlock( block ) );
-            } while( Skip( block, TokenType.Comma ) );
-            SkipAndAssert( block, TokenType.Rightsubscript );
+            } while( Consume( block, TokenType.Comma ) );
+            ConsumeAndEnsure( block, TokenType.Rightsubscript );
             return new ArrayInitExpression( toInit );
         }
 

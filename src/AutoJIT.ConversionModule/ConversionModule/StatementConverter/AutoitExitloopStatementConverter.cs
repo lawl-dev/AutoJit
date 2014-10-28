@@ -9,7 +9,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitExitloopStatementConverter : AutoitStatementConverterBase<ExitloopStatement>
     {
-        public AutoitExitloopStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitExitloopStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+        : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ExitloopStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();

@@ -14,21 +14,9 @@ namespace AutoJITRuntime
             MarshalAttribute = marshalAttribute;
         }
 
-        public object Parameter {
-            get;
-            private set;
-        }
-        public Type Type {
-            get;
-            private set;
-        }
-        public UnmanagedType? MarshalAttribute {
-            get;
-            private set;
-        }
-        public bool IsRef {
-            get;
-            private set;
-        }
+        public object Parameter { get; private set; }
+        public Type Type { get; private set; }
+        public UnmanagedType? MarshalAttribute { get; private set; }
+        public bool IsRef { get; private set; }
     }
 }

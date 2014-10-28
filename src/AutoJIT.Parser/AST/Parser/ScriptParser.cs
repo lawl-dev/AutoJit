@@ -83,16 +83,16 @@ namespace AutoJIT.Parser.AST.Parser
             }
 
             do {
-                Skip( parameterPart, TokenType.Comma );
+                Consume( parameterPart, TokenType.Comma );
 
-                bool isConst = Skip( parameterPart, Keywords.Const );
-                bool isByRef = Skip( parameterPart, Keywords.ByRef );
+                bool isConst = Consume( parameterPart, Keywords.Const );
+                bool isByRef = Consume( parameterPart, Keywords.ByRef );
 
                 string name = parameterPart.Dequeue().Value.StringValue;
 
                 IExpressionNode initExpression = null;
                 if( parameterPart.Any()
-                    && Skip( parameterPart, TokenType.Equal ) ) {
+                    && Consume( parameterPart, TokenType.Equal ) ) {
                     initExpression = _expressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( parameterPart ) ), true );
                 }
                 toReturn.Add( new AutoitParameterInfo( name, initExpression, isByRef, isConst ) );

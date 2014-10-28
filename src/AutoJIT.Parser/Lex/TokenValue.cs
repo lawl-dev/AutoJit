@@ -9,10 +9,7 @@ namespace AutoJIT.Parser.Lex
         private long _int64Value;
         private Keywords _keyword;
         private string _stringValue;
-        public object CurrentValue {
-            get;
-            private set;
-        }
+        public object CurrentValue { get; private set; }
 
         public Keywords Keyword {
             get {

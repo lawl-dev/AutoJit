@@ -64,7 +64,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         }
 
         private Instruction GetContinueDestination( IEnumerable<Instruction> continueDestinations, Instruction continueCase ) {
-            return continueDestinations.Single( x => x.Operand != null && ( (string)x.Operand ).EndsWith( ( (string)continueCase.Operand ).Replace( "JUMPTOHACK", string.Empty ) ) );
+            return
+            continueDestinations.Single(
+                                        x =>
+                                        x.Operand != null
+                                        && ( (string)x.Operand ).EndsWith( ( (string)continueCase.Operand ).Replace( "JUMPTOHACK", string.Empty ) ) );
         }
 
         private static List<Instruction> GetContinueCaseDestinations( IEnumerable<Instruction> instructions ) {

@@ -115,7 +115,8 @@ namespace AutoJITRuntime
                 }
                 return 0;
             }
-            KeyValuePair<MethodInfo, int> valuePair = _context.LibRegister.SingleOrDefault( x => x.Key.Name.Equals( function, StringComparison.InvariantCultureIgnoreCase ) );
+            KeyValuePair<MethodInfo, int> valuePair =
+            _context.LibRegister.SingleOrDefault( x => x.Key.Name.Equals( function, StringComparison.InvariantCultureIgnoreCase ) );
             if( valuePair.Key != null ) {
                 _context.LibRegister.Remove( valuePair.Key );
             }
@@ -420,7 +421,8 @@ namespace AutoJITRuntime
                     (byte)read
                 };
             }
-            return new String( new[] {
+            return new String(
+            new[] {
                 (char)read
             } );
         }
@@ -447,7 +449,14 @@ namespace AutoJITRuntime
             return @string;
         }
 
-        public Variant ControlClick( Variant title, Variant text, Variant controlID, Variant button = null, Variant clicks = null, Variant x = null, Variant y = null ) {
+        public Variant ControlClick(
+        Variant title,
+        Variant text,
+        Variant controlID,
+        Variant button = null,
+        Variant clicks = null,
+        Variant x = null,
+        Variant y = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -869,7 +878,16 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant FileCreateShortcut( Variant file, Variant lnk, Variant workdir = null, Variant args = null, Variant desc = null, Variant icon = null, Variant hotkey = null, Variant iconnumber = null, Variant state = null ) {
+        public Variant FileCreateShortcut(
+        Variant file,
+        Variant lnk,
+        Variant workdir = null,
+        Variant args = null,
+        Variant desc = null,
+        Variant icon = null,
+        Variant hotkey = null,
+        Variant iconnumber = null,
+        Variant state = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1133,7 +1151,15 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant GUICreate( Variant title, Variant width = null, Variant height = null, Variant left = null, Variant top = null, Variant style = null, Variant exStyle = null, Variant parent = null ) {
+        public Variant GUICreate(
+        Variant title,
+        Variant width = null,
+        Variant height = null,
+        Variant left = null,
+        Variant top = null,
+        Variant style = null,
+        Variant exStyle = null,
+        Variant parent = null ) {
             SetError( 0, 0, 0 );
 
             if( width == null ) {
@@ -1165,7 +1191,12 @@ namespace AutoJITRuntime
             }
 
             var form = new Form {
-                Text = title, Width = width, Height = height, Left = left, Top = top, Visible = false
+                Text = title,
+                Width = width,
+                Height = height,
+                Left = left,
+                Top = top,
+                Visible = false
             };
             Control parentHandle = Control.FromHandle( new IntPtr( parent ) );
             if( parentHandle != null ) {
@@ -1178,25 +1209,54 @@ namespace AutoJITRuntime
             return form.Handle;
         }
 
-        public Variant GUICtrlCreateAvi( Variant filename, Variant subfileid, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateAvi(
+        Variant filename,
+        Variant subfileid,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateButton( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateButton(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateCheckbox( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateCheckbox(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateCombo( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateCombo(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1208,7 +1268,14 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateDate( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateDate(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1220,7 +1287,14 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateEdit( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateEdit(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1232,37 +1306,80 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateGroup( Variant text, Variant left, Variant top = null, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateGroup(
+        Variant text,
+        Variant left,
+        Variant top = null,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateIcon( Variant filename, Variant iconName, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateIcon(
+        Variant filename,
+        Variant iconName,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateInput( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateInput(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateLabel( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateLabel(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateList( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateList(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateListView( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateListView(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1286,7 +1403,14 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateMonthCal( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateMonthCal(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1298,25 +1422,51 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreatePic( Variant filename, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreatePic(
+        Variant filename,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateProgress( Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateProgress(
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateRadio( Variant text, Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateRadio(
+        Variant text,
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlCreateSlider( Variant left, Variant top, Variant width = null, Variant height = null, Variant style = null, Variant exStyle = null ) {
+        public Variant GUICtrlCreateSlider(
+        Variant left,
+        Variant top,
+        Variant width = null,
+        Variant height = null,
+        Variant style = null,
+        Variant exStyle = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1436,7 +1586,13 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant GUICtrlSetFont( Variant controlID, Variant size, Variant weight = null, Variant attribute = null, Variant fontname = null, Variant quality = null ) {
+        public Variant GUICtrlSetFont(
+        Variant controlID,
+        Variant size,
+        Variant weight = null,
+        Variant attribute = null,
+        Variant fontname = null,
+        Variant quality = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1550,7 +1706,13 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant GUISetFont( Variant size, Variant weight = null, Variant attribute = null, Variant fontname = null, Variant winhandle = null, Variant quality = null ) {
+        public Variant GUISetFont(
+        Variant size,
+        Variant weight = null,
+        Variant attribute = null,
+        Variant fontname = null,
+        Variant winhandle = null,
+        Variant quality = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -1711,7 +1873,17 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant InputBox( Variant title, Variant prompt, Variant @default = null, Variant passwordchar = null, Variant width = null, Variant height = null, Variant left = null, Variant top = null, Variant timeout = null, Variant hwnd = null ) {
+        public Variant InputBox(
+        Variant title,
+        Variant prompt,
+        Variant @default = null,
+        Variant passwordchar = null,
+        Variant width = null,
+        Variant height = null,
+        Variant left = null,
+        Variant top = null,
+        Variant timeout = null,
+        Variant hwnd = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -2050,7 +2222,15 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant PixelSearch( Variant left, Variant top, Variant right, Variant bottom, Variant color, Variant shadevariation = null, Variant step = null, Variant hwnd = null ) {
+        public Variant PixelSearch(
+        Variant left,
+        Variant top,
+        Variant right,
+        Variant bottom,
+        Variant color,
+        Variant shadevariation = null,
+        Variant step = null,
+        Variant hwnd = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -2228,13 +2408,29 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant RunAs( Variant username, Variant domain, Variant password, Variant logonflag, Variant program, Variant workingdir = null, Variant showflag = null, Variant optflag = null ) {
+        public Variant RunAs(
+        Variant username,
+        Variant domain,
+        Variant password,
+        Variant logonflag,
+        Variant program,
+        Variant workingdir = null,
+        Variant showflag = null,
+        Variant optflag = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
-        public Variant RunAsWait( Variant username, Variant domain, Variant password, Variant logonflag, Variant program, Variant workingdir = null, Variant show_flag = null, Variant opt_flag = null ) {
+        public Variant RunAsWait(
+        Variant username,
+        Variant domain,
+        Variant password,
+        Variant logonflag,
+        Variant program,
+        Variant workingdir = null,
+        Variant show_flag = null,
+        Variant opt_flag = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -2382,7 +2578,14 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant SplashImageOn( Variant title, Variant file, Variant width = null, Variant height = null, Variant xpos = null, Variant ypos = null, Variant opt = null ) {
+        public Variant SplashImageOn(
+        Variant title,
+        Variant file,
+        Variant width = null,
+        Variant height = null,
+        Variant xpos = null,
+        Variant ypos = null,
+        Variant opt = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -2394,7 +2597,17 @@ namespace AutoJITRuntime
             throw new NotImplementedException();
         }
 
-        public Variant SplashTextOn( Variant title, Variant text, Variant w = null, Variant h = null, Variant xpos = null, Variant ypos = null, Variant opt = null, Variant fontname = null, Variant fontsz = null, Variant fontwt = null ) {
+        public Variant SplashTextOn(
+        Variant title,
+        Variant text,
+        Variant w = null,
+        Variant h = null,
+        Variant xpos = null,
+        Variant ypos = null,
+        Variant opt = null,
+        Variant fontname = null,
+        Variant fontsz = null,
+        Variant fontwt = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
@@ -2499,7 +2712,13 @@ namespace AutoJITRuntime
             }
         }
 
-        public Variant StringInStr( Variant @string, Variant substring, Variant casesense = null, Variant occurrence = null, Variant start = null, Variant count = null ) {
+        public Variant StringInStr(
+        Variant @string,
+        Variant substring,
+        Variant casesense = null,
+        Variant occurrence = null,
+        Variant start = null,
+        Variant count = null ) {
             SetError( 0, 0, 0 );
 
             try {
@@ -3326,7 +3545,8 @@ namespace AutoJITRuntime
                 return toTest >= @from && toTest <= to;
             }
             if( toTest.IsString ) {
-                return System.String.CompareOrdinal( toTest.GetString(), @from.GetString() ) >= 0 && string.CompareOrdinal( toTest.GetString(), to.GetString() ) <= 0;
+                return System.String.CompareOrdinal( toTest.GetString(), @from.GetString() ) >= 0
+                       && string.CompareOrdinal( toTest.GetString(), to.GetString() ) <= 0;
             }
             throw new NotImplementedException();
         }

@@ -21,14 +21,8 @@ namespace AutoJITRuntime
             Guis = new List<IntPtr>();
         }
 
-        public T Context {
-            get;
-            set;
-        }
-        public List<IntPtr> Guis {
-            get;
-            set;
-        }
+        public T Context { get; set; }
+        public List<IntPtr> Guis { get; set; }
 
         //http://www.autoitscript.com/autoit3/docs/macros.htm
         public Variant @AppDataCommonDir {
@@ -187,14 +181,8 @@ namespace AutoJITRuntime
             }
         }
 
-        public Variant @Error {
-            get;
-            set;
-        }
-        public Variant @Extended {
-            get;
-            set;
-        }
+        public Variant @Error { get; set; }
+        public Variant @Extended { get; set; }
 
         public Variant @COM_EventObj {
             get {

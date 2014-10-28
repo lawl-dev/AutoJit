@@ -13,14 +13,8 @@ namespace AutoJIT.Parser.AST.Expressions
             Initialize();
         }
 
-        public IExpressionNode Left {
-            get;
-            private set;
-        }
-        public Token Operator {
-            get;
-            private set;
-        }
+        public IExpressionNode Left { get; private set; }
+        public Token Operator { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

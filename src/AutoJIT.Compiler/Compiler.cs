@@ -21,7 +21,12 @@ namespace AutoJIT.Compiler
         private readonly IPragmaParser _pragmaParser;
         private readonly IScriptParser _scriptParser;
 
-        public Compiler( IOptimizer optimizer, IScriptParser scriptParser, IPragmaParser pragmaParser, IAutoitToCSharpConverter autoitToCSharpConverter, IContinueCaseMsilFixingService continueCaseMsilFixingService ) {
+        public Compiler(
+        IOptimizer optimizer,
+        IScriptParser scriptParser,
+        IPragmaParser pragmaParser,
+        IAutoitToCSharpConverter autoitToCSharpConverter,
+        IContinueCaseMsilFixingService continueCaseMsilFixingService ) {
             _optimizer = optimizer;
             _scriptParser = scriptParser;
             _pragmaParser = pragmaParser;
@@ -37,7 +42,13 @@ namespace AutoJIT.Compiler
 
             NamespaceDeclarationSyntax cSharpTree = _autoitToCSharpConverter.Convert( autoJITScript );
 
-            CompilationUnitSyntax compilationUnit = SyntaxFactory.CompilationUnit().AddMembers( cSharpTree ).AddUsings( SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof(AutoitRuntime<>).Namespace ) ), SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof(Variant).Namespace ) ), SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof(object).Namespace ) ) );
+            CompilationUnitSyntax compilationUnit =
+            SyntaxFactory.CompilationUnit()
+                         .AddMembers( cSharpTree )
+                         .AddUsings(
+                                    SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof(AutoitRuntime<>).Namespace ) ),
+                                    SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof(Variant).Namespace ) ),
+                                    SyntaxFactory.UsingDirective( SyntaxFactory.IdentifierName( typeof(object).Namespace ) ) );
 
             SyntaxNode root = compilationUnit.SyntaxTree.GetRoot();
 
@@ -45,11 +56,17 @@ namespace AutoJIT.Compiler
                 root = _optimizer.Optimize( root );
             }
 
-            CSharpCompilation compilation = CSharpCompilation.Create( assemblyName, new[] {
-                root.SyntaxTree
-            }, null, new CSharpCompilationOptions( outputKind, optimize: true, platform: Platform.X86 ) );
+            CSharpCompilation compilation = CSharpCompilation.Create(
+                                                                     assemblyName,
+                                                                     new[] {
+                                                                         root.SyntaxTree
+                                                                     },
+                                                                     null,
+                                                                     new CSharpCompilationOptions( outputKind, optimize: true, platform: Platform.X86 ) );
 
-            compilation = compilation.WithReferences( new MetadataFileReference( typeof(object).Assembly.Location ), new MetadataFileReference( typeof(Variant).Assembly.Location ) );
+            compilation = compilation.WithReferences(
+                                                     new MetadataFileReference( typeof(object).Assembly.Location ),
+                                                     new MetadataFileReference( typeof(Variant).Assembly.Location ) );
 
             var outputStream = new MemoryStream();
 

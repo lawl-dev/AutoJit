@@ -635,7 +635,9 @@ namespace UnitTests
 
         private Variant GetArray() {
             return new Variant[] {
-                1, 2, "awd"
+                1,
+                2,
+                "awd"
             };
         }
     }

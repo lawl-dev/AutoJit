@@ -14,9 +14,7 @@ namespace AutoJIT.Parser.AST
             visitor.Visit( this );
         }
 
-        public abstract IEnumerable<ISyntaxNode> Children {
-            get;
-        }
+        public abstract IEnumerable<ISyntaxNode> Children { get; }
 
         public void Accept( ISyntaxVisitor visitor ) {
             foreach(ISyntaxNode child in Children) {

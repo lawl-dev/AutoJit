@@ -27,9 +27,10 @@ namespace UnitTests
             TokenCollection tokens = _lexer.Lex( arrInitExpress );
 
             IExpressionNode node = null;
-            Assert.DoesNotThrow( () => {
-                                     node = _expressionParser.ParseBlock( tokens, true );
-                                 } );
+            Assert.DoesNotThrow(
+                                () => {
+                                    node = _expressionParser.ParseBlock( tokens, true );
+                                } );
 
             var arrayInitExpression = (ArrayInitExpression)node;
             List<IExpressionNode> childs = arrayInitExpression.ToAssign.ToList();

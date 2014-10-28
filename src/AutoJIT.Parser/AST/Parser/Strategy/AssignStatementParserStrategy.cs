@@ -13,7 +13,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class AssignStatementParserStrategy : StatementParserStrategyBase<AssignStatement>
     {
-        public AssignStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public AssignStatementParserStrategy(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseAssignStatement( block ).ToEnumerable();

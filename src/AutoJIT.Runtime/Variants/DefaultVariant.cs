@@ -40,7 +40,10 @@ namespace AutoJITRuntime.Variants
 
         public override byte[] GetBinary() {
             return new byte[] {
-                0xFF, 0xFF, 0xFF, 0xFF
+                0xFF,
+                0xFF,
+                0xFF,
+                0xFF
             };
         }
 

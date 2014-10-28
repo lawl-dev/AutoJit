@@ -193,7 +193,9 @@ namespace AutoJIT.Parser.Lex
 
         private Token CreateToken( TokenType type, int pos, int line ) {
             return new Token {
-                Type = type, Col = pos, Line = line
+                Type = type,
+                Col = pos,
+                Line = line
             };
         }
     }

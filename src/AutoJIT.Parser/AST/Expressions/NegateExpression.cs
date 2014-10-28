@@ -11,10 +11,7 @@ namespace AutoJIT.Parser.AST.Expressions
             Initialize();
         }
 
-        public IExpressionNode ExpressionNode {
-            get;
-            private set;
-        }
+        public IExpressionNode ExpressionNode { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

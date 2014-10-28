@@ -14,11 +14,19 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         protected AutoitInvocationExpressionConverterBase( IInjectionService injectionService ) : base( injectionService ) {}
 
         protected InvocationExpressionSyntax CreateInvocationExpression( string runtimeName, string functionName, IEnumerable<ArgumentSyntax> arguments ) {
-            return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( runtimeName ), SyntaxFactory.IdentifierName( functionName ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( arguments.ToSeparatedSyntaxList() ) );
+            return
+            SyntaxFactory.InvocationExpression(
+                                               SyntaxFactory.MemberAccessExpression(
+                                                                                    SyntaxKind.SimpleMemberAccessExpression,
+                                                                                    SyntaxFactory.IdentifierName( runtimeName ),
+                                                                                    SyntaxFactory.IdentifierName( functionName ) ) )
+                         .WithArgumentList( SyntaxFactory.ArgumentList( arguments.ToSeparatedSyntaxList() ) );
         }
 
         protected InvocationExpressionSyntax CreateInvocationExpression( string functionName, IEnumerable<ArgumentSyntax> arguments ) {
-            return SyntaxFactory.InvocationExpression( SyntaxFactory.IdentifierName( functionName ) ).WithArgumentList( SyntaxFactory.ArgumentList( arguments.ToSeparatedSyntaxList() ) );
+            return
+            SyntaxFactory.InvocationExpression( SyntaxFactory.IdentifierName( functionName ) )
+                         .WithArgumentList( SyntaxFactory.ArgumentList( arguments.ToSeparatedSyntaxList() ) );
         }
 
         protected IEnumerable<ArgumentSyntax> CreateParameter( IEnumerable<IExpressionNode> parameter, IContextService context ) {

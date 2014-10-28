@@ -14,15 +14,21 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitArrayInitExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( ArrayInitExpression node, IContextService context ) {
-            ArrayRankSpecifierSyntax arrayRankSpecifierSyntax = SyntaxFactory.ArrayRankSpecifier( SyntaxFactory.SingletonSeparatedList<ExpressionSyntax>( SyntaxFactory.OmittedArraySizeExpression() ) );
+            ArrayRankSpecifierSyntax arrayRankSpecifierSyntax =
+            SyntaxFactory.ArrayRankSpecifier( SyntaxFactory.SingletonSeparatedList<ExpressionSyntax>( SyntaxFactory.OmittedArraySizeExpression() ) );
 
             IdentifierNameSyntax arrayType = SyntaxFactory.IdentifierName( typeof(Variant).Name );
 
-            ArrayCreationExpressionSyntax arrayCreationExpression = SyntaxFactory.ArrayCreationExpression( SyntaxFactory.ArrayType( arrayType, SyntaxFactory.SingletonList( arrayRankSpecifierSyntax ) ) );
+            ArrayCreationExpressionSyntax arrayCreationExpression =
+            SyntaxFactory.ArrayCreationExpression( SyntaxFactory.ArrayType( arrayType, SyntaxFactory.SingletonList( arrayRankSpecifierSyntax ) ) );
 
             IEnumerable<ExpressionSyntax> expressionToAssign = node.ToAssign.Select( x => ConverGeneric( x, context ) );
 
-            return arrayCreationExpression.WithInitializer( SyntaxFactory.InitializerExpression( SyntaxKind.ArrayInitializerExpression, expressionToAssign.ToSeparatedSyntaxList() ) );
+            return
+            arrayCreationExpression.WithInitializer(
+                                                    SyntaxFactory.InitializerExpression(
+                                                                                        SyntaxKind.ArrayInitializerExpression,
+                                                                                        expressionToAssign.ToSeparatedSyntaxList() ) );
         }
     }
 }

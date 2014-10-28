@@ -12,18 +12,9 @@ namespace AutoJITRuntime
             }
         }
 
-        public int ArrayLength {
-            get;
-            private set;
-        }
-        public Type Type {
-            get;
-            private set;
-        }
-        public bool Ref {
-            get;
-            private set;
-        }
+        public int ArrayLength { get; private set; }
+        public Type Type { get; private set; }
+        public bool Ref { get; private set; }
 
         public bool IsArray {
             get {

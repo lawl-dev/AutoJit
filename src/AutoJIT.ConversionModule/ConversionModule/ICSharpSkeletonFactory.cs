@@ -5,6 +5,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 {
     public interface ICSharpSkeletonFactory
     {
-        NamespaceDeclarationSyntax EmbedInClassTemplate( List<MemberDeclarationSyntax> memberDeclarationSyntaxs, string runtimeFieldName, string className, string contextInstanceName );
+        NamespaceDeclarationSyntax EmbedInClassTemplate(
+        List<MemberDeclarationSyntax> memberDeclarationSyntaxs,
+        string runtimeFieldName,
+        string className,
+        string contextInstanceName );
     }
 }

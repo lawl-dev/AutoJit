@@ -8,7 +8,12 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class IfElseStatement : StatementBase
     {
-        public IfElseStatement( IExpressionNode condition, IEnumerable<IStatementNode> ifBlock, IEnumerable<IExpressionNode> elseIfConditions, IEnumerable<IEnumerable<IStatementNode>> elseIfBlocks, IEnumerable<IStatementNode> elseBlock ) {
+        public IfElseStatement(
+        IExpressionNode condition,
+        IEnumerable<IStatementNode> ifBlock,
+        IEnumerable<IExpressionNode> elseIfConditions,
+        IEnumerable<IEnumerable<IStatementNode>> elseIfBlocks,
+        IEnumerable<IStatementNode> elseBlock ) {
             Condition = condition;
             IfBlock = ifBlock;
             ElseIfConditions = elseIfConditions;
@@ -17,26 +22,11 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public IExpressionNode Condition {
-            get;
-            private set;
-        }
-        public IEnumerable<IStatementNode> IfBlock {
-            get;
-            private set;
-        }
-        public IEnumerable<IExpressionNode> ElseIfConditions {
-            get;
-            private set;
-        }
-        public IEnumerable<IEnumerable<IStatementNode>> ElseIfBlocks {
-            get;
-            private set;
-        }
-        public IEnumerable<IStatementNode> ElseBlock {
-            get;
-            private set;
-        }
+        public IExpressionNode Condition { get; private set; }
+        public IEnumerable<IStatementNode> IfBlock { get; private set; }
+        public IEnumerable<IExpressionNode> ElseIfConditions { get; private set; }
+        public IEnumerable<IEnumerable<IStatementNode>> ElseIfBlocks { get; private set; }
+        public IEnumerable<IStatementNode> ElseBlock { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -90,9 +80,14 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new IfElseStatement( (IExpressionNode)Condition.Clone(), IfBlock.Select( x => (IStatementNode)x.Clone() ), CloneEnumerableAs<IExpressionNode>( ElseIfConditions ), ElseIfBlocks != null
+            return new IfElseStatement(
+            (IExpressionNode)Condition.Clone(),
+            IfBlock.Select( x => (IStatementNode)x.Clone() ),
+            CloneEnumerableAs<IExpressionNode>( ElseIfConditions ),
+            ElseIfBlocks != null
             ? ElseIfBlocks.Select( CloneEnumerableAs<IStatementNode> )
-            : null, CloneEnumerableAs<IStatementNode>( ElseBlock ) );
+            : null,
+            CloneEnumerableAs<IStatementNode>( ElseBlock ) );
         }
     }
 }

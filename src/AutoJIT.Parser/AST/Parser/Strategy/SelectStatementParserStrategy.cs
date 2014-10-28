@@ -12,19 +12,22 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class SelectStatementParserStrategy : StatementParserStrategyBase<SelectCaseStatement>
     {
-        public SelectStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public SelectStatementParserStrategy(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseSelect( block ).ToEnumerable();
         }
 
         private SelectCaseStatement ParseSelect( TokenQueue block ) {
-            SkipAndAssert( block, TokenType.NewLine );
+            ConsumeAndEnsure( block, TokenType.NewLine );
             var cases = new Dictionary<IExpressionNode, IEnumerable<IStatementNode>>();
 
             IEnumerable<IStatementNode> elseStatements = new List<IStatementNode>();
             while( block.Peek().Value.Keyword != Keywords.Endselect ) {
-                SkipAndAssert( block, Keywords.Case );
+                ConsumeAndEnsure( block, Keywords.Case );
 
                 if( block.Peek().Value.Keyword != Keywords.Else ) {
                     TokenCollection expression = ParseUntilNewLine( block );
@@ -35,13 +38,13 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                     cases.Add( caseCondition, caseStatements );
                 }
                 else {
-                    SkipAndAssert( block, Keywords.Else );
+                    ConsumeAndEnsure( block, Keywords.Else );
                     TokenCollection elseBlock = ParseInnerUntil( block, Keywords.Select, Keywords.Endselect, true );
 
                     elseStatements = StatementParser.ParseBlock( elseBlock );
                 }
             }
-            SkipAndAssert( block, Keywords.Endselect );
+            ConsumeAndEnsure( block, Keywords.Endselect );
             return AutoitStatementFactory.CreateSelectStatement( cases, elseStatements );
         }
     }

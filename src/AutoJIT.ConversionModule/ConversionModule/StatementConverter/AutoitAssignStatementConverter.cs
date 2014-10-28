@@ -14,7 +14,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitAssignStatementConverter : AutoitStatementConverterBase<AssignStatement>
     {
-        public AutoitAssignStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitAssignStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+        : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( AssignStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
@@ -50,7 +51,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private VariableDeclarationSyntax DeclareVariable( string identifierName, IContextService context ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof(Variant).Name, context.GetVariableName( identifierName ) );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable(
+                                                                                                typeof(Variant).Name,
+                                                                                                context.GetVariableName( identifierName ) );
             return declarationSyntax;
         }
 
@@ -60,11 +63,19 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             switch(node.Operator.Type) {
                 case TokenType.PowAssign:
                     kind = SyntaxKind.SimpleAssignmentExpression;
-                    toAssign = CSharpStatementFactory.CreateInvocationExpression( context.GetVariableName( node.Variable.IdentifierName ), CompilerHelper.GetVariantMemberName( x => x.PowAssign( null ) ), new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false ).ToEnumerable() );
+                    toAssign = CSharpStatementFactory.CreateInvocationExpression(
+                                                                                 context.GetVariableName( node.Variable.IdentifierName ),
+                                                                                 CompilerHelper.GetVariantMemberName( x => x.PowAssign( null ) ),
+                                                                                 new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false )
+                                                                                 .ToEnumerable() );
                     break;
                 case TokenType.ConcatAssign:
                     kind = SyntaxKind.SimpleAssignmentExpression;
-                    toAssign = CSharpStatementFactory.CreateInvocationExpression( context.GetVariableName( node.Variable.IdentifierName ), CompilerHelper.GetVariantMemberName( x => x.ConcatAssign( null ) ), new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false ).ToEnumerable() );
+                    toAssign = CSharpStatementFactory.CreateInvocationExpression(
+                                                                                 context.GetVariableName( node.Variable.IdentifierName ),
+                                                                                 CompilerHelper.GetVariantMemberName( x => x.ConcatAssign( null ) ),
+                                                                                 new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false )
+                                                                                 .ToEnumerable() );
                     break;
                 default:
                     kind = GetAssignOperatorKind( node.Operator );

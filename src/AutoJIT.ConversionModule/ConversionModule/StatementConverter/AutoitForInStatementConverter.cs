@@ -9,7 +9,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitForInStatementConverter : AutoitStatementConverterBase<ForInStatement>
     {
-        public AutoitForInStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitForInStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+        : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ForInStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();

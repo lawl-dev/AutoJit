@@ -1035,19 +1035,43 @@ namespace PerformanceTestConsole
             v_tagMARGINS = Variant.Create( "int cxLeftWidth;int cxRightWidth;int cyTopHeight;int cyBottomHeight" );
             v_tagFILETIME = Variant.Create( "struct;dword Lo;dword Hi;endstruct" );
             v_tagSYSTEMTIME = Variant.Create( "struct;word Year;word Month;word Dow;word Day;word Hour;word Minute;word Second;word MSeconds;endstruct" );
-            v_tagTIME_ZONE_INFORMATION = Variant.Create( "struct;long Bias;wchar StdName[32];word StdDate[8];long StdBias;wchar DayName[32];word DayDate[8];long DayBias;endstruct" );
+            v_tagTIME_ZONE_INFORMATION =
+            Variant.Create( "struct;long Bias;wchar StdName[32];word StdDate[8];long StdBias;wchar DayName[32];word DayDate[8];long DayBias;endstruct" );
             v_tagNMHDR = Variant.Create( "struct;hwnd hWndFrom;uint_ptr IDFrom;INT Code;endstruct" );
-            v_tagCOMBOBOXEXITEM = _functions.Concat( Variant.Create( "uint Mask;int_ptr Item;ptr Text;int TextMax;int Image;int SelectedImage;int OverlayImage;" ), Variant.Create( "int Indent;lparam Param" ) );
+            v_tagCOMBOBOXEXITEM =
+            _functions.Concat(
+                              Variant.Create( "uint Mask;int_ptr Item;ptr Text;int TextMax;int Image;int SelectedImage;int OverlayImage;" ),
+                              Variant.Create( "int Indent;lparam Param" ) );
             v_tagNMCBEDRAGBEGIN = _functions.Concat( v_tagNMHDR, Variant.Create( ";int ItemID;wchar szText[260]" ) );
             v_tagNMCBEENDEDIT = _functions.Concat( v_tagNMHDR, Variant.Create( ";bool fChanged;int NewSelection;wchar szText[260];int Why" ) );
-            v_tagNMCOMBOBOXEX = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";uint Mask;int_ptr Item;ptr Text;int TextMax;int Image;" ) ), Variant.Create( "int SelectedImage;int OverlayImage;int Indent;lparam Param" ) );
-            v_tagDTPRANGE = _functions.Concat( _functions.Concat( Variant.Create( "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;" ), Variant.Create( "word MinSecond;word MinMSecond;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;" ) ), Variant.Create( "word MaxMinute;word MaxSecond;word MaxMSecond;bool MinValid;bool MaxValid" ) );
+            v_tagNMCOMBOBOXEX = _functions.Concat(
+                                                  _functions.Concat( v_tagNMHDR, Variant.Create( ";uint Mask;int_ptr Item;ptr Text;int TextMax;int Image;" ) ),
+                                                  Variant.Create( "int SelectedImage;int OverlayImage;int Indent;lparam Param" ) );
+            v_tagDTPRANGE =
+            _functions.Concat(
+                              _functions.Concat(
+                                                Variant.Create( "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;" ),
+                                                Variant.Create(
+                                                               "word MinSecond;word MinMSecond;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;" ) ),
+                              Variant.Create( "word MaxMinute;word MaxSecond;word MaxMSecond;bool MinValid;bool MaxValid" ) );
             v_tagNMDATETIMECHANGE = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";dword Flag;" ) ), v_tagSYSTEMTIME );
-            v_tagNMDATETIMEFORMAT = _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";ptr Format;" ) ), v_tagSYSTEMTIME ), Variant.Create( ";ptr pDisplay;wchar Display[64]" ) );
+            v_tagNMDATETIMEFORMAT = _functions.Concat(
+                                                      _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";ptr Format;" ) ), v_tagSYSTEMTIME ),
+                                                      Variant.Create( ";ptr pDisplay;wchar Display[64]" ) );
             v_tagNMDATETIMEFORMATQUERY = _functions.Concat( v_tagNMHDR, Variant.Create( ";ptr Format;struct;long SizeX;long SizeY;endstruct" ) );
             v_tagNMDATETIMEKEYDOWN = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";int VirtKey;ptr Format;" ) ), v_tagSYSTEMTIME );
-            v_tagNMDATETIMESTRING = _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";ptr UserString;" ) ), v_tagSYSTEMTIME ), Variant.Create( ";dword Flags" ) );
-            v_tagEVENTLOGRECORD = _functions.Concat( _functions.Concat( Variant.Create( "dword Length;dword Reserved;dword RecordNumber;dword TimeGenerated;dword TimeWritten;dword EventID;" ), Variant.Create( "word EventType;word NumStrings;word EventCategory;word ReservedFlags;dword ClosingRecordNumber;dword StringOffset;" ) ), Variant.Create( "dword UserSidLength;dword UserSidOffset;dword DataLength;dword DataOffset" ) );
+            v_tagNMDATETIMESTRING =
+            _functions.Concat(
+                              _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";ptr UserString;" ) ), v_tagSYSTEMTIME ),
+                              Variant.Create( ";dword Flags" ) );
+            v_tagEVENTLOGRECORD =
+            _functions.Concat(
+                              _functions.Concat(
+                                                Variant.Create(
+                                                               "dword Length;dword Reserved;dword RecordNumber;dword TimeGenerated;dword TimeWritten;dword EventID;" ),
+                                                Variant.Create(
+                                                               "word EventType;word NumStrings;word EventCategory;word ReservedFlags;dword ClosingRecordNumber;dword StringOffset;" ) ),
+                              Variant.Create( "dword UserSidLength;dword UserSidOffset;dword DataLength;dword DataOffset" ) );
             v_tagGDIP_EFFECTPARAMS_Blur = Variant.Create( "float Radius; bool ExpandEdge" );
             v_tagGDIP_EFFECTPARAMS_BrightnessContrast = Variant.Create( "int BrightnessLevel; int ContrastLevel" );
             v_tagGDIP_EFFECTPARAMS_ColorBalance = Variant.Create( "int CyanRed; int MagentaGreen; int YellowBlue" );
@@ -1065,78 +1089,264 @@ namespace PerformanceTestConsole
             v_tagGDIPRECTF = Variant.Create( "struct;float X;float Y;float Width;float Height;endstruct" );
             v_tagGDIPSTARTUPINPUT = Variant.Create( "uint Version;ptr Callback;bool NoThread;bool NoCodecs" );
             v_tagGDIPSTARTUPOUTPUT = Variant.Create( "ptr HookProc;ptr UnhookProc" );
-            v_tagGDIPIMAGECODECINFO = _functions.Concat( Variant.Create( "byte CLSID[16];byte FormatID[16];ptr CodecName;ptr DllName;ptr FormatDesc;ptr FileExt;" ), Variant.Create( "ptr MimeType;dword Flags;dword Version;dword SigCount;dword SigSize;ptr SigPattern;ptr SigMask" ) );
+            v_tagGDIPIMAGECODECINFO =
+            _functions.Concat(
+                              Variant.Create( "byte CLSID[16];byte FormatID[16];ptr CodecName;ptr DllName;ptr FormatDesc;ptr FileExt;" ),
+                              Variant.Create( "ptr MimeType;dword Flags;dword Version;dword SigCount;dword SigSize;ptr SigPattern;ptr SigMask" ) );
             v_tagGDIPPENCODERPARAMS = Variant.Create( "uint Count;byte Params[1]" );
-            v_tagHDITEM = Variant.Create( "uint Mask;int XY;ptr Text;handle hBMP;int TextMax;int Fmt;lparam Param;int Image;int Order;uint Type;ptr pFilter;uint State" );
+            v_tagHDITEM =
+            Variant.Create( "uint Mask;int XY;ptr Text;handle hBMP;int TextMax;int Fmt;lparam Param;int Image;int Order;uint Type;ptr pFilter;uint State" );
             v_tagNMHDDISPINFO = _functions.Concat( v_tagNMHDR, Variant.Create( ";int Item;uint Mask;ptr Text;int TextMax;int Image;lparam lParam" ) );
             v_tagNMHDFILTERBTNCLICK = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";int Item;" ) ), v_tagRECT );
             v_tagNMHEADER = _functions.Concat( v_tagNMHDR, Variant.Create( ";int Item;int Button;ptr pItem" ) );
             v_tagGETIPAddress = Variant.Create( "byte Field4;byte Field3;byte Field2;byte Field1" );
             v_tagNMIPADDRESS = _functions.Concat( v_tagNMHDR, Variant.Create( ";int Field;int Value" ) );
-            v_tagLVFINDINFO = _functions.Concat( _functions.Concat( Variant.Create( "struct;uint Flags;ptr Text;lparam Param;" ), v_tagPOINT ), Variant.Create( ";uint Direction;endstruct" ) );
+            v_tagLVFINDINFO = _functions.Concat(
+                                                _functions.Concat( Variant.Create( "struct;uint Flags;ptr Text;lparam Param;" ), v_tagPOINT ),
+                                                Variant.Create( ";uint Direction;endstruct" ) );
             v_tagLVHITTESTINFO = _functions.Concat( v_tagPOINT, Variant.Create( ";uint Flags;int Item;int SubItem;int iGroup" ) );
-            v_tagLVITEM = _functions.Concat( Variant.Create( "struct;uint Mask;int Item;int SubItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;lparam Param;" ), Variant.Create( "int Indent;int GroupID;uint Columns;ptr pColumns;ptr piColFmt;int iGroup;endstruct" ) );
-            v_tagNMLISTVIEW = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";int Item;int SubItem;uint NewState;uint OldState;uint Changed;" ) ), Variant.Create( "struct;long ActionX;long ActionY;endstruct;lparam Param" ) );
-            v_tagNMLVCUSTOMDRAW = _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "struct;" ), v_tagNMHDR ), Variant.Create( ";dword dwDrawStage;handle hdc;" ) ), v_tagRECT ), Variant.Create( ";dword_ptr dwItemSpec;uint uItemState;lparam lItemlParam;endstruct" ) ), Variant.Create( ";dword clrText;dword clrTextBk;int iSubItem;dword dwItemType;dword clrFace;int iIconEffect;" ) ), Variant.Create( "int iIconPhase;int iPartId;int iStateId;struct;long TextLeft;long TextTop;long TextRight;long TextBottom;endstruct;uint uAlign" ) );
+            v_tagLVITEM =
+            _functions.Concat(
+                              Variant.Create( "struct;uint Mask;int Item;int SubItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;lparam Param;" ),
+                              Variant.Create( "int Indent;int GroupID;uint Columns;ptr pColumns;ptr piColFmt;int iGroup;endstruct" ) );
+            v_tagNMLISTVIEW =
+            _functions.Concat(
+                              _functions.Concat( v_tagNMHDR, Variant.Create( ";int Item;int SubItem;uint NewState;uint OldState;uint Changed;" ) ),
+                              Variant.Create( "struct;long ActionX;long ActionY;endstruct;lparam Param" ) );
+            v_tagNMLVCUSTOMDRAW =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  _functions.Concat(
+                                                                                    _functions.Concat(
+                                                                                                      _functions.Concat(
+                                                                                                                        Variant.Create( "struct;" ),
+                                                                                                                        v_tagNMHDR ),
+                                                                                                      Variant.Create( ";dword dwDrawStage;handle hdc;" ) ),
+                                                                                    v_tagRECT ),
+                                                                  Variant.Create( ";dword_ptr dwItemSpec;uint uItemState;lparam lItemlParam;endstruct" ) ),
+                                                Variant.Create( ";dword clrText;dword clrTextBk;int iSubItem;dword dwItemType;dword clrFace;int iIconEffect;" ) ),
+                              Variant.Create(
+                                             "int iIconPhase;int iPartId;int iStateId;struct;long TextLeft;long TextTop;long TextRight;long TextBottom;endstruct;uint uAlign" ) );
             v_tagNMLVDISPINFO = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";" ) ), v_tagLVITEM );
             v_tagNMLVFINDITEM = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";int Start;" ) ), v_tagLVFINDINFO );
             v_tagNMLVGETINFOTIP = _functions.Concat( v_tagNMHDR, Variant.Create( ";dword Flags;ptr Text;int TextMax;int Item;int SubItem;lparam lParam" ) );
-            v_tagNMITEMACTIVATE = _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";int Index;int SubItem;uint NewState;uint OldState;uint Changed;" ) ), v_tagPOINT ), Variant.Create( ";lparam lParam;uint KeyFlags" ) );
+            v_tagNMITEMACTIVATE =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  v_tagNMHDR,
+                                                                  Variant.Create( ";int Index;int SubItem;uint NewState;uint OldState;uint Changed;" ) ),
+                                                v_tagPOINT ),
+                              Variant.Create( ";lparam lParam;uint KeyFlags" ) );
             v_tagNMLVKEYDOWN = _functions.Concat( _functions.Concat( Variant.Create( "align 1;" ), v_tagNMHDR ), Variant.Create( ";word VKey;uint Flags" ) );
             v_tagNMLVSCROLL = _functions.Concat( v_tagNMHDR, Variant.Create( ";int DX;int DY" ) );
-            v_tagMCHITTESTINFO = _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "uint Size;" ), v_tagPOINT ), Variant.Create( ";uint Hit;" ) ), v_tagSYSTEMTIME ), Variant.Create( ";" ) ), v_tagRECT ), Variant.Create( ";int iOffset;int iRow;int iCol" ) );
-            v_tagMCMONTHRANGE = _functions.Concat( _functions.Concat( Variant.Create( "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" ), Variant.Create( "word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" ) ), Variant.Create( "word MaxMSeconds;short Span" ) );
-            v_tagMCRANGE = _functions.Concat( _functions.Concat( Variant.Create( "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" ), Variant.Create( "word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" ) ), Variant.Create( "word MaxMSeconds;short MinSet;short MaxSet" ) );
-            v_tagMCSELRANGE = _functions.Concat( _functions.Concat( Variant.Create( "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" ), Variant.Create( "word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" ) ), Variant.Create( "word MaxMSeconds" ) );
-            v_tagNMDAYSTATE = _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";" ) ), v_tagSYSTEMTIME ), Variant.Create( ";int DayState;ptr pDayState" ) );
-            v_tagNMSELCHANGE = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";struct;word BegYear;word BegMonth;word BegDOW;word BegDay;word BegHour;word BegMinute;word BegSecond;word BegMSeconds;endstruct;" ) ), Variant.Create( "struct;word EndYear;word EndMonth;word EndDOW;word EndDay;word EndHour;word EndMinute;word EndSecond;word EndMSeconds;endstruct" ) );
+            v_tagMCHITTESTINFO =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  _functions.Concat(
+                                                                                    _functions.Concat(
+                                                                                                      _functions.Concat(
+                                                                                                                        Variant.Create( "uint Size;" ),
+                                                                                                                        v_tagPOINT ),
+                                                                                                      Variant.Create( ";uint Hit;" ) ),
+                                                                                    v_tagSYSTEMTIME ),
+                                                                  Variant.Create( ";" ) ),
+                                                v_tagRECT ),
+                              Variant.Create( ";int iOffset;int iRow;int iCol" ) );
+            v_tagMCMONTHRANGE =
+            _functions.Concat(
+                              _functions.Concat(
+                                                Variant.Create(
+                                                               "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" ),
+                                                Variant.Create(
+                                                               "word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" ) ),
+                              Variant.Create( "word MaxMSeconds;short Span" ) );
+            v_tagMCRANGE =
+            _functions.Concat(
+                              _functions.Concat(
+                                                Variant.Create(
+                                                               "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" ),
+                                                Variant.Create(
+                                                               "word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" ) ),
+                              Variant.Create( "word MaxMSeconds;short MinSet;short MaxSet" ) );
+            v_tagMCSELRANGE =
+            _functions.Concat(
+                              _functions.Concat(
+                                                Variant.Create(
+                                                               "word MinYear;word MinMonth;word MinDOW;word MinDay;word MinHour;word MinMinute;word MinSecond;" ),
+                                                Variant.Create(
+                                                               "word MinMSeconds;word MaxYear;word MaxMonth;word MaxDOW;word MaxDay;word MaxHour;word MaxMinute;word MaxSecond;" ) ),
+                              Variant.Create( "word MaxMSeconds" ) );
+            v_tagNMDAYSTATE = _functions.Concat(
+                                                _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";" ) ), v_tagSYSTEMTIME ),
+                                                Variant.Create( ";int DayState;ptr pDayState" ) );
+            v_tagNMSELCHANGE =
+            _functions.Concat(
+                              _functions.Concat(
+                                                v_tagNMHDR,
+                                                Variant.Create(
+                                                               ";struct;word BegYear;word BegMonth;word BegDOW;word BegDay;word BegHour;word BegMinute;word BegSecond;word BegMSeconds;endstruct;" ) ),
+                              Variant.Create(
+                                             "struct;word EndYear;word EndMonth;word EndDOW;word EndDay;word EndHour;word EndMinute;word EndSecond;word EndMSeconds;endstruct" ) );
             v_tagNMOBJECTNOTIFY = _functions.Concat( v_tagNMHDR, Variant.Create( ";int Item;ptr piid;ptr pObject;long Result;dword dwFlags" ) );
             v_tagNMTCKEYDOWN = _functions.Concat( _functions.Concat( Variant.Create( "align 1;" ), v_tagNMHDR ), Variant.Create( ";word VKey;uint Flags" ) );
-            v_tagTVITEM = _functions.Concat( Variant.Create( "struct;uint Mask;handle hItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;int SelectedImage;" ), Variant.Create( "int Children;lparam Param;endstruct" ) );
-            v_tagTVITEMEX = _functions.Concat( _functions.Concat( Variant.Create( "struct;" ), v_tagTVITEM ), Variant.Create( ";int Integral;uint uStateEx;hwnd hwnd;int iExpandedImage;int iReserved;endstruct" ) );
-            v_tagNMTREEVIEW = _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";uint Action;" ) ), Variant.Create( "struct;uint OldMask;handle OldhItem;uint OldState;uint OldStateMask;" ) ), Variant.Create( "ptr OldText;int OldTextMax;int OldImage;int OldSelectedImage;int OldChildren;lparam OldParam;endstruct;" ) ), Variant.Create( "struct;uint NewMask;handle NewhItem;uint NewState;uint NewStateMask;" ) ), Variant.Create( "ptr NewText;int NewTextMax;int NewImage;int NewSelectedImage;int NewChildren;lparam NewParam;endstruct;" ) ), Variant.Create( "struct;long PointX;long PointY;endstruct" ) );
-            v_tagNMTVCUSTOMDRAW = _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "struct;" ), v_tagNMHDR ), Variant.Create( ";dword DrawStage;handle HDC;" ) ), v_tagRECT ), Variant.Create( ";dword_ptr ItemSpec;uint ItemState;lparam ItemParam;endstruct" ) ), Variant.Create( ";dword ClrText;dword ClrTextBk;int Level" ) );
+            v_tagTVITEM =
+            _functions.Concat(
+                              Variant.Create( "struct;uint Mask;handle hItem;uint State;uint StateMask;ptr Text;int TextMax;int Image;int SelectedImage;" ),
+                              Variant.Create( "int Children;lparam Param;endstruct" ) );
+            v_tagTVITEMEX = _functions.Concat(
+                                              _functions.Concat( Variant.Create( "struct;" ), v_tagTVITEM ),
+                                              Variant.Create( ";int Integral;uint uStateEx;hwnd hwnd;int iExpandedImage;int iReserved;endstruct" ) );
+            v_tagNMTREEVIEW =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  _functions.Concat(
+                                                                                    _functions.Concat(
+                                                                                                      _functions.Concat(
+                                                                                                                        v_tagNMHDR,
+                                                                                                                        Variant.Create( ";uint Action;" ) ),
+                                                                                                      Variant.Create(
+                                                                                                                     "struct;uint OldMask;handle OldhItem;uint OldState;uint OldStateMask;" ) ),
+                                                                                    Variant.Create(
+                                                                                                   "ptr OldText;int OldTextMax;int OldImage;int OldSelectedImage;int OldChildren;lparam OldParam;endstruct;" ) ),
+                                                                  Variant.Create( "struct;uint NewMask;handle NewhItem;uint NewState;uint NewStateMask;" ) ),
+                                                Variant.Create(
+                                                               "ptr NewText;int NewTextMax;int NewImage;int NewSelectedImage;int NewChildren;lparam NewParam;endstruct;" ) ),
+                              Variant.Create( "struct;long PointX;long PointY;endstruct" ) );
+            v_tagNMTVCUSTOMDRAW =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  _functions.Concat(
+                                                                                    _functions.Concat( Variant.Create( "struct;" ), v_tagNMHDR ),
+                                                                                    Variant.Create( ";dword DrawStage;handle HDC;" ) ),
+                                                                  v_tagRECT ),
+                                                Variant.Create( ";dword_ptr ItemSpec;uint ItemState;lparam ItemParam;endstruct" ) ),
+                              Variant.Create( ";dword ClrText;dword ClrTextBk;int Level" ) );
             v_tagNMTVDISPINFO = _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";" ) ), v_tagTVITEM );
             v_tagNMTVGETINFOTIP = _functions.Concat( v_tagNMHDR, Variant.Create( ";ptr Text;int TextMax;handle hItem;lparam lParam" ) );
             v_tagNMTVITEMCHANGE = _functions.Concat( v_tagNMHDR, Variant.Create( ";uint Changed;handle hItem;uint StateNew;uint StateOld;lparam lParam;" ) );
             v_tagTVHITTESTINFO = _functions.Concat( v_tagPOINT, Variant.Create( ";uint Flags;handle Item" ) );
             v_tagNMTVKEYDOWN = _functions.Concat( _functions.Concat( Variant.Create( "align 1;" ), v_tagNMHDR ), Variant.Create( ";word VKey;uint Flags" ) );
-            v_tagNMMOUSE = _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";dword_ptr ItemSpec;dword_ptr ItemData;" ) ), v_tagPOINT ), Variant.Create( ";lparam HitInfo" ) );
+            v_tagNMMOUSE =
+            _functions.Concat(
+                              _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";dword_ptr ItemSpec;dword_ptr ItemData;" ) ), v_tagPOINT ),
+                              Variant.Create( ";lparam HitInfo" ) );
             v_tagTOKEN_PRIVILEGES = Variant.Create( "dword Count;align 4;int64 LUID;dword Attributes" );
             v_tagIMAGEINFO = _functions.Concat( Variant.Create( "handle hBitmap;handle hMask;int Unused1;int Unused2;" ), v_tagRECT );
             v_tagMENUINFO = Variant.Create( "dword Size;INT Mask;dword Style;uint YMax;handle hBack;dword ContextHelpID;ulong_ptr MenuData" );
-            v_tagMENUITEMINFO = _functions.Concat( Variant.Create( "uint Size;uint Mask;uint Type;uint State;uint ID;handle SubMenu;handle BmpChecked;handle BmpUnchecked;" ), Variant.Create( "ulong_ptr ItemData;ptr TypeData;uint CCH;handle BmpItem" ) );
-            v_tagREBARBANDINFO = _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "uint cbSize;uint fMask;uint fStyle;dword clrFore;dword clrBack;ptr lpText;uint cch;" ), Variant.Create( "int iImage;hwnd hwndChild;uint cxMinChild;uint cyMinChild;uint cx;handle hbmBack;uint wID;uint cyChild;uint cyMaxChild;" ) ), Variant.Create( "uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader" ) ), _context.OSVersion == Variant.Create( "WIN_XP" )
-            ? Variant.Create( "" )
-            : _functions.Concat( _functions.Concat( Variant.Create( ";" ), v_tagRECT ), Variant.Create( ";uint uChevronState" ) ) );
-            v_tagNMREBARAUTOBREAK = _functions.Concat( v_tagNMHDR, Variant.Create( ";uint uBand;uint wID;lparam lParam;uint uMsg;uint fStyleCurrent;bool fAutoBreak" ) );
-            v_tagNMRBAUTOSIZE = _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";bool fChanged;" ) ), Variant.Create( "struct;long TargetLeft;long TargetTop;long TargetRight;long TargetBottom;endstruct;" ) ), Variant.Create( "struct;long ActualLeft;long ActualTop;long ActualRight;long ActualBottom;endstruct" ) );
+            v_tagMENUITEMINFO =
+            _functions.Concat(
+                              Variant.Create( "uint Size;uint Mask;uint Type;uint State;uint ID;handle SubMenu;handle BmpChecked;handle BmpUnchecked;" ),
+                              Variant.Create( "ulong_ptr ItemData;ptr TypeData;uint CCH;handle BmpItem" ) );
+            v_tagREBARBANDINFO =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  Variant.Create(
+                                                                                 "uint cbSize;uint fMask;uint fStyle;dword clrFore;dword clrBack;ptr lpText;uint cch;" ),
+                                                                  Variant.Create(
+                                                                                 "int iImage;hwnd hwndChild;uint cxMinChild;uint cyMinChild;uint cx;handle hbmBack;uint wID;uint cyChild;uint cyMaxChild;" ) ),
+                                                Variant.Create( "uint cyIntegral;uint cxIdeal;lparam lParam;uint cxHeader" ) ),
+                              _context.OSVersion == Variant.Create( "WIN_XP" )
+                              ? Variant.Create( "" )
+                              : _functions.Concat( _functions.Concat( Variant.Create( ";" ), v_tagRECT ), Variant.Create( ";uint uChevronState" ) ) );
+            v_tagNMREBARAUTOBREAK = _functions.Concat(
+                                                      v_tagNMHDR,
+                                                      Variant.Create( ";uint uBand;uint wID;lparam lParam;uint uMsg;uint fStyleCurrent;bool fAutoBreak" ) );
+            v_tagNMRBAUTOSIZE =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat( v_tagNMHDR, Variant.Create( ";bool fChanged;" ) ),
+                                                Variant.Create( "struct;long TargetLeft;long TargetTop;long TargetRight;long TargetBottom;endstruct;" ) ),
+                              Variant.Create( "struct;long ActualLeft;long ActualTop;long ActualRight;long ActualBottom;endstruct" ) );
             v_tagNMREBAR = _functions.Concat( v_tagNMHDR, Variant.Create( ";dword dwMask;uint uBand;uint fStyle;uint wID;lparam lParam" ) );
-            v_tagNMREBARCHEVRON = _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";uint uBand;uint wID;lparam lParam;" ) ), v_tagRECT ), Variant.Create( ";lparam lParamNM" ) );
-            v_tagNMREBARCHILDSIZE = _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";uint uBand;uint wID;" ) ), Variant.Create( "struct;long CLeft;long CTop;long CRight;long CBottom;endstruct;" ) ), Variant.Create( "struct;long BLeft;long BTop;long BRight;long BBottom;endstruct" ) );
+            v_tagNMREBARCHEVRON =
+            _functions.Concat(
+                              _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";uint uBand;uint wID;lparam lParam;" ) ), v_tagRECT ),
+                              Variant.Create( ";lparam lParamNM" ) );
+            v_tagNMREBARCHILDSIZE =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat( v_tagNMHDR, Variant.Create( ";uint uBand;uint wID;" ) ),
+                                                Variant.Create( "struct;long CLeft;long CTop;long CRight;long CBottom;endstruct;" ) ),
+                              Variant.Create( "struct;long BLeft;long BTop;long BRight;long BBottom;endstruct" ) );
             v_tagCOLORSCHEME = Variant.Create( "dword Size;dword BtnHighlight;dword BtnShadow" );
-            v_tagNMTOOLBAR = _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( v_tagNMHDR, Variant.Create( ";int iItem;" ) ), Variant.Create( "struct;int iBitmap;int idCommand;byte fsState;byte fsStyle;dword_ptr dwData;int_ptr iString;endstruct" ) ), Variant.Create( ";int cchText;ptr pszText;" ) ), v_tagRECT );
+            v_tagNMTOOLBAR =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  _functions.Concat( v_tagNMHDR, Variant.Create( ";int iItem;" ) ),
+                                                                  Variant.Create(
+                                                                                 "struct;int iBitmap;int idCommand;byte fsState;byte fsStyle;dword_ptr dwData;int_ptr iString;endstruct" ) ),
+                                                Variant.Create( ";int cchText;ptr pszText;" ) ),
+                              v_tagRECT );
             v_tagNMTBHOTITEM = _functions.Concat( v_tagNMHDR, Variant.Create( ";int idOld;int idNew;dword dwFlags" ) );
             v_tagTBBUTTON = Variant.Create( "int Bitmap;int Command;byte State;byte Style;dword_ptr Param;int_ptr String" );
-            v_tagTBBUTTONINFO = Variant.Create( "uint Size;dword Mask;int Command;int Image;byte State;byte Style;word CX;dword_ptr Param;ptr Text;int TextMax" );
+            v_tagTBBUTTONINFO = Variant.Create(
+                                               "uint Size;dword Mask;int Command;int Image;byte State;byte Style;word CX;dword_ptr Param;ptr Text;int TextMax" );
             v_tagNETRESOURCE = Variant.Create( "dword Scope;dword Type;dword DisplayType;dword Usage;ptr LocalName;ptr RemoteName;ptr Comment;ptr Provider" );
             v_tagOVERLAPPED = Variant.Create( "ulong_ptr Internal;ulong_ptr InternalHigh;struct;dword Offset;dword OffsetHigh;endstruct;handle hEvent" );
-            v_tagOPENFILENAME = _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "dword StructSize;hwnd hwndOwner;handle hInstance;ptr lpstrFilter;ptr lpstrCustomFilter;" ), Variant.Create( "dword nMaxCustFilter;dword nFilterIndex;ptr lpstrFile;dword nMaxFile;ptr lpstrFileTitle;dword nMaxFileTitle;" ) ), Variant.Create( "ptr lpstrInitialDir;ptr lpstrTitle;dword Flags;word nFileOffset;word nFileExtension;ptr lpstrDefExt;lparam lCustData;" ) ), Variant.Create( "ptr lpfnHook;ptr lpTemplateName;ptr pvReserved;dword dwReserved;dword FlagsEx" ) );
-            v_tagBITMAPINFOHEADER = _functions.Concat( Variant.Create( "struct;dword biSize;long biWidth;long biHeight;word biPlanes;word biBitCount;" ), Variant.Create( "dword biCompression;dword biSizeImage;long biXPelsPerMeter;long biYPelsPerMeter;dword biClrUsed;dword biClrImportant;endstruct" ) );
+            v_tagOPENFILENAME =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  Variant.Create(
+                                                                                 "dword StructSize;hwnd hwndOwner;handle hInstance;ptr lpstrFilter;ptr lpstrCustomFilter;" ),
+                                                                  Variant.Create(
+                                                                                 "dword nMaxCustFilter;dword nFilterIndex;ptr lpstrFile;dword nMaxFile;ptr lpstrFileTitle;dword nMaxFileTitle;" ) ),
+                                                Variant.Create(
+                                                               "ptr lpstrInitialDir;ptr lpstrTitle;dword Flags;word nFileOffset;word nFileExtension;ptr lpstrDefExt;lparam lCustData;" ) ),
+                              Variant.Create( "ptr lpfnHook;ptr lpTemplateName;ptr pvReserved;dword dwReserved;dword FlagsEx" ) );
+            v_tagBITMAPINFOHEADER = _functions.Concat(
+                                                      Variant.Create( "struct;dword biSize;long biWidth;long biHeight;word biPlanes;word biBitCount;" ),
+                                                      Variant.Create(
+                                                                     "dword biCompression;dword biSizeImage;long biXPelsPerMeter;long biYPelsPerMeter;dword biClrUsed;dword biClrImportant;endstruct" ) );
             v_tagBITMAPINFO = _functions.Concat( v_tagBITMAPINFOHEADER, Variant.Create( ";dword biRGBQuad[1]" ) );
             v_tagBLENDFUNCTION = Variant.Create( "byte Op;byte Flags;byte Alpha;byte Format" );
             v_tagGUID = Variant.Create( "struct;ulong Data1;ushort Data2;ushort Data3;byte Data4[8];endstruct" );
             v_tagWINDOWPLACEMENT = Variant.Create( "uint length;uint flags;uint showCmd;long ptMinPosition[2];long ptMaxPosition[2];long rcNormalPosition[4]" );
             v_tagWINDOWPOS = Variant.Create( "hwnd hWnd;hwnd InsertAfter;int X;int Y;int CX;int CY;uint Flags" );
             v_tagSCROLLINFO = Variant.Create( "uint cbSize;uint fMask;int nMin;int nMax;uint nPage;int nPos;int nTrackPos" );
-            v_tagSCROLLBARINFO = _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "dword cbSize;" ), v_tagRECT ), Variant.Create( ";int dxyLineButton;int xyThumbTop;" ) ), Variant.Create( "int xyThumbBottom;int reserved;dword rgstate[6]" ) );
-            v_tagLOGFONT = _functions.Concat( Variant.Create( "struct;long Height;long Width;long Escapement;long Orientation;long Weight;byte Italic;byte Underline;" ), Variant.Create( "byte Strikeout;byte CharSet;byte OutPrecision;byte ClipPrecision;byte Quality;byte PitchAndFamily;wchar FaceName[32];endstruct" ) );
+            v_tagSCROLLBARINFO =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat( Variant.Create( "dword cbSize;" ), v_tagRECT ),
+                                                Variant.Create( ";int dxyLineButton;int xyThumbTop;" ) ),
+                              Variant.Create( "int xyThumbBottom;int reserved;dword rgstate[6]" ) );
+            v_tagLOGFONT =
+            _functions.Concat(
+                              Variant.Create( "struct;long Height;long Width;long Escapement;long Orientation;long Weight;byte Italic;byte Underline;" ),
+                              Variant.Create(
+                                             "byte Strikeout;byte CharSet;byte OutPrecision;byte ClipPrecision;byte Quality;byte PitchAndFamily;wchar FaceName[32];endstruct" ) );
             v_tagKBDLLHOOKSTRUCT = Variant.Create( "dword vkCode;dword scanCode;dword flags;dword time;ulong_ptr dwExtraInfo" );
             v_tagPROCESS_INFORMATION = Variant.Create( "handle hProcess;handle hThread;dword ProcessID;dword ThreadID" );
-            v_tagSTARTUPINFO = _functions.Concat( _functions.Concat( Variant.Create( "dword Size;ptr Reserved1;ptr Desktop;ptr Title;dword X;dword Y;dword XSize;dword YSize;dword XCountChars;" ), Variant.Create( "dword YCountChars;dword FillAttribute;dword Flags;word ShowWindow;word Reserved2;ptr Reserved3;handle StdInput;" ) ), Variant.Create( "handle StdOutput;handle StdError" ) );
+            v_tagSTARTUPINFO =
+            _functions.Concat(
+                              _functions.Concat(
+                                                Variant.Create(
+                                                               "dword Size;ptr Reserved1;ptr Desktop;ptr Title;dword X;dword Y;dword XSize;dword YSize;dword XCountChars;" ),
+                                                Variant.Create(
+                                                               "dword YCountChars;dword FillAttribute;dword Flags;word ShowWindow;word Reserved2;ptr Reserved3;handle StdInput;" ) ),
+                              Variant.Create( "handle StdOutput;handle StdError" ) );
             v_tagSECURITY_ATTRIBUTES = Variant.Create( "dword Length;ptr Descriptor;bool InheritHandle" );
-            v_tagWIN32_FIND_DATA = Variant.Create( "dword dwFileAttributes;dword ftCreationTime[2];dword ftLastAccessTime[2];dword ftLastWriteTime[2];dword nFileSizeHigh;dword nFileSizeLow;dword dwReserved0;dword dwReserved1;wchar cFileName[260];wchar cAlternateFileName[14]" );
-            v_tagTEXTMETRIC = _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;" ), Variant.Create( "long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;" ) ), Variant.Create( "wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;" ) ), Variant.Create( "byte tmPitchAndFamily;byte tmCharSet" ) );
+            v_tagWIN32_FIND_DATA =
+            Variant.Create(
+                           "dword dwFileAttributes;dword ftCreationTime[2];dword ftLastAccessTime[2];dword ftLastWriteTime[2];dword nFileSizeHigh;dword nFileSizeLow;dword dwReserved0;dword dwReserved1;wchar cFileName[260];wchar cAlternateFileName[14]" );
+            v_tagTEXTMETRIC =
+            _functions.Concat(
+                              _functions.Concat(
+                                                _functions.Concat(
+                                                                  Variant.Create(
+                                                                                 "long tmHeight;long tmAscent;long tmDescent;long tmInternalLeading;long tmExternalLeading;" ),
+                                                                  Variant.Create(
+                                                                                 "long tmAveCharWidth;long tmMaxCharWidth;long tmWeight;long tmOverhang;long tmDigitizedAspectX;long tmDigitizedAspectY;" ) ),
+                                                Variant.Create(
+                                                               "wchar tmFirstChar;wchar tmLastChar;wchar tmDefaultChar;wchar tmBreakChar;byte tmItalic;byte tmUnderlined;byte tmStruckOut;" ) ),
+                              Variant.Create( "byte tmPitchAndFamily;byte tmCharSet" ) );
             v_STR_NOCASESENSE = Variant.Create( 0 );
             v_STR_CASESENSE = Variant.Create( 1 );
             v_STR_NOCASESENSEBASIC = Variant.Create( 2 );
@@ -1573,17 +1783,21 @@ namespace PerformanceTestConsole
             v_KEYWORD_DEFAULT = Variant.Create( 1 );
             v_KEYWORD_NULL = Variant.Create( 2 );
             v___g_aInProcess_WinAPI = Variant.CreateArray( new Variant[Variant.Create( 64 ), Variant.Create( 2 )] );
-            v___g_aInProcess_WinAPI.InitArray( new Variant[] {
-                new[] {
-                    Variant.Create( 0 ), Variant.Create( 0 )
-                }
-            } );
+            v___g_aInProcess_WinAPI.InitArray(
+                                              new Variant[] {
+                                                  new[] {
+                                                      Variant.Create( 0 ),
+                                                      Variant.Create( 0 )
+                                                  }
+                                              } );
             v___g_aWinList_WinAPI = Variant.CreateArray( new Variant[Variant.Create( 64 ), Variant.Create( 2 )] );
-            v___g_aWinList_WinAPI.InitArray( new Variant[] {
-                new[] {
-                    Variant.Create( 0 ), Variant.Create( 0 )
-                }
-            } );
+            v___g_aWinList_WinAPI.InitArray(
+                                            new Variant[] {
+                                                new[] {
+                                                    Variant.Create( 0 ),
+                                                    Variant.Create( 0 )
+                                                }
+                                            } );
             v___WINAPICONSTANT_WM_SETFONT = Variant.Create( 48 );
             v___WINAPICONSTANT_FW_NORMAL = Variant.Create( 400 );
             v___WINAPICONSTANT_DEFAULT_CHARSET = Variant.Create( 1 );
@@ -1596,11 +1810,24 @@ namespace PerformanceTestConsole
             v_tagDISPLAY_DEVICE = Variant.Create( "dword Size;wchar Name[32];wchar String[128];dword Flags;wchar ID[128];wchar Key[128]" );
             v_tagFLASHWINFO = Variant.Create( "uint Size;hwnd hWnd;dword Flags;uint Count;dword TimeOut" );
             v_tagICONINFO = Variant.Create( "bool Icon;dword XHotSpot;dword YHotSpot;handle hMask;handle hColor" );
-            v_tagMEMORYSTATUSEX = _functions.Concat( _functions.Concat( Variant.Create( "dword Length;dword MemoryLoad;" ), Variant.Create( "uint64 TotalPhys;uint64 AvailPhys;uint64 TotalPageFile;uint64 AvailPageFile;" ) ), Variant.Create( "uint64 TotalVirtual;uint64 AvailVirtual;uint64 AvailExtendedVirtual" ) );
+            v_tagMEMORYSTATUSEX =
+            _functions.Concat(
+                              _functions.Concat(
+                                                Variant.Create( "dword Length;dword MemoryLoad;" ),
+                                                Variant.Create( "uint64 TotalPhys;uint64 AvailPhys;uint64 TotalPageFile;uint64 AvailPageFile;" ) ),
+                              Variant.Create( "uint64 TotalVirtual;uint64 AvailVirtual;uint64 AvailExtendedVirtual" ) );
             return Variant.Create( (object)null );
         }
 
-        public Variant f__SendMessage( Variant v_hWnd, Variant v_iMsg, Variant v_wParam = null, Variant v_lParam = null, Variant v_iReturn = null, Variant v_wParamType = null, Variant v_lParamType = null, Variant v_sReturnType = null ) {
+        public Variant f__SendMessage(
+        Variant v_hWnd,
+        Variant v_iMsg,
+        Variant v_wParam = null,
+        Variant v_lParam = null,
+        Variant v_iReturn = null,
+        Variant v_wParamType = null,
+        Variant v_lParamType = null,
+        Variant v_sReturnType = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_sReturnType == null ) {
                 v_sReturnType = Variant.Create( "lresult" );
@@ -1620,7 +1847,18 @@ namespace PerformanceTestConsole
             if( v_wParam == null ) {
                 v_wParam = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), v_sReturnType, Variant.Create( "SendMessageW" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "uint" ), v_iMsg, v_wParamType, v_wParam, v_lParamType, v_lParam );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           v_sReturnType,
+                                           Variant.Create( "SendMessageW" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "uint" ),
+                                           v_iMsg,
+                                           v_wParamType,
+                                           v_wParam,
+                                           v_lParamType,
+                                           v_lParam );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( "" ) );
             }
@@ -1633,7 +1871,15 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__SendMessageA( Variant v_hWnd, Variant v_iMsg, Variant v_wParam = null, Variant v_lParam = null, Variant v_iReturn = null, Variant v_wParamType = null, Variant v_lParamType = null, Variant v_sReturnType = null ) {
+        public Variant f__SendMessageA(
+        Variant v_hWnd,
+        Variant v_iMsg,
+        Variant v_wParam = null,
+        Variant v_lParam = null,
+        Variant v_iReturn = null,
+        Variant v_wParamType = null,
+        Variant v_lParamType = null,
+        Variant v_sReturnType = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_sReturnType == null ) {
                 v_sReturnType = Variant.Create( "lresult" );
@@ -1653,7 +1899,18 @@ namespace PerformanceTestConsole
             if( v_wParam == null ) {
                 v_wParam = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), v_sReturnType, Variant.Create( "SendMessageA" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "uint" ), v_iMsg, v_wParamType, v_wParam, v_lParamType, v_lParam );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           v_sReturnType,
+                                           Variant.Create( "SendMessageA" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "uint" ),
+                                           v_iMsg,
+                                           v_wParamType,
+                                           v_wParam,
+                                           v_lParamType,
+                                           v_lParam );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( "" ) );
             }
@@ -1686,12 +1943,23 @@ namespace PerformanceTestConsole
             if( v_iError == null ) {
                 v_iError = _context.Error;
             }
-            _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "none" ), Variant.Create( "SetLastError" ), Variant.Create( "dword" ), v_iErrorCode );
+            _functions.DllCall(
+                               Variant.Create( "kernel32.dll" ),
+                               Variant.Create( "none" ),
+                               Variant.Create( "SetLastError" ),
+                               Variant.Create( "dword" ),
+                               v_iErrorCode );
             return _functions.SetError( v_iError, v_iExtended, Variant.Create( (object)null ) );
             return Variant.Create( (object)null );
         }
 
-        public Variant f__Security__AdjustTokenPrivileges( Variant v_hToken, Variant v_bDisableAll, Variant v_pNewState, Variant v_iBufferLen, Variant v_pPrevState = null, Variant v_pRequired = null ) {
+        public Variant f__Security__AdjustTokenPrivileges(
+        Variant v_hToken,
+        Variant v_bDisableAll,
+        Variant v_pNewState,
+        Variant v_iBufferLen,
+        Variant v_pPrevState = null,
+        Variant v_pRequired = null ) {
             Variant v_aCall = Variant.Create( (object)null );
             if( v_pRequired == null ) {
                 v_pRequired = Variant.Create( 0 );
@@ -1699,7 +1967,22 @@ namespace PerformanceTestConsole
             if( v_pPrevState == null ) {
                 v_pPrevState = Variant.Create( 0 );
             }
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "AdjustTokenPrivileges" ), Variant.Create( "handle" ), v_hToken, Variant.Create( "bool" ), v_bDisableAll, Variant.Create( "struct*" ), v_pNewState, Variant.Create( "dword" ), v_iBufferLen, Variant.Create( "struct*" ), v_pPrevState, Variant.Create( "struct*" ), v_pRequired );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "AdjustTokenPrivileges" ),
+                                         Variant.Create( "handle" ),
+                                         v_hToken,
+                                         Variant.Create( "bool" ),
+                                         v_bDisableAll,
+                                         Variant.Create( "struct*" ),
+                                         v_pNewState,
+                                         Variant.Create( "dword" ),
+                                         v_iBufferLen,
+                                         Variant.Create( "struct*" ),
+                                         v_pPrevState,
+                                         Variant.Create( "struct*" ),
+                                         v_pRequired );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -1708,9 +1991,37 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__Security__CreateProcessWithToken( Variant v_hToken, Variant v_iLogonFlags, Variant v_sCommandLine, Variant v_iCreationFlags, Variant v_sCurDir, Variant v_tSTARTUPINFO, Variant v_tPROCESS_INFORMATION ) {
+        public Variant f__Security__CreateProcessWithToken(
+        Variant v_hToken,
+        Variant v_iLogonFlags,
+        Variant v_sCommandLine,
+        Variant v_iCreationFlags,
+        Variant v_sCurDir,
+        Variant v_tSTARTUPINFO,
+        Variant v_tPROCESS_INFORMATION ) {
             Variant v_aCall = Variant.Create( (object)null );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "CreateProcessWithTokenW" ), Variant.Create( "handle" ), v_hToken, Variant.Create( "dword" ), v_iLogonFlags, Variant.Create( "ptr" ), Variant.Create( 0 ), Variant.Create( "wstr" ), v_sCommandLine, Variant.Create( "dword" ), v_iCreationFlags, Variant.Create( "struct*" ), Variant.Create( 0 ), Variant.Create( "wstr" ), v_sCurDir, Variant.Create( "struct*" ), v_tSTARTUPINFO, Variant.Create( "struct*" ), v_tPROCESS_INFORMATION );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "CreateProcessWithTokenW" ),
+                                         Variant.Create( "handle" ),
+                                         v_hToken,
+                                         Variant.Create( "dword" ),
+                                         v_iLogonFlags,
+                                         Variant.Create( "ptr" ),
+                                         Variant.Create( 0 ),
+                                         Variant.Create( "wstr" ),
+                                         v_sCommandLine,
+                                         Variant.Create( "dword" ),
+                                         v_iCreationFlags,
+                                         Variant.Create( "struct*" ),
+                                         Variant.Create( 0 ),
+                                         Variant.Create( "wstr" ),
+                                         v_sCurDir,
+                                         Variant.Create( "struct*" ),
+                                         v_tSTARTUPINFO,
+                                         Variant.Create( "struct*" ),
+                                         v_tPROCESS_INFORMATION );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -1721,7 +2032,22 @@ namespace PerformanceTestConsole
 
         public Variant f__Security__DuplicateTokenEx( Variant v_hExistingToken, Variant v_iDesiredAccess, Variant v_iImpersonationLevel, Variant v_iTokenType ) {
             Variant v_aCall = Variant.Create( (object)null );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "DuplicateTokenEx" ), Variant.Create( "handle" ), v_hExistingToken, Variant.Create( "dword" ), v_iDesiredAccess, Variant.Create( "struct*" ), Variant.Create( 0 ), Variant.Create( "int" ), v_iImpersonationLevel, Variant.Create( "int" ), v_iTokenType, Variant.Create( "handle*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "DuplicateTokenEx" ),
+                                         Variant.Create( "handle" ),
+                                         v_hExistingToken,
+                                         Variant.Create( "dword" ),
+                                         v_iDesiredAccess,
+                                         Variant.Create( "struct*" ),
+                                         Variant.Create( 0 ),
+                                         Variant.Create( "int" ),
+                                         v_iImpersonationLevel,
+                                         Variant.Create( "int" ),
+                                         v_iTokenType,
+                                         Variant.Create( "handle*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -1754,7 +2080,12 @@ namespace PerformanceTestConsole
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
 
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "dword" ), Variant.Create( "GetLengthSid" ), Variant.Create( "struct*" ), v_pSID );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "dword" ),
+                                         Variant.Create( "GetLengthSid" ),
+                                         Variant.Create( "struct*" ),
+                                         v_pSID );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -1767,14 +2098,40 @@ namespace PerformanceTestConsole
             Variant v_aCall = Variant.Create( (object)null );
             Variant v_iLen = Variant.Create( (object)null );
             Variant v_tBuffer = Variant.Create( (object)null );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetTokenInformation" ), Variant.Create( "handle" ), v_hToken, Variant.Create( "int" ), v_iClass, Variant.Create( "struct*" ), Variant.Create( 0 ), Variant.Create( "dword" ), Variant.Create( 0 ), Variant.Create( "dword*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "GetTokenInformation" ),
+                                         Variant.Create( "handle" ),
+                                         v_hToken,
+                                         Variant.Create( "int" ),
+                                         v_iClass,
+                                         Variant.Create( "struct*" ),
+                                         Variant.Create( 0 ),
+                                         Variant.Create( "dword" ),
+                                         Variant.Create( 0 ),
+                                         Variant.Create( "dword*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 5 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
 
             v_iLen = v_aCall[Variant.Create( 5 )];
             v_tBuffer = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "byte[" ), v_iLen ), Variant.Create( "]" ) ) );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetTokenInformation" ), Variant.Create( "handle" ), v_hToken, Variant.Create( "int" ), v_iClass, Variant.Create( "struct*" ), v_tBuffer, Variant.Create( "dword" ), _functions.DllStructGetSize( v_tBuffer ), Variant.Create( "dword*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "GetTokenInformation" ),
+                                         Variant.Create( "handle" ),
+                                         v_hToken,
+                                         Variant.Create( "int" ),
+                                         v_iClass,
+                                         Variant.Create( "struct*" ),
+                                         v_tBuffer,
+                                         Variant.Create( "dword" ),
+                                         _functions.DllStructGetSize( v_tBuffer ),
+                                         Variant.Create( "dword*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -1788,7 +2145,12 @@ namespace PerformanceTestConsole
             if( v_iLevel == null ) {
                 v_iLevel = v_SECURITYIMPERSONATION;
             }
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "ImpersonateSelf" ), Variant.Create( "int" ), v_iLevel );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "ImpersonateSelf" ),
+                                         Variant.Create( "int" ),
+                                         v_iLevel );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -1799,7 +2161,12 @@ namespace PerformanceTestConsole
 
         public Variant f__Security__IsValidSid( Variant v_pSID ) {
             Variant v_aCall = Variant.Create( (object)null );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "IsValidSid" ), Variant.Create( "struct*" ), v_pSID );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "IsValidSid" ),
+                                         Variant.Create( "struct*" ),
+                                         v_pSID );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -1816,7 +2183,24 @@ namespace PerformanceTestConsole
                 v_sSystem = Variant.Create( "" );
             }
             v_tData = _functions.DllStructCreate( Variant.Create( "byte SID[256]" ) );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "LookupAccountNameW" ), Variant.Create( "wstr" ), v_sSystem, Variant.Create( "wstr" ), v_sAccount, Variant.Create( "struct*" ), v_tData, Variant.Create( "dword*" ), _functions.DllStructGetSize( v_tData ), Variant.Create( "wstr" ), Variant.Create( "" ), Variant.Create( "dword*" ), _functions.DllStructGetSize( v_tData ), Variant.Create( "int*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "LookupAccountNameW" ),
+                                         Variant.Create( "wstr" ),
+                                         v_sSystem,
+                                         Variant.Create( "wstr" ),
+                                         v_sAccount,
+                                         Variant.Create( "struct*" ),
+                                         v_tData,
+                                         Variant.Create( "dword*" ),
+                                         _functions.DllStructGetSize( v_tData ),
+                                         Variant.Create( "wstr" ),
+                                         Variant.Create( "" ),
+                                         Variant.Create( "dword*" ),
+                                         _functions.DllStructGetSize( v_tData ),
+                                         Variant.Create( "int*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -1854,7 +2238,24 @@ namespace PerformanceTestConsole
                 v_sTypeSystem = Variant.Create( "wstr" );
             }
 
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "LookupAccountSidW" ), v_sTypeSystem, v_sSystem, Variant.Create( "struct*" ), v_pSID, Variant.Create( "wstr" ), Variant.Create( "" ), Variant.Create( "dword*" ), Variant.Create( 65536 ), Variant.Create( "wstr" ), Variant.Create( "" ), Variant.Create( "dword*" ), Variant.Create( 65536 ), Variant.Create( "int*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "LookupAccountSidW" ),
+                                         v_sTypeSystem,
+                                         v_sSystem,
+                                         Variant.Create( "struct*" ),
+                                         v_pSID,
+                                         Variant.Create( "wstr" ),
+                                         Variant.Create( "" ),
+                                         Variant.Create( "dword*" ),
+                                         Variant.Create( 65536 ),
+                                         Variant.Create( "wstr" ),
+                                         Variant.Create( "" ),
+                                         Variant.Create( "dword*" ),
+                                         Variant.Create( 65536 ),
+                                         Variant.Create( "int*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -1869,7 +2270,16 @@ namespace PerformanceTestConsole
 
         public Variant f__Security__LookupPrivilegeValue( Variant v_sSystem, Variant v_sName ) {
             Variant v_aCall = Variant.Create( (object)null );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "LookupPrivilegeValueW" ), Variant.Create( "wstr" ), v_sSystem, Variant.Create( "wstr" ), v_sName, Variant.Create( "int64*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "LookupPrivilegeValueW" ),
+                                         Variant.Create( "wstr" ),
+                                         v_sSystem,
+                                         Variant.Create( "wstr" ),
+                                         v_sName,
+                                         Variant.Create( "int64*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -1880,7 +2290,16 @@ namespace PerformanceTestConsole
 
         public Variant f__Security__OpenProcessToken( Variant v_hProcess, Variant v_iAccess ) {
             Variant v_aCall = Variant.Create( (object)null );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "OpenProcessToken" ), Variant.Create( "handle" ), v_hProcess, Variant.Create( "dword" ), v_iAccess, Variant.Create( "handle*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "OpenProcessToken" ),
+                                         Variant.Create( "handle" ),
+                                         v_hProcess,
+                                         Variant.Create( "dword" ),
+                                         v_iAccess,
+                                         Variant.Create( "handle*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -1907,7 +2326,18 @@ namespace PerformanceTestConsole
                 v_hThread = v_aResult[Variant.Create( 0 )];
             }
 
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "OpenThreadToken" ), Variant.Create( "handle" ), v_hThread, Variant.Create( "dword" ), v_iAccess, Variant.Create( "bool" ), v_bOpenAsSelf, Variant.Create( "handle*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "OpenThreadToken" ),
+                                         Variant.Create( "handle" ),
+                                         v_hThread,
+                                         Variant.Create( "dword" ),
+                                         v_iAccess,
+                                         Variant.Create( "bool" ),
+                                         v_bOpenAsSelf,
+                                         Variant.Create( "handle*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -1990,9 +2420,24 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__Security__SetTokenInformation( Variant v_hToken, Variant v_iTokenInformation, Variant v_vTokenInformation, Variant v_iTokenInformationLength ) {
+        public Variant f__Security__SetTokenInformation(
+        Variant v_hToken,
+        Variant v_iTokenInformation,
+        Variant v_vTokenInformation,
+        Variant v_iTokenInformationLength ) {
             Variant v_aCall = Variant.Create( (object)null );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetTokenInformation" ), Variant.Create( "handle" ), v_hToken, Variant.Create( "int" ), v_iTokenInformation, Variant.Create( "struct*" ), v_vTokenInformation, Variant.Create( "dword" ), v_iTokenInformationLength );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "SetTokenInformation" ),
+                                         Variant.Create( "handle" ),
+                                         v_hToken,
+                                         Variant.Create( "int" ),
+                                         v_iTokenInformation,
+                                         Variant.Create( "struct*" ),
+                                         v_vTokenInformation,
+                                         Variant.Create( "dword" ),
+                                         v_iTokenInformationLength );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2010,15 +2455,41 @@ namespace PerformanceTestConsole
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), Variant.Create( 0 ), Variant.Create( "" ) );
             }
 
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "ConvertSidToStringSidW" ), Variant.Create( "struct*" ), v_pSID, Variant.Create( "ptr*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "ConvertSidToStringSidW" ),
+                                         Variant.Create( "struct*" ),
+                                         v_pSID,
+                                         Variant.Create( "ptr*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( "" ) );
             }
 
             v_pStringSid = v_aCall[Variant.Create( 2 )];
-            v_aLen = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "lstrlenW" ), Variant.Create( "struct*" ), v_pStringSid );
-            v_sSID = _functions.DllStructGetData( _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Text[" ), v_aLen[Variant.Create( 0 )]+Variant.Create( 1 ) ), Variant.Create( "]" ) ), v_pStringSid ), Variant.Create( "Text" ) );
-            _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "LocalFree" ), Variant.Create( "handle" ), v_pStringSid );
+            v_aLen = _functions.DllCall(
+                                        Variant.Create( "kernel32.dll" ),
+                                        Variant.Create( "int" ),
+                                        Variant.Create( "lstrlenW" ),
+                                        Variant.Create( "struct*" ),
+                                        v_pStringSid );
+            v_sSID =
+            _functions.DllStructGetData(
+                                        _functions.DllStructCreate(
+                                                                   _functions.Concat(
+                                                                                     _functions.Concat(
+                                                                                                       Variant.Create( "wchar Text[" ),
+                                                                                                       v_aLen[Variant.Create( 0 )]+Variant.Create( 1 ) ),
+                                                                                     Variant.Create( "]" ) ),
+                                                                   v_pStringSid ),
+                                        Variant.Create( "Text" ) );
+            _functions.DllCall(
+                               Variant.Create( "kernel32.dll" ),
+                               Variant.Create( "handle" ),
+                               Variant.Create( "LocalFree" ),
+                               Variant.Create( "handle" ),
+                               v_pStringSid );
             return v_sSID;
             return Variant.Create( (object)null );
         }
@@ -2064,16 +2535,37 @@ namespace PerformanceTestConsole
             Variant v_pSID = Variant.Create( (object)null );
             Variant v_tBuffer = Variant.Create( (object)null );
             Variant v_tSID = Variant.Create( (object)null );
-            v_aCall = _functions.DllCall( Variant.Create( "advapi32.dll" ), Variant.Create( "bool" ), Variant.Create( "ConvertStringSidToSidW" ), Variant.Create( "wstr" ), v_sSID, Variant.Create( "ptr*" ), Variant.Create( 0 ) );
+            v_aCall = _functions.DllCall(
+                                         Variant.Create( "advapi32.dll" ),
+                                         Variant.Create( "bool" ),
+                                         Variant.Create( "ConvertStringSidToSidW" ),
+                                         Variant.Create( "wstr" ),
+                                         v_sSID,
+                                         Variant.Create( "ptr*" ),
+                                         Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aCall[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
 
             v_pSID = v_aCall[Variant.Create( 2 )];
-            v_tBuffer = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "byte Data[" ), f__Security__GetLengthSid( v_pSID ) ), Variant.Create( "]" ) ), v_pSID );
-            v_tSID = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "byte Data[" ), _functions.DllStructGetSize( v_tBuffer ) ), Variant.Create( "]" ) ) );
+            v_tBuffer =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat( Variant.Create( "byte Data[" ), f__Security__GetLengthSid( v_pSID ) ),
+                                                         Variant.Create( "]" ) ),
+                                       v_pSID );
+            v_tSID =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat( Variant.Create( "byte Data[" ), _functions.DllStructGetSize( v_tBuffer ) ),
+                                                         Variant.Create( "]" ) ) );
             _functions.DllStructSetData( v_tSID, Variant.Create( "Data" ), _functions.DllStructGetData( v_tBuffer, Variant.Create( "Data" ) ) );
-            _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "LocalFree" ), Variant.Create( "handle" ), v_pSID );
+            _functions.DllCall(
+                               Variant.Create( "kernel32.dll" ),
+                               Variant.Create( "handle" ),
+                               Variant.Create( "LocalFree" ),
+                               Variant.Create( "handle" ),
+                               v_pSID );
             return v_tSID;
             return Variant.Create( (object)null );
         }
@@ -2083,7 +2575,12 @@ namespace PerformanceTestConsole
             if( v_iPID == null ) {
                 v_iPID = Variant.Create( -1 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "AttachConsole" ), Variant.Create( "dword" ), v_iPID );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "AttachConsole" ),
+                                           Variant.Create( "dword" ),
+                                           v_iPID );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2094,7 +2591,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_AttachThreadInput( Variant v_iAttach, Variant v_iAttachTo, Variant v_bAttach ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "AttachThreadInput" ), Variant.Create( "dword" ), v_iAttach, Variant.Create( "dword" ), v_iAttachTo, Variant.Create( "bool" ), v_bAttach );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "AttachThreadInput" ),
+                                           Variant.Create( "dword" ),
+                                           v_iAttach,
+                                           Variant.Create( "dword" ),
+                                           v_iAttachTo,
+                                           Variant.Create( "bool" ),
+                                           v_bAttach );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2111,7 +2617,14 @@ namespace PerformanceTestConsole
             if( v_iFreq == null ) {
                 v_iFreq = Variant.Create( 500 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "Beep" ), Variant.Create( "dword" ), v_iFreq, Variant.Create( "dword" ), v_iDuration );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "Beep" ),
+                                           Variant.Create( "dword" ),
+                                           v_iFreq,
+                                           Variant.Create( "dword" ),
+                                           v_iDuration );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2120,9 +2633,39 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_BitBlt( Variant v_hDestDC, Variant v_iXDest, Variant v_iYDest, Variant v_iWidth, Variant v_iHeight, Variant v_hSrcDC, Variant v_iXSrc, Variant v_iYSrc, Variant v_iROP ) {
+        public Variant f__WinAPI_BitBlt(
+        Variant v_hDestDC,
+        Variant v_iXDest,
+        Variant v_iYDest,
+        Variant v_iWidth,
+        Variant v_iHeight,
+        Variant v_hSrcDC,
+        Variant v_iXSrc,
+        Variant v_iYSrc,
+        Variant v_iROP ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "bool" ), Variant.Create( "BitBlt" ), Variant.Create( "handle" ), v_hDestDC, Variant.Create( "int" ), v_iXDest, Variant.Create( "int" ), v_iYDest, Variant.Create( "int" ), v_iWidth, Variant.Create( "int" ), v_iHeight, Variant.Create( "handle" ), v_hSrcDC, Variant.Create( "int" ), v_iXSrc, Variant.Create( "int" ), v_iYSrc, Variant.Create( "dword" ), v_iROP );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "BitBlt" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDestDC,
+                                           Variant.Create( "int" ),
+                                           v_iXDest,
+                                           Variant.Create( "int" ),
+                                           v_iYDest,
+                                           Variant.Create( "int" ),
+                                           v_iWidth,
+                                           Variant.Create( "int" ),
+                                           v_iHeight,
+                                           Variant.Create( "handle" ),
+                                           v_hSrcDC,
+                                           Variant.Create( "int" ),
+                                           v_iXSrc,
+                                           Variant.Create( "int" ),
+                                           v_iYSrc,
+                                           Variant.Create( "dword" ),
+                                           v_iROP );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2133,7 +2676,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CallNextHookEx( Variant v_hHk, Variant v_iCode, Variant v_wParam, Variant v_lParam ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "lresult" ), Variant.Create( "CallNextHookEx" ), Variant.Create( "handle" ), v_hHk, Variant.Create( "int" ), v_iCode, Variant.Create( "wparam" ), v_wParam, Variant.Create( "lparam" ), v_lParam );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "lresult" ),
+                                           Variant.Create( "CallNextHookEx" ),
+                                           Variant.Create( "handle" ),
+                                           v_hHk,
+                                           Variant.Create( "int" ),
+                                           v_iCode,
+                                           Variant.Create( "wparam" ),
+                                           v_wParam,
+                                           Variant.Create( "lparam" ),
+                                           v_lParam );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -2144,7 +2698,20 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CallWindowProc( Variant v_pPrevWndFunc, Variant v_hWnd, Variant v_iMsg, Variant v_wParam, Variant v_lParam ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "lresult" ), Variant.Create( "CallWindowProc" ), Variant.Create( "ptr" ), v_pPrevWndFunc, Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "uint" ), v_iMsg, Variant.Create( "wparam" ), v_wParam, Variant.Create( "lparam" ), v_lParam );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "lresult" ),
+                                           Variant.Create( "CallWindowProc" ),
+                                           Variant.Create( "ptr" ),
+                                           v_pPrevWndFunc,
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "uint" ),
+                                           v_iMsg,
+                                           Variant.Create( "wparam" ),
+                                           v_wParam,
+                                           Variant.Create( "lparam" ),
+                                           v_lParam );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -2155,7 +2722,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_ClientToScreen( Variant v_hWnd, ref Variant v_tPoint ) {
             Variant v_aRet = Variant.Create( (object)null );
-            v_aRet = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "ClientToScreen" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "struct*" ), v_tPoint );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "user32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "ClientToScreen" ),
+                                        Variant.Create( "hwnd" ),
+                                        v_hWnd,
+                                        Variant.Create( "struct*" ),
+                                        v_tPoint );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -2166,7 +2740,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CloseHandle( Variant v_hObject ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "CloseHandle" ), Variant.Create( "handle" ), v_hObject );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "CloseHandle" ),
+                                           Variant.Create( "handle" ),
+                                           v_hObject );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2177,7 +2756,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CombineRgn( Variant v_hRgnDest, Variant v_hRgnSrc1, Variant v_hRgnSrc2, Variant v_iCombineMode ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "int" ), Variant.Create( "CombineRgn" ), Variant.Create( "handle" ), v_hRgnDest, Variant.Create( "handle" ), v_hRgnSrc1, Variant.Create( "handle" ), v_hRgnSrc2, Variant.Create( "int" ), v_iCombineMode );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "CombineRgn" ),
+                                           Variant.Create( "handle" ),
+                                           v_hRgnDest,
+                                           Variant.Create( "handle" ),
+                                           v_hRgnSrc1,
+                                           Variant.Create( "handle" ),
+                                           v_hRgnSrc2,
+                                           Variant.Create( "int" ),
+                                           v_iCombineMode );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2223,62 +2813,154 @@ namespace PerformanceTestConsole
             v_aResult = _functions.DllCall( Variant.Create( "comdlg32.dll" ), Variant.Create( "dword" ), Variant.Create( "CommDlgExtendedError" ) );
             if( _functions.NOT( _context.Error ) ) {
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_DIALOGFAILURE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "The dialog box could not be created." ), _context.LF ), Variant.Create( "The common dialog box function's call to the DialogBox function failed." ) ), _context.LF ), Variant.Create( "For example, this error occurs if the common dialog box call specifies an invalid window handle." ) ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               _functions.Concat(
+                                                                 _functions.Concat(
+                                                                                   _functions.Concat(
+                                                                                                     _functions.Concat(
+                                                                                                                       Variant.Create(
+                                                                                                                                      "The dialog box could not be created." ),
+                                                                                                                       _context.LF ),
+                                                                                                     Variant.Create(
+                                                                                                                    "The common dialog box function's call to the DialogBox function failed." ) ),
+                                                                                   _context.LF ),
+                                                                 Variant.Create(
+                                                                                "For example, this error occurs if the common dialog box call specifies an invalid window handle." ) ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_FINDRESFAILURE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "The common dialog box function failed to find a specified resource." ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create( "The common dialog box function failed to find a specified resource." ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_INITIALIZATION ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), _functions.Concat( _functions.Concat( Variant.Create( "The common dialog box function failed during initialization." ), _context.LF ), Variant.Create( "This error often occurs when sufficient memory is not available." ) ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               _functions.Concat(
+                                                                 _functions.Concat(
+                                                                                   Variant.Create(
+                                                                                                  "The common dialog box function failed during initialization." ),
+                                                                                   _context.LF ),
+                                                                 Variant.Create( "This error often occurs when sufficient memory is not available." ) ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_LOADRESFAILURE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "The common dialog box function failed to load a specified resource." ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create( "The common dialog box function failed to load a specified resource." ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_LOADSTRFAILURE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "The common dialog box function failed to load a specified string." ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create( "The common dialog box function failed to load a specified string." ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_LOCKRESFAILURE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "The common dialog box function failed to lock a specified resource." ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create( "The common dialog box function failed to lock a specified resource." ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_MEMALLOCFAILURE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "The common dialog box function was unable to allocate memory for internal structures." ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create( "The common dialog box function was unable to allocate memory for internal structures." ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_MEMLOCKFAILURE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "The common dialog box function was unable to lock the memory associated with a handle." ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create( "The common dialog box function was unable to lock the memory associated with a handle." ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_NOHINSTANCE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), _functions.Concat( _functions.Concat( Variant.Create( "The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box," ), _context.LF ), Variant.Create( "but you failed to provide a corresponding instance handle." ) ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               _functions.Concat(
+                                                                 _functions.Concat(
+                                                                                   Variant.Create(
+                                                                                                  "The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box," ),
+                                                                                   _context.LF ),
+                                                                 Variant.Create( "but you failed to provide a corresponding instance handle." ) ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_NOHOOK ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), _functions.Concat( _functions.Concat( Variant.Create( "The ENABLEHOOK flag was set in the Flags member of the initialization structure for the corresponding common dialog box," ), _context.LF ), Variant.Create( "but you failed to provide a pointer to a corresponding hook procedure." ) ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               _functions.Concat(
+                                                                 _functions.Concat(
+                                                                                   Variant.Create(
+                                                                                                  "The ENABLEHOOK flag was set in the Flags member of the initialization structure for the corresponding common dialog box," ),
+                                                                                   _context.LF ),
+                                                                 Variant.Create( "but you failed to provide a pointer to a corresponding hook procedure." ) ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_NOTEMPLATE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), _functions.Concat( _functions.Concat( Variant.Create( "The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box," ), _context.LF ), Variant.Create( "but you failed to provide a corresponding template." ) ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               _functions.Concat(
+                                                                 _functions.Concat(
+                                                                                   Variant.Create(
+                                                                                                  "The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box," ),
+                                                                                   _context.LF ),
+                                                                 Variant.Create( "but you failed to provide a corresponding template." ) ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_REGISTERMSGFAIL ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "The RegisterWindowMessage function returned an error code when it was called by the common dialog box function." ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create(
+                                                              "The RegisterWindowMessage function returned an error code when it was called by the common dialog box function." ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_CDERR_STRUCTSIZE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "The lStructSize member of the initialization structure for the corresponding common dialog box is invalid" ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create(
+                                                              "The lStructSize member of the initialization structure for the corresponding common dialog box is invalid" ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_FNERR_BUFFERTOOSMALL ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), _functions.Concat( _functions.Concat( Variant.Create( "The buffer pointed to by the lpstrFile member of the OPENFILENAME structure is too small for the file name specified by the user." ), _context.LF ), Variant.Create( "The first two bytes of the lpstrFile buffer contain an integer value specifying the size, in TCHARs, required to receive the full name." ) ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               _functions.Concat(
+                                                                 _functions.Concat(
+                                                                                   Variant.Create(
+                                                                                                  "The buffer pointed to by the lpstrFile member of the OPENFILENAME structure is too small for the file name specified by the user." ),
+                                                                                   _context.LF ),
+                                                                 Variant.Create(
+                                                                                "The first two bytes of the lpstrFile buffer contain an integer value specifying the size, in TCHARs, required to receive the full name." ) ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_FNERR_INVALIDFILENAME ) ) {
                     return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "A file name is invalid." ) );
                 }
                 if( _functions.Equal( v_aResult[Variant.Create( 0 )], v_FNERR_SUBCLASSFAILURE ) ) {
-                    return _functions.SetError( v_aResult[Variant.Create( 0 )], Variant.Create( 0 ), Variant.Create( "An attempt to subclass a list box failed because sufficient memory was not available." ) );
+                    return _functions.SetError(
+                                               v_aResult[Variant.Create( 0 )],
+                                               Variant.Create( 0 ),
+                                               Variant.Create( "An attempt to subclass a list box failed because sufficient memory was not available." ) );
                 }
             }
 
-            return _functions.SetError( _context.Error, _context.Extended, _functions.Concat( Variant.Create( "0x" ), _functions.Hex( v_aResult[Variant.Create( 0 )] ) ) );
+            return _functions.SetError(
+                                       _context.Error,
+                                       _context.Extended,
+                                       _functions.Concat( Variant.Create( "0x" ), _functions.Hex( v_aResult[Variant.Create( 0 )] ) ) );
             return Variant.Create( (object)null );
         }
 
         public Variant f__WinAPI_CopyIcon( Variant v_hIcon ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "handle" ), Variant.Create( "CopyIcon" ), Variant.Create( "handle" ), v_hIcon );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CopyIcon" ),
+                                           Variant.Create( "handle" ),
+                                           v_hIcon );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2287,7 +2969,12 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_CreateBitmap( Variant v_iWidth, Variant v_iHeight, Variant v_iPlanes = null, Variant v_iBitsPerPel = null, Variant v_pBits = null ) {
+        public Variant f__WinAPI_CreateBitmap(
+        Variant v_iWidth,
+        Variant v_iHeight,
+        Variant v_iPlanes = null,
+        Variant v_iBitsPerPel = null,
+        Variant v_pBits = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_pBits == null ) {
                 v_pBits = Variant.Create( 0 );
@@ -2298,7 +2985,20 @@ namespace PerformanceTestConsole
             if( v_iPlanes == null ) {
                 v_iPlanes = Variant.Create( 1 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateBitmap" ), Variant.Create( "int" ), v_iWidth, Variant.Create( "int" ), v_iHeight, Variant.Create( "uint" ), v_iPlanes, Variant.Create( "uint" ), v_iBitsPerPel, Variant.Create( "ptr" ), v_pBits );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateBitmap" ),
+                                           Variant.Create( "int" ),
+                                           v_iWidth,
+                                           Variant.Create( "int" ),
+                                           v_iHeight,
+                                           Variant.Create( "uint" ),
+                                           v_iPlanes,
+                                           Variant.Create( "uint" ),
+                                           v_iBitsPerPel,
+                                           Variant.Create( "ptr" ),
+                                           v_pBits );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2309,7 +3009,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CreateCompatibleBitmap( Variant v_hDC, Variant v_iWidth, Variant v_iHeight ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateCompatibleBitmap" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "int" ), v_iWidth, Variant.Create( "int" ), v_iHeight );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateCompatibleBitmap" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "int" ),
+                                           v_iWidth,
+                                           Variant.Create( "int" ),
+                                           v_iHeight );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2320,7 +3029,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CreateCompatibleDC( Variant v_hDC ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateCompatibleDC" ), Variant.Create( "handle" ), v_hDC );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateCompatibleDC" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2329,7 +3043,11 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_CreateEvent( Variant v_pAttributes = null, Variant v_bManualReset = null, Variant v_bInitialState = null, Variant v_sName = null ) {
+        public Variant f__WinAPI_CreateEvent(
+        Variant v_pAttributes = null,
+        Variant v_bManualReset = null,
+        Variant v_bInitialState = null,
+        Variant v_sName = null ) {
             Variant v_sNameType = Variant.Create( (object)null );
             Variant v_aResult = Variant.Create( (object)null );
             if( v_sName == null ) {
@@ -2350,7 +3068,18 @@ namespace PerformanceTestConsole
                 v_sNameType = Variant.Create( "ptr" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateEventW" ), Variant.Create( "ptr" ), v_pAttributes, Variant.Create( "bool" ), v_bManualReset, Variant.Create( "bool" ), v_bInitialState, v_sNameType, v_sName );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateEventW" ),
+                                           Variant.Create( "ptr" ),
+                                           v_pAttributes,
+                                           Variant.Create( "bool" ),
+                                           v_bManualReset,
+                                           Variant.Create( "bool" ),
+                                           v_bInitialState,
+                                           v_sNameType,
+                                           v_sName );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2359,7 +3088,13 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_CreateFile( Variant v_sFileName, Variant v_iCreation, Variant v_iAccess = null, Variant v_iShare = null, Variant v_iAttributes = null, Variant v_pSecurity = null ) {
+        public Variant f__WinAPI_CreateFile(
+        Variant v_sFileName,
+        Variant v_iCreation,
+        Variant v_iAccess = null,
+        Variant v_iShare = null,
+        Variant v_iAttributes = null,
+        Variant v_pSecurity = null ) {
             Variant v_iDA = Variant.Create( (object)null );
             Variant v_iSM = Variant.Create( (object)null );
             Variant v_iCD = Variant.Create( (object)null );
@@ -2437,7 +3172,24 @@ namespace PerformanceTestConsole
                 v_iFA = _functions.BitOR( v_iFA, v_FILE_ATTRIBUTE_SYSTEM );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateFileW" ), Variant.Create( "wstr" ), v_sFileName, Variant.Create( "dword" ), v_iDA, Variant.Create( "dword" ), v_iSM, Variant.Create( "ptr" ), v_pSecurity, Variant.Create( "dword" ), v_iCD, Variant.Create( "dword" ), v_iFA, Variant.Create( "ptr" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateFileW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sFileName,
+                                           Variant.Create( "dword" ),
+                                           v_iDA,
+                                           Variant.Create( "dword" ),
+                                           v_iSM,
+                                           Variant.Create( "ptr" ),
+                                           v_pSecurity,
+                                           Variant.Create( "dword" ),
+                                           v_iCD,
+                                           Variant.Create( "dword" ),
+                                           v_iFA,
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, v_aResult[Variant.Create( 0 )] == v_INVALID_HANDLE_VALUE ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2446,7 +3198,21 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_CreateFont( Variant v_iHeight, Variant v_iWidth, Variant v_iEscape = null, Variant v_iOrientn = null, Variant v_iWeight = null, Variant v_bItalic = null, Variant v_bUnderline = null, Variant v_bStrikeout = null, Variant v_iCharset = null, Variant v_iOutputPrec = null, Variant v_iClipPrec = null, Variant v_iQuality = null, Variant v_iPitch = null, Variant v_sFace = null ) {
+        public Variant f__WinAPI_CreateFont(
+        Variant v_iHeight,
+        Variant v_iWidth,
+        Variant v_iEscape = null,
+        Variant v_iOrientn = null,
+        Variant v_iWeight = null,
+        Variant v_bItalic = null,
+        Variant v_bUnderline = null,
+        Variant v_bStrikeout = null,
+        Variant v_iCharset = null,
+        Variant v_iOutputPrec = null,
+        Variant v_iClipPrec = null,
+        Variant v_iQuality = null,
+        Variant v_iPitch = null,
+        Variant v_sFace = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_sFace == null ) {
                 v_sFace = Variant.Create( "Arial" );
@@ -2484,7 +3250,38 @@ namespace PerformanceTestConsole
             if( v_iEscape == null ) {
                 v_iEscape = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateFontW" ), Variant.Create( "int" ), v_iHeight, Variant.Create( "int" ), v_iWidth, Variant.Create( "int" ), v_iEscape, Variant.Create( "int" ), v_iOrientn, Variant.Create( "int" ), v_iWeight, Variant.Create( "dword" ), v_bItalic, Variant.Create( "dword" ), v_bUnderline, Variant.Create( "dword" ), v_bStrikeout, Variant.Create( "dword" ), v_iCharset, Variant.Create( "dword" ), v_iOutputPrec, Variant.Create( "dword" ), v_iClipPrec, Variant.Create( "dword" ), v_iQuality, Variant.Create( "dword" ), v_iPitch, Variant.Create( "wstr" ), v_sFace );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateFontW" ),
+                                           Variant.Create( "int" ),
+                                           v_iHeight,
+                                           Variant.Create( "int" ),
+                                           v_iWidth,
+                                           Variant.Create( "int" ),
+                                           v_iEscape,
+                                           Variant.Create( "int" ),
+                                           v_iOrientn,
+                                           Variant.Create( "int" ),
+                                           v_iWeight,
+                                           Variant.Create( "dword" ),
+                                           v_bItalic,
+                                           Variant.Create( "dword" ),
+                                           v_bUnderline,
+                                           Variant.Create( "dword" ),
+                                           v_bStrikeout,
+                                           Variant.Create( "dword" ),
+                                           v_iCharset,
+                                           Variant.Create( "dword" ),
+                                           v_iOutputPrec,
+                                           Variant.Create( "dword" ),
+                                           v_iClipPrec,
+                                           Variant.Create( "dword" ),
+                                           v_iQuality,
+                                           Variant.Create( "dword" ),
+                                           v_iPitch,
+                                           Variant.Create( "wstr" ),
+                                           v_sFace );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2495,7 +3292,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CreateFontIndirect( Variant v_tLogFont ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateFontIndirectW" ), Variant.Create( "struct*" ), v_tLogFont );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateFontIndirectW" ),
+                                           Variant.Create( "struct*" ),
+                                           v_tLogFont );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2506,7 +3308,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CreatePen( Variant v_iPenStyle, Variant v_iWidth, Variant v_nColor ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreatePen" ), Variant.Create( "int" ), v_iPenStyle, Variant.Create( "int" ), v_iWidth, Variant.Create( "INT" ), v_nColor );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreatePen" ),
+                                           Variant.Create( "int" ),
+                                           v_iPenStyle,
+                                           Variant.Create( "int" ),
+                                           v_iWidth,
+                                           Variant.Create( "INT" ),
+                                           v_nColor );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2515,7 +3326,17 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_CreateProcess( Variant v_sAppName, Variant v_sCommand, Variant v_pSecurity, Variant v_pThread, Variant v_bInherit, Variant v_iFlags, Variant v_pEnviron, Variant v_sDir, Variant v_pStartupInfo, Variant v_pProcess ) {
+        public Variant f__WinAPI_CreateProcess(
+        Variant v_sAppName,
+        Variant v_sCommand,
+        Variant v_pSecurity,
+        Variant v_pThread,
+        Variant v_bInherit,
+        Variant v_iFlags,
+        Variant v_pEnviron,
+        Variant v_sDir,
+        Variant v_pStartupInfo,
+        Variant v_pProcess ) {
             Variant v_tCommand = Variant.Create( (object)null );
             Variant v_sAppNameType = Variant.Create( (object)null );
             Variant v_sDirType = Variant.Create( (object)null );
@@ -2529,7 +3350,11 @@ namespace PerformanceTestConsole
             }
 
             if( v_sCommand != Variant.Create( "" ) ) {
-                v_tCommand = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Text[" ), Variant.Create( 260 )+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
+                v_tCommand =
+                _functions.DllStructCreate(
+                                           _functions.Concat(
+                                                             _functions.Concat( Variant.Create( "wchar Text[" ), Variant.Create( 260 )+Variant.Create( 1 ) ),
+                                                             Variant.Create( "]" ) ) );
                 _functions.DllStructSetData( v_tCommand, Variant.Create( "Text" ), v_sCommand );
             }
 
@@ -2538,7 +3363,30 @@ namespace PerformanceTestConsole
                 v_sDir = Variant.Create( 0 );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "CreateProcessW" ), v_sAppNameType, v_sAppName, Variant.Create( "struct*" ), v_tCommand, Variant.Create( "ptr" ), v_pSecurity, Variant.Create( "ptr" ), v_pThread, Variant.Create( "bool" ), v_bInherit, Variant.Create( "dword" ), v_iFlags, Variant.Create( "ptr" ), v_pEnviron, v_sDirType, v_sDir, Variant.Create( "ptr" ), v_pStartupInfo, Variant.Create( "ptr" ), v_pProcess );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "CreateProcessW" ),
+                                           v_sAppNameType,
+                                           v_sAppName,
+                                           Variant.Create( "struct*" ),
+                                           v_tCommand,
+                                           Variant.Create( "ptr" ),
+                                           v_pSecurity,
+                                           Variant.Create( "ptr" ),
+                                           v_pThread,
+                                           Variant.Create( "bool" ),
+                                           v_bInherit,
+                                           Variant.Create( "dword" ),
+                                           v_iFlags,
+                                           Variant.Create( "ptr" ),
+                                           v_pEnviron,
+                                           v_sDirType,
+                                           v_sDir,
+                                           Variant.Create( "ptr" ),
+                                           v_pStartupInfo,
+                                           Variant.Create( "ptr" ),
+                                           v_pProcess );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2549,7 +3397,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CreateRectRgn( Variant v_iLeftRect, Variant v_iTopRect, Variant v_iRightRect, Variant v_iBottomRect ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateRectRgn" ), Variant.Create( "int" ), v_iLeftRect, Variant.Create( "int" ), v_iTopRect, Variant.Create( "int" ), v_iRightRect, Variant.Create( "int" ), v_iBottomRect );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateRectRgn" ),
+                                           Variant.Create( "int" ),
+                                           v_iLeftRect,
+                                           Variant.Create( "int" ),
+                                           v_iTopRect,
+                                           Variant.Create( "int" ),
+                                           v_iRightRect,
+                                           Variant.Create( "int" ),
+                                           v_iBottomRect );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2558,9 +3417,30 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_CreateRoundRectRgn( Variant v_iLeftRect, Variant v_iTopRect, Variant v_iRightRect, Variant v_iBottomRect, Variant v_iWidthEllipse, Variant v_iHeightEllipse ) {
+        public Variant f__WinAPI_CreateRoundRectRgn(
+        Variant v_iLeftRect,
+        Variant v_iTopRect,
+        Variant v_iRightRect,
+        Variant v_iBottomRect,
+        Variant v_iWidthEllipse,
+        Variant v_iHeightEllipse ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateRoundRectRgn" ), Variant.Create( "int" ), v_iLeftRect, Variant.Create( "int" ), v_iTopRect, Variant.Create( "int" ), v_iRightRect, Variant.Create( "int" ), v_iBottomRect, Variant.Create( "int" ), v_iWidthEllipse, Variant.Create( "int" ), v_iHeightEllipse );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateRoundRectRgn" ),
+                                           Variant.Create( "int" ),
+                                           v_iLeftRect,
+                                           Variant.Create( "int" ),
+                                           v_iTopRect,
+                                           Variant.Create( "int" ),
+                                           v_iRightRect,
+                                           Variant.Create( "int" ),
+                                           v_iBottomRect,
+                                           Variant.Create( "int" ),
+                                           v_iWidthEllipse,
+                                           Variant.Create( "int" ),
+                                           v_iHeightEllipse );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2589,7 +3469,10 @@ namespace PerformanceTestConsole
             _functions.DllStructSetData( v_tRect, Variant.Create( 3 ), v_iWidth );
             _functions.DllStructSetData( v_tRect, Variant.Create( 4 ), v_iHeight );
             if( v_bRGB ) {
-                v_iColor = _functions.BitOR( _functions.BitAND( v_iColor, Variant.Create( 65280 ) ), _functions.BitShift( _functions.BitAND( v_iColor, Variant.Create( 255 ) ), Variant.Create( -16 ) ), _functions.BitShift( _functions.BitAND( v_iColor, Variant.Create( 16711680 ) ), Variant.Create( 16 ) ) );
+                v_iColor = _functions.BitOR(
+                                            _functions.BitAND( v_iColor, Variant.Create( 65280 ) ),
+                                            _functions.BitShift( _functions.BitAND( v_iColor, Variant.Create( 255 ) ), Variant.Create( -16 ) ),
+                                            _functions.BitShift( _functions.BitAND( v_iColor, Variant.Create( 16711680 ) ), Variant.Create( 16 ) ) );
             }
 
             v_hBrush = f__WinAPI_CreateSolidBrush( v_iColor );
@@ -2612,7 +3495,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_CreateSolidBrush( Variant v_nColor ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "CreateSolidBrush" ), Variant.Create( "INT" ), v_nColor );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "CreateSolidBrush" ),
+                                           Variant.Create( "INT" ),
+                                           v_nColor );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2621,7 +3509,19 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_CreateWindowEx( Variant v_iExStyle, Variant v_sClass, Variant v_sName, Variant v_iStyle, Variant v_iX, Variant v_iY, Variant v_iWidth, Variant v_iHeight, Variant v_hParent, Variant v_hMenu = null, Variant v_hInstance = null, Variant v_pParam = null ) {
+        public Variant f__WinAPI_CreateWindowEx(
+        Variant v_iExStyle,
+        Variant v_sClass,
+        Variant v_sName,
+        Variant v_iStyle,
+        Variant v_iX,
+        Variant v_iY,
+        Variant v_iWidth,
+        Variant v_iHeight,
+        Variant v_hParent,
+        Variant v_hMenu = null,
+        Variant v_hInstance = null,
+        Variant v_pParam = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_pParam == null ) {
                 v_pParam = Variant.Create( 0 );
@@ -2636,7 +3536,34 @@ namespace PerformanceTestConsole
                 v_hInstance = f__WinAPI_GetModuleHandle( Variant.Create( "" ) );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "CreateWindowExW" ), Variant.Create( "dword" ), v_iExStyle, Variant.Create( "wstr" ), v_sClass, Variant.Create( "wstr" ), v_sName, Variant.Create( "dword" ), v_iStyle, Variant.Create( "int" ), v_iX, Variant.Create( "int" ), v_iY, Variant.Create( "int" ), v_iWidth, Variant.Create( "int" ), v_iHeight, Variant.Create( "hwnd" ), v_hParent, Variant.Create( "handle" ), v_hMenu, Variant.Create( "handle" ), v_hInstance, Variant.Create( "ptr" ), v_pParam );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "CreateWindowExW" ),
+                                           Variant.Create( "dword" ),
+                                           v_iExStyle,
+                                           Variant.Create( "wstr" ),
+                                           v_sClass,
+                                           Variant.Create( "wstr" ),
+                                           v_sName,
+                                           Variant.Create( "dword" ),
+                                           v_iStyle,
+                                           Variant.Create( "int" ),
+                                           v_iX,
+                                           Variant.Create( "int" ),
+                                           v_iY,
+                                           Variant.Create( "int" ),
+                                           v_iWidth,
+                                           Variant.Create( "int" ),
+                                           v_iHeight,
+                                           Variant.Create( "hwnd" ),
+                                           v_hParent,
+                                           Variant.Create( "handle" ),
+                                           v_hMenu,
+                                           Variant.Create( "handle" ),
+                                           v_hInstance,
+                                           Variant.Create( "ptr" ),
+                                           v_pParam );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2647,7 +3574,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DefWindowProc( Variant v_hWnd, Variant v_iMsg, Variant v_iwParam, Variant v_ilParam ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "lresult" ), Variant.Create( "DefWindowProc" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "uint" ), v_iMsg, Variant.Create( "wparam" ), v_iwParam, Variant.Create( "lparam" ), v_ilParam );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "lresult" ),
+                                           Variant.Create( "DefWindowProc" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "uint" ),
+                                           v_iMsg,
+                                           Variant.Create( "wparam" ),
+                                           v_iwParam,
+                                           Variant.Create( "lparam" ),
+                                           v_ilParam );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2658,7 +3596,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DeleteDC( Variant v_hDC ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "bool" ), Variant.Create( "DeleteDC" ), Variant.Create( "handle" ), v_hDC );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DeleteDC" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2669,7 +3612,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DeleteObject( Variant v_hObject ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "bool" ), Variant.Create( "DeleteObject" ), Variant.Create( "handle" ), v_hObject );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DeleteObject" ),
+                                           Variant.Create( "handle" ),
+                                           v_hObject );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2680,7 +3628,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DestroyIcon( Variant v_hIcon ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "DestroyIcon" ), Variant.Create( "handle" ), v_hIcon );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DestroyIcon" ),
+                                           Variant.Create( "handle" ),
+                                           v_hIcon );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2691,7 +3644,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DestroyWindow( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "DestroyWindow" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DestroyWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2702,7 +3660,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DrawEdge( Variant v_hDC, Variant v_pRect, Variant v_iEdgeType, Variant v_iFlags ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "DrawEdge" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "ptr" ), v_pRect, Variant.Create( "uint" ), v_iEdgeType, Variant.Create( "uint" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DrawEdge" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "ptr" ),
+                                           v_pRect,
+                                           Variant.Create( "uint" ),
+                                           v_iEdgeType,
+                                           Variant.Create( "uint" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2713,7 +3682,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DrawFrameControl( Variant v_hDC, Variant v_pRect, Variant v_iType, Variant v_iState ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "DrawFrameControl" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "ptr" ), v_pRect, Variant.Create( "uint" ), v_iType, Variant.Create( "uint" ), v_iState );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DrawFrameControl" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "ptr" ),
+                                           v_pRect,
+                                           Variant.Create( "uint" ),
+                                           v_iType,
+                                           Variant.Create( "uint" ),
+                                           v_iState );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2724,7 +3704,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DrawIcon( Variant v_hDC, Variant v_iX, Variant v_iY, Variant v_hIcon ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "DrawIcon" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "int" ), v_iX, Variant.Create( "int" ), v_iY, Variant.Create( "handle" ), v_hIcon );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DrawIcon" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "int" ),
+                                           v_iX,
+                                           Variant.Create( "int" ),
+                                           v_iY,
+                                           Variant.Create( "handle" ),
+                                           v_hIcon );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2733,7 +3724,16 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_DrawIconEx( Variant v_hDC, Variant v_iX, Variant v_iY, Variant v_hIcon, Variant v_iWidth = null, Variant v_iHeight = null, Variant v_iStep = null, Variant v_hBrush = null, Variant v_iFlags = null ) {
+        public Variant f__WinAPI_DrawIconEx(
+        Variant v_hDC,
+        Variant v_iX,
+        Variant v_iY,
+        Variant v_hIcon,
+        Variant v_iWidth = null,
+        Variant v_iHeight = null,
+        Variant v_iStep = null,
+        Variant v_hBrush = null,
+        Variant v_iFlags = null ) {
             Variant v_iOptions = Variant.Create( (object)null );
             Variant v_aResult = Variant.Create( (object)null );
             if( v_iFlags == null ) {
@@ -2770,7 +3770,28 @@ namespace PerformanceTestConsole
                 v_iOptions = v_DI_NOMIRROR;
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "DrawIconEx" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "int" ), v_iX, Variant.Create( "int" ), v_iY, Variant.Create( "handle" ), v_hIcon, Variant.Create( "int" ), v_iWidth, Variant.Create( "int" ), v_iHeight, Variant.Create( "uint" ), v_iStep, Variant.Create( "handle" ), v_hBrush, Variant.Create( "uint" ), v_iOptions );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DrawIconEx" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "int" ),
+                                           v_iX,
+                                           Variant.Create( "int" ),
+                                           v_iY,
+                                           Variant.Create( "handle" ),
+                                           v_hIcon,
+                                           Variant.Create( "int" ),
+                                           v_iWidth,
+                                           Variant.Create( "int" ),
+                                           v_iHeight,
+                                           Variant.Create( "uint" ),
+                                           v_iStep,
+                                           Variant.Create( "handle" ),
+                                           v_hBrush,
+                                           Variant.Create( "uint" ),
+                                           v_iOptions );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2796,7 +3817,20 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_DrawText( Variant v_hDC, Variant v_sText, ref Variant v_tRect, Variant v_iFlags ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "DrawTextW" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "wstr" ), v_sText, Variant.Create( "int" ), Variant.Create( -1 ), Variant.Create( "struct*" ), v_tRect, Variant.Create( "uint" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "DrawTextW" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "wstr" ),
+                                           v_sText,
+                                           Variant.Create( "int" ),
+                                           Variant.Create( -1 ),
+                                           Variant.Create( "struct*" ),
+                                           v_tRect,
+                                           Variant.Create( "uint" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2805,9 +3839,32 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_DuplicateHandle( Variant v_hSourceProcessHandle, Variant v_hSourceHandle, Variant v_hTargetProcessHandle, Variant v_iDesiredAccess, Variant v_bInheritHandle, Variant v_iOptions ) {
+        public Variant f__WinAPI_DuplicateHandle(
+        Variant v_hSourceProcessHandle,
+        Variant v_hSourceHandle,
+        Variant v_hTargetProcessHandle,
+        Variant v_iDesiredAccess,
+        Variant v_bInheritHandle,
+        Variant v_iOptions ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "DuplicateHandle" ), Variant.Create( "handle" ), v_hSourceProcessHandle, Variant.Create( "handle" ), v_hSourceHandle, Variant.Create( "handle" ), v_hTargetProcessHandle, Variant.Create( "handle*" ), Variant.Create( 0 ), Variant.Create( "dword" ), v_iDesiredAccess, Variant.Create( "bool" ), v_bInheritHandle, Variant.Create( "dword" ), v_iOptions );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "DuplicateHandle" ),
+                                           Variant.Create( "handle" ),
+                                           v_hSourceProcessHandle,
+                                           Variant.Create( "handle" ),
+                                           v_hSourceHandle,
+                                           Variant.Create( "handle" ),
+                                           v_hTargetProcessHandle,
+                                           Variant.Create( "handle*" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "dword" ),
+                                           v_iDesiredAccess,
+                                           Variant.Create( "bool" ),
+                                           v_bInheritHandle,
+                                           Variant.Create( "dword" ),
+                                           v_iOptions );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -2821,7 +3878,14 @@ namespace PerformanceTestConsole
             if( v_bEnable == null ) {
                 v_bEnable = Variant.Create( true );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "EnableWindow" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "bool" ), v_bEnable );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "EnableWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "bool" ),
+                                           v_bEnable );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -2842,14 +3906,31 @@ namespace PerformanceTestConsole
             v_iFlags = Variant.Create( 0 );
             v_aDevice = Variant.CreateArray( new Variant[Variant.Create( 5 )] );
             if( v_sDevice != Variant.Create( "" ) ) {
-                v_tName = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Text[" ), _functions.StringLen( v_sDevice )+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
+                v_tName =
+                _functions.DllStructCreate(
+                                           _functions.Concat(
+                                                             _functions.Concat(
+                                                                               Variant.Create( "wchar Text[" ),
+                                                                               _functions.StringLen( v_sDevice )+Variant.Create( 1 ) ),
+                                                             Variant.Create( "]" ) ) );
                 _functions.DllStructSetData( v_tName, Variant.Create( "Text" ), v_sDevice );
             }
 
             v_tDevice = _functions.DllStructCreate( v_tagDISPLAY_DEVICE );
             v_iDevice = _functions.DllStructGetSize( v_tDevice );
             _functions.DllStructSetData( v_tDevice, Variant.Create( "Size" ), v_iDevice );
-            v_aRet = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "EnumDisplayDevicesW" ), Variant.Create( "struct*" ), v_tName, Variant.Create( "dword" ), v_iDevNum, Variant.Create( "struct*" ), v_tDevice, Variant.Create( "dword" ), Variant.Create( 1 ) );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "user32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "EnumDisplayDevicesW" ),
+                                        Variant.Create( "struct*" ),
+                                        v_tName,
+                                        Variant.Create( "dword" ),
+                                        v_iDevNum,
+                                        Variant.Create( "struct*" ),
+                                        v_tDevice,
+                                        Variant.Create( "dword" ),
+                                        Variant.Create( 1 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -2997,7 +4078,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_ExpandEnvironmentStrings( Variant v_sString ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "dword" ), Variant.Create( "ExpandEnvironmentStringsW" ), Variant.Create( "wstr" ), v_sString, Variant.Create( "wstr" ), Variant.Create( "" ), Variant.Create( "dword" ), Variant.Create( 4096 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "dword" ),
+                                           Variant.Create( "ExpandEnvironmentStringsW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sString,
+                                           Variant.Create( "wstr" ),
+                                           Variant.Create( "" ),
+                                           Variant.Create( "dword" ),
+                                           Variant.Create( 4096 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( "" ) );
             }
@@ -3008,7 +4098,20 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_ExtractIconEx( Variant v_sFile, Variant v_iIndex, Variant v_pLarge, Variant v_pSmall, Variant v_iIcons ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "shell32.dll" ), Variant.Create( "uint" ), Variant.Create( "ExtractIconExW" ), Variant.Create( "wstr" ), v_sFile, Variant.Create( "int" ), v_iIndex, Variant.Create( "struct*" ), v_pLarge, Variant.Create( "struct*" ), v_pSmall, Variant.Create( "uint" ), v_iIcons );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "shell32.dll" ),
+                                           Variant.Create( "uint" ),
+                                           Variant.Create( "ExtractIconExW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sFile,
+                                           Variant.Create( "int" ),
+                                           v_iIndex,
+                                           Variant.Create( "struct*" ),
+                                           v_pLarge,
+                                           Variant.Create( "struct*" ),
+                                           v_pSmall,
+                                           Variant.Create( "uint" ),
+                                           v_iIcons );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3018,7 +4121,14 @@ namespace PerformanceTestConsole
         }
 
         public Variant f__WinAPI_FatalAppExit( Variant v_sMessage ) {
-            _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "none" ), Variant.Create( "FatalAppExitW" ), Variant.Create( "uint" ), Variant.Create( 0 ), Variant.Create( "wstr" ), v_sMessage );
+            _functions.DllCall(
+                               Variant.Create( "kernel32.dll" ),
+                               Variant.Create( "none" ),
+                               Variant.Create( "FatalAppExitW" ),
+                               Variant.Create( "uint" ),
+                               Variant.Create( 0 ),
+                               Variant.Create( "wstr" ),
+                               v_sMessage );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended );
             }
@@ -3029,10 +4139,28 @@ namespace PerformanceTestConsole
         public Variant f__WinAPI_FillRect( Variant v_hDC, Variant v_pRect, Variant v_hBrush ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( _functions.IsPtr( v_hBrush ) ) {
-                v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "FillRect" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "struct*" ), v_pRect, Variant.Create( "handle" ), v_hBrush );
+                v_aResult = _functions.DllCall(
+                                               Variant.Create( "user32.dll" ),
+                                               Variant.Create( "int" ),
+                                               Variant.Create( "FillRect" ),
+                                               Variant.Create( "handle" ),
+                                               v_hDC,
+                                               Variant.Create( "struct*" ),
+                                               v_pRect,
+                                               Variant.Create( "handle" ),
+                                               v_hBrush );
             }
             else {
-                v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "FillRect" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "struct*" ), v_pRect, Variant.Create( "dword_ptr" ), v_hBrush );
+                v_aResult = _functions.DllCall(
+                                               Variant.Create( "user32.dll" ),
+                                               Variant.Create( "int" ),
+                                               Variant.Create( "FillRect" ),
+                                               Variant.Create( "handle" ),
+                                               v_hDC,
+                                               Variant.Create( "struct*" ),
+                                               v_pRect,
+                                               Variant.Create( "dword_ptr" ),
+                                               v_hBrush );
             }
 
             if( _context.Error ) {
@@ -3048,7 +4176,16 @@ namespace PerformanceTestConsole
             if( v_sDirectory == null ) {
                 v_sDirectory = Variant.Create( "" );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "shell32.dll" ), Variant.Create( "INT" ), Variant.Create( "FindExecutableW" ), Variant.Create( "wstr" ), v_sFileName, Variant.Create( "wstr" ), v_sDirectory, Variant.Create( "wstr" ), Variant.Create( "" ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "shell32.dll" ),
+                                           Variant.Create( "INT" ),
+                                           Variant.Create( "FindExecutableW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sFileName,
+                                           Variant.Create( "wstr" ),
+                                           v_sDirectory,
+                                           Variant.Create( "wstr" ),
+                                           Variant.Create( "" ) );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( "" ) );
             }
@@ -3063,7 +4200,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_FindWindow( Variant v_sClassName, Variant v_sWindowName ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "FindWindowW" ), Variant.Create( "wstr" ), v_sClassName, Variant.Create( "wstr" ), v_sWindowName );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "FindWindowW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sClassName,
+                                           Variant.Create( "wstr" ),
+                                           v_sWindowName );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3077,7 +4221,14 @@ namespace PerformanceTestConsole
             if( v_bInvert == null ) {
                 v_bInvert = Variant.Create( true );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "FlashWindow" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "bool" ), v_bInvert );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "FlashWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "bool" ),
+                                           v_bInvert );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -3124,7 +4275,12 @@ namespace PerformanceTestConsole
             _functions.DllStructSetData( v_tFlash, Variant.Create( "Flags" ), v_iMode );
             _functions.DllStructSetData( v_tFlash, Variant.Create( "Count" ), v_iCount );
             _functions.DllStructSetData( v_tFlash, Variant.Create( "Timeout" ), v_iTimeout );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "FlashWindowEx" ), Variant.Create( "struct*" ), v_tFlash );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "FlashWindowEx" ),
+                                           Variant.Create( "struct*" ),
+                                           v_tFlash );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -3145,7 +4301,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_FlushFileBuffers( Variant v_hFile ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "FlushFileBuffers" ), Variant.Create( "handle" ), v_hFile );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "FlushFileBuffers" ),
+                                           Variant.Create( "handle" ),
+                                           v_hFile );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -3154,7 +4315,14 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_FormatMessage( Variant v_iFlags, Variant v_pSource, Variant v_iMessageID, Variant v_iLanguageID, ref Variant v_pBuffer, Variant v_iSize, Variant v_vArguments ) {
+        public Variant f__WinAPI_FormatMessage(
+        Variant v_iFlags,
+        Variant v_pSource,
+        Variant v_iMessageID,
+        Variant v_iLanguageID,
+        ref Variant v_pBuffer,
+        Variant v_iSize,
+        Variant v_vArguments ) {
             Variant v_sBufferType = Variant.Create( (object)null );
             Variant v_aResult = Variant.Create( (object)null );
             v_sBufferType = Variant.Create( "struct*" );
@@ -3162,7 +4330,24 @@ namespace PerformanceTestConsole
                 v_sBufferType = Variant.Create( "wstr" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "Kernel32.dll" ), Variant.Create( "dword" ), Variant.Create( "FormatMessageW" ), Variant.Create( "dword" ), v_iFlags, Variant.Create( "ptr" ), v_pSource, Variant.Create( "dword" ), v_iMessageID, Variant.Create( "dword" ), v_iLanguageID, v_sBufferType, v_pBuffer, Variant.Create( "dword" ), v_iSize, Variant.Create( "ptr" ), v_vArguments );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "Kernel32.dll" ),
+                                           Variant.Create( "dword" ),
+                                           Variant.Create( "FormatMessageW" ),
+                                           Variant.Create( "dword" ),
+                                           v_iFlags,
+                                           Variant.Create( "ptr" ),
+                                           v_pSource,
+                                           Variant.Create( "dword" ),
+                                           v_iMessageID,
+                                           Variant.Create( "dword" ),
+                                           v_iLanguageID,
+                                           v_sBufferType,
+                                           v_pBuffer,
+                                           Variant.Create( "dword" ),
+                                           v_iSize,
+                                           Variant.Create( "ptr" ),
+                                           v_vArguments );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -3177,7 +4362,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_FrameRect( Variant v_hDC, Variant v_pRect, Variant v_hBrush ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "FrameRect" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "ptr" ), v_pRect, Variant.Create( "handle" ), v_hBrush );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "FrameRect" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "ptr" ),
+                                           v_pRect,
+                                           Variant.Create( "handle" ),
+                                           v_hBrush );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -3188,7 +4382,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_FreeLibrary( Variant v_hModule ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "FreeLibrary" ), Variant.Create( "handle" ), v_hModule );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "FreeLibrary" ),
+                                           Variant.Create( "handle" ),
+                                           v_hModule );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -3202,7 +4401,14 @@ namespace PerformanceTestConsole
             if( v_iFlags == null ) {
                 v_iFlags = Variant.Create( 1 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "GetAncestor" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "uint" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "GetAncestor" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "uint" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3213,7 +4419,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetAsyncKeyState( Variant v_iKey ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "short" ), Variant.Create( "GetAsyncKeyState" ), Variant.Create( "int" ), v_iKey );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "short" ),
+                                           Variant.Create( "GetAsyncKeyState" ),
+                                           Variant.Create( "int" ),
+                                           v_iKey );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3224,7 +4435,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetBkMode( Variant v_hDC ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "int" ), Variant.Create( "GetBkMode" ), Variant.Create( "handle" ), v_hDC );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetBkMode" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3239,7 +4455,16 @@ namespace PerformanceTestConsole
                 v_hWnd = _functions.GUICtrlGetHandle( v_hWnd );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "GetClassNameW" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "wstr" ), Variant.Create( "" ), Variant.Create( "int" ), Variant.Create( 4096 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetClassNameW" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "wstr" ),
+                                           Variant.Create( "" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( 4096 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( "" ) );
             }
@@ -3274,7 +4499,14 @@ namespace PerformanceTestConsole
             Variant v_tRect = Variant.Create( (object)null );
             Variant v_aRet = Variant.Create( (object)null );
             v_tRect = _functions.DllStructCreate( v_tagRECT );
-            v_aRet = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetClientRect" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "struct*" ), v_tRect );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "user32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetClientRect" ),
+                                        Variant.Create( "hwnd" ),
+                                        v_hWnd,
+                                        Variant.Create( "struct*" ),
+                                        v_tRect );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -3335,7 +4567,12 @@ namespace PerformanceTestConsole
             v_tCursor = _functions.DllStructCreate( v_tagCURSORINFO );
             v_iCursor = _functions.DllStructGetSize( v_tCursor );
             _functions.DllStructSetData( v_tCursor, Variant.Create( "Size" ), v_iCursor );
-            v_aRet = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetCursorInfo" ), Variant.Create( "struct*" ), v_tCursor );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "user32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetCursorInfo" ),
+                                        Variant.Create( "struct*" ),
+                                        v_tCursor );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -3352,7 +4589,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetDC( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "handle" ), Variant.Create( "GetDC" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "GetDC" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3374,7 +4616,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetDeviceCaps( Variant v_hDC, Variant v_iIndex ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "int" ), Variant.Create( "GetDeviceCaps" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "int" ), v_iIndex );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetDeviceCaps" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "int" ),
+                                           v_iIndex );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3383,9 +4632,33 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_GetDIBits( Variant v_hDC, Variant v_hBmp, Variant v_iStartScan, Variant v_iScanLines, Variant v_pBits, Variant v_pBI, Variant v_iUsage ) {
+        public Variant f__WinAPI_GetDIBits(
+        Variant v_hDC,
+        Variant v_hBmp,
+        Variant v_iStartScan,
+        Variant v_iScanLines,
+        Variant v_pBits,
+        Variant v_pBI,
+        Variant v_iUsage ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "int" ), Variant.Create( "GetDIBits" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "handle" ), v_hBmp, Variant.Create( "uint" ), v_iStartScan, Variant.Create( "uint" ), v_iScanLines, Variant.Create( "ptr" ), v_pBits, Variant.Create( "ptr" ), v_pBI, Variant.Create( "uint" ), v_iUsage );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetDIBits" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "handle" ),
+                                           v_hBmp,
+                                           Variant.Create( "uint" ),
+                                           v_iStartScan,
+                                           Variant.Create( "uint" ),
+                                           v_iScanLines,
+                                           Variant.Create( "ptr" ),
+                                           v_pBits,
+                                           Variant.Create( "ptr" ),
+                                           v_pBI,
+                                           Variant.Create( "uint" ),
+                                           v_iUsage );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -3396,7 +4669,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetDlgCtrlID( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "GetDlgCtrlID" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetDlgCtrlID" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3407,7 +4685,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetDlgItem( Variant v_hWnd, Variant v_iItemID ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "GetDlgItem" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "int" ), v_iItemID );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "GetDlgItem" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "int" ),
+                                           v_iItemID );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3418,7 +4703,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetFileSizeEx( Variant v_hFile ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetFileSizeEx" ), Variant.Create( "handle" ), v_hFile, Variant.Create( "int64*" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "GetFileSizeEx" ),
+                                           Variant.Create( "handle" ),
+                                           v_hFile,
+                                           Variant.Create( "int64*" ),
+                                           Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -3461,7 +4753,14 @@ namespace PerformanceTestConsole
                 v_hProcess = f__WinAPI_GetCurrentProcess();
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "dword" ), Variant.Create( "GetGuiResources" ), Variant.Create( "handle" ), v_hProcess, Variant.Create( "dword" ), v_iFlag );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "dword" ),
+                                           Variant.Create( "GetGuiResources" ),
+                                           Variant.Create( "handle" ),
+                                           v_hProcess,
+                                           Variant.Create( "dword" ),
+                                           v_iFlag );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3475,7 +4774,14 @@ namespace PerformanceTestConsole
             Variant v_aRet = Variant.Create( (object)null );
             Variant v_aIcon = Variant.Create( (object)null );
             v_tInfo = _functions.DllStructCreate( v_tagICONINFO );
-            v_aRet = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetIconInfo" ), Variant.Create( "handle" ), v_hIcon, Variant.Create( "struct*" ), v_tInfo );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "user32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetIconInfo" ),
+                                        Variant.Create( "handle" ),
+                                        v_hIcon,
+                                        Variant.Create( "struct*" ),
+                                        v_tInfo );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -3500,7 +4806,14 @@ namespace PerformanceTestConsole
             Variant v_tBuffer = Variant.Create( (object)null );
             v_iLastError = f__WinAPI_GetLastError();
             v_tBufferPtr = _functions.DllStructCreate( Variant.Create( "ptr" ) );
-            v_nCount = f__WinAPI_FormatMessage( _functions.BitOR( v_FORMAT_MESSAGE_ALLOCATE_BUFFER, v_FORMAT_MESSAGE_FROM_SYSTEM ), Variant.Create( 0 ), v_iLastError, Variant.Create( 0 ), ref v_tBufferPtr, Variant.Create( 0 ), Variant.Create( 0 ) );
+            v_nCount = f__WinAPI_FormatMessage(
+                                               _functions.BitOR( v_FORMAT_MESSAGE_ALLOCATE_BUFFER, v_FORMAT_MESSAGE_FROM_SYSTEM ),
+                                               Variant.Create( 0 ),
+                                               v_iLastError,
+                                               Variant.Create( 0 ),
+                                               ref v_tBufferPtr,
+                                               Variant.Create( 0 ),
+                                               Variant.Create( 0 ) );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, Variant.Create( 0 ), Variant.Create( "" ) );
             }
@@ -3509,7 +4822,12 @@ namespace PerformanceTestConsole
             v_pBuffer = _functions.DllStructGetData( v_tBufferPtr, Variant.Create( 1 ) );
             if( v_pBuffer ) {
                 if( v_nCount > Variant.Create( 0 ) ) {
-                    v_tBuffer = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar[" ), v_nCount+Variant.Create( 1 ) ), Variant.Create( "]" ) ), v_pBuffer );
+                    v_tBuffer =
+                    _functions.DllStructCreate(
+                                               _functions.Concat(
+                                                                 _functions.Concat( Variant.Create( "wchar[" ), v_nCount+Variant.Create( 1 ) ),
+                                                                 Variant.Create( "]" ) ),
+                                               v_pBuffer );
                     v_sText = _functions.DllStructGetData( v_tBuffer, Variant.Create( 1 ) );
                 }
 
@@ -3520,20 +4838,47 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_GetLayeredWindowAttributes( Variant v_hWnd, ref Variant v_iTranscolor, ref Variant v_iTransparency, Variant v_bColorRef = null ) {
+        public Variant f__WinAPI_GetLayeredWindowAttributes(
+        Variant v_hWnd,
+        ref Variant v_iTranscolor,
+        ref Variant v_iTransparency,
+        Variant v_bColorRef = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_bColorRef == null ) {
                 v_bColorRef = Variant.Create( false );
             }
             v_iTranscolor = Variant.Create( -1 );
             v_iTransparency = Variant.Create( -1 );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetLayeredWindowAttributes" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "INT*" ), v_iTranscolor, Variant.Create( "byte*" ), v_iTransparency, Variant.Create( "dword*" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "GetLayeredWindowAttributes" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "INT*" ),
+                                           v_iTranscolor,
+                                           Variant.Create( "byte*" ),
+                                           v_iTransparency,
+                                           Variant.Create( "dword*" ),
+                                           Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
 
             if( _functions.NOT( v_bColorRef ) ) {
-                v_aResult[Variant.Create( 2 )] = _functions.Int( _functions.Concat( _functions.Concat( _functions.BinaryMid( v_aResult[Variant.Create( 2 )], Variant.Create( 3 ), Variant.Create( 1 ) ), _functions.BinaryMid( v_aResult[Variant.Create( 2 )], Variant.Create( 2 ), Variant.Create( 1 ) ) ), _functions.BinaryMid( v_aResult[Variant.Create( 2 )], Variant.Create( 1 ), Variant.Create( 1 ) ) ) );
+                v_aResult[Variant.Create( 2 )] =
+                _functions.Int(
+                               _functions.Concat(
+                                                 _functions.Concat(
+                                                                   _functions.BinaryMid(
+                                                                                        v_aResult[Variant.Create( 2 )],
+                                                                                        Variant.Create( 3 ),
+                                                                                        Variant.Create( 1 ) ),
+                                                                   _functions.BinaryMid(
+                                                                                        v_aResult[Variant.Create( 2 )],
+                                                                                        Variant.Create( 2 ),
+                                                                                        Variant.Create( 1 ) ) ),
+                                                 _functions.BinaryMid( v_aResult[Variant.Create( 2 )], Variant.Create( 1 ), Variant.Create( 1 ) ) ) );
             }
 
             v_iTranscolor = v_aResult[Variant.Create( 2 )];
@@ -3551,7 +4896,12 @@ namespace PerformanceTestConsole
                 v_sModuleNameType = Variant.Create( "ptr" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "GetModuleHandleW" ), v_sModuleNameType, v_sModuleName );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "GetModuleHandleW" ),
+                                           v_sModuleNameType,
+                                           v_sModuleName );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3620,7 +4970,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetObject( Variant v_hObject, Variant v_iSize, Variant v_pObject ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "int" ), Variant.Create( "GetObjectW" ), Variant.Create( "handle" ), v_hObject, Variant.Create( "int" ), v_iSize, Variant.Create( "ptr" ), v_pObject );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetObjectW" ),
+                                           Variant.Create( "handle" ),
+                                           v_hObject,
+                                           Variant.Create( "int" ),
+                                           v_iSize,
+                                           Variant.Create( "ptr" ),
+                                           v_pObject );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3629,7 +4988,16 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_GetOpenFileName( Variant v_sTitle = null, Variant v_sFilter = null, Variant v_sInitalDir = null, Variant v_sDefaultFile = null, Variant v_sDefaultExt = null, Variant v_iFilterIndex = null, Variant v_iFlags = null, Variant v_iFlagsEx = null, Variant v_hWndOwner = null ) {
+        public Variant f__WinAPI_GetOpenFileName(
+        Variant v_sTitle = null,
+        Variant v_sFilter = null,
+        Variant v_sInitalDir = null,
+        Variant v_sDefaultFile = null,
+        Variant v_sDefaultExt = null,
+        Variant v_iFilterIndex = null,
+        Variant v_iFlags = null,
+        Variant v_iFlagsEx = null,
+        Variant v_hWndOwner = null ) {
             Variant v_iPathLen = Variant.Create( (object)null );
             Variant v_iNulls = Variant.Create( (object)null );
             Variant v_tOFN = Variant.Create( (object)null );
@@ -3682,9 +5050,10 @@ namespace PerformanceTestConsole
             v_iNulls = Variant.Create( 0 );
             v_tOFN = _functions.DllStructCreate( v_tagOPENFILENAME );
             v_aFiles = Variant.CreateArray( new Variant[Variant.Create( 1 )] );
-            v_aFiles.InitArray( new[] {
-                Variant.Create( 0 )
-            } );
+            v_aFiles.InitArray(
+                               new[] {
+                                   Variant.Create( 0 )
+                               } );
             v_iFlag = v_iFlags;
             v_asFLines = _functions.StringSplit( v_sFilter, Variant.Create( "|" ) );
             v_asFilter = Variant.CreateArray( new Variant[v_asFLines[Variant.Create( 0 )] * Variant.Create( 2 )+Variant.Create( 1 )] );
@@ -3694,16 +5063,57 @@ namespace PerformanceTestConsole
             for( ; loopHandler89f9ad6ee6c14e4caccbd16cc7a7f77a.MoveNext(); v_i = loopHandler89f9ad6ee6c14e4caccbd16cc7a7f77a.Index ) {
                 v_iStart = _functions.StringInStr( v_asFLines[v_i], Variant.Create( "(" ), Variant.Create( 0 ), Variant.Create( 1 ) );
                 v_iFinal = _functions.StringInStr( v_asFLines[v_i], Variant.Create( ")" ), Variant.Create( 0 ), Variant.Create( -1 ) );
-                v_asFilter[v_i * Variant.Create( 2 )-Variant.Create( 1 )] = _functions.StringStripWS( _functions.StringLeft( v_asFLines[v_i], v_iStart-Variant.Create( 1 ) ), v_STR_STRIPLEADING+v_STR_STRIPTRAILING );
-                v_asFilter[v_i * Variant.Create( 2 )] = _functions.StringStripWS( _functions.StringTrimRight( _functions.StringTrimLeft( v_asFLines[v_i], v_iStart ), _functions.StringLen( v_asFLines[v_i] )-v_iFinal+Variant.Create( 1 ) ), v_STR_STRIPLEADING+v_STR_STRIPTRAILING );
-                v_tagFilter = v_tagFilter.ConcatAssign( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "wchar[" ), _functions.StringLen( v_asFilter[v_i * Variant.Create( 2 )-Variant.Create( 1 )] )+Variant.Create( 1 ) ), Variant.Create( "];wchar[" ) ), _functions.StringLen( v_asFilter[v_i * Variant.Create( 2 )] )+Variant.Create( 1 ) ), Variant.Create( "];" ) ) );
+                v_asFilter[v_i * Variant.Create( 2 )-Variant.Create( 1 )] =
+                _functions.StringStripWS( _functions.StringLeft( v_asFLines[v_i], v_iStart-Variant.Create( 1 ) ), v_STR_STRIPLEADING+v_STR_STRIPTRAILING );
+                v_asFilter[v_i * Variant.Create( 2 )] =
+                _functions.StringStripWS(
+                                         _functions.StringTrimRight(
+                                                                    _functions.StringTrimLeft( v_asFLines[v_i], v_iStart ),
+                                                                    _functions.StringLen( v_asFLines[v_i] )-v_iFinal+Variant.Create( 1 ) ),
+                                         v_STR_STRIPLEADING+v_STR_STRIPTRAILING );
+                v_tagFilter =
+                v_tagFilter.ConcatAssign(
+                                         _functions.Concat(
+                                                           _functions.Concat(
+                                                                             _functions.Concat(
+                                                                                               _functions.Concat(
+                                                                                                                 Variant.Create( "wchar[" ),
+                                                                                                                 _functions.StringLen(
+                                                                                                                                      v_asFilter[
+                                                                                                                                                 v_i
+                                                                                                                                                 * Variant
+                                                                                                                                                 .Create( 2 )
+                                                                                                                                                 -Variant.Create
+                                                                                                                                                 ( 1 )] )
+                                                                                                                 +Variant.Create( 1 ) ),
+                                                                                               Variant.Create( "];wchar[" ) ),
+                                                                             _functions.StringLen( v_asFilter[v_i * Variant.Create( 2 )] )+Variant.Create( 1 ) ),
+                                                           Variant.Create( "];" ) ) );
             }
 
-            v_tTitle = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Title[" ), _functions.StringLen( v_sTitle )+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
-            v_tInitialDir = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar InitDir[" ), _functions.StringLen( v_sInitalDir )+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
+            v_tTitle =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat(
+                                                                           Variant.Create( "wchar Title[" ),
+                                                                           _functions.StringLen( v_sTitle )+Variant.Create( 1 ) ),
+                                                         Variant.Create( "]" ) ) );
+            v_tInitialDir =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat(
+                                                                           Variant.Create( "wchar InitDir[" ),
+                                                                           _functions.StringLen( v_sInitalDir )+Variant.Create( 1 ) ),
+                                                         Variant.Create( "]" ) ) );
             v_tFilter = _functions.DllStructCreate( _functions.Concat( v_tagFilter, Variant.Create( "wchar" ) ) );
             v_tPath = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Path[" ), v_iPathLen ), Variant.Create( "]" ) ) );
-            v_tExtn = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Extension[" ), _functions.StringLen( v_sDefaultExt )+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
+            v_tExtn =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat(
+                                                                           Variant.Create( "wchar Extension[" ),
+                                                                           _functions.StringLen( v_sDefaultExt )+Variant.Create( 1 ) ),
+                                                         Variant.Create( "]" ) ) );
             loopHandlerc86a252ad5154c30a7bf62fafd35de0f = new ForToNextLooper( Variant.Create( 1 ), v_asFilter[Variant.Create( 0 )], null );
             v_i = loopHandlerc86a252ad5154c30a7bf62fafd35de0f.Index;
             for( ; loopHandlerc86a252ad5154c30a7bf62fafd35de0f.MoveNext(); v_i = loopHandlerc86a252ad5154c30a7bf62fafd35de0f.Index ) {
@@ -3725,12 +5135,19 @@ namespace PerformanceTestConsole
             _functions.DllStructSetData( v_tOFN, Variant.Create( "Flags" ), v_iFlag );
             _functions.DllStructSetData( v_tOFN, Variant.Create( "lpstrDefExt" ), _functions.DllStructGetPtr( v_tExtn ) );
             _functions.DllStructSetData( v_tOFN, Variant.Create( "FlagsEx" ), v_iFlagsEx );
-            v_aRes = _functions.DllCall( Variant.Create( "comdlg32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetOpenFileNameW" ), Variant.Create( "struct*" ), v_tOFN );
+            v_aRes = _functions.DllCall(
+                                        Variant.Create( "comdlg32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetOpenFileNameW" ),
+                                        Variant.Create( "struct*" ),
+                                        v_tOFN );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRes[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, v_aFiles );
             }
 
-            if( _functions.AND( _functions.BitAND( v_iFlags, v_OFN_ALLOWMULTISELECT ) == v_OFN_ALLOWMULTISELECT, _functions.BitAND( v_iFlags, v_OFN_EXPLORER ) == v_OFN_EXPLORER ) ) {
+            if( _functions.AND(
+                               _functions.BitAND( v_iFlags, v_OFN_ALLOWMULTISELECT ) == v_OFN_ALLOWMULTISELECT,
+                               _functions.BitAND( v_iFlags, v_OFN_EXPLORER ) == v_OFN_EXPLORER ) ) {
                 loopHandler2d28e401e4a34a0dac7476a0a7b95d67 = new ForToNextLooper( Variant.Create( 1 ), v_iPathLen, null );
                 v_x = loopHandler2d28e401e4a34a0dac7476a0a7b95d67.Index;
                 for( ; loopHandler2d28e401e4a34a0dac7476a0a7b95d67.MoveNext(); v_x = loopHandler2d28e401e4a34a0dac7476a0a7b95d67.Index ) {
@@ -3763,7 +5180,13 @@ namespace PerformanceTestConsole
                     return f___WinAPI_ParseFileDialogPath( _functions.DllStructGetData( v_tPath, Variant.Create( "Path" ) ) );
                 }
 
-                return _functions.StringSplit( _functions.StringReplace( _functions.DllStructGetData( v_tPath, Variant.Create( "Path" ) ), Variant.Create( " " ), Variant.Create( "|" ) ), Variant.Create( "|" ) );
+                return
+                _functions.StringSplit(
+                                       _functions.StringReplace(
+                                                                _functions.DllStructGetData( v_tPath, Variant.Create( "Path" ) ),
+                                                                Variant.Create( " " ),
+                                                                Variant.Create( "|" ) ),
+                                       Variant.Create( "|" ) );
             }
             return f___WinAPI_ParseFileDialogPath( _functions.DllStructGetData( v_tPath, Variant.Create( "Path" ) ) );
 
@@ -3775,7 +5198,18 @@ namespace PerformanceTestConsole
             if( v_bWait == null ) {
                 v_bWait = Variant.Create( false );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetOverlappedResult" ), Variant.Create( "handle" ), v_hFile, Variant.Create( "ptr" ), v_pOverlapped, Variant.Create( "dword*" ), Variant.Create( 0 ), Variant.Create( "bool" ), v_bWait );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "GetOverlappedResult" ),
+                                           Variant.Create( "handle" ),
+                                           v_hFile,
+                                           Variant.Create( "ptr" ),
+                                           v_pOverlapped,
+                                           Variant.Create( "dword*" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "bool" ),
+                                           v_bWait );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -3787,7 +5221,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetParent( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "GetParent" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "GetParent" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3804,7 +5243,14 @@ namespace PerformanceTestConsole
                 v_sType = Variant.Create( "word" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "ptr" ), Variant.Create( "GetProcAddress" ), Variant.Create( "handle" ), v_hModule, v_sType, v_vName );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( "GetProcAddress" ),
+                                           Variant.Create( "handle" ),
+                                           v_hModule,
+                                           v_sType,
+                                           v_vName );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3816,7 +5262,16 @@ namespace PerformanceTestConsole
         public Variant f__WinAPI_GetProcessAffinityMask( Variant v_hProcess ) {
             Variant v_aResult = Variant.Create( (object)null );
             Variant v_aMask = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetProcessAffinityMask" ), Variant.Create( "handle" ), v_hProcess, Variant.Create( "dword_ptr*" ), Variant.Create( 0 ), Variant.Create( "dword_ptr*" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "GetProcessAffinityMask" ),
+                                           Variant.Create( "handle" ),
+                                           v_hProcess,
+                                           Variant.Create( "dword_ptr*" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "dword_ptr*" ),
+                                           Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -3829,7 +5284,16 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_GetSaveFileName( Variant v_sTitle = null, Variant v_sFilter = null, Variant v_sInitalDir = null, Variant v_sDefaultFile = null, Variant v_sDefaultExt = null, Variant v_iFilterIndex = null, Variant v_iFlags = null, Variant v_iFlagsEx = null, Variant v_hWndOwner = null ) {
+        public Variant f__WinAPI_GetSaveFileName(
+        Variant v_sTitle = null,
+        Variant v_sFilter = null,
+        Variant v_sInitalDir = null,
+        Variant v_sDefaultFile = null,
+        Variant v_sDefaultExt = null,
+        Variant v_iFilterIndex = null,
+        Variant v_iFlags = null,
+        Variant v_iFlagsEx = null,
+        Variant v_hWndOwner = null ) {
             Variant v_iPathLen = Variant.Create( (object)null );
             Variant v_tOFN = Variant.Create( (object)null );
             Variant v_aFiles = Variant.Create( (object)null );
@@ -3878,9 +5342,10 @@ namespace PerformanceTestConsole
             v_iPathLen = Variant.Create( 4096 );
             v_tOFN = _functions.DllStructCreate( v_tagOPENFILENAME );
             v_aFiles = Variant.CreateArray( new Variant[Variant.Create( 1 )] );
-            v_aFiles.InitArray( new[] {
-                Variant.Create( 0 )
-            } );
+            v_aFiles.InitArray(
+                               new[] {
+                                   Variant.Create( 0 )
+                               } );
             v_iFlag = v_iFlags;
             v_asFLines = _functions.StringSplit( v_sFilter, Variant.Create( "|" ) );
             v_asFilter = Variant.CreateArray( new Variant[v_asFLines[Variant.Create( 0 )] * Variant.Create( 2 )+Variant.Create( 1 )] );
@@ -3890,16 +5355,57 @@ namespace PerformanceTestConsole
             for( ; loopHandler6752c062581044549ba68655f593475a.MoveNext(); v_i = loopHandler6752c062581044549ba68655f593475a.Index ) {
                 v_iStart = _functions.StringInStr( v_asFLines[v_i], Variant.Create( "(" ), Variant.Create( 0 ), Variant.Create( 1 ) );
                 v_iFinal = _functions.StringInStr( v_asFLines[v_i], Variant.Create( ")" ), Variant.Create( 0 ), Variant.Create( -1 ) );
-                v_asFilter[v_i * Variant.Create( 2 )-Variant.Create( 1 )] = _functions.StringStripWS( _functions.StringLeft( v_asFLines[v_i], v_iStart-Variant.Create( 1 ) ), v_STR_STRIPLEADING+v_STR_STRIPTRAILING );
-                v_asFilter[v_i * Variant.Create( 2 )] = _functions.StringStripWS( _functions.StringTrimRight( _functions.StringTrimLeft( v_asFLines[v_i], v_iStart ), _functions.StringLen( v_asFLines[v_i] )-v_iFinal+Variant.Create( 1 ) ), v_STR_STRIPLEADING+v_STR_STRIPTRAILING );
-                v_tagFilter = v_tagFilter.ConcatAssign( _functions.Concat( _functions.Concat( _functions.Concat( _functions.Concat( Variant.Create( "wchar[" ), _functions.StringLen( v_asFilter[v_i * Variant.Create( 2 )-Variant.Create( 1 )] )+Variant.Create( 1 ) ), Variant.Create( "];wchar[" ) ), _functions.StringLen( v_asFilter[v_i * Variant.Create( 2 )] )+Variant.Create( 1 ) ), Variant.Create( "];" ) ) );
+                v_asFilter[v_i * Variant.Create( 2 )-Variant.Create( 1 )] =
+                _functions.StringStripWS( _functions.StringLeft( v_asFLines[v_i], v_iStart-Variant.Create( 1 ) ), v_STR_STRIPLEADING+v_STR_STRIPTRAILING );
+                v_asFilter[v_i * Variant.Create( 2 )] =
+                _functions.StringStripWS(
+                                         _functions.StringTrimRight(
+                                                                    _functions.StringTrimLeft( v_asFLines[v_i], v_iStart ),
+                                                                    _functions.StringLen( v_asFLines[v_i] )-v_iFinal+Variant.Create( 1 ) ),
+                                         v_STR_STRIPLEADING+v_STR_STRIPTRAILING );
+                v_tagFilter =
+                v_tagFilter.ConcatAssign(
+                                         _functions.Concat(
+                                                           _functions.Concat(
+                                                                             _functions.Concat(
+                                                                                               _functions.Concat(
+                                                                                                                 Variant.Create( "wchar[" ),
+                                                                                                                 _functions.StringLen(
+                                                                                                                                      v_asFilter[
+                                                                                                                                                 v_i
+                                                                                                                                                 * Variant
+                                                                                                                                                 .Create( 2 )
+                                                                                                                                                 -Variant.Create
+                                                                                                                                                 ( 1 )] )
+                                                                                                                 +Variant.Create( 1 ) ),
+                                                                                               Variant.Create( "];wchar[" ) ),
+                                                                             _functions.StringLen( v_asFilter[v_i * Variant.Create( 2 )] )+Variant.Create( 1 ) ),
+                                                           Variant.Create( "];" ) ) );
             }
 
-            v_tTitle = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Title[" ), _functions.StringLen( v_sTitle )+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
-            v_tInitialDir = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar InitDir[" ), _functions.StringLen( v_sInitalDir )+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
+            v_tTitle =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat(
+                                                                           Variant.Create( "wchar Title[" ),
+                                                                           _functions.StringLen( v_sTitle )+Variant.Create( 1 ) ),
+                                                         Variant.Create( "]" ) ) );
+            v_tInitialDir =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat(
+                                                                           Variant.Create( "wchar InitDir[" ),
+                                                                           _functions.StringLen( v_sInitalDir )+Variant.Create( 1 ) ),
+                                                         Variant.Create( "]" ) ) );
             v_tFilter = _functions.DllStructCreate( _functions.Concat( v_tagFilter, Variant.Create( "wchar" ) ) );
             v_tPath = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Path[" ), v_iPathLen ), Variant.Create( "]" ) ) );
-            v_tExtn = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar Extension[" ), _functions.StringLen( v_sDefaultExt )+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
+            v_tExtn =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat(
+                                                                           Variant.Create( "wchar Extension[" ),
+                                                                           _functions.StringLen( v_sDefaultExt )+Variant.Create( 1 ) ),
+                                                         Variant.Create( "]" ) ) );
             loopHandlerfa869a4e4fd24068a2ecf271e66f3928 = new ForToNextLooper( Variant.Create( 1 ), v_asFilter[Variant.Create( 0 )], null );
             v_i = loopHandlerfa869a4e4fd24068a2ecf271e66f3928.Index;
             for( ; loopHandlerfa869a4e4fd24068a2ecf271e66f3928.MoveNext(); v_i = loopHandlerfa869a4e4fd24068a2ecf271e66f3928.Index ) {
@@ -3921,7 +5427,12 @@ namespace PerformanceTestConsole
             _functions.DllStructSetData( v_tOFN, Variant.Create( "Flags" ), v_iFlag );
             _functions.DllStructSetData( v_tOFN, Variant.Create( "lpstrDefExt" ), _functions.DllStructGetPtr( v_tExtn ) );
             _functions.DllStructSetData( v_tOFN, Variant.Create( "FlagsEx" ), v_iFlagsEx );
-            v_aRes = _functions.DllCall( Variant.Create( "comdlg32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetSaveFileNameW" ), Variant.Create( "struct*" ), v_tOFN );
+            v_aRes = _functions.DllCall(
+                                        Variant.Create( "comdlg32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetSaveFileNameW" ),
+                                        Variant.Create( "struct*" ),
+                                        v_tOFN );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRes[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, v_aFiles );
             }
@@ -3932,7 +5443,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetStockObject( Variant v_iObject ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "GetStockObject" ), Variant.Create( "int" ), v_iObject );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "GetStockObject" ),
+                                           Variant.Create( "int" ),
+                                           v_iObject );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3949,10 +5465,18 @@ namespace PerformanceTestConsole
             }
 
             v_aHandle = Variant.CreateArray( new Variant[Variant.Create( 3 )] );
-            v_aHandle.InitArray( new[] {
-                Variant.Create( -10 ), Variant.Create( -11 ), Variant.Create( -12 )
-            } );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "GetStdHandle" ), Variant.Create( "dword" ), v_aHandle[v_iStdHandle] );
+            v_aHandle.InitArray(
+                                new[] {
+                                    Variant.Create( -10 ),
+                                    Variant.Create( -11 ),
+                                    Variant.Create( -12 )
+                                } );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "GetStdHandle" ),
+                                           Variant.Create( "dword" ),
+                                           v_aHandle[v_iStdHandle] );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -3963,7 +5487,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetSysColor( Variant v_iIndex ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "INT" ), Variant.Create( "GetSysColor" ), Variant.Create( "int" ), v_iIndex );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "INT" ),
+                                           Variant.Create( "GetSysColor" ),
+                                           Variant.Create( "int" ),
+                                           v_iIndex );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3974,7 +5503,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetSysColorBrush( Variant v_iIndex ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "handle" ), Variant.Create( "GetSysColorBrush" ), Variant.Create( "int" ), v_iIndex );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "GetSysColorBrush" ),
+                                           Variant.Create( "int" ),
+                                           v_iIndex );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -3985,7 +5519,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetSystemMetrics( Variant v_iIndex ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "GetSystemMetrics" ), Variant.Create( "int" ), v_iIndex );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetSystemMetrics" ),
+                                           Variant.Create( "int" ),
+                                           v_iIndex );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4000,7 +5539,18 @@ namespace PerformanceTestConsole
             Variant v_aRet = Variant.Create( (object)null );
             v_tSize = _functions.DllStructCreate( v_tagSIZE );
             v_iSize = _functions.StringLen( v_sText );
-            v_aRet = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetTextExtentPoint32W" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "wstr" ), v_sText, Variant.Create( "int" ), v_iSize, Variant.Create( "struct*" ), v_tSize );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "gdi32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetTextExtentPoint32W" ),
+                                        Variant.Create( "handle" ),
+                                        v_hDC,
+                                        Variant.Create( "wstr" ),
+                                        v_sText,
+                                        Variant.Create( "int" ),
+                                        v_iSize,
+                                        Variant.Create( "struct*" ),
+                                        v_tSize );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -4013,7 +5563,14 @@ namespace PerformanceTestConsole
             Variant v_tTEXTMETRIC = Variant.Create( (object)null );
             Variant v_aRet = Variant.Create( (object)null );
             v_tTEXTMETRIC = _functions.DllStructCreate( v_tagTEXTMETRIC );
-            v_aRet = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetTextMetricsW" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "struct*" ), v_tTEXTMETRIC );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "gdi32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetTextMetricsW" ),
+                                        Variant.Create( "handle" ),
+                                        v_hDC,
+                                        Variant.Create( "struct*" ),
+                                        v_tTEXTMETRIC );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -4024,7 +5581,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetWindow( Variant v_hWnd, Variant v_iCmd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "GetWindow" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "uint" ), v_iCmd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "GetWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "uint" ),
+                                           v_iCmd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4035,7 +5599,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetWindowDC( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "handle" ), Variant.Create( "GetWindowDC" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "GetWindowDC" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4063,7 +5632,14 @@ namespace PerformanceTestConsole
                 v_sFuncName = Variant.Create( "GetWindowLongPtrW" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "long_ptr" ), v_sFuncName, Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "int" ), v_iIndex );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "long_ptr" ),
+                                           v_sFuncName,
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "int" ),
+                                           v_iIndex );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -4077,7 +5653,14 @@ namespace PerformanceTestConsole
             Variant v_aRet = Variant.Create( (object)null );
             v_tWindowPlacement = _functions.DllStructCreate( v_tagWINDOWPLACEMENT );
             _functions.DllStructSetData( v_tWindowPlacement, Variant.Create( "length" ), _functions.DllStructGetSize( v_tWindowPlacement ) );
-            v_aRet = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetWindowPlacement" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "struct*" ), v_tWindowPlacement );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "user32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetWindowPlacement" ),
+                                        Variant.Create( "hwnd" ),
+                                        v_hWnd,
+                                        Variant.Create( "struct*" ),
+                                        v_tWindowPlacement );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -4090,7 +5673,14 @@ namespace PerformanceTestConsole
             Variant v_tRect = Variant.Create( (object)null );
             Variant v_aRet = Variant.Create( (object)null );
             v_tRect = _functions.DllStructCreate( v_tagRECT );
-            v_aRet = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "GetWindowRect" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "struct*" ), v_tRect );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "user32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GetWindowRect" ),
+                                        Variant.Create( "hwnd" ),
+                                        v_hWnd,
+                                        Variant.Create( "struct*" ),
+                                        v_tRect );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -4101,7 +5691,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetWindowRgn( Variant v_hWnd, Variant v_hRgn ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "GetWindowRgn" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "handle" ), v_hRgn );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetWindowRgn" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "handle" ),
+                                           v_hRgn );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4112,7 +5709,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetWindowText( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "GetWindowTextW" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "wstr" ), Variant.Create( "" ), Variant.Create( "int" ), Variant.Create( 4096 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "GetWindowTextW" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "wstr" ),
+                                           Variant.Create( "" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( 4096 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( "" ) );
             }
@@ -4123,7 +5729,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GetWindowThreadProcessId( Variant v_hWnd, ref Variant v_iPID ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "dword" ), Variant.Create( "GetWindowThreadProcessId" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "dword*" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "dword" ),
+                                           Variant.Create( "GetWindowThreadProcessId" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "dword*" ),
+                                           Variant.Create( 0 ) );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4156,7 +5769,12 @@ namespace PerformanceTestConsole
             Variant v_aMem = Variant.Create( (object)null );
             v_tMem = _functions.DllStructCreate( v_tagMEMORYSTATUSEX );
             _functions.DllStructSetData( v_tMem, Variant.Create( 1 ), _functions.DllStructGetSize( v_tMem ) );
-            v_aRet = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "GlobalMemoryStatusEx" ), Variant.Create( "struct*" ), v_tMem );
+            v_aRet = _functions.DllCall(
+                                        Variant.Create( "kernel32.dll" ),
+                                        Variant.Create( "bool" ),
+                                        Variant.Create( "GlobalMemoryStatusEx" ),
+                                        Variant.Create( "struct*" ),
+                                        v_tMem );
             if( _functions.OR( _context.Error, _functions.NOT( v_aRet[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -4187,7 +5805,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_GUIDFromStringEx( Variant v_sGUID, Variant v_pGUID ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "ole32.dll" ), Variant.Create( "long" ), Variant.Create( "CLSIDFromString" ), Variant.Create( "wstr" ), v_sGUID, Variant.Create( "struct*" ), v_pGUID );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "ole32.dll" ),
+                                           Variant.Create( "long" ),
+                                           Variant.Create( "CLSIDFromString" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sGUID,
+                                           Variant.Create( "struct*" ),
+                                           v_pGUID );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4210,7 +5835,10 @@ namespace PerformanceTestConsole
                 return Variant.Create( true );
             }
 
-            loopHandlerf97e87bf4add43d3a6e10a18d4045c82 = new ForToNextLooper( v___g_aInProcess_WinAPI[Variant.Create( 0 ), Variant.Create( 0 )], Variant.Create( 1 ), Variant.Create( -1 ) );
+            loopHandlerf97e87bf4add43d3a6e10a18d4045c82 = new ForToNextLooper(
+            v___g_aInProcess_WinAPI[Variant.Create( 0 ), Variant.Create( 0 )],
+            Variant.Create( 1 ),
+            Variant.Create( -1 ) );
             v_iI = loopHandlerf97e87bf4add43d3a6e10a18d4045c82.Index;
             for( ; loopHandlerf97e87bf4add43d3a6e10a18d4045c82.MoveNext(); v_iI = loopHandlerf97e87bf4add43d3a6e10a18d4045c82.Index ) {
                 if( v_hWnd == v___g_aInProcess_WinAPI[v_iI, Variant.Create( 0 )] ) {
@@ -4258,10 +5886,14 @@ namespace PerformanceTestConsole
             }
 
             v_sClassCheck = f__WinAPI_GetClassName( v_hWnd );
-            loopHandler7888529306b645d68724faa27e8c4ae8 = new ForToNextLooper( Variant.Create( 1 ), _functions.UBound( v_aClassName )-Variant.Create( 1 ), null );
+            loopHandler7888529306b645d68724faa27e8c4ae8 = new ForToNextLooper(
+            Variant.Create( 1 ),
+            _functions.UBound( v_aClassName )-Variant.Create( 1 ),
+            null );
             v_x = loopHandler7888529306b645d68724faa27e8c4ae8.Index;
             for( ; loopHandler7888529306b645d68724faa27e8c4ae8.MoveNext(); v_x = loopHandler7888529306b645d68724faa27e8c4ae8.Index ) {
-                if( _functions.StringUpper( _functions.StringMid( v_sClassCheck, Variant.Create( 1 ), _functions.StringLen( v_aClassName[v_x] ) ) ) == _functions.StringUpper( v_aClassName[v_x] ) ) {
+                if( _functions.StringUpper( _functions.StringMid( v_sClassCheck, Variant.Create( 1 ), _functions.StringLen( v_aClassName[v_x] ) ) )
+                    == _functions.StringUpper( v_aClassName[v_x] ) ) {
                     return Variant.Create( true );
                 }
             }
@@ -4272,7 +5904,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_IsWindow( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "IsWindow" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "IsWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4283,7 +5920,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_IsWindowVisible( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "IsWindowVisible" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "IsWindowVisible" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4300,7 +5942,16 @@ namespace PerformanceTestConsole
             if( v_tRect == null ) {
                 v_tRect = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "InvalidateRect" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "struct*" ), v_tRect, Variant.Create( "bool" ), v_bErase );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "InvalidateRect" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "struct*" ),
+                                           v_tRect,
+                                           Variant.Create( "bool" ),
+                                           v_bErase );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4311,7 +5962,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_LineTo( Variant v_hDC, Variant v_iX, Variant v_iY ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "bool" ), Variant.Create( "LineTo" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "int" ), v_iX, Variant.Create( "int" ), v_iY );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "LineTo" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "int" ),
+                                           v_iX,
+                                           Variant.Create( "int" ),
+                                           v_iY );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4328,7 +5988,14 @@ namespace PerformanceTestConsole
                 v_sBitmapType = Variant.Create( "wstr" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "handle" ), Variant.Create( "LoadBitmapW" ), Variant.Create( "handle" ), v_hInstance, v_sBitmapType, v_sBitmap );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "LoadBitmapW" ),
+                                           Variant.Create( "handle" ),
+                                           v_hInstance,
+                                           v_sBitmapType,
+                                           v_sBitmap );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4345,7 +6012,22 @@ namespace PerformanceTestConsole
                 v_sImageType = Variant.Create( "wstr" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "handle" ), Variant.Create( "LoadImageW" ), Variant.Create( "handle" ), v_hInstance, v_sImageType, v_sImage, Variant.Create( "uint" ), v_iType, Variant.Create( "int" ), v_iXDesired, Variant.Create( "int" ), v_iYDesired, Variant.Create( "uint" ), v_iLoad );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "LoadImageW" ),
+                                           Variant.Create( "handle" ),
+                                           v_hInstance,
+                                           v_sImageType,
+                                           v_sImage,
+                                           Variant.Create( "uint" ),
+                                           v_iType,
+                                           Variant.Create( "int" ),
+                                           v_iXDesired,
+                                           Variant.Create( "int" ),
+                                           v_iYDesired,
+                                           Variant.Create( "uint" ),
+                                           v_iLoad );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4356,7 +6038,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_LoadLibrary( Variant v_sFileName ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "LoadLibraryW" ), Variant.Create( "wstr" ), v_sFileName );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "LoadLibraryW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sFileName );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4370,7 +6057,16 @@ namespace PerformanceTestConsole
             if( v_iFlags == null ) {
                 v_iFlags = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "LoadLibraryExW" ), Variant.Create( "wstr" ), v_sFileName, Variant.Create( "ptr" ), Variant.Create( 0 ), Variant.Create( "dword" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "LoadLibraryExW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sFileName,
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "dword" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4398,7 +6094,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_LoadString( Variant v_hInstance, Variant v_iStringId ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "LoadStringW" ), Variant.Create( "handle" ), v_hInstance, Variant.Create( "uint" ), v_iStringId, Variant.Create( "wstr" ), Variant.Create( "" ), Variant.Create( "int" ), Variant.Create( 4096 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "LoadStringW" ),
+                                           Variant.Create( "handle" ),
+                                           v_hInstance,
+                                           Variant.Create( "uint" ),
+                                           v_iStringId,
+                                           Variant.Create( "wstr" ),
+                                           Variant.Create( "" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( 4096 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( "" ) );
             }
@@ -4409,7 +6116,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_LocalFree( Variant v_hMem ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "LocalFree" ), Variant.Create( "handle" ), v_hMem );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "LocalFree" ),
+                                           Variant.Create( "handle" ),
+                                           v_hMem );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4474,7 +6186,12 @@ namespace PerformanceTestConsole
                 v_iSound = Variant.Create( -1 );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "MessageBeep" ), Variant.Create( "uint" ), v_iSound );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "MessageBeep" ),
+                                           Variant.Create( "uint" ),
+                                           v_iSound );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4502,7 +6219,20 @@ namespace PerformanceTestConsole
             if( v_iX == null ) {
                 v_iX = Variant.Create( 0 );
             }
-            _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "none" ), Variant.Create( "mouse_event" ), Variant.Create( "dword" ), v_iFlags, Variant.Create( "dword" ), v_iX, Variant.Create( "dword" ), v_iY, Variant.Create( "dword" ), v_iData, Variant.Create( "ulong_ptr" ), v_iExtraInfo );
+            _functions.DllCall(
+                               Variant.Create( "user32.dll" ),
+                               Variant.Create( "none" ),
+                               Variant.Create( "mouse_event" ),
+                               Variant.Create( "dword" ),
+                               v_iFlags,
+                               Variant.Create( "dword" ),
+                               v_iX,
+                               Variant.Create( "dword" ),
+                               v_iY,
+                               Variant.Create( "dword" ),
+                               v_iData,
+                               Variant.Create( "ulong_ptr" ),
+                               v_iExtraInfo );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended );
             }
@@ -4512,7 +6242,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_MoveTo( Variant v_hDC, Variant v_iX, Variant v_iY ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "bool" ), Variant.Create( "MoveToEx" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "int" ), v_iX, Variant.Create( "int" ), v_iY, Variant.Create( "ptr" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "MoveToEx" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "int" ),
+                                           v_iX,
+                                           Variant.Create( "int" ),
+                                           v_iY,
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ) );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4526,7 +6267,22 @@ namespace PerformanceTestConsole
             if( v_bRepaint == null ) {
                 v_bRepaint = Variant.Create( true );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "MoveWindow" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "int" ), v_iX, Variant.Create( "int" ), v_iY, Variant.Create( "int" ), v_iWidth, Variant.Create( "int" ), v_iHeight, Variant.Create( "bool" ), v_bRepaint );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "MoveWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "int" ),
+                                           v_iX,
+                                           Variant.Create( "int" ),
+                                           v_iY,
+                                           Variant.Create( "int" ),
+                                           v_iWidth,
+                                           Variant.Create( "int" ),
+                                           v_iHeight,
+                                           Variant.Create( "bool" ),
+                                           v_bRepaint );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4537,7 +6293,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_MulDiv( Variant v_iNumber, Variant v_iNumerator, Variant v_iDenominator ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "MulDiv" ), Variant.Create( "int" ), v_iNumber, Variant.Create( "int" ), v_iNumerator, Variant.Create( "int" ), v_iDenominator );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "MulDiv" ),
+                                           Variant.Create( "int" ),
+                                           v_iNumber,
+                                           Variant.Create( "int" ),
+                                           v_iNumerator,
+                                           Variant.Create( "int" ),
+                                           v_iDenominator );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -4565,14 +6330,44 @@ namespace PerformanceTestConsole
                 v_sTextType = Variant.Create( "struct*" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "MultiByteToWideChar" ), Variant.Create( "uint" ), v_iCodePage, Variant.Create( "dword" ), v_iFlags, v_sTextType, v_sText, Variant.Create( "int" ), Variant.Create( -1 ), Variant.Create( "ptr" ), Variant.Create( 0 ), Variant.Create( "int" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "MultiByteToWideChar" ),
+                                           Variant.Create( "uint" ),
+                                           v_iCodePage,
+                                           Variant.Create( "dword" ),
+                                           v_iFlags,
+                                           v_sTextType,
+                                           v_sText,
+                                           Variant.Create( "int" ),
+                                           Variant.Create( -1 ),
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( 0 ) );
             }
 
             v_iOut = v_aResult[Variant.Create( 0 )];
             v_tOut = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "wchar[" ), v_iOut ), Variant.Create( "]" ) ) );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "MultiByteToWideChar" ), Variant.Create( "uint" ), v_iCodePage, Variant.Create( "dword" ), v_iFlags, v_sTextType, v_sText, Variant.Create( "int" ), Variant.Create( -1 ), Variant.Create( "struct*" ), v_tOut, Variant.Create( "int" ), v_iOut );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "MultiByteToWideChar" ),
+                                           Variant.Create( "uint" ),
+                                           v_iCodePage,
+                                           Variant.Create( "dword" ),
+                                           v_iFlags,
+                                           v_sTextType,
+                                           v_sText,
+                                           Variant.Create( "int" ),
+                                           Variant.Create( -1 ),
+                                           Variant.Create( "struct*" ),
+                                           v_tOut,
+                                           Variant.Create( "int" ),
+                                           v_iOut );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 20 ), _context.Extended, Variant.Create( 0 ) );
             }
@@ -4593,7 +6388,22 @@ namespace PerformanceTestConsole
             if( v_iCodePage == null ) {
                 v_iCodePage = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "MultiByteToWideChar" ), Variant.Create( "uint" ), v_iCodePage, Variant.Create( "dword" ), v_iFlags, Variant.Create( "STR" ), v_sText, Variant.Create( "int" ), Variant.Create( -1 ), Variant.Create( "struct*" ), v_pText, Variant.Create( "int" ), _functions.StringLen( v_sText )+Variant.Create( 1 ) * Variant.Create( 2 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "MultiByteToWideChar" ),
+                                           Variant.Create( "uint" ),
+                                           v_iCodePage,
+                                           Variant.Create( "dword" ),
+                                           v_iFlags,
+                                           Variant.Create( "STR" ),
+                                           v_sText,
+                                           Variant.Create( "int" ),
+                                           Variant.Create( -1 ),
+                                           Variant.Create( "struct*" ),
+                                           v_pText,
+                                           Variant.Create( "int" ),
+                                           _functions.StringLen( v_sText )+Variant.Create( 1 ) * Variant.Create( 2 ) );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4611,7 +6421,16 @@ namespace PerformanceTestConsole
             if( v_bDebugPriv == null ) {
                 v_bDebugPriv = Variant.Create( false );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "OpenProcess" ), Variant.Create( "dword" ), v_iAccess, Variant.Create( "bool" ), v_bInherit, Variant.Create( "dword" ), v_iPID );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "OpenProcess" ),
+                                           Variant.Create( "dword" ),
+                                           v_iAccess,
+                                           Variant.Create( "bool" ),
+                                           v_bInherit,
+                                           Variant.Create( "dword" ),
+                                           v_iPID );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4634,7 +6453,16 @@ namespace PerformanceTestConsole
             v_iExtended = _context.Extended;
             v_iRet = Variant.Create( 0 );
             if( _functions.NOT( _context.Error ) ) {
-                v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "handle" ), Variant.Create( "OpenProcess" ), Variant.Create( "dword" ), v_iAccess, Variant.Create( "bool" ), v_bInherit, Variant.Create( "dword" ), v_iPID );
+                v_aResult = _functions.DllCall(
+                                               Variant.Create( "kernel32.dll" ),
+                                               Variant.Create( "handle" ),
+                                               Variant.Create( "OpenProcess" ),
+                                               Variant.Create( "dword" ),
+                                               v_iAccess,
+                                               Variant.Create( "bool" ),
+                                               v_bInherit,
+                                               Variant.Create( "dword" ),
+                                               v_iPID );
                 v_iError = _context.Error;
                 v_iExtended = _context.Extended;
                 if( v_aResult[Variant.Create( 0 )] ) {
@@ -4661,9 +6489,19 @@ namespace PerformanceTestConsole
             Variant v_sTemp = Variant.Create( (object)null );
             v_aFiles = Variant.CreateArray( new Variant[Variant.Create( 3 )] );
             v_aFiles[Variant.Create( 0 )] = Variant.Create( 2 );
-            v_sTemp = _functions.StringMid( v_sPath, Variant.Create( 1 ), _functions.StringInStr( v_sPath, Variant.Create( "\\" ), Variant.Create( 0 ), Variant.Create( -1 ) )-Variant.Create( 1 ) );
+            v_sTemp = _functions.StringMid(
+                                           v_sPath,
+                                           Variant.Create( 1 ),
+                                           _functions.StringInStr( v_sPath, Variant.Create( "\\" ), Variant.Create( 0 ), Variant.Create( -1 ) )
+                                           -Variant.Create( 1 ) );
             v_aFiles[Variant.Create( 1 )] = v_sTemp;
-            v_aFiles[Variant.Create( 2 )] = _functions.StringMid( v_sPath, _functions.StringInStr( v_sPath, Variant.Create( "\\" ), Variant.Create( 0 ), Variant.Create( -1 ) )+Variant.Create( 1 ) );
+            v_aFiles[Variant.Create( 2 )] = _functions.StringMid(
+                                                                 v_sPath,
+                                                                 _functions.StringInStr(
+                                                                                        v_sPath,
+                                                                                        Variant.Create( "\\" ),
+                                                                                        Variant.Create( 0 ),
+                                                                                        Variant.Create( -1 ) )+Variant.Create( 1 ) );
             return v_aFiles;
             return Variant.Create( (object)null );
         }
@@ -4696,11 +6534,21 @@ namespace PerformanceTestConsole
             if( v_iExtraCount ) {
                 v_tagStruct = Variant.Create( "" );
                 foreach(Variant v_path in v_aExtraPaths) {
-                    v_tagStruct = v_tagStruct.ConcatAssign( _functions.Concat( _functions.Concat( Variant.Create( "wchar[" ), _functions.StringLen( v_path )+Variant.Create( 1 ) ), Variant.Create( "];" ) ) );
+                    v_tagStruct =
+                    v_tagStruct.ConcatAssign(
+                                             _functions.Concat(
+                                                               _functions.Concat(
+                                                                                 Variant.Create( "wchar[" ),
+                                                                                 _functions.StringLen( v_path )+Variant.Create( 1 ) ),
+                                                               Variant.Create( "];" ) ) );
                 }
 
                 v_tPaths = _functions.DllStructCreate( v_tagStruct );
-                v_tPathPtrs = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "ptr[" ), v_iExtraCount+Variant.Create( 1 ) ), Variant.Create( "]" ) ) );
+                v_tPathPtrs =
+                _functions.DllStructCreate(
+                                           _functions.Concat(
+                                                             _functions.Concat( Variant.Create( "ptr[" ), v_iExtraCount+Variant.Create( 1 ) ),
+                                                             Variant.Create( "]" ) ) );
                 loopHandlere2e7366d1c344fd7909a92468c184e48 = new ForToNextLooper( Variant.Create( 1 ), v_iExtraCount, null );
                 v_i = loopHandlere2e7366d1c344fd7909a92468c184e48.Index;
                 for( ; loopHandlere2e7366d1c344fd7909a92468c184e48.MoveNext(); v_i = loopHandlere2e7366d1c344fd7909a92468c184e48.Index ) {
@@ -4711,7 +6559,14 @@ namespace PerformanceTestConsole
                 _functions.DllStructSetData( v_tPathPtrs, Variant.Create( 1 ), _functions.Ptr( Variant.Create( 0 ) ), v_iExtraCount+Variant.Create( 1 ) );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "shlwapi.dll" ), Variant.Create( "bool" ), Variant.Create( "PathFindOnPathW" ), Variant.Create( "wstr" ), v_sFile, Variant.Create( "struct*" ), v_tPathPtrs );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "shlwapi.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "PathFindOnPathW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sFile,
+                                           Variant.Create( "struct*" ),
+                                           v_tPathPtrs );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, v_sFile );
             }
@@ -4747,7 +6602,18 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_PostMessage( Variant v_hWnd, Variant v_iMsg, Variant v_iwParam, Variant v_ilParam ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "PostMessage" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "uint" ), v_iMsg, Variant.Create( "wparam" ), v_iwParam, Variant.Create( "lparam" ), v_ilParam );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "PostMessage" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "uint" ),
+                                           v_iMsg,
+                                           Variant.Create( "wparam" ),
+                                           v_iwParam,
+                                           Variant.Create( "lparam" ),
+                                           v_ilParam );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4763,7 +6629,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_PtInRect( ref Variant v_tRect, ref Variant v_tPoint ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "PtInRect" ), Variant.Create( "struct*" ), v_tRect, Variant.Create( "struct" ), v_tPoint );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "PtInRect" ),
+                                           Variant.Create( "struct*" ),
+                                           v_tRect,
+                                           Variant.Create( "struct" ),
+                                           v_tPoint );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4777,7 +6650,20 @@ namespace PerformanceTestConsole
             if( v_pOverlapped == null ) {
                 v_pOverlapped = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "ReadFile" ), Variant.Create( "handle" ), v_hFile, Variant.Create( "ptr" ), v_pBuffer, Variant.Create( "dword" ), v_iToRead, Variant.Create( "dword*" ), Variant.Create( 0 ), Variant.Create( "ptr" ), v_pOverlapped );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "ReadFile" ),
+                                           Variant.Create( "handle" ),
+                                           v_hFile,
+                                           Variant.Create( "ptr" ),
+                                           v_pBuffer,
+                                           Variant.Create( "dword" ),
+                                           v_iToRead,
+                                           Variant.Create( "dword*" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "ptr" ),
+                                           v_pOverlapped );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4789,7 +6675,20 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_ReadProcessMemory( Variant v_hProcess, Variant v_pBaseAddress, Variant v_pBuffer, Variant v_iSize, ref Variant v_iRead ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "ReadProcessMemory" ), Variant.Create( "handle" ), v_hProcess, Variant.Create( "ptr" ), v_pBaseAddress, Variant.Create( "ptr" ), v_pBuffer, Variant.Create( "ulong_ptr" ), v_iSize, Variant.Create( "ulong_ptr*" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "ReadProcessMemory" ),
+                                           Variant.Create( "handle" ),
+                                           v_hProcess,
+                                           Variant.Create( "ptr" ),
+                                           v_pBaseAddress,
+                                           Variant.Create( "ptr" ),
+                                           v_pBuffer,
+                                           Variant.Create( "ulong_ptr" ),
+                                           v_iSize,
+                                           Variant.Create( "ulong_ptr*" ),
+                                           Variant.Create( 0 ) );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4800,7 +6699,14 @@ namespace PerformanceTestConsole
         }
 
         public Variant f__WinAPI_RectIsEmpty( ref Variant v_tRect ) {
-            return _functions.AND( _functions.AND( _functions.AND( _functions.DllStructGetData( v_tRect, Variant.Create( "Left" ) ) == Variant.Create( 0 ), _functions.DllStructGetData( v_tRect, Variant.Create( "Top" ) ) == Variant.Create( 0 ) ), _functions.DllStructGetData( v_tRect, Variant.Create( "Right" ) ) == Variant.Create( 0 ) ), _functions.DllStructGetData( v_tRect, Variant.Create( "Bottom" ) ) == Variant.Create( 0 ) );
+            return
+            _functions.AND(
+                           _functions.AND(
+                                          _functions.AND(
+                                                         _functions.DllStructGetData( v_tRect, Variant.Create( "Left" ) ) == Variant.Create( 0 ),
+                                                         _functions.DllStructGetData( v_tRect, Variant.Create( "Top" ) ) == Variant.Create( 0 ) ),
+                                          _functions.DllStructGetData( v_tRect, Variant.Create( "Right" ) ) == Variant.Create( 0 ) ),
+                           _functions.DllStructGetData( v_tRect, Variant.Create( "Bottom" ) ) == Variant.Create( 0 ) );
             return Variant.Create( (object)null );
         }
 
@@ -4815,7 +6721,18 @@ namespace PerformanceTestConsole
             if( v_tRect == null ) {
                 v_tRect = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "RedrawWindow" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "struct*" ), v_tRect, Variant.Create( "handle" ), v_hRegion, Variant.Create( "uint" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "RedrawWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "struct*" ),
+                                           v_tRect,
+                                           Variant.Create( "handle" ),
+                                           v_hRegion,
+                                           Variant.Create( "uint" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4826,7 +6743,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_RegisterWindowMessage( Variant v_sMessage ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "uint" ), Variant.Create( "RegisterWindowMessageW" ), Variant.Create( "wstr" ), v_sMessage );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "uint" ),
+                                           Variant.Create( "RegisterWindowMessageW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sMessage );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4848,7 +6770,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_ReleaseDC( Variant v_hWnd, Variant v_hDC ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "ReleaseDC" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "handle" ), v_hDC );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "ReleaseDC" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "handle" ),
+                                           v_hDC );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4859,7 +6788,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_ScreenToClient( Variant v_hWnd, ref Variant v_tPoint ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "ScreenToClient" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "struct*" ), v_tPoint );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "ScreenToClient" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "struct*" ),
+                                           v_tPoint );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4870,7 +6806,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SelectObject( Variant v_hDC, Variant v_hGDIObj ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "handle" ), Variant.Create( "SelectObject" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "handle" ), v_hGDIObj );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "SelectObject" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "handle" ),
+                                           v_hGDIObj );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4881,7 +6824,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetBkColor( Variant v_hDC, Variant v_iColor ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "INT" ), Variant.Create( "SetBkColor" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "INT" ), v_iColor );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "INT" ),
+                                           Variant.Create( "SetBkColor" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "INT" ),
+                                           v_iColor );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -4892,7 +6842,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetBkMode( Variant v_hDC, Variant v_iBkMode ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "int" ), Variant.Create( "SetBkMode" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "int" ), v_iBkMode );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "SetBkMode" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "int" ),
+                                           v_iBkMode );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4903,7 +6860,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetCapture( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "SetCapture" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "SetCapture" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4914,7 +6876,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetCursor( Variant v_hCursor ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "handle" ), Variant.Create( "SetCursor" ), Variant.Create( "handle" ), v_hCursor );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "SetCursor" ),
+                                           Variant.Create( "handle" ),
+                                           v_hCursor );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -4925,7 +6892,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetDefaultPrinter( Variant v_sPrinter ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "winspool.drv" ), Variant.Create( "bool" ), Variant.Create( "SetDefaultPrinterW" ), Variant.Create( "wstr" ), v_sPrinter );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "winspool.drv" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetDefaultPrinterW" ),
+                                           Variant.Create( "wstr" ),
+                                           v_sPrinter );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4934,12 +6906,36 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_SetDIBits( Variant v_hDC, Variant v_hBmp, Variant v_iStartScan, Variant v_iScanLines, Variant v_pBits, Variant v_pBMI, Variant v_iColorUse = null ) {
+        public Variant f__WinAPI_SetDIBits(
+        Variant v_hDC,
+        Variant v_hBmp,
+        Variant v_iStartScan,
+        Variant v_iScanLines,
+        Variant v_pBits,
+        Variant v_pBMI,
+        Variant v_iColorUse = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_iColorUse == null ) {
                 v_iColorUse = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "int" ), Variant.Create( "SetDIBits" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "handle" ), v_hBmp, Variant.Create( "uint" ), v_iStartScan, Variant.Create( "uint" ), v_iScanLines, Variant.Create( "ptr" ), v_pBits, Variant.Create( "ptr" ), v_pBMI, Variant.Create( "INT" ), v_iColorUse );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "SetDIBits" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "handle" ),
+                                           v_hBmp,
+                                           Variant.Create( "uint" ),
+                                           v_iStartScan,
+                                           Variant.Create( "uint" ),
+                                           v_iScanLines,
+                                           Variant.Create( "ptr" ),
+                                           v_pBits,
+                                           Variant.Create( "ptr" ),
+                                           v_pBMI,
+                                           Variant.Create( "INT" ),
+                                           v_iColorUse );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4950,7 +6946,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetEndOfFile( Variant v_hFile ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetEndOfFile" ), Variant.Create( "handle" ), v_hFile );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetEndOfFile" ),
+                                           Variant.Create( "handle" ),
+                                           v_hFile );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4961,7 +6962,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetEvent( Variant v_hEvent ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetEvent" ), Variant.Create( "handle" ), v_hEvent );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetEvent" ),
+                                           Variant.Create( "handle" ),
+                                           v_hEvent );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -4975,7 +6981,18 @@ namespace PerformanceTestConsole
             if( v_iMethod == null ) {
                 v_iMethod = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "INT" ), Variant.Create( "SetFilePointer" ), Variant.Create( "handle" ), v_hFile, Variant.Create( "long" ), v_iPos, Variant.Create( "ptr" ), Variant.Create( 0 ), Variant.Create( "long" ), v_iMethod );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "INT" ),
+                                           Variant.Create( "SetFilePointer" ),
+                                           Variant.Create( "handle" ),
+                                           v_hFile,
+                                           Variant.Create( "long" ),
+                                           v_iPos,
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "long" ),
+                                           v_iMethod );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -4986,7 +7003,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetFocus( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "SetFocus" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "SetFocus" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -5005,7 +7027,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetHandleInformation( Variant v_hObject, Variant v_iMask, Variant v_iFlags ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetHandleInformation" ), Variant.Create( "handle" ), v_hObject, Variant.Create( "dword" ), v_iMask, Variant.Create( "dword" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetHandleInformation" ),
+                                           Variant.Create( "handle" ),
+                                           v_hObject,
+                                           Variant.Create( "dword" ),
+                                           v_iMask,
+                                           Variant.Create( "dword" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5014,7 +7045,12 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_SetLayeredWindowAttributes( Variant v_hWnd, Variant v_iTranscolor, Variant v_iTransGUI = null, Variant v_iFlags = null, Variant v_bColorRef = null ) {
+        public Variant f__WinAPI_SetLayeredWindowAttributes(
+        Variant v_hWnd,
+        Variant v_iTranscolor,
+        Variant v_iTransGUI = null,
+        Variant v_iFlags = null,
+        Variant v_bColorRef = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_bColorRef == null ) {
                 v_bColorRef = Variant.Create( false );
@@ -5030,10 +7066,27 @@ namespace PerformanceTestConsole
             }
 
             if( _functions.NOT( v_bColorRef ) ) {
-                v_iTranscolor = _functions.Int( _functions.Concat( _functions.Concat( _functions.BinaryMid( v_iTranscolor, Variant.Create( 3 ), Variant.Create( 1 ) ), _functions.BinaryMid( v_iTranscolor, Variant.Create( 2 ), Variant.Create( 1 ) ) ), _functions.BinaryMid( v_iTranscolor, Variant.Create( 1 ), Variant.Create( 1 ) ) ) );
+                v_iTranscolor =
+                _functions.Int(
+                               _functions.Concat(
+                                                 _functions.Concat(
+                                                                   _functions.BinaryMid( v_iTranscolor, Variant.Create( 3 ), Variant.Create( 1 ) ),
+                                                                   _functions.BinaryMid( v_iTranscolor, Variant.Create( 2 ), Variant.Create( 1 ) ) ),
+                                                 _functions.BinaryMid( v_iTranscolor, Variant.Create( 1 ), Variant.Create( 1 ) ) ) );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetLayeredWindowAttributes" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "INT" ), v_iTranscolor, Variant.Create( "byte" ), v_iTransGUI, Variant.Create( "dword" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetLayeredWindowAttributes" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "INT" ),
+                                           v_iTranscolor,
+                                           Variant.Create( "byte" ),
+                                           v_iTransGUI,
+                                           Variant.Create( "dword" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5044,7 +7097,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetParent( Variant v_hWndChild, Variant v_hWndParent ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "SetParent" ), Variant.Create( "hwnd" ), v_hWndChild, Variant.Create( "hwnd" ), v_hWndParent );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "SetParent" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWndChild,
+                                           Variant.Create( "hwnd" ),
+                                           v_hWndParent );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -5055,7 +7115,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetProcessAffinityMask( Variant v_hProcess, Variant v_iMask ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetProcessAffinityMask" ), Variant.Create( "handle" ), v_hProcess, Variant.Create( "ulong_ptr" ), v_iMask );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetProcessAffinityMask" ),
+                                           Variant.Create( "handle" ),
+                                           v_hProcess,
+                                           Variant.Create( "ulong_ptr" ),
+                                           v_iMask );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5091,8 +7158,10 @@ namespace PerformanceTestConsole
                 v_iElementNum = _functions.UBound( v_vElements );
             }
 
-            v_tElements = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "int Element[" ), v_iElementNum ), Variant.Create( "]" ) ) );
-            v_tColors = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "INT NewColor[" ), v_iElementNum ), Variant.Create( "]" ) ) );
+            v_tElements =
+            _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "int Element[" ), v_iElementNum ), Variant.Create( "]" ) ) );
+            v_tColors =
+            _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "INT NewColor[" ), v_iElementNum ), Variant.Create( "]" ) ) );
             if( _functions.NOT( v_bIsEArray ) ) {
                 _functions.DllStructSetData( v_tElements, Variant.Create( "Element" ), v_vElements, Variant.Create( 1 ) );
             }
@@ -5115,7 +7184,16 @@ namespace PerformanceTestConsole
                 }
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetSysColors" ), Variant.Create( "int" ), v_iElementNum, Variant.Create( "struct*" ), v_tElements, Variant.Create( "struct*" ), v_tColors );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetSysColors" ),
+                                           Variant.Create( "int" ),
+                                           v_iElementNum,
+                                           Variant.Create( "struct*" ),
+                                           v_tElements,
+                                           Variant.Create( "struct*" ),
+                                           v_tColors );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5126,7 +7204,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetTextColor( Variant v_hDC, Variant v_iColor ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "gdi32.dll" ), Variant.Create( "INT" ), Variant.Create( "SetTextColor" ), Variant.Create( "handle" ), v_hDC, Variant.Create( "INT" ), v_iColor );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "gdi32.dll" ),
+                                           Variant.Create( "INT" ),
+                                           Variant.Create( "SetTextColor" ),
+                                           Variant.Create( "handle" ),
+                                           v_hDC,
+                                           Variant.Create( "INT" ),
+                                           v_iColor );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -5144,7 +7229,16 @@ namespace PerformanceTestConsole
                 v_sFuncName = Variant.Create( "SetWindowLongPtrW" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "long_ptr" ), v_sFuncName, Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "int" ), v_iIndex, Variant.Create( "long_ptr" ), v_iValue );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "long_ptr" ),
+                                           v_sFuncName,
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "int" ),
+                                           v_iIndex,
+                                           Variant.Create( "long_ptr" ),
+                                           v_iValue );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -5155,7 +7249,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetWindowPlacement( Variant v_hWnd, Variant v_pWindowPlacement ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetWindowPlacement" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "ptr" ), v_pWindowPlacement );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetWindowPlacement" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "ptr" ),
+                                           v_pWindowPlacement );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5166,7 +7267,24 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetWindowPos( Variant v_hWnd, Variant v_hAfter, Variant v_iX, Variant v_iY, Variant v_iCX, Variant v_iCY, Variant v_iFlags ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetWindowPos" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "hwnd" ), v_hAfter, Variant.Create( "int" ), v_iX, Variant.Create( "int" ), v_iY, Variant.Create( "int" ), v_iCX, Variant.Create( "int" ), v_iCY, Variant.Create( "uint" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetWindowPos" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "hwnd" ),
+                                           v_hAfter,
+                                           Variant.Create( "int" ),
+                                           v_iX,
+                                           Variant.Create( "int" ),
+                                           v_iY,
+                                           Variant.Create( "int" ),
+                                           v_iCX,
+                                           Variant.Create( "int" ),
+                                           v_iCY,
+                                           Variant.Create( "uint" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5180,7 +7298,16 @@ namespace PerformanceTestConsole
             if( v_bRedraw == null ) {
                 v_bRedraw = Variant.Create( true );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "SetWindowRgn" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "handle" ), v_hRgn, Variant.Create( "bool" ), v_bRedraw );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "SetWindowRgn" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "handle" ),
+                                           v_hRgn,
+                                           Variant.Create( "bool" ),
+                                           v_bRedraw );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5194,7 +7321,18 @@ namespace PerformanceTestConsole
             if( v_iThreadId == null ) {
                 v_iThreadId = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "handle" ), Variant.Create( "SetWindowsHookEx" ), Variant.Create( "int" ), v_idHook, Variant.Create( "ptr" ), v_pFn, Variant.Create( "handle" ), v_hMod, Variant.Create( "dword" ), v_iThreadId );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "handle" ),
+                                           Variant.Create( "SetWindowsHookEx" ),
+                                           Variant.Create( "int" ),
+                                           v_idHook,
+                                           Variant.Create( "ptr" ),
+                                           v_pFn,
+                                           Variant.Create( "handle" ),
+                                           v_hMod,
+                                           Variant.Create( "dword" ),
+                                           v_iThreadId );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -5205,7 +7343,14 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_SetWindowText( Variant v_hWnd, Variant v_sText ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "SetWindowTextW" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "wstr" ), v_sText );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SetWindowTextW" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "wstr" ),
+                                           v_sText );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5216,7 +7361,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_ShowCursor( Variant v_bShow ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "int" ), Variant.Create( "ShowCursor" ), Variant.Create( "bool" ), v_bShow );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "ShowCursor" ),
+                                           Variant.Create( "bool" ),
+                                           v_bShow );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -5247,7 +7397,14 @@ namespace PerformanceTestConsole
             if( v_iCmdShow == null ) {
                 v_iCmdShow = Variant.Create( 5 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "ShowWindow" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "int" ), v_iCmdShow );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "ShowWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "int" ),
+                                           v_iCmdShow );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5258,7 +7415,16 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_StringFromGUID( Variant v_pGUID ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "ole32.dll" ), Variant.Create( "int" ), Variant.Create( "StringFromGUID2" ), Variant.Create( "struct*" ), v_pGUID, Variant.Create( "wstr" ), Variant.Create( "" ), Variant.Create( "int" ), Variant.Create( 40 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "ole32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "StringFromGUID2" ),
+                                           Variant.Create( "struct*" ),
+                                           v_pGUID,
+                                           Variant.Create( "wstr" ),
+                                           Variant.Create( "" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( 40 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( "" ) );
             }
@@ -5269,7 +7435,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_StringLenA( ref Variant v_tString ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "lstrlenA" ), Variant.Create( "struct*" ), v_tString );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "lstrlenA" ),
+                                           Variant.Create( "struct*" ),
+                                           v_tString );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -5280,7 +7451,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_StringLenW( ref Variant v_tString ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "lstrlenW" ), Variant.Create( "struct*" ), v_tString );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "lstrlenW" ),
+                                           Variant.Create( "struct*" ),
+                                           v_tString );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -5305,7 +7481,18 @@ namespace PerformanceTestConsole
             if( v_iParam == null ) {
                 v_iParam = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "SystemParametersInfoW" ), Variant.Create( "uint" ), v_iAction, Variant.Create( "uint" ), v_iParam, Variant.Create( "ptr" ), v_vParam, Variant.Create( "uint" ), v_iWinIni );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "SystemParametersInfoW" ),
+                                           Variant.Create( "uint" ),
+                                           v_iAction,
+                                           Variant.Create( "uint" ),
+                                           v_iParam,
+                                           Variant.Create( "ptr" ),
+                                           v_vParam,
+                                           Variant.Create( "uint" ),
+                                           v_iWinIni );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5336,7 +7523,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_UnhookWindowsHookEx( Variant v_hHk ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "UnhookWindowsHookEx" ), Variant.Create( "handle" ), v_hHk );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "UnhookWindowsHookEx" ),
+                                           Variant.Create( "handle" ),
+                                           v_hHk );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5345,9 +7537,39 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_UpdateLayeredWindow( Variant v_hWnd, Variant v_hDCDest, Variant v_pPTDest, Variant v_pSize, Variant v_hDCSrce, Variant v_pPTSrce, Variant v_iRGB, Variant v_pBlend, Variant v_iFlags ) {
+        public Variant f__WinAPI_UpdateLayeredWindow(
+        Variant v_hWnd,
+        Variant v_hDCDest,
+        Variant v_pPTDest,
+        Variant v_pSize,
+        Variant v_hDCSrce,
+        Variant v_pPTSrce,
+        Variant v_iRGB,
+        Variant v_pBlend,
+        Variant v_iFlags ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "UpdateLayeredWindow" ), Variant.Create( "hwnd" ), v_hWnd, Variant.Create( "handle" ), v_hDCDest, Variant.Create( "ptr" ), v_pPTDest, Variant.Create( "ptr" ), v_pSize, Variant.Create( "handle" ), v_hDCSrce, Variant.Create( "ptr" ), v_pPTSrce, Variant.Create( "dword" ), v_iRGB, Variant.Create( "ptr" ), v_pBlend, Variant.Create( "dword" ), v_iFlags );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "UpdateLayeredWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd,
+                                           Variant.Create( "handle" ),
+                                           v_hDCDest,
+                                           Variant.Create( "ptr" ),
+                                           v_pPTDest,
+                                           Variant.Create( "ptr" ),
+                                           v_pSize,
+                                           Variant.Create( "handle" ),
+                                           v_hDCSrce,
+                                           Variant.Create( "ptr" ),
+                                           v_pPTSrce,
+                                           Variant.Create( "dword" ),
+                                           v_iRGB,
+                                           Variant.Create( "ptr" ),
+                                           v_pBlend,
+                                           Variant.Create( "dword" ),
+                                           v_iFlags );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5358,7 +7580,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_UpdateWindow( Variant v_hWnd ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "bool" ), Variant.Create( "UpdateWindow" ), Variant.Create( "hwnd" ), v_hWnd );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "UpdateWindow" ),
+                                           Variant.Create( "hwnd" ),
+                                           v_hWnd );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5372,7 +7599,14 @@ namespace PerformanceTestConsole
             if( v_iTimeout == null ) {
                 v_iTimeout = Variant.Create( -1 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "dword" ), Variant.Create( "WaitForInputIdle" ), Variant.Create( "handle" ), v_hProcess, Variant.Create( "dword" ), v_iTimeout );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "dword" ),
+                                           Variant.Create( "WaitForInputIdle" ),
+                                           Variant.Create( "handle" ),
+                                           v_hProcess,
+                                           Variant.Create( "dword" ),
+                                           v_iTimeout );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5389,7 +7623,18 @@ namespace PerformanceTestConsole
             if( v_bWaitAll == null ) {
                 v_bWaitAll = Variant.Create( false );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "INT" ), Variant.Create( "WaitForMultipleObjects" ), Variant.Create( "dword" ), v_iCount, Variant.Create( "ptr" ), v_pHandles, Variant.Create( "bool" ), v_bWaitAll, Variant.Create( "dword" ), v_iTimeout );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "INT" ),
+                                           Variant.Create( "WaitForMultipleObjects" ),
+                                           Variant.Create( "dword" ),
+                                           v_iCount,
+                                           Variant.Create( "ptr" ),
+                                           v_pHandles,
+                                           Variant.Create( "bool" ),
+                                           v_bWaitAll,
+                                           Variant.Create( "dword" ),
+                                           v_iTimeout );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -5403,7 +7648,14 @@ namespace PerformanceTestConsole
             if( v_iTimeout == null ) {
                 v_iTimeout = Variant.Create( -1 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "INT" ), Variant.Create( "WaitForSingleObject" ), Variant.Create( "handle" ), v_hHandle, Variant.Create( "dword" ), v_iTimeout );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "INT" ),
+                                           Variant.Create( "WaitForSingleObject" ),
+                                           Variant.Create( "handle" ),
+                                           v_hHandle,
+                                           Variant.Create( "dword" ),
+                                           v_iTimeout );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( -1 ) );
             }
@@ -5427,13 +7679,55 @@ namespace PerformanceTestConsole
                 v_sUnicodeType = Variant.Create( "struct*" );
             }
 
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "WideCharToMultiByte" ), Variant.Create( "uint" ), v_iCodePage, Variant.Create( "dword" ), Variant.Create( 0 ), v_sUnicodeType, v_pUnicode, Variant.Create( "int" ), Variant.Create( -1 ), Variant.Create( "ptr" ), Variant.Create( 0 ), Variant.Create( "int" ), Variant.Create( 0 ), Variant.Create( "ptr" ), Variant.Create( 0 ), Variant.Create( "ptr" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "WideCharToMultiByte" ),
+                                           Variant.Create( "uint" ),
+                                           v_iCodePage,
+                                           Variant.Create( "dword" ),
+                                           Variant.Create( 0 ),
+                                           v_sUnicodeType,
+                                           v_pUnicode,
+                                           Variant.Create( "int" ),
+                                           Variant.Create( -1 ),
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 20 ), _context.Extended, Variant.Create( "" ) );
             }
 
-            v_tMultiByte = _functions.DllStructCreate( _functions.Concat( _functions.Concat( Variant.Create( "char[" ), v_aResult[Variant.Create( 0 )] ), Variant.Create( "]" ) ) );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "int" ), Variant.Create( "WideCharToMultiByte" ), Variant.Create( "uint" ), v_iCodePage, Variant.Create( "dword" ), Variant.Create( 0 ), v_sUnicodeType, v_pUnicode, Variant.Create( "int" ), Variant.Create( -1 ), Variant.Create( "struct*" ), v_tMultiByte, Variant.Create( "int" ), v_aResult[Variant.Create( 0 )], Variant.Create( "ptr" ), Variant.Create( 0 ), Variant.Create( "ptr" ), Variant.Create( 0 ) );
+            v_tMultiByte =
+            _functions.DllStructCreate(
+                                       _functions.Concat(
+                                                         _functions.Concat( Variant.Create( "char[" ), v_aResult[Variant.Create( 0 )] ),
+                                                         Variant.Create( "]" ) ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "int" ),
+                                           Variant.Create( "WideCharToMultiByte" ),
+                                           Variant.Create( "uint" ),
+                                           v_iCodePage,
+                                           Variant.Create( "dword" ),
+                                           Variant.Create( 0 ),
+                                           v_sUnicodeType,
+                                           v_pUnicode,
+                                           Variant.Create( "int" ),
+                                           Variant.Create( -1 ),
+                                           Variant.Create( "struct*" ),
+                                           v_tMultiByte,
+                                           Variant.Create( "int" ),
+                                           v_aResult[Variant.Create( 0 )],
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ) );
             if( _functions.OR( _context.Error, _functions.NOT( v_aResult[Variant.Create( 0 )] ) ) ) {
                 return _functions.SetError( _context.Error+Variant.Create( 10 ), _context.Extended, Variant.Create( "" ) );
             }
@@ -5448,7 +7742,12 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_WindowFromPoint( ref Variant v_tPoint ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "user32.dll" ), Variant.Create( "hwnd" ), Variant.Create( "WindowFromPoint" ), Variant.Create( "struct" ), v_tPoint );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "user32.dll" ),
+                                           Variant.Create( "hwnd" ),
+                                           Variant.Create( "WindowFromPoint" ),
+                                           Variant.Create( "struct" ),
+                                           v_tPoint );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( 0 ) );
             }
@@ -5459,7 +7758,20 @@ namespace PerformanceTestConsole
 
         public Variant f__WinAPI_WriteConsole( Variant v_hConsole, Variant v_sText ) {
             Variant v_aResult = Variant.Create( (object)null );
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "WriteConsoleW" ), Variant.Create( "handle" ), v_hConsole, Variant.Create( "wstr" ), v_sText, Variant.Create( "dword" ), _functions.StringLen( v_sText ), Variant.Create( "dword*" ), Variant.Create( 0 ), Variant.Create( "ptr" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "WriteConsoleW" ),
+                                           Variant.Create( "handle" ),
+                                           v_hConsole,
+                                           Variant.Create( "wstr" ),
+                                           v_sText,
+                                           Variant.Create( "dword" ),
+                                           _functions.StringLen( v_sText ),
+                                           Variant.Create( "dword*" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "ptr" ),
+                                           Variant.Create( 0 ) );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5473,7 +7785,20 @@ namespace PerformanceTestConsole
             if( v_pOverlapped == null ) {
                 v_pOverlapped = Variant.Create( 0 );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "WriteFile" ), Variant.Create( "handle" ), v_hFile, Variant.Create( "ptr" ), v_pBuffer, Variant.Create( "dword" ), v_iToWrite, Variant.Create( "dword*" ), Variant.Create( 0 ), Variant.Create( "ptr" ), v_pOverlapped );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "WriteFile" ),
+                                           Variant.Create( "handle" ),
+                                           v_hFile,
+                                           Variant.Create( "ptr" ),
+                                           v_pBuffer,
+                                           Variant.Create( "dword" ),
+                                           v_iToWrite,
+                                           Variant.Create( "dword*" ),
+                                           Variant.Create( 0 ),
+                                           Variant.Create( "ptr" ),
+                                           v_pOverlapped );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }
@@ -5483,12 +7808,31 @@ namespace PerformanceTestConsole
             return Variant.Create( (object)null );
         }
 
-        public Variant f__WinAPI_WriteProcessMemory( Variant v_hProcess, Variant v_pBaseAddress, Variant v_pBuffer, Variant v_iSize, ref Variant v_iWritten, Variant v_sBuffer = null ) {
+        public Variant f__WinAPI_WriteProcessMemory(
+        Variant v_hProcess,
+        Variant v_pBaseAddress,
+        Variant v_pBuffer,
+        Variant v_iSize,
+        ref Variant v_iWritten,
+        Variant v_sBuffer = null ) {
             Variant v_aResult = Variant.Create( (object)null );
             if( v_sBuffer == null ) {
                 v_sBuffer = Variant.Create( "ptr" );
             }
-            v_aResult = _functions.DllCall( Variant.Create( "kernel32.dll" ), Variant.Create( "bool" ), Variant.Create( "WriteProcessMemory" ), Variant.Create( "handle" ), v_hProcess, Variant.Create( "ptr" ), v_pBaseAddress, v_sBuffer, v_pBuffer, Variant.Create( "ulong_ptr" ), v_iSize, Variant.Create( "ulong_ptr*" ), Variant.Create( 0 ) );
+            v_aResult = _functions.DllCall(
+                                           Variant.Create( "kernel32.dll" ),
+                                           Variant.Create( "bool" ),
+                                           Variant.Create( "WriteProcessMemory" ),
+                                           Variant.Create( "handle" ),
+                                           v_hProcess,
+                                           Variant.Create( "ptr" ),
+                                           v_pBaseAddress,
+                                           v_sBuffer,
+                                           v_pBuffer,
+                                           Variant.Create( "ulong_ptr" ),
+                                           v_iSize,
+                                           Variant.Create( "ulong_ptr*" ),
+                                           Variant.Create( 0 ) );
             if( _context.Error ) {
                 return _functions.SetError( _context.Error, _context.Extended, Variant.Create( false ) );
             }

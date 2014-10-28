@@ -13,7 +13,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ForToNextStatementParserStrategy : StatementParserStrategyBase<ForToNextStatement>
     {
-        public ForToNextStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ForToNextStatementParserStrategy(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseForTo( block ).ToEnumerable();
@@ -22,14 +25,14 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         private ForToNextStatement ParseForTo( TokenQueue block ) {
             var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
 
-            SkipAndAssert( block, TokenType.Equal );
+            ConsumeAndEnsure( block, TokenType.Equal );
 
             TokenCollection startExpressionTokenCollection = ParseForToStartExpression( block );
             TokenCollection endExpressionTokenCollection = ParseForToStopExpression( block );
             TokenCollection stepExpressionTokenCollection = null;
 
             if( block.Peek().Value.Keyword == Keywords.Step ) {
-                SkipAndAssert( block, Keywords.Step );
+                ConsumeAndEnsure( block, Keywords.Step );
                 stepExpressionTokenCollection = ParseForToStepExpression( block );
             }
             TokenCollection statementsTokenCollection = ParseForToStatements( block );

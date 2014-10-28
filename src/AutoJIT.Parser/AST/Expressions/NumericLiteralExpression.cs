@@ -11,10 +11,7 @@ namespace AutoJIT.Parser.AST.Expressions
             SignOperators = signOperators;
         }
 
-        public IEnumerable<Token> SignOperators {
-            get;
-            private set;
-        }
+        public IEnumerable<Token> SignOperators { get; private set; }
 
         public bool Negativ {
             get {

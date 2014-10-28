@@ -9,9 +9,7 @@ namespace AutoJITRuntime
 {
     public abstract class Variant : IEnumerable
     {
-        protected abstract DataType DataType {
-            get;
-        }
+        protected abstract DataType DataType { get; }
 
         public virtual bool IsInt32 {
             get {

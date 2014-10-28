@@ -24,7 +24,15 @@ namespace AutoJIT.Parser.AST.Parser
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Mult, TokenType.Div );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Plus, TokenType.Minus );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Concat );
-            tokenList = AddParenthesesForOperator( tokenList, TokenType.Greater, TokenType.GreaterEqual, TokenType.Less, TokenType.LessEqual, TokenType.Equal, TokenType.Notequal, TokenType.StringEqual );
+            tokenList = AddParenthesesForOperator(
+                                                  tokenList,
+                                                  TokenType.Greater,
+                                                  TokenType.GreaterEqual,
+                                                  TokenType.Less,
+                                                  TokenType.LessEqual,
+                                                  TokenType.Equal,
+                                                  TokenType.Notequal,
+                                                  TokenType.StringEqual );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.AND, TokenType.OR );
             return tokenList;
         }
@@ -32,18 +40,20 @@ namespace AutoJIT.Parser.AST.Parser
         private TokenCollection AddParenthesesForOperator( IEnumerable<Token> block, params TokenType[] operatorKeywords ) {
             var expressionToken = new TokenCollection( block.TakeWhile( x => x.Type != TokenType.NewLine ) );
             for( int i = 0; i < expressionToken.Count; i++ ) {
-                var getToken = new Func<int, Token>( index => {
-                                                         if( index >= expressionToken.Count
-                                                             || index < 0 ) {
-                                                             return _tokenFactory.CreateUndefined( 0, 0 );
-                                                         }
-                                                         return expressionToken[index];
-                                                     } );
+                var getToken = new Func<int, Token>(
+                index => {
+                    if( index >= expressionToken.Count
+                        || index < 0 ) {
+                        return _tokenFactory.CreateUndefined( 0, 0 );
+                    }
+                    return expressionToken[index];
+                } );
                 var insertRightParen = new Action<TokenCollection, int>( ( col, pos ) => col.Insert( pos, _tokenFactory.CreateRightparen( 0, 0 ) ) );
-                var insertLeftParen = new Action<TokenCollection, int>( ( col, pos ) => {
-                                                                            col.Insert( pos, _tokenFactory.CreateLeftparen( 0, 0 ) );
-                                                                            i++;
-                                                                        } );
+                var insertLeftParen = new Action<TokenCollection, int>(
+                ( col, pos ) => {
+                    col.Insert( pos, _tokenFactory.CreateLeftparen( 0, 0 ) );
+                    i++;
+                } );
 
                 if( operatorKeywords.Contains( getToken( i ).Type )
                     && getToken( i-1 ).Type != TokenType.None
@@ -73,7 +83,8 @@ namespace AutoJIT.Parser.AST.Parser
                             int rparenIndex = GetIndexBehindNextToken( getToken, i );
                             int lparenIndex = GetIndexBeforeLastToken( getToken, i ).ToNullIfLessNull();
 
-                            while( ( getToken( lparenIndex-1 ).IsSignOperator && ( getToken( lparenIndex-2 ).IsSignOperator || getToken( lparenIndex-2 ).Type == TokenType.None ) )
+                            while( ( getToken( lparenIndex-1 ).IsSignOperator
+                                     && ( getToken( lparenIndex-2 ).IsSignOperator || getToken( lparenIndex-2 ).Type == TokenType.None ) )
                                    || ( getToken( lparenIndex-2 ).Type == TokenType.Leftparen || getToken( lparenIndex-2 ).Type == TokenType.Leftsubscript ) ) {
                                 lparenIndex--;
                             }

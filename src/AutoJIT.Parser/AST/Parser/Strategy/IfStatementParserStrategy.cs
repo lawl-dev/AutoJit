@@ -13,7 +13,8 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class IfStatementParserStrategy : StatementParserStrategyBase<IfElseStatement>
     {
-        public IfStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public IfStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory )
+        : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseIf( block ).ToEnumerable();
@@ -26,7 +27,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             TokenCollection condition = ParseIfCondition( block );
             bool lastBlockWasLine = false;
             TokenCollection ifBlock;
-            if( Skip( block, TokenType.NewLine ) ) {
+            if( Consume( block, TokenType.NewLine ) ) {
                 ifBlock = ParseIfBlock( block );
             }
             else {
@@ -36,18 +37,18 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             bool hasElseIf = block.Any() && block.Peek().Value.Keyword == Keywords.ElseIf;
             while( hasElseIf ) {
-                SkipAndAssert( block, Keywords.ElseIf );
+                ConsumeAndEnsure( block, Keywords.ElseIf );
                 TokenCollection elseIfCondition = ParseElseIfCondition( block );
                 elseIfcondition.Add( elseIfCondition );
 
                 TokenCollection elseIfBlock2;
-                if( Skip( block, TokenType.NewLine ) ) {
+                if( Consume( block, TokenType.NewLine ) ) {
                     elseIfBlock2 = ParseElseIfBlock( block );
                     lastBlockWasLine = false;
                 }
                 else {
                     elseIfBlock2 = ParseElseIfLineBlock( block );
-                    SkipAndAssert( block, TokenType.NewLine );
+                    ConsumeAndEnsure( block, TokenType.NewLine );
                     lastBlockWasLine = true;
                 }
 
@@ -57,20 +58,20 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             bool hasElse = block.Any() && block.Peek().Value.Keyword == Keywords.Else;
             if( hasElse ) {
-                SkipAndAssert( block, Keywords.Else );
-                if( Skip( block, TokenType.NewLine ) ) {
+                ConsumeAndEnsure( block, Keywords.Else );
+                if( Consume( block, TokenType.NewLine ) ) {
                     elseBlock = ParseElseBlock( block );
                     lastBlockWasLine = false;
                 }
                 else {
                     elseBlock = ParseElseLineBlock( block );
-                    SkipAndAssert( block, TokenType.NewLine );
+                    ConsumeAndEnsure( block, TokenType.NewLine );
                     lastBlockWasLine = true;
                 }
             }
 
             if( !lastBlockWasLine ) {
-                SkipAndAssert( block, Keywords.EndIf );
+                ConsumeAndEnsure( block, Keywords.EndIf );
             }
 
             IExpressionNode conditionExpression = ExpressionParser.ParseBlock( condition, true );
@@ -89,7 +90,12 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 elseBlockStatements = StatementParser.ParseBlock( elseBlock );
             }
 
-            return AutoitStatementFactory.CreateIfElseStatement( conditionExpression, ifBlockStatements, elseIfConditionExpressions, elseIfBlockStatements, elseBlockStatements );
+            return AutoitStatementFactory.CreateIfElseStatement(
+                                                                conditionExpression,
+                                                                ifBlockStatements,
+                                                                elseIfConditionExpressions,
+                                                                elseIfBlockStatements,
+                                                                elseBlockStatements );
         }
 
         private TokenCollection ParseElseLineBlock( TokenQueue block ) {

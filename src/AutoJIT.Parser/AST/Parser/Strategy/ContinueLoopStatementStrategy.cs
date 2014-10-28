@@ -12,7 +12,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ContinueLoopStatementStrategy : StatementParserStrategyBase<ContinueloopStatement>
     {
-        public ContinueLoopStatementStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ContinueLoopStatementStrategy(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseContinueloop( block ).ToEnumerable();
@@ -25,7 +28,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             ? expressionPart.Value.Int32Value
             : 1;
 
-            SkipAndAssert( block, TokenType.NewLine );
+            ConsumeAndEnsure( block, TokenType.NewLine );
 
             return AutoitStatementFactory.CreateContinueloopStatement( level );
         }

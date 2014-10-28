@@ -12,21 +12,9 @@ namespace AutoJITRuntime
             ArraySize = arraySize;
         }
 
-        public string VariableName {
-            get;
-            private set;
-        }
-        public Type ManagedType {
-            get;
-            private set;
-        }
-        public UnmanagedType? MarshalAs {
-            get;
-            private set;
-        }
-        public int ArraySize {
-            get;
-            private set;
-        }
+        public string VariableName { get; private set; }
+        public Type ManagedType { get; private set; }
+        public UnmanagedType? MarshalAs { get; private set; }
+        public int ArraySize { get; private set; }
     }
 }

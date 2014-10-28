@@ -65,7 +65,22 @@ namespace AutoJIT.Parser.Optimizer
 
             Variant result = GetBinaryExpressionResult( leftOperant, rightOperant, node.OperatorToken.Text );
             _optimized = true;
-            return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof(Variant).Name ), SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) ) ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( VariantToLiteralExpression( result ) ).ToSeparatedSyntaxList() ) );
+            return
+            SyntaxFactory.InvocationExpression(
+                                               SyntaxFactory.MemberAccessExpression(
+                                                                                    SyntaxKind.SimpleMemberAccessExpression,
+                                                                                    SyntaxFactory.IdentifierName( typeof(Variant).Name ),
+                                                                                    SyntaxFactory.IdentifierName(
+                                                                                                                 CompilerHelper.GetVariantMemberName(
+                                                                                                                                                     x =>
+                                                                                                                                                     Variant
+                                                                                                                                                     .Create(
+                                                                                                                                                             (
+                                                                                                                                                             object
+                                                                                                                                                             )
+                                                                                                                                                             null ) ) ) ) )
+                         .WithArgumentList(
+                                           SyntaxFactory.ArgumentList( SyntaxFactory.Argument( VariantToLiteralExpression( result ) ).ToSeparatedSyntaxList() ) );
         }
 
         private Variant GetBinaryExpressionResult( Variant a, Variant b, string @operator ) {
@@ -94,12 +109,26 @@ namespace AutoJIT.Parser.Optimizer
 
             Type runtimeClassType = typeof(AutoitRuntime<>).MakeGenericType( typeof(object) );
 
-            List<MethodInfo> supportedFunctions = runtimeClassType.GetMethods().Where( x => x.CustomAttributes.Any( c => c.AttributeType == typeof(InlineableAttribute) ) ).ToList();
+            List<MethodInfo> supportedFunctions =
+            runtimeClassType.GetMethods().Where( x => x.CustomAttributes.Any( c => c.AttributeType == typeof(InlineableAttribute) ) ).ToList();
             bool isSupportedFunctionCall = supportedFunctions.Any( x => x.Name == functionName );
             SeparatedSyntaxList<ArgumentSyntax> args = node.ArgumentList.Arguments;
 
             //((MemberAccessExpressionSyntax)((InvocationExpressionSyntax)args[0].Expression).Expression).Name.Identifier.Text
-            bool allArgumentsAreFixedValues = args.All( x => x.Expression is InvocationExpressionSyntax && ( (InvocationExpressionSyntax)x.Expression ).Expression is MemberAccessExpressionSyntax && ( (MemberAccessExpressionSyntax)( (InvocationExpressionSyntax)x.Expression ).Expression ).Name.Identifier.Text.Equals( CompilerHelper.GetVariantMemberName( v => Variant.Create( (object)null ) ) ) );
+            bool allArgumentsAreFixedValues =
+            args.All(
+                     x =>
+                     x.Expression is InvocationExpressionSyntax && ( (InvocationExpressionSyntax)x.Expression ).Expression is MemberAccessExpressionSyntax
+                     && ( (MemberAccessExpressionSyntax)( (InvocationExpressionSyntax)x.Expression ).Expression ).Name.Identifier.Text.Equals(
+                                                                                                                                              CompilerHelper
+                                                                                                                                              .GetVariantMemberName
+                                                                                                                                              (
+                                                                                                                                               v =>
+                                                                                                                                               Variant.Create(
+                                                                                                                                                              (
+                                                                                                                                                              object
+                                                                                                                                                              )
+                                                                                                                                                              null ) ) ) );
 
             if( !isSupportedFunctionCall
                 || !allArgumentsAreFixedValues ) {
@@ -108,41 +137,87 @@ namespace AutoJIT.Parser.Optimizer
 
             MethodInfo compilerFunction = supportedFunctions.Single( x => x.Name == functionName && x.GetParameters().Length == args.Count );
 
-            object runtimeInstance = runtimeClassType.GetConstructors()[0].Invoke( new[] {
-                typeof(AutoitContext<>).MakeGenericType( typeof(object) ).GetConstructors()[0].Invoke( new[] {
-                    new object()
-                } )
-            } );
+            object runtimeInstance = runtimeClassType.GetConstructors()[0].Invoke(
+                                                                                  new[] {
+                                                                                      typeof(AutoitContext<>).MakeGenericType( typeof(object) )
+                                                                                                             .GetConstructors()[0].Invoke(
+                                                                                                                                          new[] {
+                                                                                                                                              new object()
+                                                                                                                                          } )
+                                                                                  } );
 
-            Variant[] parameters = args.Select( x => (InvocationExpressionSyntax)x.Expression ).Select( x => x.ArgumentList.Arguments.Single().Expression as LiteralExpressionSyntax ).Select( x => Variant.Create( x.Token.Value ) ).ToArray();
+            Variant[] parameters =
+            args.Select( x => (InvocationExpressionSyntax)x.Expression )
+                .Select( x => x.ArgumentList.Arguments.Single().Expression as LiteralExpressionSyntax )
+                .Select( x => Variant.Create( x.Token.Value ) )
+                .ToArray();
 
             var result = (Variant)compilerFunction.Invoke( runtimeInstance, parameters );
 
             _optimized = true;
 
-            return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof(Variant).Name ), SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) ) ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( VariantToLiteralExpression( result ) ).ToSeparatedSyntaxList() ) );
+            return
+            SyntaxFactory.InvocationExpression(
+                                               SyntaxFactory.MemberAccessExpression(
+                                                                                    SyntaxKind.SimpleMemberAccessExpression,
+                                                                                    SyntaxFactory.IdentifierName( typeof(Variant).Name ),
+                                                                                    SyntaxFactory.IdentifierName(
+                                                                                                                 CompilerHelper.GetVariantMemberName(
+                                                                                                                                                     x =>
+                                                                                                                                                     Variant
+                                                                                                                                                     .Create(
+                                                                                                                                                             (
+                                                                                                                                                             object
+                                                                                                                                                             )
+                                                                                                                                                             null ) ) ) ) )
+                         .WithArgumentList(
+                                           SyntaxFactory.ArgumentList( SyntaxFactory.Argument( VariantToLiteralExpression( result ) ).ToSeparatedSyntaxList() ) );
         }
 
         private static LiteralExpressionSyntax VariantToLiteralExpression( Variant result ) {
             LiteralExpressionSyntax literalExpression = null;
             if( result.IsString ) {
                 {
-                    literalExpression = SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( SyntaxFactory.TriviaList(), result.ToString(), result.ToString(), SyntaxFactory.TriviaList() ) );
+                    literalExpression = SyntaxFactory.LiteralExpression(
+                                                                        SyntaxKind.StringLiteralExpression,
+                                                                        SyntaxFactory.Literal(
+                                                                                              SyntaxFactory.TriviaList(),
+                                                                                              result.ToString(),
+                                                                                              result.ToString(),
+                                                                                              SyntaxFactory.TriviaList() ) );
                 }
             }
             if( result.IsInt32 ) {
                 {
-                    literalExpression = SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( SyntaxFactory.TriviaList(), result.ToString(), (int)result, SyntaxFactory.TriviaList() ) );
+                    literalExpression = SyntaxFactory.LiteralExpression(
+                                                                        SyntaxKind.StringLiteralExpression,
+                                                                        SyntaxFactory.Literal(
+                                                                                              SyntaxFactory.TriviaList(),
+                                                                                              result.ToString(),
+                                                                                              (int)result,
+                                                                                              SyntaxFactory.TriviaList() ) );
                 }
             }
             if( result.IsInt64 ) {
                 {
-                    literalExpression = SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( SyntaxFactory.TriviaList(), result.ToString(), (Int64)result, SyntaxFactory.TriviaList() ) );
+                    literalExpression = SyntaxFactory.LiteralExpression(
+                                                                        SyntaxKind.StringLiteralExpression,
+                                                                        SyntaxFactory.Literal(
+                                                                                              SyntaxFactory.TriviaList(),
+                                                                                              result.ToString(),
+                                                                                              (Int64)result,
+                                                                                              SyntaxFactory.TriviaList() ) );
                 }
             }
             if( result.IsDouble ) {
                 {
-                    literalExpression = SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( SyntaxFactory.TriviaList(), ( (double)result ).ToString( CultureInfo.InvariantCulture ), (double)result, SyntaxFactory.TriviaList() ) );
+                    literalExpression = SyntaxFactory.LiteralExpression(
+                                                                        SyntaxKind.StringLiteralExpression,
+                                                                        SyntaxFactory.Literal(
+                                                                                              SyntaxFactory.TriviaList(),
+                                                                                              ( (double)result ).ToString( CultureInfo.InvariantCulture ),
+                                                                                              (double)result,
+                                                                                              SyntaxFactory.TriviaList() ) );
                 }
             }
 

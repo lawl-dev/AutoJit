@@ -12,23 +12,16 @@ namespace AutoJIT.Parser.AST.Expressions
             Initialize();
         }
 
-        public IExpressionNode Condition {
-            get;
-            private set;
-        }
-        public IExpressionNode IfTrue {
-            get;
-            private set;
-        }
-        public IExpressionNode IfFalse {
-            get;
-            private set;
-        }
+        public IExpressionNode Condition { get; private set; }
+        public IExpressionNode IfTrue { get; private set; }
+        public IExpressionNode IfFalse { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
                 return new List<IExpressionNode> {
-                    Condition, IfTrue, IfFalse
+                    Condition,
+                    IfTrue,
+                    IfFalse
                 };
             }
         }

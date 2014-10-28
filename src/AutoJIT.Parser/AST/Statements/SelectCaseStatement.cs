@@ -14,14 +14,8 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public Dictionary<IExpressionNode, IEnumerable<IStatementNode>> Cases {
-            get;
-            private set;
-        }
-        public IEnumerable<IStatementNode> Else {
-            get;
-            private set;
-        }
+        public Dictionary<IExpressionNode, IEnumerable<IStatementNode>> Cases { get; private set; }
+        public IEnumerable<IStatementNode> Else { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -58,7 +52,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            Dictionary<IExpressionNode, IEnumerable<IStatementNode>> cases = Cases.ToDictionary( @case => (IExpressionNode)@case.Key.Clone(), @case => @case.Value.Select( x => (IStatementNode)x.Clone() ) );
+            Dictionary<IExpressionNode, IEnumerable<IStatementNode>> cases = Cases.ToDictionary(
+                                                                                                @case => (IExpressionNode)@case.Key.Clone(),
+                                                                                                @case => @case.Value.Select( x => (IStatementNode)x.Clone() ) );
             return new SelectCaseStatement( cases, CloneEnumerableAs<IStatementNode>( Else ) );
         }
     }

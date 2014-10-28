@@ -7,11 +7,11 @@ namespace AutoJIT.Parser.AST.Parser
 {
     public abstract class ExpressionParseBase : ParserBase
     {
-        protected TokenCollection GetInnerExpression( TokenQueue block ) {
+        protected static TokenCollection GetInnerExpression( TokenQueue block ) {
             return ParseInner( block, TokenType.Leftparen, TokenType.Rightparen );
         }
 
-        protected IEnumerable<TokenCollection> GetArrayIndexExpressionTrees( TokenQueue block ) {
+        protected static IEnumerable<TokenCollection> GetArrayIndexExpressionTrees( TokenQueue block ) {
             var list = new List<TokenCollection>();
 
             while( block.Any()

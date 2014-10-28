@@ -11,7 +11,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitContinueCaseStatementConverter : AutoitStatementConverterBase<ContinueCaseStatement>
     {
-        public AutoitContinueCaseStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitContinueCaseStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+        : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ContinueCaseStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
@@ -26,9 +27,19 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private StatementSyntax GetPlaceholder( string continueCaseLabelName ) {
-            return CSharpStatementFactory.CreateInvocationExpression( "Console", "WriteLine", new[] {
-                new CSharpParameterInfo( SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( string.Format( "JUMPTOHACK_{0}", continueCaseLabelName ) ) ), false )
-            } ).ToStatementSyntax();
+            return CSharpStatementFactory.CreateInvocationExpression(
+                                                                     "Console",
+                                                                     "WriteLine",
+                                                                     new[] {
+                                                                         new CSharpParameterInfo(
+                                                                     SyntaxFactory.LiteralExpression(
+                                                                                                     SyntaxKind.StringLiteralExpression,
+                                                                                                     SyntaxFactory.Literal(
+                                                                                                                           string.Format(
+                                                                                                                                         "JUMPTOHACK_{0}",
+                                                                                                                                         continueCaseLabelName ) ) ),
+                                                                     false )
+                                                                     } ).ToStatementSyntax();
         }
     }
 }

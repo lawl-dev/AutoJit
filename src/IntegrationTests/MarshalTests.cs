@@ -20,13 +20,14 @@ namespace UnitTests
             string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, "Unmanaged.au3" );
             string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow( () => {
-                                     byte[] assemblyBytes = compiler.Compile( script, OutputKind.ConsoleApplication, false );
+            Assert.DoesNotThrow(
+                                () => {
+                                    byte[] assemblyBytes = compiler.Compile( script, OutputKind.ConsoleApplication, false );
 
-                                     Assembly assembly = Assembly.Load( assemblyBytes );
-                                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                                     _compiledInstance = type.CreateInstanceWithDefaultParameters();
-                                 } );
+                                    Assembly assembly = Assembly.Load( assemblyBytes );
+                                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+                                    _compiledInstance = type.CreateInstanceWithDefaultParameters();
+                                } );
         }
 
         private object _compiledInstance;

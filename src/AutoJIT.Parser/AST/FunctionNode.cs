@@ -20,14 +20,8 @@ namespace AutoJIT.Parser.AST
             Queue = new TokenQueue( new Token[0] );
         }
 
-        public string Name {
-            get;
-            private set;
-        }
-        public IEnumerable<AutoitParameterInfo> Parameter {
-            get;
-            private set;
-        }
+        public string Name { get; private set; }
+        public IEnumerable<AutoitParameterInfo> Parameter { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

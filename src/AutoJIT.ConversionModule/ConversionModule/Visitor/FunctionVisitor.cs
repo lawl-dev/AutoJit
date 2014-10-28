@@ -32,21 +32,33 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
 
             BlockSyntax body = dotNetStatements.ToBlock();
 
-            return SyntaxFactory.MethodDeclaration( SyntaxFactory.IdentifierName( typeof(Variant).Name ), function.Name ).AddModifiers( SyntaxFactory.Token( SyntaxKind.PublicKeyword ) ).WithParameterList( SyntaxFactory.ParameterList( CreaterParameter( function.Parameter, context ).ToSeparatedSyntaxList() ) ).WithBody( body );
+            return
+            SyntaxFactory.MethodDeclaration( SyntaxFactory.IdentifierName( typeof(Variant).Name ), function.Name )
+                         .AddModifiers( SyntaxFactory.Token( SyntaxKind.PublicKeyword ) )
+                         .WithParameterList( SyntaxFactory.ParameterList( CreaterParameter( function.Parameter, context ).ToSeparatedSyntaxList() ) )
+                         .WithBody( body );
         }
 
-        private IList<IStatementNode> DeclareParameter( IList<IStatementNode> statementNodes, IEnumerable<AutoitParameterInfo> parameter, IContextService context ) {
+        private IList<IStatementNode> DeclareParameter(
+        IList<IStatementNode> statementNodes,
+        IEnumerable<AutoitParameterInfo> parameter,
+        IContextService context ) {
             foreach(AutoitParameterInfo parameterInfo in parameter) {
                 context.DeclareLocal( parameterInfo.ParameterName );
                 if( parameterInfo.DefaultValue != null ) {
-                    statementNodes.Insert( 0, new InitDefaultParameterStatement( context.GetVariableName( parameterInfo.ParameterName ), parameterInfo.DefaultValue ) );
+                    statementNodes.Insert(
+                                          0,
+                                          new InitDefaultParameterStatement(
+                                          context.GetVariableName( parameterInfo.ParameterName ),
+                                          parameterInfo.DefaultValue ) );
                 }
             }
             return statementNodes;
         }
 
         private static List<StatementSyntax> OrderDeclarations( List<StatementSyntax> cSharpStatements ) {
-            List<LocalDeclarationStatementSyntax> allDeclarations = cSharpStatements.SelectMany( s => s.DescendantNodesAndSelf().OfType<LocalDeclarationStatementSyntax>() ).ToList();
+            List<LocalDeclarationStatementSyntax> allDeclarations =
+            cSharpStatements.SelectMany( s => s.DescendantNodesAndSelf().OfType<LocalDeclarationStatementSyntax>() ).ToList();
             for( int index = 0; index < cSharpStatements.Count; index++ ) {
                 cSharpStatements[index] = cSharpStatements[index].ReplaceNodes( allDeclarations, ( node, syntaxNode ) => SyntaxFactory.EmptyStatement() );
             }
@@ -59,18 +71,26 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         }
 
         private IEnumerable<ParameterSyntax> CreaterParameter( IEnumerable<AutoitParameterInfo> parameters, IContextService context ) {
-            return parameters.Select( p => {
-                                          ParameterSyntax parameter = SyntaxFactory.Parameter( SyntaxFactory.Identifier( context.GetVariableName( p.ParameterName ) ) ).WithType( SyntaxFactory.IdentifierName( typeof(Variant).Name ) );
-                                          if( p.DefaultValue != null ) {
-                                              parameter = parameter.WithDefault( SyntaxFactory.EqualsValueClause( SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ) );
-                                          }
+            return parameters.Select(
+                                     p => {
+                                         ParameterSyntax parameter =
+                                         SyntaxFactory.Parameter( SyntaxFactory.Identifier( context.GetVariableName( p.ParameterName ) ) )
+                                                      .WithType( SyntaxFactory.IdentifierName( typeof(Variant).Name ) );
+                                         if( p.DefaultValue != null ) {
+                                             parameter =
+                                             parameter.WithDefault(
+                                                                   SyntaxFactory.EqualsValueClause(
+                                                                                                   SyntaxFactory.LiteralExpression(
+                                                                                                                                   SyntaxKind
+                                                                                                                                   .NullLiteralExpression ) ) );
+                                         }
 
-                                          if( p.IsByRef ) {
-                                              parameter = parameter.WithModifiers( new SyntaxTokenList().Add( SyntaxFactory.Token( SyntaxKind.RefKeyword ) ) );
-                                          }
+                                         if( p.IsByRef ) {
+                                             parameter = parameter.WithModifiers( new SyntaxTokenList().Add( SyntaxFactory.Token( SyntaxKind.RefKeyword ) ) );
+                                         }
 
-                                          return parameter;
-                                      } );
+                                         return parameter;
+                                     } );
         }
     }
 }

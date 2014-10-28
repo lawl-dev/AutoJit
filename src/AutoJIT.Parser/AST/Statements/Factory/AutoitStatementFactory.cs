@@ -87,7 +87,12 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return new ForInStatement( variableName, toEnumerate, block );
         }
 
-        public ForToNextStatement CreateForToNextStatement( VariableExpression variableExpression, IExpressionNode startExpression, IExpressionNode endExpression, IExpressionNode stepExpression, List<IStatementNode> block ) {
+        public ForToNextStatement CreateForToNextStatement(
+        VariableExpression variableExpression,
+        IExpressionNode startExpression,
+        IExpressionNode endExpression,
+        IExpressionNode stepExpression,
+        List<IStatementNode> block ) {
             if( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
             }
@@ -115,7 +120,10 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return new FunctionCallStatement( functionCallExpression );
         }
 
-        public GlobalDeclarationStatement CreateGlobalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst ) {
+        public GlobalDeclarationStatement CreateGlobalDeclarationStatement(
+        VariableExpression variableExpression,
+        IExpressionNode initExpression,
+        bool isConst ) {
             if( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
             }
@@ -123,7 +131,11 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return new GlobalDeclarationStatement( variableExpression, initExpression, isConst );
         }
 
-        public EnumDeclarationStatement CreateEnumDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, IExpressionNode autoInitExpression, bool global ) {
+        public EnumDeclarationStatement CreateEnumDeclarationStatement(
+        VariableExpression variableExpression,
+        IExpressionNode initExpression,
+        IExpressionNode autoInitExpression,
+        bool global ) {
             if( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
             }
@@ -133,7 +145,12 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return new LocalEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression );
         }
 
-        public IfElseStatement CreateIfElseStatement( IExpressionNode condition, List<IStatementNode> ifBlock, Queue<IExpressionNode> elseIfConditions, Queue<List<IStatementNode>> elseIfBlocks, IEnumerable<IStatementNode> elseBlock ) {
+        public IfElseStatement CreateIfElseStatement(
+        IExpressionNode condition,
+        List<IStatementNode> ifBlock,
+        Queue<IExpressionNode> elseIfConditions,
+        Queue<List<IStatementNode>> elseIfBlocks,
+        IEnumerable<IStatementNode> elseBlock ) {
             if( condition == null ) {
                 throw new ArgumentNullException( "condition" );
             }
@@ -145,7 +162,11 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return new IfElseStatement( condition, ifBlock, elseIfConditions, elseIfBlocks, elseBlock );
         }
 
-        public LocalDeclarationStatement CreateLocalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst, bool isStatic ) {
+        public LocalDeclarationStatement CreateLocalDeclarationStatement(
+        VariableExpression variableExpression,
+        IExpressionNode initExpression,
+        bool isConst,
+        bool isStatic ) {
             if( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
             }
@@ -169,7 +190,9 @@ namespace AutoJIT.Parser.AST.Statements.Factory
             return new ReturnStatement( returnExpression );
         }
 
-        public SelectCaseStatement CreateSelectStatement( Dictionary<IExpressionNode, IEnumerable<IStatementNode>> cases, IEnumerable<IStatementNode> elseStatements ) {
+        public SelectCaseStatement CreateSelectStatement(
+        Dictionary<IExpressionNode, IEnumerable<IStatementNode>> cases,
+        IEnumerable<IStatementNode> elseStatements ) {
             if( cases == null ) {
                 throw new ArgumentNullException( "cases" );
             }

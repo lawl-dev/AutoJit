@@ -11,10 +11,7 @@ namespace AutoJIT.Parser.Exceptions
             Messages = messages;
         }
 
-        public IEnumerable<Diagnostic> Messages {
-            get;
-            set;
-        }
+        public IEnumerable<Diagnostic> Messages { get; set; }
 
         public override string Message {
             get {

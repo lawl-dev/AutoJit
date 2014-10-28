@@ -197,7 +197,11 @@ namespace AutoJITRuntime.Services
             return toReturn;
         }
 
-        private Delegate GetFunctionDelegate( MarshalInfo returnMarshalInfo, List<MarshalInfo> parameterMarshalInfo, Type callingConvention, IntPtr procAddress ) {
+        private Delegate GetFunctionDelegate(
+        MarshalInfo returnMarshalInfo,
+        List<MarshalInfo> parameterMarshalInfo,
+        Type callingConvention,
+        IntPtr procAddress ) {
             Type delegateType = CreateDelegate( returnMarshalInfo, parameterMarshalInfo, callingConvention );
 
             Delegate @delegate;
@@ -258,21 +262,41 @@ namespace AutoJITRuntime.Services
         }
 
         private Type CreateDelegate( MarshalInfo returntype, List<MarshalInfo> paramtypes, Type callingConvention ) {
-            string cacheKey = String.Format( "Delegate_{0}{1}{2}", returntype.Type, String.Join( String.Empty, paramtypes.Select( x => x.Type ) ), callingConvention );
+            string cacheKey = String.Format(
+                                            "Delegate_{0}{1}{2}",
+                                            returntype.Type,
+                                            String.Join( String.Empty, paramtypes.Select( x => x.Type ) ),
+                                            callingConvention );
 
             if( _delegateStore.ContainsKey( cacheKey ) ) {
                 return _delegateStore[cacheKey];
             }
 
-            TypeBuilder tb = _dynamicMod.DefineType( String.Format( "_{0}", Guid.NewGuid().ToString( "N" ) ), TypeAttributes.Public|TypeAttributes.Sealed, typeof(MulticastDelegate) );
+            TypeBuilder tb = _dynamicMod.DefineType(
+                                                    String.Format( "_{0}", Guid.NewGuid().ToString( "N" ) ),
+                                                    TypeAttributes.Public|TypeAttributes.Sealed,
+                                                    typeof(MulticastDelegate) );
 
-            tb.DefineConstructor( MethodAttributes.RTSpecialName|MethodAttributes.SpecialName|MethodAttributes.Public|MethodAttributes.HideBySig, CallingConventions.Standard, new[] {
-                typeof(object), typeof(IntPtr)
-            } ).SetImplementationFlags( MethodImplAttributes.Runtime );
+            tb.DefineConstructor(
+                                 MethodAttributes.RTSpecialName|MethodAttributes.SpecialName|MethodAttributes.Public|MethodAttributes.HideBySig,
+                                 CallingConventions.Standard,
+                                 new[] {
+                                     typeof(object),
+                                     typeof(IntPtr)
+                                 } ).SetImplementationFlags( MethodImplAttributes.Runtime );
 
-            MethodBuilder inv = tb.DefineMethod( "Invoke", MethodAttributes.Public|MethodAttributes.Virtual|MethodAttributes.NewSlot|MethodAttributes.HideBySig, CallingConventions.Standard, returntype.Type, null, new[] {
-                callingConvention
-            }, paramtypes.Select( x => x.Type ).ToArray(), null, null );
+            MethodBuilder inv = tb.DefineMethod(
+                                                "Invoke",
+                                                MethodAttributes.Public|MethodAttributes.Virtual|MethodAttributes.NewSlot|MethodAttributes.HideBySig,
+                                                CallingConventions.Standard,
+                                                returntype.Type,
+                                                null,
+                                                new[] {
+                                                    callingConvention
+                                                },
+                                                paramtypes.Select( x => x.Type ).ToArray(),
+                                                null,
+                                                null );
 
             for( int index = 0; index < paramtypes.Count; index++ ) {
                 MarshalInfo paramtype = paramtypes[index];
@@ -292,11 +316,14 @@ namespace AutoJITRuntime.Services
                 ParameterBuilder parameterBuilder = inv.DefineParameter( index+1, parameterAttributes, null );
 
                 if( paramtype.MarshalAttribute.HasValue ) {
-                    ConstructorInfo constructorInfo = typeof(MarshalAsAttribute).GetConstructor( new[] {
-                        typeof(UnmanagedType)
-                    } );
+                    ConstructorInfo constructorInfo = typeof(MarshalAsAttribute).GetConstructor(
+                                                                                                new[] {
+                                                                                                    typeof(UnmanagedType)
+                                                                                                } );
 
-                    var customAttributeBuilder = new CustomAttributeBuilder( constructorInfo, new object[] {
+                    var customAttributeBuilder = new CustomAttributeBuilder(
+                    constructorInfo,
+                    new object[] {
                         paramtype.MarshalAttribute
                     } );
 
@@ -393,19 +420,30 @@ namespace AutoJITRuntime.Services
         }
 
         private Type CreateStruct( IEnumerable<StructTypeInfo> typeInfos ) {
-            ConstructorInfo constructorInfo = typeof(StructLayoutAttribute).GetConstructor( new[] {
-                typeof(LayoutKind)
-            } );
-            var customAttributeBuilder = new CustomAttributeBuilder( constructorInfo, new object[] {
+            ConstructorInfo constructorInfo = typeof(StructLayoutAttribute).GetConstructor(
+                                                                                           new[] {
+                                                                                               typeof(LayoutKind)
+                                                                                           } );
+            var customAttributeBuilder = new CustomAttributeBuilder(
+            constructorInfo,
+            new object[] {
                 LayoutKind.Sequential
             } );
 
-            TypeBuilder tb = _dynamicMod.DefineType( "_"+Guid.NewGuid().ToString( "N" ), TypeAttributes.Public, typeof(object), new[] {
-                typeof(IRuntimeStruct)
-            } );
+            TypeBuilder tb = _dynamicMod.DefineType(
+                                                    "_"+Guid.NewGuid().ToString( "N" ),
+                                                    TypeAttributes.Public,
+                                                    typeof(object),
+                                                    new[] {
+                                                        typeof(IRuntimeStruct)
+                                                    } );
             tb.SetCustomAttribute( customAttributeBuilder );
 
-            ConstructorBuilder constructorBuilder = tb.DefineConstructor( MethodAttributes.Public|MethodAttributes.HideBySig|MethodAttributes.SpecialName|MethodAttributes.RTSpecialName, CallingConventions.Standard, Type.EmptyTypes );
+            ConstructorBuilder constructorBuilder =
+            tb.DefineConstructor(
+                                 MethodAttributes.Public|MethodAttributes.HideBySig|MethodAttributes.SpecialName|MethodAttributes.RTSpecialName,
+                                 CallingConventions.Standard,
+                                 Type.EmptyTypes );
 
             ILGenerator ilGenerator = constructorBuilder.GetILGenerator();
             ilGenerator.Emit( OpCodes.Ldarg_0 );
@@ -441,10 +479,13 @@ namespace AutoJITRuntime.Services
             var attributesToApply = new List<CustomAttributeBuilder>();
 
             if( typeInfo.MarshalAs.HasValue ) {
-                ConstructorInfo customAttributeConstructorInfoMarshalAs = typeof(MarshalAsAttribute).GetConstructor( new[] {
-                    typeof(UnmanagedType)
-                } );
-                var customAttributeBuilderMarshalAs = new CustomAttributeBuilder( customAttributeConstructorInfoMarshalAs, new object[] {
+                ConstructorInfo customAttributeConstructorInfoMarshalAs = typeof(MarshalAsAttribute).GetConstructor(
+                                                                                                                    new[] {
+                                                                                                                        typeof(UnmanagedType)
+                                                                                                                    } );
+                var customAttributeBuilderMarshalAs = new CustomAttributeBuilder(
+                customAttributeConstructorInfoMarshalAs,
+                new object[] {
                     typeInfo.MarshalAs.Value
                 } );
 
@@ -452,16 +493,21 @@ namespace AutoJITRuntime.Services
             }
 
             if( typeInfo.ArraySize > 0 ) {
-                ConstructorInfo customAttributeConstructorMarshalAsArray = typeof(MarshalAsAttribute).GetConstructor( new[] {
-                    typeof(UnmanagedType)
-                } );
+                ConstructorInfo customAttributeConstructorMarshalAsArray = typeof(MarshalAsAttribute).GetConstructor(
+                                                                                                                     new[] {
+                                                                                                                         typeof(UnmanagedType)
+                                                                                                                     } );
                 FieldInfo propertyInfoSizeConst = typeof(MarshalAsAttribute).GetFields().Single( x => x.Name.Equals( "SizeConst" ) );
 
-                var customAttributeBuilderMarshalAsArray = new CustomAttributeBuilder( customAttributeConstructorMarshalAsArray, new object[] {
+                var customAttributeBuilderMarshalAsArray = new CustomAttributeBuilder(
+                customAttributeConstructorMarshalAsArray,
+                new object[] {
                     UnmanagedType.ByValArray
-                }, new[] {
+                },
+                new[] {
                     propertyInfoSizeConst
-                }, new object[] {
+                },
+                new object[] {
                     typeInfo.ArraySize
                 } );
 
@@ -475,7 +521,10 @@ namespace AutoJITRuntime.Services
         }
 
         private IEnumerable<StructTypeInfo> GetTypeInfo( string[] fragments ) {
-            bool isSingleStruct = fragments.First().Equals( "STRUCT", StringComparison.InvariantCultureIgnoreCase ) && fragments.Last().Equals( "ENDSTRUCT", StringComparison.InvariantCultureIgnoreCase ) && fragments.Count( x => x.Equals( "STRUCT", StringComparison.InvariantCultureIgnoreCase ) ) == 1 && fragments.Count( x => x.Equals( "ENDSTRUCT", StringComparison.InvariantCultureIgnoreCase ) ) == 1;
+            bool isSingleStruct = fragments.First().Equals( "STRUCT", StringComparison.InvariantCultureIgnoreCase )
+                                  && fragments.Last().Equals( "ENDSTRUCT", StringComparison.InvariantCultureIgnoreCase )
+                                  && fragments.Count( x => x.Equals( "STRUCT", StringComparison.InvariantCultureIgnoreCase ) ) == 1
+                                  && fragments.Count( x => x.Equals( "ENDSTRUCT", StringComparison.InvariantCultureIgnoreCase ) ) == 1;
 
             if( isSingleStruct ) {
                 fragments = fragments.Skip( 1 ).Take( fragments.Length-2 ).ToArray();
@@ -489,9 +538,12 @@ namespace AutoJITRuntime.Services
                 string[] nametypeFragments = fragment.Split( ' ' );
                 if( nametypeFragments.Length == 1 ) {
                     string typeFragmanet = nametypeFragments[0];
-                    string[] typeArraySizeFragments = typeFragmanet.Split( new[] {
-                        "[", "]"
-                    }, StringSplitOptions.RemoveEmptyEntries );
+                    string[] typeArraySizeFragments = typeFragmanet.Split(
+                                                                          new[] {
+                                                                              "[",
+                                                                              "]"
+                                                                          },
+                                                                          StringSplitOptions.RemoveEmptyEntries );
                     string typePart = typeArraySizeFragments[0];
 
                     UnmanagedType? marshalAttribute = GetMarshalAttribute( typePart );
@@ -543,9 +595,12 @@ namespace AutoJITRuntime.Services
                     string typeFragment = nametypeFragments[0];
                     string nameArraySizeFragment = nametypeFragments[1];
 
-                    string[] nameArraySizeFragments = nameArraySizeFragment.Split( new[] {
-                        "[", "]"
-                    }, StringSplitOptions.RemoveEmptyEntries );
+                    string[] nameArraySizeFragments = nameArraySizeFragment.Split(
+                                                                                  new[] {
+                                                                                      "[",
+                                                                                      "]"
+                                                                                  },
+                                                                                  StringSplitOptions.RemoveEmptyEntries );
                     Type managedType = GetManagedType( typeFragment );
                     UnmanagedType? marshalAttribute = GetMarshalAttribute( typeFragment );
 

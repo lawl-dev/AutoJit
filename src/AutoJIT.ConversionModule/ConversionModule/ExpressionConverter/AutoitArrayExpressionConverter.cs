@@ -18,7 +18,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private ElementAccessExpressionSyntax AddElementAccessExpression( ArrayExpression node, IContextService context, ExpressionSyntax variable ) {
-            BracketedArgumentListSyntax argumentList = SyntaxFactory.BracketedArgumentList( SyntaxFactory.SeparatedList<ArgumentSyntax>().AddRange( CreateArguments( node, context ) ) );
+            BracketedArgumentListSyntax argumentList =
+            SyntaxFactory.BracketedArgumentList( SyntaxFactory.SeparatedList<ArgumentSyntax>().AddRange( CreateArguments( node, context ) ) );
 
             return SyntaxFactory.ElementAccessExpression( variable, argumentList );
         }

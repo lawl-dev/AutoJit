@@ -9,144 +9,157 @@ namespace AutoJIT.Parser.AST.Parser
 {
     public abstract class ParserBase
     {
-        protected TokenCollection ParseInner( TokenQueue block, TokenType s, TokenType e ) {
-            SkipAndAssert( block, s );
+        protected static TokenCollection ParseInner( TokenQueue block, TokenType s, TokenType e ) {
+            ConsumeAndEnsure( block, s );
 
             int count = 1;
-            List<Token> innerExpressionsBlock = block.DequeueWhile( ( x, i ) => {
-                                                                        if( x.Type == s ) {
-                                                                            count++;
-                                                                        }
-                                                                        if( x.Type == e ) {
-                                                                            count--;
-                                                                        }
-                                                                        return count != 0;
-                                                                    } ).ToList();
+            List<Token> innerExpressionsBlock = block.DequeueWhile(
+                                                                   ( x, i ) => {
+                                                                       if( x.Type == s ) {
+                                                                           count++;
+                                                                       }
+                                                                       if( x.Type == e ) {
+                                                                           count--;
+                                                                       }
+                                                                       return count != 0;
+                                                                   } ).ToList();
 
-            SkipAndAssert( block, e );
+            ConsumeAndEnsure( block, e );
 
             return new TokenCollection( innerExpressionsBlock );
         }
 
         protected TokenCollection ParseInner( TokenQueue block, Keywords s, Keywords e, bool sOver = false ) {
             if( !sOver ) {
-                SkipAndAssert( block, s );
+                ConsumeAndEnsure( block, s );
             }
 
             int count = 1;
-            var res = new TokenCollection( block.DequeueWhile( delegate( Token token, int i ) {
-                                                                   if( token.Value.Keyword == s ) {
-                                                                       count++;
-                                                                   }
-                                                                   else if( token.Value.Keyword == e ) {
-                                                                       count--;
-                                                                   }
-                                                                   return count != 0;
-                                                               } ) );
+            var res = new TokenCollection(
+            block.DequeueWhile(
+                               delegate( Token token, int i ) {
+                                   if( token.Value.Keyword == s ) {
+                                       count++;
+                                   }
+                                   else if( token.Value.Keyword == e ) {
+                                       count--;
+                                   }
+                                   return count != 0;
+                               } ) );
 
-            SkipAndAssert( block, e );
+            ConsumeAndEnsure( block, e );
 
             return res;
         }
 
         protected TokenCollection ParseInnerUntil( TokenQueue block, Keywords s, Keywords e, bool sOver = false ) {
             if( !sOver ) {
-                SkipAndAssert( block, s );
+                ConsumeAndEnsure( block, s );
             }
 
             int count = 1;
-            var res = new TokenCollection( block.DequeueWhile( delegate( Token token, int i ) {
-                                                                   if( token.Value.Keyword == s ) {
-                                                                       count++;
-                                                                   }
-                                                                   else if( token.Value.Keyword == e ) {
-                                                                       count--;
-                                                                   }
-                                                                   return count != 0;
-                                                               } ) );
+            var res = new TokenCollection(
+            block.DequeueWhile(
+                               delegate( Token token, int i ) {
+                                   if( token.Value.Keyword == s ) {
+                                       count++;
+                                   }
+                                   else if( token.Value.Keyword == e ) {
+                                       count--;
+                                   }
+                                   return count != 0;
+                               } ) );
 
             return res;
         }
 
         protected TokenCollection ParseInnerUntilSwitchSelect( TokenQueue block ) {
             int count = 1;
-            var res = new TokenCollection( block.DequeueWhile( delegate( Token token, int i ) {
-                                                                   if( token.Value.Keyword == Keywords.Switch
-                                                                       || token.Value.Keyword == Keywords.Select ) {
-                                                                       count++;
-                                                                   }
-                                                                   else if( token.Value.Keyword == Keywords.Case
-                                                                            && count == 1 ) {
-                                                                       count--;
-                                                                   }
-                                                                   else if( token.Value.Keyword == Keywords.Endselect
-                                                                            || token.Value.Keyword == Keywords.EndSwitch ) {
-                                                                       count--;
-                                                                   }
-                                                                   return count != 0;
-                                                               } ) );
+            var res = new TokenCollection(
+            block.DequeueWhile(
+                               delegate( Token token, int i ) {
+                                   if( token.Value.Keyword == Keywords.Switch
+                                       || token.Value.Keyword == Keywords.Select ) {
+                                       count++;
+                                   }
+                                   else if( token.Value.Keyword == Keywords.Case
+                                            && count == 1 ) {
+                                       count--;
+                                   }
+                                   else if( token.Value.Keyword == Keywords.Endselect
+                                            || token.Value.Keyword == Keywords.EndSwitch ) {
+                                       count--;
+                                   }
+                                   return count != 0;
+                               } ) );
 
             return res;
         }
 
         protected TokenCollection ParseInnerUntil( TokenQueue block, Keywords s, IEnumerable<Keywords> e, bool sOver = false ) {
             if( !sOver ) {
-                SkipAndAssert( block, s );
+                ConsumeAndEnsure( block, s );
             }
 
             int count = 1;
-            var res = new TokenCollection( block.DequeueWhile( delegate( Token token, int i ) {
-                                                                   if( token.Value.Keyword == s ) {
-                                                                       count++;
-                                                                   }
-                                                                   else if( e.Contains( token.Value.Keyword ) ) {
-                                                                       count--;
-                                                                   }
-                                                                   return count != 0;
-                                                               } ) );
+            var res = new TokenCollection(
+            block.DequeueWhile(
+                               delegate( Token token, int i ) {
+                                   if( token.Value.Keyword == s ) {
+                                       count++;
+                                   }
+                                   else if( e.Contains( token.Value.Keyword ) ) {
+                                       count--;
+                                   }
+                                   return count != 0;
+                               } ) );
 
             return res;
         }
 
         protected IEnumerable<Token> ParseInnerUntil( TokenQueue block, Keywords[] keywordses, Keywords[] keywordses1, bool sOver ) {
             if( !sOver ) {
-                keywordses.Any( x => Skip( block, x ) );
+                keywordses.Any( x => Consume( block, x ) );
             }
 
             int count = 1;
-            var res = new TokenCollection( block.DequeueWhile( delegate( Token token, int i ) {
-                                                                   if( keywordses.Contains( token.Value.Keyword ) ) {
-                                                                       count++;
-                                                                   }
-                                                                   if( keywordses1.Contains( token.Value.Keyword ) ) {
-                                                                       count--;
-                                                                   }
-                                                                   return count != 0;
-                                                               } ) );
+            var res = new TokenCollection(
+            block.DequeueWhile(
+                               delegate( Token token, int i ) {
+                                   if( keywordses.Contains( token.Value.Keyword ) ) {
+                                       count++;
+                                   }
+                                   if( keywordses1.Contains( token.Value.Keyword ) ) {
+                                       count--;
+                                   }
+                                   return count != 0;
+                               } ) );
 
             return res;
         }
 
         protected IEnumerable<Token> ParseInnerUntil( TokenQueue block, Keywords[] keywordses, Keywords[] keywordses1, bool sOver, Keywords[] ignoreIfInner ) {
             if( !sOver ) {
-                keywordses.Any( x => Skip( block, x ) );
+                keywordses.Any( x => Consume( block, x ) );
             }
 
             int count = 1;
-            var res = new TokenCollection( block.DequeueWhile( delegate( Token token, int i ) {
-                                                                   if( count > 1
-                                                                       && ignoreIfInner.Contains( token.Value.Keyword ) ) {
-                                                                       return true;
-                                                                   }
-                                                                   if( keywordses.Contains( token.Value.Keyword ) ) {
-                                                                       count++;
-                                                                   }
-                                                                   if( keywordses1.Contains( token.Value.Keyword ) ) {
-                                                                       count--;
-                                                                   }
+            var res = new TokenCollection(
+            block.DequeueWhile(
+                               delegate( Token token, int i ) {
+                                   if( count > 1
+                                       && ignoreIfInner.Contains( token.Value.Keyword ) ) {
+                                       return true;
+                                   }
+                                   if( keywordses.Contains( token.Value.Keyword ) ) {
+                                       count++;
+                                   }
+                                   if( keywordses1.Contains( token.Value.Keyword ) ) {
+                                       count--;
+                                   }
 
-                                                                   return count != 0;
-                                                               } ) );
+                                   return count != 0;
+                               } ) );
 
             return res;
         }
@@ -162,14 +175,17 @@ namespace AutoJIT.Parser.AST.Parser
             return block.Dequeue();
         }
 
-        protected void SkipAndAssert( TokenQueue block, TokenType tokenType ) {
+        protected static void ConsumeAndEnsure( TokenQueue block, TokenType tokenType ) {
             if( block.Peek().Type != tokenType ) {
-                throw new SyntaxTreeException( string.Format( "Expected {0} but was {1}: {2}", tokenType, block.Peek().Type, block.Peek().Value.CurrentValue ), block.Peek().Col, block.Peek().Line );
+                throw new SyntaxTreeException(
+                string.Format( "Expected {0} but was {1}: {2}", tokenType, block.Peek().Type, block.Peek().Value.CurrentValue ),
+                block.Peek().Col,
+                block.Peek().Line );
             }
             block.Dequeue();
         }
 
-        protected bool Skip( TokenQueue block, TokenType tokenType ) {
+        protected static bool Consume( TokenQueue block, TokenType tokenType ) {
             if( block.Peek().Type != tokenType ) {
                 return false;
             }
@@ -177,7 +193,7 @@ namespace AutoJIT.Parser.AST.Parser
             return true;
         }
 
-        protected bool Skip( TokenQueue block, Keywords tokenType ) {
+        protected bool Consume( TokenQueue block, Keywords tokenType ) {
             if( block.Peek().Value.Keyword != tokenType ) {
                 return false;
             }
@@ -185,10 +201,13 @@ namespace AutoJIT.Parser.AST.Parser
             return true;
         }
 
-        protected void SkipAndAssert( TokenQueue block, Keywords tokenType ) {
+        protected static void ConsumeAndEnsure( TokenQueue block, Keywords tokenType ) {
             block.DequeueWhile( x => x.Type == TokenType.NewLine ).ToList();
             if( block.Peek().Value.Keyword != tokenType ) {
-                throw new SyntaxTreeException( string.Format( "Expected {0} but was {1}", tokenType, block.Peek().Value.Keyword ), block.Peek().Col, block.Peek().Line );
+                throw new SyntaxTreeException(
+                string.Format( "Expected {0} but was {1}", tokenType, block.Peek().Value.Keyword ),
+                block.Peek().Col,
+                block.Peek().Line );
             }
             block.Dequeue();
         }

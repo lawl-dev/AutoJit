@@ -15,23 +15,15 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public VariableExpression Variable {
-            get;
-            private set;
-        }
-        public IExpressionNode ExpressionToAssign {
-            get;
-            private set;
-        }
-        public Token Operator {
-            get;
-            private set;
-        }
+        public VariableExpression Variable { get; private set; }
+        public IExpressionNode ExpressionToAssign { get; private set; }
+        public Token Operator { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
                 return new List<ISyntaxNode> {
-                    Variable, ExpressionToAssign
+                    Variable,
+                    ExpressionToAssign
                 };
             }
         }

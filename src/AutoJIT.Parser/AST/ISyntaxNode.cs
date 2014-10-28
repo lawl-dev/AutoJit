@@ -6,13 +6,8 @@ namespace AutoJIT.Parser.AST
 {
     public interface ISyntaxNode : ICloneable
     {
-        IEnumerable<ISyntaxNode> Children {
-            get;
-        }
-        ISyntaxNode Parent {
-            get;
-            set;
-        }
+        IEnumerable<ISyntaxNode> Children { get; }
+        ISyntaxNode Parent { get; set; }
         string ToSource();
         void AcceptSingle( ISyntaxVisitor visitor );
         void Accept( ISyntaxVisitor visitor );

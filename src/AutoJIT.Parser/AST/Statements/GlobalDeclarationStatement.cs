@@ -14,23 +14,15 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public bool IsConst {
-            get;
-            private set;
-        }
-        public VariableExpression VariableExpression {
-            get;
-            private set;
-        }
-        public IExpressionNode InitExpression {
-            get;
-            private set;
-        }
+        public bool IsConst { get; private set; }
+        public VariableExpression VariableExpression { get; private set; }
+        public IExpressionNode InitExpression { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
                 return new List<ISyntaxNode> {
-                    VariableExpression, InitExpression
+                    VariableExpression,
+                    InitExpression
                 };
             }
         }

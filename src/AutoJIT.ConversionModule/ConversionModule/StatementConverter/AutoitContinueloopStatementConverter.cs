@@ -10,7 +10,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitContinueloopStatementConverter : AutoitStatementConverterBase<ContinueloopStatement>
     {
-        public AutoitContinueloopStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitContinueloopStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+        : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ContinueloopStatement statement, IContextService context ) {
             string coninueLoopLabelName = context.GetConinueLoopLabelName( statement.Level );

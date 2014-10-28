@@ -280,10 +280,18 @@ namespace AutoJIT.Parser.Lex
 
         private bool IsSpecialTokenType( IEnumerable<char> line ) {
             var specialKeywords = new List<TokenType> {
-                TokenType.AND, TokenType.OR, TokenType.NOT, TokenType.Null
+                TokenType.AND,
+                TokenType.OR,
+                TokenType.NOT,
+                TokenType.Null
             };
 
-            return specialKeywords.Any( suit => new String( line.Take( suit.ToString().Length ).ToArray() ).Equals( suit.ToString(), StringComparison.InvariantCultureIgnoreCase ) );
+            return
+            specialKeywords.Any(
+                                suit =>
+                                new String( line.Take( suit.ToString().Length ).ToArray() ).Equals(
+                                                                                                   suit.ToString(),
+                                                                                                   StringComparison.InvariantCultureIgnoreCase ) );
         }
 
         private void HandleMacro( Queue<char> tokenQueue, IList<Token> lineTokens, int pos, int lineNum ) {
@@ -315,7 +323,8 @@ namespace AutoJIT.Parser.Lex
                 return true;
             }
 
-            MethodInfo function = typeof(AutoitRuntime<>).GetMethods().FirstOrDefault( m => m.Name.Equals( functionOrKeyword, StringComparison.InvariantCultureIgnoreCase ) );
+            MethodInfo function =
+            typeof(AutoitRuntime<>).GetMethods().FirstOrDefault( m => m.Name.Equals( functionOrKeyword, StringComparison.InvariantCultureIgnoreCase ) );
 
             if( function != null ) {
                 token.Add( _tokenFactory.CreateFunction( function.Name, pos, lineNum ) );

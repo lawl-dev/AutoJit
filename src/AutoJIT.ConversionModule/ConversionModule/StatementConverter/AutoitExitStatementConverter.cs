@@ -11,7 +11,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitExitStatementConverter : AutoitStatementConverterBase<ExitStatement>
     {
-        public AutoitExitStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitExitStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+        : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( ExitStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
@@ -23,7 +24,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             ? SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( 0 ) )
             : Convert( statement.ExpressionNode, context );
 
-            toReturn.Add( CSharpStatementFactory.CreateInvocationExpression( runtimeInstanceName, exitFunctionName, CompilerHelper.GetParameterInfo( exitFunctionName, exitExpression ) ).ToStatementSyntax() );
+            toReturn.Add(
+                         CSharpStatementFactory.CreateInvocationExpression(
+                                                                           runtimeInstanceName,
+                                                                           exitFunctionName,
+                                                                           CompilerHelper.GetParameterInfo( exitFunctionName, exitExpression ) )
+                                               .ToStatementSyntax() );
 
             return toReturn;
         }

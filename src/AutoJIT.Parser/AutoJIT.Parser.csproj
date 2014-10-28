@@ -53,7 +53,6 @@
     <Compile Include="AST\Expressions\ArrayExpression.cs" />
     <Compile Include="AST\Expressions\ArrayInitExpression.cs" />
     <Compile Include="AST\Expressions\BinaryExpression.cs" />
-    <Compile Include="AST\Expressions\BinaryExpressionBase.cs" />
     <Compile Include="AST\Expressions\BooleanNegateExpression.cs" />
     <Compile Include="AST\Expressions\CallExpression.cs" />
     <Compile Include="AST\Expressions\DefaultExpression.cs" />

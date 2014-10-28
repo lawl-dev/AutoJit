@@ -8,9 +8,6 @@ namespace AutoJITRuntime.Exceptions
             TypeName = typeName;
         }
 
-        public string TypeName {
-            get;
-            set;
-        }
+        public string TypeName { get; set; }
     }
 }

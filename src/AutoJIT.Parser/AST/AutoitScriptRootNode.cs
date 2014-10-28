@@ -15,14 +15,8 @@ namespace AutoJIT.Parser.AST
             Initialize();
         }
 
-        public FunctionNode MainFunctionNode {
-            get;
-            set;
-        }
-        public IEnumerable<FunctionNode> Functions {
-            get;
-            set;
-        }
+        public FunctionNode MainFunctionNode { get; set; }
+        public IEnumerable<FunctionNode> Functions { get; set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

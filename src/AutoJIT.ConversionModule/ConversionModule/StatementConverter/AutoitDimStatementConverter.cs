@@ -15,7 +15,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
     internal sealed class AutoitDimStatementConverter : AutoitStatementConverterBase<DimStatement>
     {
-        public AutoitDimStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+        public AutoitDimStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
+        : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( DimStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
@@ -51,23 +52,52 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private VariableDeclarationSyntax DeclareVariable( DimStatement node, IContextService context ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof(Variant).Name, context.GetVariableName( node.VariableExpression.IdentifierName ) );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable(
+                                                                                                typeof(Variant).Name,
+                                                                                                context.GetVariableName(
+                                                                                                                        node.VariableExpression.IdentifierName ) );
             return declarationSyntax;
         }
 
         private StatementSyntax AssignVariable( DimStatement node, IContextService contextService ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, Convert( node.VariableExpression, contextService ), Convert( node.InitExpression, contextService ) ).ToStatementSyntax();
+            return
+            SyntaxFactory.BinaryExpression(
+                                           SyntaxKind.SimpleAssignmentExpression,
+                                           Convert( node.VariableExpression, contextService ),
+                                           Convert( node.InitExpression, contextService ) ).ToStatementSyntax();
         }
 
         private StatementSyntax InitArray( DimStatement node, IContextService context ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( node.VariableExpression.IdentifierName ) ), GetArrayInitExpression( node, context ) ).ToStatementSyntax();
+            return
+            SyntaxFactory.BinaryExpression(
+                                           SyntaxKind.SimpleAssignmentExpression,
+                                           SyntaxFactory.IdentifierName( context.GetVariableName( node.VariableExpression.IdentifierName ) ),
+                                           GetArrayInitExpression( node, context ) ).ToStatementSyntax();
         }
 
         private ExpressionSyntax GetArrayInitExpression( DimStatement node, IContextService context ) {
-            SeparatedSyntaxList<ExpressionSyntax> openBracketToken = ( (ArrayExpression)node.VariableExpression ).AccessParameter.Select( x => Convert( x, context ) ).ToSeparatedSyntaxList();
-            ArrayCreationExpressionSyntax arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression( SyntaxFactory.ArrayType( SyntaxFactory.IdentifierName( typeof(Variant).Name ) ).WithRankSpecifiers( SyntaxFactory.ArrayRankSpecifier( openBracketToken ).ToEnumerable().ToSyntaxList() ) );
+            SeparatedSyntaxList<ExpressionSyntax> openBracketToken =
+            ( (ArrayExpression)node.VariableExpression ).AccessParameter.Select( x => Convert( x, context ) ).ToSeparatedSyntaxList();
+            ArrayCreationExpressionSyntax arrayCreationExpressionSyntax =
+            SyntaxFactory.ArrayCreationExpression(
+                                                  SyntaxFactory.ArrayType( SyntaxFactory.IdentifierName( typeof(Variant).Name ) )
+                                                               .WithRankSpecifiers(
+                                                                                   SyntaxFactory.ArrayRankSpecifier( openBracketToken )
+                                                                                                .ToEnumerable()
+                                                                                                .ToSyntaxList() ) );
 
-            return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof(Variant).Name ), SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.CreateArray( null ) ) ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( arrayCreationExpressionSyntax ).ToSeparatedSyntaxList() ) );
+            return
+            SyntaxFactory.InvocationExpression(
+                                               SyntaxFactory.MemberAccessExpression(
+                                                                                    SyntaxKind.SimpleMemberAccessExpression,
+                                                                                    SyntaxFactory.IdentifierName( typeof(Variant).Name ),
+                                                                                    SyntaxFactory.IdentifierName(
+                                                                                                                 CompilerHelper.GetVariantMemberName(
+                                                                                                                                                     x =>
+                                                                                                                                                     Variant
+                                                                                                                                                     .CreateArray
+                                                                                                                                                     ( null ) ) ) ) )
+                         .WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( arrayCreationExpressionSyntax ).ToSeparatedSyntaxList() ) );
         }
     }
 }

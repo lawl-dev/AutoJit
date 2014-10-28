@@ -9,10 +9,7 @@ namespace AutoJIT.Parser.AST.Expressions
             MacroName = macroName;
         }
 
-        public string MacroName {
-            get;
-            private set;
-        }
+        public string MacroName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

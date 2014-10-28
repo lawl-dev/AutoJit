@@ -18,7 +18,13 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                 IdentifierNameSyntax typeName = SyntaxFactory.IdentifierName( typeof(Variant).Name );
                 string variantCreateName = CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) );
 
-                return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, typeName, SyntaxFactory.IdentifierName( variantCreateName ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( falseExpression ).ToSeparatedSyntaxList() ) );
+                return
+                SyntaxFactory.InvocationExpression(
+                                                   SyntaxFactory.MemberAccessExpression(
+                                                                                        SyntaxKind.SimpleMemberAccessExpression,
+                                                                                        typeName,
+                                                                                        SyntaxFactory.IdentifierName( variantCreateName ) ) )
+                             .WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( falseExpression ).ToSeparatedSyntaxList() ) );
             }
         }
     }

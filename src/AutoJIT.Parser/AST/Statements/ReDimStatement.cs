@@ -11,10 +11,7 @@ namespace AutoJIT.Parser.AST.Statements
             Initialize();
         }
 
-        public ArrayExpression ArrayExpression {
-            get;
-            private set;
-        }
+        public ArrayExpression ArrayExpression { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

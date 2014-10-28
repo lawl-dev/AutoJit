@@ -13,7 +13,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
     {
         private readonly ICSharpSkeletonFactory _sharpSkeletonFactory;
 
-        public AutoJITScriptConversionVisitor( IInjectionService injectionService, ICSharpSkeletonFactory sharpSkeletonFactory, IContextService contextService ) : base( injectionService, contextService ) {
+        public AutoJITScriptConversionVisitor( IInjectionService injectionService, ICSharpSkeletonFactory sharpSkeletonFactory, IContextService contextService )
+        : base( injectionService, contextService ) {
             _sharpSkeletonFactory = sharpSkeletonFactory;
         }
 
@@ -32,7 +33,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
                 ContextService.ResetFunctionContext();
             }
 
-            NamespaceDeclarationSyntax finalScript = _sharpSkeletonFactory.EmbedInClassTemplate( new List<MemberDeclarationSyntax>( memberList ), ContextService.GetRuntimeInstanceName(), "AutoJITScriptClass", ContextService.GetContextInstanceName() );
+            NamespaceDeclarationSyntax finalScript = _sharpSkeletonFactory.EmbedInClassTemplate(
+                                                                                                new List<MemberDeclarationSyntax>( memberList ),
+                                                                                                ContextService.GetRuntimeInstanceName(),
+                                                                                                "AutoJITScriptClass",
+                                                                                                ContextService.GetContextInstanceName() );
 
             finalScript = RemoveEmptyStatements( finalScript );
 
@@ -42,7 +47,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         }
 
         private static NamespaceDeclarationSyntax RemoveEmptyStatements( NamespaceDeclarationSyntax finalScript ) {
-            List<EmptyStatementSyntax> emptyStatements = finalScript.DescendantNodes().OfType<EmptyStatementSyntax>().Where( x => x.Parent.GetType() != typeof(LabeledStatementSyntax) ).ToList();
+            List<EmptyStatementSyntax> emptyStatements =
+            finalScript.DescendantNodes().OfType<EmptyStatementSyntax>().Where( x => x.Parent.GetType() != typeof(LabeledStatementSyntax) ).ToList();
             finalScript = finalScript.RemoveNodes( emptyStatements, SyntaxRemoveOptions.KeepEndOfLine );
             return finalScript;
         }
@@ -55,10 +61,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
                 if( invocationExpressionSyntax != null
                     && invocationExpressionSyntax.Expression is IdentifierNameSyntax ) {
                     string functionName = ( (IdentifierNameSyntax)invocationExpressionSyntax.Expression ).Identifier.Text;
-                    MethodDeclarationSyntax methodDeclarationSyntax = memberList.OfType<MethodDeclarationSyntax>().SingleOrDefault( x => x.Identifier.Text == functionName );
+                    MethodDeclarationSyntax methodDeclarationSyntax =
+                    memberList.OfType<MethodDeclarationSyntax>().SingleOrDefault( x => x.Identifier.Text == functionName );
 
                     if( methodDeclarationSyntax != null ) {
-                        List<ParameterSyntax> parameterSyntaxs = methodDeclarationSyntax.ParameterList.Parameters.Where( x => x.Modifiers.Any( m => m.ValueText.Equals( "ref" ) ) ).ToList();
+                        List<ParameterSyntax> parameterSyntaxs =
+                        methodDeclarationSyntax.ParameterList.Parameters.Where( x => x.Modifiers.Any( m => m.ValueText.Equals( "ref" ) ) ).ToList();
                         var argumentListSyntax = argumentSyntax.Parent as ArgumentListSyntax;
                         int indexOfArgument = argumentListSyntax.Arguments.IndexOf( argumentSyntax );
 

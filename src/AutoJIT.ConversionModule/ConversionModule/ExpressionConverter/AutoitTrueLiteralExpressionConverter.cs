@@ -16,7 +16,21 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             {
                 LiteralExpressionSyntax expression = SyntaxFactory.LiteralExpression( SyntaxKind.TrueLiteralExpression );
 
-                return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof(Variant).Name ), SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) ) ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( expression ).ToSeparatedSyntaxList() ) );
+                return
+                SyntaxFactory.InvocationExpression(
+                                                   SyntaxFactory.MemberAccessExpression(
+                                                                                        SyntaxKind.SimpleMemberAccessExpression,
+                                                                                        SyntaxFactory.IdentifierName( typeof(Variant).Name ),
+                                                                                        SyntaxFactory.IdentifierName(
+                                                                                                                     CompilerHelper.GetVariantMemberName(
+                                                                                                                                                         x =>
+                                                                                                                                                         Variant
+                                                                                                                                                         .Create
+                                                                                                                                                         (
+                                                                                                                                                          (
+                                                                                                                                                          object
+                                                                                                                                                          )null ) ) ) ) )
+                             .WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( expression ).ToSeparatedSyntaxList() ) );
             }
         }
     }

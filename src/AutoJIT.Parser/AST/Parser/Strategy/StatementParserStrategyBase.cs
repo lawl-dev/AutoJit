@@ -14,7 +14,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         protected readonly IExpressionParser ExpressionParser;
         protected readonly IStatementParser StatementParser;
 
-        protected StatementParserStrategyBase( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) {
+        protected StatementParserStrategyBase(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        IAutoitStatementFactory autoitStatementFactory ) {
             StatementParser = statementParser;
             ExpressionParser = expressionParser;
             AutoitStatementFactory = autoitStatementFactory;

@@ -16,7 +16,11 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
     {
         private readonly ITokenFactory _tokenFactory;
 
-        public LocalStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, ITokenFactory tokenFactory, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
+        public LocalStatementParserStrategy(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        ITokenFactory tokenFactory,
+        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
             _tokenFactory = tokenFactory;
         }
 
@@ -27,20 +31,20 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         private IEnumerable<IStatementNode> ParseLocal( TokenQueue block ) {
             var toReturn = new List<IStatementNode>();
 
-            bool isConst = Skip( block, Keywords.Const );
-            bool isStatic = Skip( block, Keywords.Static );
+            bool isConst = Consume( block, Keywords.Const );
+            bool isStatic = Consume( block, Keywords.Static );
 
             while( block.Any()
                    && block.Peek().Type == TokenType.Variable ) {
                 var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
 
                 IExpressionNode initExpression = null;
-                if( Skip( block, TokenType.Equal ) ) {
+                if( Consume( block, TokenType.Equal ) ) {
                     initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
                 }
                 toReturn.Add( AutoitStatementFactory.CreateLocalDeclarationStatement( variableExpression, initExpression, isConst, isStatic ) );
 
-                Skip( block, TokenType.Comma );
+                Consume( block, TokenType.Comma );
             }
             return toReturn;
         }

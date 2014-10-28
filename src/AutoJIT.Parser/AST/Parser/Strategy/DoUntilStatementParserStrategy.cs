@@ -11,7 +11,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class DoUntilStatementParserStrategy : StatementParserStrategyBase<DoUntilStatement>
     {
-        public DoUntilStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public DoUntilStatementParserStrategy(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseDoUntil( block ).ToEnumerable();

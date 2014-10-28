@@ -12,9 +12,11 @@ namespace AutoJIT.Parser.Lex
     {
         public string IncludeDependenciesAndResolvePragmas( string autoitScript, PragmaOptions pragmaOptions ) {
             autoitScript = GetScriptWithResolvedIncludes( autoitScript );
-            string[] lines = autoitScript.Split( new[] {
-                Environment.NewLine
-            }, StringSplitOptions.None );
+            string[] lines = autoitScript.Split(
+                                                new[] {
+                                                    Environment.NewLine
+                                                },
+                                                StringSplitOptions.None );
 
             string toReturn = string.Empty;
 
@@ -88,9 +90,11 @@ namespace AutoJIT.Parser.Lex
         }
 
         private string ExtractIncludes( string script, PragmaOptions pragmaOptions ) {
-            string[] lines = script.Split( new[] {
-                Environment.NewLine
-            }, StringSplitOptions.None );
+            string[] lines = script.Split(
+                                          new[] {
+                                              Environment.NewLine
+                                          },
+                                          StringSplitOptions.None );
             string toReturn = string.Empty;
             foreach(string line in lines) {
                 bool isPragma = line.StartsWith( "#" );
@@ -114,9 +118,9 @@ namespace AutoJIT.Parser.Lex
 
         private string HandleOnAutoItStartRegister( Queue<char> charQueue ) {
             charQueue.DequeueWhile( x => x == ' ' ).ToList();
-            SkipAndAssert( charQueue, '"' );
+            ConsumeAndEnsure( charQueue, '"' );
             string toReturn = string.Join( "", charQueue.DequeueWhile( x => char.IsLetterOrDigit( x ) || x == '_' ) );
-            SkipAndAssert( charQueue, '"' );
+            ConsumeAndEnsure( charQueue, '"' );
             return toReturn;
         }
 
@@ -124,25 +128,25 @@ namespace AutoJIT.Parser.Lex
             string toReturn;
             charQueue.DequeueWhile( x => x == ' ' ).ToList();
 
-            if( Skip( charQueue, '"' ) ) {
+            if( Consume( charQueue, '"' ) ) {
                 toReturn = string.Join( "", charQueue.DequeueWhile( x => x != '"' ) );
-                SkipAndAssert( charQueue, '"' );
+                ConsumeAndEnsure( charQueue, '"' );
                 return toReturn;
             }
-            SkipAndAssert( charQueue, '<' );
+            ConsumeAndEnsure( charQueue, '<' );
             toReturn = string.Join( "", charQueue.DequeueWhile( x => x != '>' ) );
-            SkipAndAssert( charQueue, '>' );
+            ConsumeAndEnsure( charQueue, '>' );
             return toReturn;
         }
 
-        private void SkipAndAssert( Queue<char> queue, char c ) {
+        private void ConsumeAndEnsure( Queue<char> queue, char c ) {
             if( queue.Peek() != c ) {
                 throw new InvalidOperationException();
             }
             queue.Dequeue();
         }
 
-        private bool Skip( Queue<char> queue, char c ) {
+        private bool Consume( Queue<char> queue, char c ) {
             if( queue.Peek() == c ) {
                 queue.Dequeue();
                 return true;

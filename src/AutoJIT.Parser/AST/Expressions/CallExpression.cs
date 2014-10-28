@@ -11,14 +11,8 @@ namespace AutoJIT.Parser.AST.Expressions
             Initialize();
         }
 
-        public string IdentifierName {
-            get;
-            private set;
-        }
-        public IEnumerable<IExpressionNode> Parameter {
-            get;
-            private set;
-        }
+        public string IdentifierName { get; private set; }
+        public IEnumerable<IExpressionNode> Parameter { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {

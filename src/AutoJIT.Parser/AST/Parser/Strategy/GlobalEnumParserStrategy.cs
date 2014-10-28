@@ -15,7 +15,11 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
     {
         private readonly ITokenFactory _tokenFactory;
 
-        public GlobalEnumParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory, ITokenFactory tokenFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
+        public GlobalEnumParserStrategy(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        IAutoitStatementFactory autoitStatementFactory,
+        ITokenFactory tokenFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
             _tokenFactory = tokenFactory;
         }
 
@@ -29,7 +33,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             Token @operator = _tokenFactory.CreatePlus( -1, -1 );
 
             IExpressionNode left = new NumericLiteralExpression( _tokenFactory.CreateInt( 1, -1, -1 ), new List<Token>() );
-            if( Skip( block, Keywords.Step ) ) {
+            if( Consume( block, Keywords.Step ) ) {
                 @operator = block.Dequeue();
                 left = ExpressionParser.ParseSingle<IExpressionNode>( block );
             }
@@ -39,21 +43,26 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
 
                 IExpressionNode initExpression = null;
-                if( Skip( block, TokenType.Equal ) ) {
+                if( Consume( block, TokenType.Equal ) ) {
                     initExpression = ExpressionParser.ParseSingle<IExpressionNode>( new TokenCollection( ExtractUntilNextDeclaration( block ) ) );
                 }
 
                 IExpressionNode autoInitExpression = lastVariableExpression == null
-                ? (IExpressionNode)new NumericLiteralExpression( _tokenFactory.CreateInt( @operator.Type == TokenType.Mult
-                ? 1
-                : 0, -1, -1 ), new List<Token>() )
+                ? (IExpressionNode)new NumericLiteralExpression(
+                _tokenFactory.CreateInt(
+                                        @operator.Type == TokenType.Mult
+                                        ? 1
+                                        : 0,
+                                        -1,
+                                        -1 ),
+                new List<Token>() )
                 : new BinaryExpression( (IExpressionNode)lastVariableExpression.Clone(), (IExpressionNode)left.Clone(), @operator );
 
                 toReturn.Add( AutoitStatementFactory.CreateEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression, true ) );
 
                 lastVariableExpression = variableExpression;
 
-                Skip( block, TokenType.Comma );
+                Consume( block, TokenType.Comma );
             }
 
             return toReturn;

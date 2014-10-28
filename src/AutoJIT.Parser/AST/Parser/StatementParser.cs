@@ -57,12 +57,12 @@ namespace AutoJIT.Parser.AST.Parser
                 case TokenType.Function:
                     return ResolveStrategy<FunctionCallStatement>();
                 case TokenType.Keyword:
-                    SkipAndAssert( block, TokenType.Keyword );
+                    ConsumeAndEnsure( block, TokenType.Keyword );
                     switch(current.Value.Keyword) {
                         case Keywords.If:
                             return ResolveStrategy<IfElseStatement>();
                         case Keywords.Global:
-                            if( Skip( block, Keywords.Enum ) ) {
+                            if( Consume( block, Keywords.Enum ) ) {
                                 return ResolveStrategy<GlobalEnumDeclarationStatement>();
                             }
                             return ResolveStrategy<GlobalDeclarationStatement>();
@@ -70,7 +70,7 @@ namespace AutoJIT.Parser.AST.Parser
                         case Keywords.Enum:
                             return ResolveStrategy<LocalEnumDeclarationStatement>();
                         case Keywords.Local:
-                            if( Skip( block, Keywords.Enum ) ) {
+                            if( Consume( block, Keywords.Enum ) ) {
                                 return ResolveStrategy<LocalEnumDeclarationStatement>();
                             }
                             return ResolveStrategy<LocalDeclarationStatement>();
@@ -119,14 +119,14 @@ namespace AutoJIT.Parser.AST.Parser
             return ResolveStrategy<ForToNextStatement>();
         }
 
-        private void SkipAndAssert( TokenQueue block, TokenType tokenType ) {
+        private void ConsumeAndEnsure( TokenQueue block, TokenType tokenType ) {
             if( block.Peek().Type != tokenType ) {
                 throw new SyntaxTreeException( string.Format( "Expected {0} but was {1}", tokenType, block.Peek().Type ), block.Peek().Col, block.Peek().Line );
             }
             block.Dequeue();
         }
 
-        private bool Skip( TokenQueue block, Keywords keyword ) {
+        private bool Consume( TokenQueue block, Keywords keyword ) {
             if( block.Peek().Value.Keyword != keyword ) {
                 return false;
             }

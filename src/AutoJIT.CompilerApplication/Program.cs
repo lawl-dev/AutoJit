@@ -60,9 +60,13 @@ namespace AutoJIT.CompilerApplication
                 && !compileOptions.IsForms ) {
                 compileOptions.IsForms = true;
             }
-            byte[] assemblyBytes = _compiler.Compile( script, compileOptions.IsForms
-            ? OutputKind.WindowsApplication
-            : OutputKind.ConsoleApplication, false, compileOptions.Optimize );
+            byte[] assemblyBytes = _compiler.Compile(
+                                                     script,
+                                                     compileOptions.IsForms
+                                                     ? OutputKind.WindowsApplication
+                                                     : OutputKind.ConsoleApplication,
+                                                     false,
+                                                     compileOptions.Optimize );
 
             var toMerge = new List<string>();
             string tempPath = Path.Combine( Path.GetTempPath(), Guid.NewGuid().ToString( "n" ) );
@@ -74,7 +78,9 @@ namespace AutoJIT.CompilerApplication
 
             File.Delete( compileOptions.OutFile.AbsolutePath );
             var repack = new ILRepack {
-                OutputFile = compileOptions.OutFile.AbsolutePath, TargetKind = ILRepack.Kind.Exe, InputAssemblies = toMerge.ToArray()
+                OutputFile = compileOptions.OutFile.AbsolutePath,
+                TargetKind = ILRepack.Kind.Exe,
+                InputAssemblies = toMerge.ToArray()
             };
             repack.Repack();
         }

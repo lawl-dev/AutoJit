@@ -31,27 +31,39 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         }
 
         public string GetConinueLoopLabelName() {
-            return string.Format( "ConinueLoop_level_{0}_count_{1}", _context.LoopLevel.ToString( CultureInfo.InvariantCulture ), _context.LoopLevelCount.ContainsKey( _context.LoopLevel )
-            ? _context.LoopLevelCount[_context.LoopLevel]
-            : 0 );
+            return string.Format(
+                                 "ConinueLoop_level_{0}_count_{1}",
+                                 _context.LoopLevel.ToString( CultureInfo.InvariantCulture ),
+                                 _context.LoopLevelCount.ContainsKey( _context.LoopLevel )
+                                 ? _context.LoopLevelCount[_context.LoopLevel]
+                                 : 0 );
         }
 
         public string GetConinueLoopLabelName( int level ) {
-            return string.Format( "ConinueLoop_level_{0}_count_{1}", ( _context.LoopLevel-level+1 ).ToString( CultureInfo.InvariantCulture ), _context.LoopLevelCount.ContainsKey( _context.LoopLevel-level+1 )
-            ? _context.LoopLevelCount[_context.LoopLevel-level+1]
-            : 0 );
+            return string.Format(
+                                 "ConinueLoop_level_{0}_count_{1}",
+                                 ( _context.LoopLevel-level+1 ).ToString( CultureInfo.InvariantCulture ),
+                                 _context.LoopLevelCount.ContainsKey( _context.LoopLevel-level+1 )
+                                 ? _context.LoopLevelCount[_context.LoopLevel-level+1]
+                                 : 0 );
         }
 
         public string GetExitLoopLabelName() {
-            return string.Format( "ExitLooP_level_{0}_count_{1}", _context.LoopLevel.ToString( CultureInfo.InvariantCulture ), _context.LoopLevelCount.ContainsKey( _context.LoopLevel )
-            ? _context.LoopLevelCount[_context.LoopLevel]
-            : 0 );
+            return string.Format(
+                                 "ExitLooP_level_{0}_count_{1}",
+                                 _context.LoopLevel.ToString( CultureInfo.InvariantCulture ),
+                                 _context.LoopLevelCount.ContainsKey( _context.LoopLevel )
+                                 ? _context.LoopLevelCount[_context.LoopLevel]
+                                 : 0 );
         }
 
         public string GetExitLoopLabelName( int level ) {
-            return string.Format( "ExitLooP_level_{0}_count_{1}", ( _context.LoopLevel-level+1 ).ToString( CultureInfo.InvariantCulture ), _context.LoopLevelCount.ContainsKey( _context.LoopLevel-level+1 )
-            ? _context.LoopLevelCount[_context.LoopLevel-level+1]
-            : 0 );
+            return string.Format(
+                                 "ExitLooP_level_{0}_count_{1}",
+                                 ( _context.LoopLevel-level+1 ).ToString( CultureInfo.InvariantCulture ),
+                                 _context.LoopLevelCount.ContainsKey( _context.LoopLevel-level+1 )
+                                 ? _context.LoopLevelCount[_context.LoopLevel-level+1]
+                                 : 0 );
         }
 
         public string GetContinueCaseLabelName() {
@@ -59,9 +71,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule
         }
 
         public string GetContinueCaseLabelName( int add ) {
-            return string.Format( "ContinueCase_level_{0}_count_{1}", ( _context.SelectLevel ).ToString( CultureInfo.InvariantCulture ), _context.SelectLevelCount.ContainsKey( _context.SelectLevel )
-            ? _context.SelectLevelCount[_context.SelectLevel]+add
-            : 0+add );
+            return string.Format(
+                                 "ContinueCase_level_{0}_count_{1}",
+                                 ( _context.SelectLevel ).ToString( CultureInfo.InvariantCulture ),
+                                 _context.SelectLevelCount.ContainsKey( _context.SelectLevel )
+                                 ? _context.SelectLevelCount[_context.SelectLevel]+add
+                                 : 0+add );
         }
 
         public void RegisterCase() {

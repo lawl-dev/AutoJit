@@ -14,7 +14,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class SwitchCaseStatementParserStrategy : StatementParserStrategyBase<SwitchCaseStatement>
     {
-        public SwitchCaseStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public SwitchCaseStatementParserStrategy(
+        IStatementParser statementParser,
+        IExpressionParser expressionParser,
+        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseSwitch( block ).ToEnumerable();
@@ -24,10 +27,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             TokenCollection expression = ParseUntilNewLine( block );
 
             IExpressionNode condition = ExpressionParser.ParseBlock( expression, true );
-            SkipAndAssert( block, TokenType.NewLine );
+            ConsumeAndEnsure( block, TokenType.NewLine );
             var cases = new Dictionary<IEnumerable<KeyValuePair<IExpressionNode, IExpressionNode>>, IEnumerable<IStatementNode>>();
             IEnumerable<IStatementNode> @else = null;
-            SkipAndAssert( block, Keywords.Case );
+            ConsumeAndEnsure( block, Keywords.Case );
 
             while( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
                 var line = new TokenQueue( ParseUntilNewLine( block ) );
@@ -37,7 +40,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                     IEnumerable<Token> conditionToken = ExtractUntilNextDeclaration( line );
                     conditions.Add( new TokenCollection( conditionToken ) );
                 } while( line.Any()
-                         && Skip( line, TokenType.Comma ) );
+                         && Consume( line, TokenType.Comma ) );
 
                 TokenCollection caseBlock = ParseInnerUntilSwitchSelect( block );
 
@@ -52,10 +55,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 }
 
                 if( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
-                    SkipAndAssert( block, Keywords.Case );
+                    ConsumeAndEnsure( block, Keywords.Case );
                 }
             }
-            SkipAndAssert( block, Keywords.EndSwitch );
+            ConsumeAndEnsure( block, Keywords.EndSwitch );
             return new SwitchCaseStatement( condition, cases, @else );
         }
 

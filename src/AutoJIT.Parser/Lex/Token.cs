@@ -9,24 +9,21 @@ namespace AutoJIT.Parser.Lex
             Value = new TokenValue();
         }
 
-        public TokenValue Value {
-            get;
-            set;
-        }
+        public TokenValue Value { get; set; }
 
-        public int Col {
-            get;
-            set;
-        }
+        public int Col { get; set; }
 
-        public TokenType Type {
-            get;
-            set;
-        }
+        public TokenType Type { get; set; }
 
         public bool IsLiteral {
             get {
                 return Type == TokenType.String || Type == TokenType.Int32 || Type == TokenType.Int64 || Type == TokenType.Double || Type == TokenType.Macro;
+            }
+        }
+
+        public bool IsBinaryExpression {
+            get {
+                return IsMathExpression || IsNumberExpression || IsBooleanExpression || Type == TokenType.StringEqual || Type == TokenType.Concat;
             }
         }
 
@@ -38,7 +35,8 @@ namespace AutoJIT.Parser.Lex
 
         public bool IsNumberExpression {
             get {
-                return Type == TokenType.Greater || Type == TokenType.GreaterEqual || Type == TokenType.Less || Type == TokenType.LessEqual || Type == TokenType.StringEqual || Type == TokenType.Equal || Type == TokenType.Notequal;
+                return Type == TokenType.Greater || Type == TokenType.GreaterEqual || Type == TokenType.Less || Type == TokenType.LessEqual
+                       || Type == TokenType.StringEqual || Type == TokenType.Equal || Type == TokenType.Notequal;
             }
         }
 
@@ -50,7 +48,8 @@ namespace AutoJIT.Parser.Lex
 
         public bool IsAssignExpression {
             get {
-                return Type == TokenType.DivAssign || Type == TokenType.MinusAssign || Type == TokenType.MultAssign || Type == TokenType.PlusAssign || Type == TokenType.PowAssign || Type == TokenType.Equal || Type == TokenType.ConcatAssign;
+                return Type == TokenType.DivAssign || Type == TokenType.MinusAssign || Type == TokenType.MultAssign || Type == TokenType.PlusAssign
+                       || Type == TokenType.PowAssign || Type == TokenType.Equal || Type == TokenType.ConcatAssign;
             }
         }
 
@@ -60,10 +59,7 @@ namespace AutoJIT.Parser.Lex
             }
         }
 
-        public int Line {
-            get;
-            set;
-        }
+        public int Line { get; set; }
 
         public override string ToString() {
             switch(Type) {
