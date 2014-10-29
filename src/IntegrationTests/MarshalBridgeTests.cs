@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using AutoJIT.Infrastructure;
 using AutoJITRuntime.Services;
-using Lawl.Reflection;
 using NUnit.Framework;
 
 namespace UnitTests
@@ -23,7 +23,7 @@ namespace UnitTests
             string[] typeNames = complexStruct.Split( ';' );
 
             Type runtimeStruct = _marshalService.CreateRuntimeStruct( complexStruct );
-            Assert.DoesNotThrow( () => runtimeStruct.CreateInstanceWithDefaultParameters() );
+            Assert.DoesNotThrow( () => runtimeStruct.GetConstructors()[0].Invoke( Constants.Array<object>.Empty ) );
             Type type = runtimeStruct;
             for( int i = 0; i < typeNames.Length; i++ ) {
                 string typeName = typeNames[i];
@@ -45,7 +45,7 @@ namespace UnitTests
             string[] typeNames = complexStruct.Split( ';' );
 
             Type runtimeStruct = _marshalService.CreateRuntimeStruct( complexStruct );
-            Assert.DoesNotThrow( () => runtimeStruct.CreateInstanceWithDefaultParameters() );
+            Assert.DoesNotThrow( () => runtimeStruct.GetConstructors()[0].Invoke( Constants.Array<object>.Empty ) );
             Type type = runtimeStruct;
             for( int i = 0; i < typeNames.Length; i++ ) {
                 string typeName = typeNames[i].Split( ' ' )[0];
@@ -69,7 +69,7 @@ namespace UnitTests
             string[] typeNames = complexStruct.Split( ';' );
 
             Type runtimeStruct = _marshalService.CreateRuntimeStruct( complexStruct );
-            Assert.DoesNotThrow( () => runtimeStruct.CreateInstanceWithDefaultParameters() );
+            Assert.DoesNotThrow( () => runtimeStruct.GetConstructors()[0].Invoke( Constants.Array<object>.Empty ) );
             Type type = runtimeStruct;
             for( int i = 0; i < typeNames.Length; i++ ) {
                 string typeName = typeNames[i].Split( ' ' )[0];
@@ -94,7 +94,7 @@ namespace UnitTests
             string[] typeNames = complexStruct.Split( ';' ).Select( x => x.Split( '[' )[0] ).ToArray();
 
             Type runtimeStruct = _marshalService.CreateRuntimeStruct( complexStruct );
-            Assert.DoesNotThrow( () => runtimeStruct.CreateInstanceWithDefaultParameters() );
+            Assert.DoesNotThrow( () => runtimeStruct.GetConstructors()[0].Invoke( Constants.Array<object>.Empty ));
             Type type = runtimeStruct;
             for( int i = 0; i < typeNames.Length; i++ ) {
                 string typeName = typeNames[i];

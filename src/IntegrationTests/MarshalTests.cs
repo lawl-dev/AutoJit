@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AutoJIT.Compiler;
+using AutoJIT.Infrastructure;
 using AutoJITRuntime;
-using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
@@ -26,7 +26,7 @@ namespace UnitTests
 
                                     Assembly assembly = Assembly.Load( assemblyBytes );
                                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                                    _compiledInstance = type.CreateInstanceWithDefaultParameters();
+                                    _compiledInstance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
                                 } );
         }
 

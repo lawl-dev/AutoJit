@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using AutoJIT.Infrastructure;
 using AutoJITRuntime.Exceptions;
 
 namespace AutoJITRuntime.Services
@@ -54,7 +55,7 @@ namespace AutoJITRuntime.Services
             if( start < 1
                 || start >= bytes.Length
                 || ( count != null && start >= count ) ) {
-                return new byte[0];
+                return Constants.Array<byte>.Empty;
             }
             return bytes.Skip( start-1 ).Take( count ?? bytes.Length-start-1 ).ToArray();
         }

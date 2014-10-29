@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AutoJIT.Infrastructure;
 
 namespace AutoJITRuntime.Variants
 {
@@ -69,7 +70,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override byte[] GetBinary() {
-            return new byte[0];
+            return Constants.Array<byte>.Empty;
         }
 
         public override Type GetRealType() {

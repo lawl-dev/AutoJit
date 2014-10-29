@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.Infrastructure;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Service;

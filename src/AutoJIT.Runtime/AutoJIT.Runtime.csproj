@@ -35,9 +35,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lawl">
-      <HintPath>..\lib\Lawl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -111,7 +108,12 @@
     <Compile Include="Variant.cs" />
     <Compile Include="Variants\VariantEnumerator.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+      <Project>{bd7ec48e-68b2-43cf-a23c-caaaabcf2c55}</Project>
+      <Name>AutoJIT.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

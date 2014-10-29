@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lawl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Lawl.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -104,6 +100,10 @@
     <ProjectReference Include="..\AutoJIT.ConversionModule\AutoJIT.CSharpConverter.csproj">
       <Project>{214CCAE7-ED76-4F22-85B6-1F0AD95798D1}</Project>
       <Name>AutoJIT.CSharpConverter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+      <Project>{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}</Project>
+      <Name>AutoJIT.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Parser\AutoJIT.Parser.csproj">
       <Project>{62DDB9A0-7AA3-411F-B0C3-DA4DFE22299B}</Project>

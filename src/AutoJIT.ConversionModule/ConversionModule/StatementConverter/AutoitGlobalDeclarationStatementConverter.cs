@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.CSharpConverter.ConversionModule.Factory;
 using AutoJIT.CSharpConverter.ConversionModule.Helper;
+using AutoJIT.Infrastructure;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.Extensions;

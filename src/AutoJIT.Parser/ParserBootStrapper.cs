@@ -1,4 +1,5 @@
-﻿using AutoJIT.Parser.AST.Factory;
+﻿using AutoJIT.Infrastructure;
+using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Parser.Strategy;
@@ -6,7 +7,6 @@ using AutoJIT.Parser.AST.Parser.Strategy.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Lex.Interface;
-using Lawl.Architekture;
 
 namespace AutoJIT.Parser
 {
@@ -21,7 +21,7 @@ namespace AutoJIT.Parser
             Bind<IOperatorPrecedenceService, OperatorPrecedenceService>();
             Bind<IScriptParser, ScriptParser>();
             Bind<IAutoitStatementFactory, AutoitStatementFactory>();
-
+            
             RegisterStatementParserStrategys();
         }
 

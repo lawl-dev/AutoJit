@@ -33,9 +33,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lawl">
-      <HintPath>..\lib\Lawl.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=0.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
@@ -97,6 +94,10 @@
     <ProjectReference Include="..\AutoJIT.Compiler\AutoJIT.Compiler.csproj">
       <Project>{A702CB78-13EA-414A-AFBE-C9CD3126DB77}</Project>
       <Name>AutoJIT.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+      <Project>{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}</Project>
+      <Name>AutoJIT.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Parser\AutoJIT.Parser.csproj">
       <Project>{62DDB9A0-7AA3-411F-B0C3-DA4DFE22299B}</Project>

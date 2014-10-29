@@ -1,4 +1,0 @@
-namespace Lawl.Architekture
-{
-    
-}

@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AutoJIT.Compiler;
+using AutoJIT.Infrastructure;
 using AutoJITRuntime;
-using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
@@ -27,7 +27,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == "" );
         }
@@ -46,7 +46,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result.IsArray );
         }
@@ -59,7 +59,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result.IsArray );
         }
@@ -72,7 +72,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 10 );
         }
@@ -84,7 +84,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 1 );
         }
@@ -97,7 +97,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 15 );
         }
@@ -110,7 +110,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 1 );
         }
@@ -123,7 +123,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 0x01 );
         }
@@ -136,7 +136,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 2 );
         }
@@ -151,7 +151,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == csresult );
         }
@@ -166,7 +166,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == csresult );
         }
@@ -179,7 +179,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             int au3Res = base.ExecuteScript( file );
@@ -195,7 +195,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             int au3Res = base.ExecuteScript( file );
@@ -211,7 +211,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             int au3Res = base.ExecuteScript( file );
@@ -227,7 +227,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             int au3Res = base.ExecuteScript( file );
@@ -243,7 +243,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             int au3Res = base.ExecuteScript( file );
@@ -259,7 +259,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             int au3Res = base.ExecuteScript( file );
@@ -275,7 +275,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             Assert.IsTrue( result == 15 );
@@ -289,7 +289,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             int au3Res = base.ExecuteScript( file );
@@ -305,7 +305,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
             int au3Res = base.ExecuteScript( file );

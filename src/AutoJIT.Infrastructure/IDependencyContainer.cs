@@ -1,6 +1,6 @@
 using System;
 
-namespace Lawl.Architekture
+namespace AutoJIT.Infrastructure
 {
     public interface IDependencyContainer {
         TService GetInstance<TService>();

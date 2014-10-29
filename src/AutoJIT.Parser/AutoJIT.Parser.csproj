@@ -33,9 +33,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lawl">
-      <HintPath>..\lib\Lawl.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -170,18 +167,23 @@
     <Compile Include="Lex\TokenValue.cs" />
     <Compile Include="ParserBootStrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\IInjectionService.cs" />
-    <Compile Include="Service\InjectionService.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+      <Project>{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}</Project>
+      <Name>AutoJIT.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
       <Project>{f0e90f7f-f287-423b-ae31-bda2ff7532fd}</Project>
       <Name>AutoJIT.Runtime</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

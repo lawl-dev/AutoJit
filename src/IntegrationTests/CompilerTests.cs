@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using AutoJIT.Compiler;
 using AutoJIT.CompilerApplication;
+using AutoJIT.Infrastructure;
 using AutoJITRuntime;
-using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
@@ -56,7 +56,7 @@ namespace UnitTests
             MethodInfo dto2Screencoords = type.GetMethod( "f_Dto2Dscreencoords" );
             MethodInfo angle = type.GetMethod( "f__Angle" );
 
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
 
             var parameters = new object[] {
                 Variant.Create( 1111 ),

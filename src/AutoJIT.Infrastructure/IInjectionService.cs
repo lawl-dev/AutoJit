@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoJIT.Parser.Service
+namespace AutoJIT.Infrastructure
 {
     public interface IInjectionService
     {

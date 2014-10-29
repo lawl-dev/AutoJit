@@ -6,8 +6,8 @@ using System.Reflection;
 using System.Threading;
 using AutoJIT.Compiler;
 using AutoJIT.CompilerApplication;
+using AutoJIT.Infrastructure;
 using AutoJITRuntime.Variants;
-using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
@@ -18,8 +18,8 @@ namespace UnitTests
         private readonly ICompiler _compiler;
 
         public UserfunctionTests() {
-            var standardAutoJITContainer = new CompilerBootStrapper();
-            _compiler = standardAutoJITContainer.GetInstance<ICompiler>();
+            //var standardAutoJITContainer = new CompilerBootStrapper();
+            //_compiler = standardAutoJITContainer.GetInstance<ICompiler>();
         }
 
         [TestCase( "_WinAPI_GetIconInfo.au3" )]
@@ -33,7 +33,7 @@ namespace UnitTests
                                     Assembly assembly = Assembly.Load( assemblyBytes );
                                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
                                     MethodInfo method = type.GetMethod( "f_Example" );
-                                    object instance = type.CreateInstanceWithDefaultParameters();
+                                    object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
                                     object res = method.Invoke( instance, null );
                                 } );
         }
@@ -50,7 +50,7 @@ namespace UnitTests
                                     Assembly assembly = Assembly.Load( assemblyBytes );
                                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
                                     MethodInfo method = type.GetMethod( "f_Example" );
-                                    object instance = type.CreateInstanceWithDefaultParameters();
+                                    object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
                                 } );
         }
 
@@ -66,7 +66,7 @@ namespace UnitTests
                                     Assembly assembly = Assembly.Load( assemblyBytes );
                                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
                                     MethodInfo method = type.GetMethod( "f_Example" );
-                                    object instance = type.CreateInstanceWithDefaultParameters();
+                                    object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
                                     object res = method.Invoke( instance, null );
                                 } );
         }
@@ -141,7 +141,7 @@ namespace UnitTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentProcessID" ) );
             MethodInfo _WinAPI_FloatToInt = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_FloatToInt" ) );
             object invoke = _WinAPI_FloatToInt.Invoke(
@@ -166,7 +166,7 @@ namespace UnitTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
             MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentThemeName" ) );
             object invoke = methodInfo.Invoke( instance, new object[0] );
         }
@@ -180,7 +180,7 @@ namespace UnitTests
             Assert.DoesNotThrow(
                                 () => {
                                     assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-                                    object instanceWithDefaultParameters = Assembly.Load( assemblyBytes ).GetTypes()[0].CreateInstanceWithDefaultParameters();
+                                    object instanceWithDefaultParameters = Assembly.Load(assemblyBytes).GetTypes()[0].GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
                                     object invoke =
                                     instanceWithDefaultParameters.GetType()
                                                                  .GetMethods()
@@ -191,6 +191,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void Foo() {}
+        public void Foo() {
+        }
     }
 }

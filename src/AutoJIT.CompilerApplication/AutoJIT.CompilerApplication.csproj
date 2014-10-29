@@ -36,9 +36,6 @@
     <Reference Include="ILRepack">
       <HintPath>..\packages\ILRepack.1.25.0\tools\ILRepack.exe</HintPath>
     </Reference>
-    <Reference Include="Lawl">
-      <HintPath>..\lib\Lawl.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -69,6 +66,10 @@
     <ProjectReference Include="..\AutoJIT.Compiler\AutoJIT.Compiler.csproj">
       <Project>{a702cb78-13ea-414a-afbe-c9cd3126db77}</Project>
       <Name>AutoJIT.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+      <Project>{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}</Project>
+      <Name>AutoJIT.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
       <Project>{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}</Project>

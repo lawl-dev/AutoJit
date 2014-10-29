@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lawl.Reflection;
+using AutoJIT.Parser.Service;
 
-namespace Lawl.Architekture
+namespace AutoJIT.Infrastructure
 {
     public abstract class ComponentContainerBase : IDependencyContainer
     {
@@ -60,8 +60,9 @@ namespace Lawl.Architekture
                 }
             }
 
-            if(serviceType.IsAssignableFrom(GetType())) {
-                return this;
+            if (serviceType.IsAssignableFrom(typeof(IInjectionService)))
+            {
+                return new InjectionService(this);
             }
 
             return _registrations[serviceType]();
@@ -75,7 +76,16 @@ namespace Lawl.Architekture
                 ctor.GetParameters().Select( parameter => GetInstance( parameter.ParameterType ) ) )
                 .ToArray();
 
-            return implementationType.CreateInstance<object>( parameters );
+            return CreateInstance<object>(implementationType, parameters );
+        }
+
+        private T CreateInstance<T>(Type src, object[] parameter)
+        {
+            var parameterTypes = parameter.Select(x => x.GetType()).ToArray();
+            var constructorInfo = src.GetConstructor(parameterTypes);
+            if (constructorInfo != null)
+                return (T)constructorInfo.Invoke(parameter);
+            return default(T);
         }
     }
 }

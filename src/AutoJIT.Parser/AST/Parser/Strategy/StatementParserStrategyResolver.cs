@@ -1,3 +1,4 @@
+using AutoJIT.Infrastructure;
 using AutoJIT.Parser.AST.Parser.Strategy.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Service;

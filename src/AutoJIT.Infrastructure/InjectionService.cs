@@ -1,5 +1,5 @@
 using System;
-using Lawl.Architekture;
+using AutoJIT.Infrastructure;
 
 namespace AutoJIT.Parser.Service
 {

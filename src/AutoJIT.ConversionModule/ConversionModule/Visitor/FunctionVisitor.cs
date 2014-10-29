@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.Infrastructure;
 using AutoJIT.Parser;
 using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Statements;

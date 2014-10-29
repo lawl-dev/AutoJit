@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Lawl.Reflection;
+using AutoJIT.Infrastructure;
 
 namespace AutoJITRuntime.Variants
 {
@@ -39,7 +39,7 @@ namespace AutoJITRuntime.Variants
         private void InitFieldInfoRecursiv( IRuntimeStruct value ) {
             foreach(FieldInfo fieldInfo in value.GetType().GetFields()) {
                 if( typeof(IRuntimeStruct).IsAssignableFrom( fieldInfo.FieldType ) ) {
-                    var instance = fieldInfo.FieldType.CreateInstance<object>();
+                    var instance = CreateInstance(fieldInfo.FieldType);
                     fieldInfo.SetValue( value, instance );
                     InitFieldInfoRecursiv( (IRuntimeStruct)instance );
                 }
@@ -135,7 +135,7 @@ namespace AutoJITRuntime.Variants
         }
 
         public override byte[] GetBinary() {
-            return new byte[0];
+            return Constants.Array<byte>.Empty;
         }
 
         public override Type GetRealType() {
@@ -170,6 +170,14 @@ namespace AutoJITRuntime.Variants
             }
 
             Marshal.PtrToStructure( Ptr, _value );
+        }
+
+        private object CreateInstance(Type src)
+        {
+            var constructorInfo = src.GetConstructor(Type.EmptyTypes);
+            if (constructorInfo != null)
+                return constructorInfo.Invoke(Constants.Array<object>.Empty);
+            return default(object);
         }
     }
 }

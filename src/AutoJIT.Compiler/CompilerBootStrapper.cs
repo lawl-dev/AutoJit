@@ -1,7 +1,8 @@
 using AutoJIT.CSharpConverter.ConversionModule;
 using AutoJIT.CSharpConverter.ConversionModule.Optimizer;
+using AutoJIT.Infrastructure;
 using AutoJIT.Parser;
-using Lawl.Architekture;
+using AutoJIT.Parser.Service;
 
 namespace AutoJIT.Compiler
 {
@@ -11,7 +12,7 @@ namespace AutoJIT.Compiler
             Bind<ICompiler, Compiler>();
             Bind<IContinueCaseMsilFixingService, ContinueCaseMsilFixingService>();
             Bind<IOptimizer, Optimizer>();
-
+            
             RegisterModule( new ParserBootStrapper() );
             RegisterModule( new ConversionBootStrapper() );
         }

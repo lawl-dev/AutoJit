@@ -8,21 +8,15 @@ using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Lex;
-using AutoJIT.Parser.Lex.Interface;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class LocalStatementParserStrategy : StatementParserStrategyBase<LocalDeclarationStatement>
     {
-        private readonly ITokenFactory _tokenFactory;
-
         public LocalStatementParserStrategy(
         IStatementParser statementParser,
         IExpressionParser expressionParser,
-        ITokenFactory tokenFactory,
-        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
-            _tokenFactory = tokenFactory;
-        }
+        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseLocal( block );

@@ -7,9 +7,9 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using AutoJIT.Infrastructure;
 using AutoJITRuntime.Exceptions;
 using AutoJITRuntime.Variants;
-using Lawl.Reflection;
 using IndexOutOfRangeException = AutoJITRuntime.Exceptions.IndexOutOfRangeException;
 
 namespace AutoJITRuntime.Services
@@ -639,7 +639,7 @@ namespace AutoJITRuntime.Services
             catch(UnknowTypeNameException) {
                 throw new UnknowTypeException( 2, null, string.Empty );
             }
-            var instance = (IRuntimeStruct)runtimeStruct.CreateInstance<object>();
+            var instance = (IRuntimeStruct)runtimeStruct.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
 
             var @struct = (StructVariant)Variant.Create( instance );
 

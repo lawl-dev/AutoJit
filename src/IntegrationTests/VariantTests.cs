@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using AutoJIT.Compiler;
+using AutoJIT.Infrastructure;
 using AutoJITRuntime;
-using Lawl.Reflection;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
@@ -591,7 +591,7 @@ namespace UnitTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
-            object instance = type.CreateInstanceWithDefaultParameters();
+            object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             object au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );
 
