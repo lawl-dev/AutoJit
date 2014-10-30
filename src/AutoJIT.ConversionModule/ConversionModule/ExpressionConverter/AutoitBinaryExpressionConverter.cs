@@ -15,14 +15,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitBinaryExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert( BinaryExpression node, IContextService context ) {
+        public override ExpressionSyntax Convert( BinaryExpression node, IContextService contextService ) {
             if( NeedsCompilerFunctionCall( node.Operator ) ) {
-                return CreateCompilerFunctionCall( node, context );
+                return CreateCompilerFunctionCall( node, contextService );
             }
 
             SyntaxKind syntaxKind = GetSyntaxKind( node.Operator );
-            ExpressionSyntax leftExpressionSyntax = ConverGeneric( node.Left, context );
-            ExpressionSyntax rightExpressionSyntax = ConverGeneric( node.Right, context );
+            ExpressionSyntax leftExpressionSyntax = ConverGeneric( node.Left, contextService );
+            ExpressionSyntax rightExpressionSyntax = ConverGeneric( node.Right, contextService );
 
             return SyntaxFactory.BinaryExpression( syntaxKind, leftExpressionSyntax, rightExpressionSyntax );
         }

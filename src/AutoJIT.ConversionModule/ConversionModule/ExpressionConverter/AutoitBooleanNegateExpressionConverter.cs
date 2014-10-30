@@ -12,10 +12,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitBooleanNegateExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert( BooleanNegateExpression node, IContextService context ) {
-            string runtimeInstanceName = context.GetRuntimeInstanceName();
+        public override ExpressionSyntax Convert( BooleanNegateExpression node, IContextService contextService ) {
+            string runtimeInstanceName = contextService.GetRuntimeInstanceName();
             string compilerFunctionName = CompilerHelper.GetCompilerMemberName( x => x.NOT( null ) );
-            IEnumerable<ArgumentSyntax> parameter = CreateParameter( node.Left.ToEnumerable(), context );
+            IEnumerable<ArgumentSyntax> parameter = CreateParameter( node.Left.ToEnumerable(), contextService );
 
             return CreateInvocationExpression( runtimeInstanceName, compilerFunctionName, parameter );
         }

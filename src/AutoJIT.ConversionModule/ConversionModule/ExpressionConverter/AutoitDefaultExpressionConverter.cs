@@ -13,7 +13,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitDefaultExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert( DefaultExpression node, IContextService context ) {
+        public override ExpressionSyntax Convert( DefaultExpression node, IContextService contextService ) {
             IdentifierNameSyntax typeName = SyntaxFactory.IdentifierName( typeof(Variant).Name );
             string variantCreateName = CompilerHelper.GetVariantMemberName( x => Variant.Create( (object)null ) );
 

@@ -12,10 +12,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitNegateExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert( NegateExpression node, IContextService context ) {
-            string runtimeInstanceName = context.GetRuntimeInstanceName();
+        public override ExpressionSyntax Convert( NegateExpression node, IContextService contextService ) {
+            string runtimeInstanceName = contextService.GetRuntimeInstanceName();
             string negateFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Negate( null ) );
-            IEnumerable<ArgumentSyntax> parameter = CreateParameter( node.ExpressionNode.ToEnumerable(), context );
+            IEnumerable<ArgumentSyntax> parameter = CreateParameter( node.ExpressionNode.ToEnumerable(), contextService );
 
             return CreateInvocationExpression( runtimeInstanceName, negateFunctionName, parameter );
         }

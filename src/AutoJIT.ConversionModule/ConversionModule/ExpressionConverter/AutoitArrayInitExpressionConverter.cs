@@ -14,7 +14,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitArrayInitExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert( ArrayInitExpression node, IContextService context ) {
+        public override ExpressionSyntax Convert( ArrayInitExpression node, IContextService contextService ) {
             ArrayRankSpecifierSyntax arrayRankSpecifierSyntax =
             SyntaxFactory.ArrayRankSpecifier( SyntaxFactory.SingletonSeparatedList<ExpressionSyntax>( SyntaxFactory.OmittedArraySizeExpression() ) );
 
@@ -23,7 +23,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             ArrayCreationExpressionSyntax arrayCreationExpression =
             SyntaxFactory.ArrayCreationExpression( SyntaxFactory.ArrayType( arrayType, SyntaxFactory.SingletonList( arrayRankSpecifierSyntax ) ) );
 
-            IEnumerable<ExpressionSyntax> expressionToAssign = node.ToAssign.Select( x => ConverGeneric( x, context ) );
+            IEnumerable<ExpressionSyntax> expressionToAssign = node.ToAssign.Select( x => ConverGeneric( x, contextService ) );
 
             return
             arrayCreationExpression.WithInitializer(

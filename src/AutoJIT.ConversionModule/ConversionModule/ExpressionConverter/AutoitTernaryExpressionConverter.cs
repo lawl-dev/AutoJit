@@ -10,10 +10,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitTernaryExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert( TernaryExpression node, IContextService context ) {
-            ExpressionSyntax conditionExpression = ConverGeneric( node.Condition, context );
-            ExpressionSyntax ifTrueExpression = ConverGeneric( node.IfTrue, context );
-            ExpressionSyntax ifFalseExpression = ConverGeneric( node.IfFalse, context );
+        public override ExpressionSyntax Convert( TernaryExpression node, IContextService contextService ) {
+            ExpressionSyntax conditionExpression = ConverGeneric( node.Condition, contextService );
+            ExpressionSyntax ifTrueExpression = ConverGeneric( node.IfTrue, contextService );
+            ExpressionSyntax ifFalseExpression = ConverGeneric( node.IfFalse, contextService );
 
             return SyntaxFactory.ConditionalExpression( conditionExpression, ifTrueExpression, ifFalseExpression );
         }

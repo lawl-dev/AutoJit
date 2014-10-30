@@ -10,10 +10,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitCallExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert( CallExpression node, IContextService context ) {
-            string runtimeInstanceName = context.GetRuntimeInstanceName();
+        public override ExpressionSyntax Convert( CallExpression node, IContextService contextService ) {
+            string runtimeInstanceName = contextService.GetRuntimeInstanceName();
             string functionName = node.IdentifierName;
-            IEnumerable<ArgumentSyntax> parameter = CreateParameter( node.Parameter, context );
+            IEnumerable<ArgumentSyntax> parameter = CreateParameter( node.Parameter, contextService );
 
             return CreateInvocationExpression( runtimeInstanceName, functionName, parameter );
         }

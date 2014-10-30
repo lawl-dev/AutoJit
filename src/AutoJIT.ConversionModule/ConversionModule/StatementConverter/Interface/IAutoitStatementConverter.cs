@@ -12,7 +12,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter.Interface
 
     internal interface IAutoitStatementConverter<out TOutStatement>
     {
-        IEnumerable<TOutStatement> ConvertGeneric( IStatementNode statement, IContextService context );
+        IEnumerable<TOutStatement> ConvertGeneric( IStatementNode statement, IContextService contextService );
         IEnumerable<StatementSyntax> Convert( IStatementNode node, IContextService contextService );
     }
 }

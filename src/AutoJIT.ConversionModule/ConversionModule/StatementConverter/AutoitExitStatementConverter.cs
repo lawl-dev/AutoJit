@@ -21,9 +21,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             string exitFunctionName = CompilerHelper.GetCompilerMemberName( x => x.Exit( 0 ) );
             string runtimeInstanceName = context.GetRuntimeInstanceName();
 
-            ExpressionSyntax exitExpression = statement.ExpressionNode == null
+            ExpressionSyntax exitExpression = statement.ExitExpression == null
             ? SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( 0 ) )
-            : Convert( statement.ExpressionNode, context );
+            : Convert( statement.ExitExpression, context );
 
             toReturn.Add(
                          CSharpStatementFactory.CreateInvocationExpression(

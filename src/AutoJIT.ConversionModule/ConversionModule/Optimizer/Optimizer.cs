@@ -114,7 +114,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Optimizer
             bool isSupportedFunctionCall = supportedFunctions.Any( x => x.Name == functionName );
             SeparatedSyntaxList<ArgumentSyntax> args = node.ArgumentList.Arguments;
 
-            //((MemberAccessExpressionSyntax)((InvocationExpressionSyntax)args[0].Expression).Expression).Name.Identifier.Text
             bool allArgumentsAreFixedValues =
             args.All(
                      x =>

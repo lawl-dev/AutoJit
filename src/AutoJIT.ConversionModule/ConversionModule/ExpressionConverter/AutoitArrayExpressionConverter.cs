@@ -12,10 +12,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
     {
         public AutoitArrayExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
-        public override ExpressionSyntax Convert( ArrayExpression node, IContextService context ) {
-            ExpressionSyntax variable = Convert<VariableExpression>( node, context );
+        public override ExpressionSyntax Convert( ArrayExpression node, IContextService contextService ) {
+            ExpressionSyntax variable = Convert<VariableExpression>( node, contextService );
 
-            return AddElementAccessExpression( node, context, variable );
+            return AddElementAccessExpression( node, contextService, variable );
         }
 
         private ElementAccessExpressionSyntax AddElementAccessExpression( ArrayExpression node, IContextService context, ExpressionSyntax variable ) {
