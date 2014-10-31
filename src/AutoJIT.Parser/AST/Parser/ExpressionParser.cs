@@ -4,6 +4,7 @@ using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Parser.Interface;
+using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Exceptions;
 using AutoJIT.Parser.Extensions;
@@ -111,13 +112,21 @@ namespace AutoJIT.Parser.AST.Parser
 					toReturn = new NumericLiteralExpression( block.Dequeue(), signOperators );
 					break;
 				case TokenType.Variable:
-					toReturn = ParseVariableExpression( block );
+					toReturn = ParseVariable( block);
 					break;
 				case TokenType.Function:
-					toReturn = ParseFunctionCallExpression( block );
+					var isFunctionCall = block.Count > 1
+							&& block.Skip( 1 ).First().Type == TokenType.Leftparen;
+					toReturn = isFunctionCall
+					? ParseFunctionCallExpression( block )
+					: ParserFunctionExpression(block);
 					break;
 				case TokenType.Userfunction:
-					toReturn = ParseUserfunctionCallExpression( block );
+					var isUserFunctionCall = block.Count > 1
+							&& block.Skip(1).First().Type == TokenType.Leftparen;
+					toReturn = isUserFunctionCall
+					? ParseUserfunctionCallExpression(block)
+					: ParseUserfunctionExpression(block);
 					break;
 				case TokenType.Macro:
 					toReturn = ParseMacro( block );
@@ -155,6 +164,30 @@ namespace AutoJIT.Parser.AST.Parser
 				return new NegateExpression( toReturn );
 			}
 			return toReturn;
+		}
+
+		private IExpressionNode ParseVariable( TokenQueue block ) {
+			IExpressionNode toReturn = null;
+			var expression = ParseVariableExpression( block );
+			if( block.Any() &&  block.Peek().Type == TokenType.Leftparen) {
+				var parameter = GetFunctionParameterExpressionTrees( block );
+				toReturn = new VariableFunctionCallExpression( expression, parameter );
+			}
+			else {
+				toReturn = expression;
+			}
+			return toReturn;
+		}
+
+		private IExpressionNode ParseUserfunctionExpression( TokenQueue block ) {
+			var userFunctionName = block.Dequeue().Value.StringValue;
+			
+			return new UserfunctionExpression( userFunctionName );
+		}
+
+		private IExpressionNode ParserFunctionExpression( TokenQueue block ) {
+			var buildInFunctionName = block.Dequeue().Value.StringValue;
+			return new FunctionExpression( buildInFunctionName );
 		}
 
 		private IExpressionNode ParseDefaultKeywordExpression( TokenQueue block ) {
@@ -206,9 +239,10 @@ namespace AutoJIT.Parser.AST.Parser
 			return new NullExpression();
 		}
 
-		private IExpressionNode ParseVariableExpression( TokenQueue block ) {
+		private VariableExpression ParseVariableExpression(TokenQueue block)
+		{
 			string identifierName = block.Dequeue().Value.StringValue;
-			IExpressionNode toReturn;
+			VariableExpression toReturn;
 			if( block.Any()
 				&& block.Peek().Type == TokenType.Leftsubscript ) {
 				IEnumerable<TokenCollection> arrayIndexExpressionTrees = GetArrayIndexExpressionTrees( block );

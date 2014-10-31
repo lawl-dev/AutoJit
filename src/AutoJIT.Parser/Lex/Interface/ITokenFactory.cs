@@ -34,7 +34,7 @@
 		Token CreateInt64( long value, int pos, int line );
 		Token CreateKeyword( Keywords keywords, int pos, int line );
 		Token CreateFunction( string functionName, int pos, int line );
-		Token CreaeteUserfunction( string functionName, int pos, int line );
+		Token CreateUserfunction( string functionName, int pos, int line );
 		Token CreateVariable( string variableName, int pos, int line );
 		Token CreateMacro( string macroName, int pos, int line );
 		Token CreateString( string value, int pos, int line );

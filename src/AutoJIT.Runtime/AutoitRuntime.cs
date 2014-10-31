@@ -3344,6 +3344,7 @@ namespace AutoJITRuntime
 			}
 			Environment.Exit( exitCode );
 		}
+		
 
 		[Inlineable]
 		public Variant Concat( Variant a, Variant b ) {

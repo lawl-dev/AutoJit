@@ -32,7 +32,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 		}
 
 		protected ExpressionSyntax Convert( IExpressionNode node, IContextService contextService ) {
-			return GetConverter( node ).ConverGeneric( node, contextService );
+			return GetConverter( node ).ConvertGeneric( node, contextService );
 		}
 
 		private IAutoitExpressionConverter<ExpressionSyntax> GetConverter( IExpressionNode node ) {

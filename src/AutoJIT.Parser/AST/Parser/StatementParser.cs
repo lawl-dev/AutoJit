@@ -52,7 +52,13 @@ namespace AutoJIT.Parser.AST.Parser
 		private IStatementParserStrategy GetParser( TokenQueue block, Token current ) {
 			switch(current.Type) {
 				case TokenType.Variable:
-					return ResolveStrategy<AssignStatement>();
+					var isVariableFunctionCall = block.Skip( 1 ).First().Type == TokenType.Leftparen;
+					if( isVariableFunctionCall ) {
+						return ResolveStrategy<VariableFunctionCallStatement>();
+					}
+					else {
+						return ResolveStrategy<AssignStatement>();
+					}
 				case TokenType.Userfunction:
 				case TokenType.Function:
 					return ResolveStrategy<FunctionCallStatement>();

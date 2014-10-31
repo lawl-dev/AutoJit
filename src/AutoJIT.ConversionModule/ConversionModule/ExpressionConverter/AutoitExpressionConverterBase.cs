@@ -17,7 +17,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
 		public abstract ExpressionSyntax Convert( TExpression node, IContextService contextService );
 
-		public ExpressionSyntax ConverGeneric( IExpressionNode node, IContextService contextService ) {
+		public ExpressionSyntax ConvertGeneric( IExpressionNode node, IContextService contextService ) {
 			return GetConverter( node ).Convert( node, contextService );
 		}
 

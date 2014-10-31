@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Dynamic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using AutoJITRuntime.Exceptions;
 using AutoJITRuntime.Variants;
@@ -146,6 +148,11 @@ namespace AutoJITRuntime
 			return new StringVariant( @char.ToString( CultureInfo.InvariantCulture ) );
 		}
 
+
+		public static Variant CreateFunction(object instance, string name) {
+			return new FunctionVariant( instance, name );
+		}
+
 		public static Variant Create( object @object ) {
 			if( @object == null ) {
 				return new NullVariant();
@@ -256,6 +263,10 @@ namespace AutoJITRuntime
 		}
 
 		public abstract object GetValue();
+
+		public virtual Variant Invoke( params object[] parameter ) {
+			throw new NotImplementedException();
+		}
 
 		public Variant PowAssign( Variant b ) {
 			return Math.Pow( GetDouble(), b.GetDouble() );
@@ -621,5 +632,6 @@ namespace AutoJITRuntime
 			return a.GetBinary();
 		}
 		#endregion
+
 	}
 }

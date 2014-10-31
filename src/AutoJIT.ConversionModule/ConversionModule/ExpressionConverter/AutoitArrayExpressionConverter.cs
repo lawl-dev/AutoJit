@@ -24,7 +24,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 		}
 
 		private IEnumerable<ArgumentSyntax> CreateArguments( ArrayExpression node, IContextService context ) {
-			return node.AccessParameter.Select( x => SyntaxFactory.Argument( ConverGeneric( x, context ) ) );
+			return node.AccessParameter.Select( x => SyntaxFactory.Argument( ConvertGeneric( x, context ) ) );
 		}
 	}
 }

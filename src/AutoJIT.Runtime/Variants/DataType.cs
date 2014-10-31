@@ -12,6 +12,7 @@
 		Binary = 7,
 		Null = 8,
 		Struct = 9,
-		Default = 10
+		Default = 10,
+		Function
 	}
 }

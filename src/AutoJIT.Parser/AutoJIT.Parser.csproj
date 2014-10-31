@@ -55,6 +55,7 @@
     <Compile Include="AST\Expressions\DefaultExpression.cs" />
     <Compile Include="AST\Expressions\ExpressionBase.cs" />
     <Compile Include="AST\Expressions\FalseLiteralExpression.cs" />
+    <Compile Include="AST\Expressions\FunctionExpression.cs" />
     <Compile Include="AST\Expressions\Interface\IExpressionNode.cs" />
     <Compile Include="AST\Expressions\LiteralExpression.cs" />
     <Compile Include="AST\Expressions\MacroExpression.cs" />
@@ -65,7 +66,9 @@
     <Compile Include="AST\Expressions\TernaryExpression.cs" />
     <Compile Include="AST\Expressions\TrueLiteralExpression.cs" />
     <Compile Include="AST\Expressions\UserfunctionCallExpression.cs" />
+    <Compile Include="AST\Expressions\UserfunctionExpression.cs" />
     <Compile Include="AST\Expressions\VariableExpression.cs" />
+    <Compile Include="AST\Expressions\VariableFunctionCallExpression.cs" />
     <Compile Include="AST\Factory\AutoitStatementFactory.cs" />
     <Compile Include="AST\Factory\IAutoitStatementFactory.cs" />
     <Compile Include="AST\FunctionNode.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="AST\Parser\Strategy\StatementParserStrategyResolver.cs" />
     <Compile Include="AST\Parser\Strategy\StaticStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\SwitchCaseStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\VariableFunctionCallStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\WhileStatementParserStrategy.cs" />
     <Compile Include="AST\PragmaOptions.cs" />
     <Compile Include="AST\Statements\AssignStatement.cs" />
@@ -134,6 +138,7 @@
     <Compile Include="AST\Statements\StaticDeclarationStatement.cs" />
     <Compile Include="AST\Statements\SwitchCase.cs" />
     <Compile Include="AST\Statements\SwitchCaseStatement.cs" />
+    <Compile Include="AST\Statements\VariableFunctionCallStatement.cs" />
     <Compile Include="AST\Statements\WhileStatement.cs" />
     <Compile Include="AST\SyntaxNodeBase.cs" />
     <Compile Include="AST\Visitor\IExpressionSyntaxVisitor.cs" />

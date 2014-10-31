@@ -20,7 +20,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
 			ArrayCreationExpressionSyntax arrayCreationExpression = SyntaxFactory.ArrayCreationExpression( SyntaxFactory.ArrayType( arrayType, SyntaxFactory.SingletonList( arrayRankSpecifierSyntax ) ) );
 
-			IEnumerable<ExpressionSyntax> expressionToAssign = node.ToAssign.Select( x => ConverGeneric( x, contextService ) );
+			IEnumerable<ExpressionSyntax> expressionToAssign = node.ToAssign.Select( x => ConvertGeneric( x, contextService ) );
 
 			return arrayCreationExpression.WithInitializer( SyntaxFactory.InitializerExpression( SyntaxKind.ArrayInitializerExpression, expressionToAssign.ToSeparatedSyntaxList() ) );
 		}

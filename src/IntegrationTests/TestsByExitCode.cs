@@ -12,6 +12,7 @@ namespace UnitTests
 		[TestCase( "ContinueCase2.au3" )]
 		[TestCase( "ContinueCase3.au3" )]
 		[TestCase( "GlobalLocalPriority.au3" )]
+		[TestCase("VariableFuncCall.au3")]
 		public void TestByExitCode( string fileName ) {
 			string exePath = string.Format( "{0}{1}.exe", Path, fileName );
 

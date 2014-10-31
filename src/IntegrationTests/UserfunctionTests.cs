@@ -7,6 +7,7 @@ using System.Threading;
 using AutoJIT.Compiler;
 using AutoJIT.CompilerApplication;
 using AutoJIT.Infrastructure;
+using AutoJITRuntime;
 using AutoJITRuntime.Variants;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
@@ -187,6 +188,8 @@ namespace UnitTests
 		}
 
 		[Test]
-		public void Foo() {}
+		public void Foo() {
+			
+		}
 	}
 }

@@ -97,7 +97,10 @@
     <Compile Include="ConversionModule\ExpressionConverter\AutoitTrueLiteralExpressionConverter.cs" />
     <Compile Include="ConversionModule\ExpressionConverter\AutoitUserfunctionCallExpressionConverter.cs" />
     <Compile Include="ConversionModule\ExpressionConverter\AutoitVariableExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitVariableFunctionCallExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\FunctionExpressionConverter.cs" />
     <Compile Include="ConversionModule\ExpressionConverter\Interface\IAutoitExpressionConverter.cs" />
+    <Compile Include="ConversionModule\ExpressionConverter\AutoitUserfunctionExpressionConverter.cs" />
     <Compile Include="ConversionModule\Factory\CSharpStatementFactory.cs" />
     <Compile Include="ConversionModule\Factory\ICSharpStatementFactory.cs" />
     <Compile Include="ConversionModule\Helper\CompilerHelper.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="ConversionModule\StatementConverter\AutoitStatementConverterBase.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitStaticDeclarationStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitSwitchCaseStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitVariableFunctionCallStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitWhileStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\Interface\IAutoitStatementConverter.cs" />
     <Compile Include="ConversionModule\Visitor\AutoJITScriptConversionVisitor.cs" />

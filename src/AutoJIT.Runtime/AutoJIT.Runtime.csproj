@@ -89,6 +89,7 @@
     <Compile Include="Variants\DefaultVariant.cs" />
     <Compile Include="Variants\DoubleVariant.cs" />
     <Compile Include="ForToNextLooper.cs" />
+    <Compile Include="Variants\FunctionVariant.cs" />
     <Compile Include="Variants\Int32Variant.cs" />
     <Compile Include="Variants\Int64Variant.cs" />
     <Compile Include="IRuntimeStruct.cs" />

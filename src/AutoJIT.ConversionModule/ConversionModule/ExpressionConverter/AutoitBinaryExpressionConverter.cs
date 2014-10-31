@@ -20,8 +20,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 			}
 
 			SyntaxKind syntaxKind = GetSyntaxKind( node.Operator );
-			ExpressionSyntax leftExpressionSyntax = ConverGeneric( node.Left, contextService );
-			ExpressionSyntax rightExpressionSyntax = ConverGeneric( node.Right, contextService );
+			ExpressionSyntax leftExpressionSyntax = ConvertGeneric( node.Left, contextService );
+			ExpressionSyntax rightExpressionSyntax = ConvertGeneric( node.Right, contextService );
 
 			return SyntaxFactory.BinaryExpression( syntaxKind, leftExpressionSyntax, rightExpressionSyntax );
 		}
@@ -33,8 +33,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 		private ExpressionSyntax CreateCompilerFunctionCall( BinaryExpression node, IContextService context ) {
 			string operatorFunctionName = GetCompilerFunctionName( node.Operator.Type );
 
-			ExpressionSyntax leftExpressionSyntax = ConverGeneric( node.Left, context );
-			ExpressionSyntax rightExpressionSyntax = ConverGeneric( node.Right, context );
+			ExpressionSyntax leftExpressionSyntax = ConvertGeneric( node.Left, context );
+			ExpressionSyntax rightExpressionSyntax = ConvertGeneric( node.Right, context );
 
 			IEnumerable<ArgumentSyntax> arguments = Utils.GetEnumerable( SyntaxFactory.Argument( leftExpressionSyntax ), SyntaxFactory.Argument( rightExpressionSyntax ) );
 

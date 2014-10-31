@@ -59,9 +59,8 @@ namespace AutoJIT.Parser.Lex
 
 				if( !IsSpecialTokenType( tokenQueue )
 					&& ( char.IsLetter( currentChar ) || currentChar == '_' ) ) {
-					if( LexKeywordOrFunction( tokenQueue, toReturn, pos, lineNum ) ) {
-						continue;
-					}
+					LexKeywordOrFunction( tokenQueue, toReturn, pos, lineNum );
+					continue;
 				}
 
 				switch(currentChar) {
@@ -308,14 +307,14 @@ namespace AutoJIT.Parser.Lex
 			lineTokens.Add( _tokenFactory.CreateString( tokenString, pos, lineNum ) );
 		}
 
-		private bool LexKeywordOrFunction( Queue<char> line, IList<Token> token, int pos, int lineNum ) {
+		private void LexKeywordOrFunction( Queue<char> line, IList<Token> token, int pos, int lineNum ) {
 			string functionOrKeyword = string.Join( "", line.TakeWhile( x => char.IsLetterOrDigit( x ) || x == '_' ) );
 
 			Keywords result;
 			if( Enum.TryParse( functionOrKeyword, true, out result ) ) {
 				token.Add( _tokenFactory.CreateKeyword( result, pos, lineNum ) );
 				line.Dequeue( functionOrKeyword.Length ).ToList();
-				return true;
+				return;
 			}
 
 			MethodInfo function = typeof(AutoitRuntime<>).GetMethods().FirstOrDefault( m => m.Name.Equals( functionOrKeyword, StringComparison.InvariantCultureIgnoreCase ) );
@@ -323,18 +322,21 @@ namespace AutoJIT.Parser.Lex
 			if( function != null ) {
 				token.Add( _tokenFactory.CreateFunction( function.Name, pos, lineNum ) );
 				line.Dequeue( functionOrKeyword.Length ).ToList();
-				return true;
+				return;
 			}
-			char nextToken = line.Skip( functionOrKeyword.Length ).FirstOrDefault();
-			if( result == Keywords.None
-				&& line.Count > 1
-				&& nextToken != '\0'
-				&& nextToken == '(' ) {
-				token.Add( _tokenFactory.CreaeteUserfunction( functionOrKeyword, pos, lineNum ) );
-				line.Dequeue( functionOrKeyword.Length ).ToList();
-				return true;
-			}
-			return false;
+
+			token.Add( _tokenFactory.CreateUserfunction( functionOrKeyword, pos, lineNum ) );
+			line.Dequeue( functionOrKeyword.Length );
+			////char nextToken = line.Skip( functionOrKeyword.Length ).FirstOrDefault();
+			//if( result == Keywords.None
+			//	&& line.Count > 1
+			//	&& nextToken != '\0'
+			//	&& nextToken == '(' ) {
+			//	token.Add( _tokenFactory.CreateUserfunction( functionOrKeyword, pos, lineNum ) );
+			//	line.Dequeue( functionOrKeyword.Length ).ToList();
+			//	return true;
+			//}
+			//return false;
 		}
 
 		private bool LexNumber( Queue<char> tokenQueue, IList<Token> lineTokens, int pos, int lineNum ) {

@@ -24,9 +24,7 @@ namespace AutoJIT.Parser.AST.Statements
 				var syntaxNodes = new List<ISyntaxNode> {
 					Condition
 				};
-				syntaxNodes.AddRange( Cases.SelectMany( x => x.Conditions.Select( c => c.Left ) ) );
-				syntaxNodes.AddRange( Cases.SelectMany( x => x.Conditions.Select( c => c.Right ) ) );
-				syntaxNodes.AddRange( Cases.SelectMany( x => x.Block ) );
+				syntaxNodes.AddRange( Cases );
 				if( Else != null ) {
 					syntaxNodes.AddRange( Else );
 				}

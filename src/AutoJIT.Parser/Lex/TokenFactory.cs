@@ -143,7 +143,7 @@ namespace AutoJIT.Parser.Lex
 			return res;
 		}
 
-		public Token CreaeteUserfunction( string functionName, int pos, int line ) {
+		public Token CreateUserfunction( string functionName, int pos, int line ) {
 			Token res = CreateToken( TokenType.Userfunction, pos, line );
 			res.Value.StringValue = string.Format( "f_{0}", functionName );
 			return res;

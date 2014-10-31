@@ -11,7 +11,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter.Interface
 
 	public interface IAutoitExpressionConverter<out TOutExpression>
 	{
-		TOutExpression ConverGeneric( IExpressionNode node, IContextService contextService );
+		TOutExpression ConvertGeneric( IExpressionNode node, IContextService contextService );
 		ExpressionSyntax Convert( IExpressionNode node, IContextService contextService );
 	}
 }

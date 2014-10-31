@@ -25,6 +25,7 @@ $res = Foo6()
 if $res <> 1338 Then Exit 10
 
 
+
 Func Foo()
 $b = $a + 1
 Local $a = 2 ;a with local scope

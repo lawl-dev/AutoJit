@@ -45,6 +45,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 			Bind<IAutoitStatementConverter<GlobalEnumDeclarationStatement, StatementSyntax>, AutoitEnumDeclarationStatementConverter>();
 			Bind<IAutoitStatementConverter<LocalEnumDeclarationStatement, StatementSyntax>, AutoitEnumDeclarationStatementConverter>();
 			Bind<IAutoitStatementConverter<StaticDeclarationStatement, StatementSyntax>, AutoitStaticDeclarationStatementConverter>();
+			Bind<IAutoitStatementConverter<VariableFunctionCallStatement, StatementSyntax>, AutoitVariableFunctionCallStatementConverter>();
 		}
 
 		private void RegisterExpressionConverter() {
@@ -64,6 +65,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 			Bind<IAutoitExpressionConverter<NullExpression, ExpressionSyntax>, AutoitNullExpressionConverter>();
 			Bind<IAutoitExpressionConverter<TernaryExpression, ExpressionSyntax>, AutoitTernaryExpressionConverter>();
 			Bind<IAutoitExpressionConverter<DefaultExpression, ExpressionSyntax>, AutoitDefaultExpressionConverter>();
+			Bind<IAutoitExpressionConverter<UserfunctionExpression, ExpressionSyntax>, AutoitUserfunctionExpressionConverter>();
+			Bind<IAutoitExpressionConverter<FunctionExpression, ExpressionSyntax>, AutoitFunctionExpressionConverter>();
+			Bind<IAutoitExpressionConverter<VariableFunctionCallExpression, ExpressionSyntax>, AutoitVariableFunctionCallExpressionConverter>();
 		}
 	}
 }

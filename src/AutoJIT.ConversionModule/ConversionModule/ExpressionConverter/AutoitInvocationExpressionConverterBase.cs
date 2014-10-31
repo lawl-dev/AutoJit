@@ -27,7 +27,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 				return new ArgumentSyntax[0];
 			}
 
-			return parameter.Select( x => SyntaxFactory.Argument( ConverGeneric( x, context ) ) );
+			return parameter.Select( x => SyntaxFactory.Argument( ConvertGeneric( x, context ) ) );
 		}
 	}
 }
