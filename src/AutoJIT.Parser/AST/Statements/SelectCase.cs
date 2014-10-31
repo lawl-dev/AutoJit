@@ -11,6 +11,7 @@ namespace AutoJIT.Parser.AST.Statements
 		public SelectCase( IExpressionNode condition, List<IStatementNode> block ) {
 			Condition = condition;
 			Block = block;
+			Initialize();
 		}
 
 		public IExpressionNode Condition { get; set; }

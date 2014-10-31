@@ -10,6 +10,7 @@ namespace AutoJIT.Parser.AST.Statements
 		public SwitchCase( List<CaseCondition> conditions, List<IStatementNode> block ) {
 			Conditions = conditions;
 			Block = block;
+			Initialize();
 		}
 
 		public List<CaseCondition> Conditions { get; private set; }
