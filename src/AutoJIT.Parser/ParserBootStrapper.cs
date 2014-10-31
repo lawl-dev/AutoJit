@@ -48,6 +48,7 @@ namespace AutoJIT.Parser
 			Bind<IStatementParserStrategy<WhileStatement>, WhileStatementParserStrategy>();
 			Bind<IStatementParserStrategy<ContinueCaseStatement>, ContinueCaseStatementStrategy>();
 			Bind<IStatementParserStrategy<StaticDeclarationStatement>, StaticStatementParserStrategy>();
+			Bind<IStatementParserStrategy<VariableFunctionCallStatement>, VariableFunctionCallStatementParserStrategy>();
 		}
 	}
 }
