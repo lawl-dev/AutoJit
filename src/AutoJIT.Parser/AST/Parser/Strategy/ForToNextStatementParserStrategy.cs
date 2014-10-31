@@ -11,42 +11,39 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-    public sealed class ForToNextStatementParserStrategy : StatementParserStrategyBase<ForToNextStatement>
-    {
-        public ForToNextStatementParserStrategy(
-        IStatementParser statementParser,
-        IExpressionParser expressionParser,
-        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+	public sealed class ForToNextStatementParserStrategy : StatementParserStrategyBase<ForToNextStatement>
+	{
+		public ForToNextStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-            return ParseForTo( block ).ToEnumerable();
-        }
+		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+			return ParseForTo( block ).ToEnumerable();
+		}
 
-        private ForToNextStatement ParseForTo( TokenQueue block ) {
-            var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
+		private ForToNextStatement ParseForTo( TokenQueue block ) {
+			var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
 
-            ConsumeAndEnsure( block, TokenType.Equal );
+			ConsumeAndEnsure( block, TokenType.Equal );
 
-            TokenCollection startExpressionTokenCollection = ParseForToStartExpression( block );
-            TokenCollection endExpressionTokenCollection = ParseForToStopExpression( block );
-            TokenCollection stepExpressionTokenCollection = null;
+			TokenCollection startExpressionTokenCollection = ParseForToStartExpression( block );
+			TokenCollection endExpressionTokenCollection = ParseForToStopExpression( block );
+			TokenCollection stepExpressionTokenCollection = null;
 
-            if( block.Peek().Value.Keyword == Keywords.Step ) {
-                ConsumeAndEnsure( block, Keywords.Step );
-                stepExpressionTokenCollection = ParseForToStepExpression( block );
-            }
-            TokenCollection statementsTokenCollection = ParseForToStatements( block );
+			if( block.Peek().Value.Keyword == Keywords.Step ) {
+				ConsumeAndEnsure( block, Keywords.Step );
+				stepExpressionTokenCollection = ParseForToStepExpression( block );
+			}
+			TokenCollection statementsTokenCollection = ParseForToStatements( block );
 
-            IExpressionNode startExpression = ExpressionParser.ParseBlock( startExpressionTokenCollection, true );
-            IExpressionNode endExpression = ExpressionParser.ParseBlock( endExpressionTokenCollection, true );
-            IExpressionNode stepExpressions = null;
-            if( stepExpressionTokenCollection != null ) {
-                stepExpressions = ExpressionParser.ParseBlock( stepExpressionTokenCollection, true );
-            }
+			IExpressionNode startExpression = ExpressionParser.ParseBlock( startExpressionTokenCollection, true );
+			IExpressionNode endExpression = ExpressionParser.ParseBlock( endExpressionTokenCollection, true );
+			IExpressionNode stepExpressions = null;
+			if( stepExpressionTokenCollection != null ) {
+				stepExpressions = ExpressionParser.ParseBlock( stepExpressionTokenCollection, true );
+			}
 
-            List<IStatementNode> statements = StatementParser.ParseBlock( statementsTokenCollection );
+			List<IStatementNode> statements = StatementParser.ParseBlock( statementsTokenCollection );
 
-            return AutoitStatementFactory.CreateForToNextStatement( variableExpression, startExpression, endExpression, stepExpressions, statements );
-        }
-    }
+			return AutoitStatementFactory.CreateForToNextStatement( variableExpression, startExpression, endExpression, stepExpressions, statements );
+		}
+	}
 }

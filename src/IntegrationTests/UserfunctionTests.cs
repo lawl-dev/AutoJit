@@ -13,185 +13,180 @@ using NUnit.Framework;
 
 namespace UnitTests
 {
-    public class UserfunctionTests
-    {
-        private readonly ICompiler _compiler;
+	public class UserfunctionTests
+	{
+		private readonly ICompiler _compiler;
 
-        public UserfunctionTests() {
-            //var standardAutoJITContainer = new CompilerBootStrapper();
-            //_compiler = standardAutoJITContainer.GetInstance<ICompiler>();
-        }
+		public UserfunctionTests() {
+			var standardAutoJITContainer = new CompilerBootStrapper();
+			_compiler = standardAutoJITContainer.GetInstance<ICompiler>();
+		}
 
-        [TestCase( "_WinAPI_GetIconInfo.au3" )]
-        public void Test_compile_includes( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "_WinAPI_GetIconInfo.au3" )]
+		public void Test_compile_includes( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow(
-                                () => {
-                                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
-                                    Assembly assembly = Assembly.Load( assemblyBytes );
-                                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                                    MethodInfo method = type.GetMethod( "f_Example" );
-                                    object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
-                                    object res = method.Invoke( instance, null );
-                                } );
-        }
+			Assert.DoesNotThrow(
+							    () => {
+									byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
+									Assembly assembly = Assembly.Load( assemblyBytes );
+									Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+									MethodInfo method = type.GetMethod( "f_Example" );
+									object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
+									object res = method.Invoke( instance, null );
+								} );
+		}
 
-        [TestCase( "_WinAPI_CreateFile.au3" )]
-        public void Test_compile_includes3( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "_WinAPI_CreateFile.au3" )]
+		public void Test_compile_includes3( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow(
-                                () => {
-                                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
+			Assert.DoesNotThrow(
+							    () => {
+									byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
 
-                                    Assembly assembly = Assembly.Load( assemblyBytes );
-                                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                                    MethodInfo method = type.GetMethod( "f_Example" );
-                                    object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
-                                } );
-        }
+									Assembly assembly = Assembly.Load( assemblyBytes );
+									Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+									MethodInfo method = type.GetMethod( "f_Example" );
+									object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
+								} );
+		}
 
-        [TestCase( "_WinAPI_EqualMemory.au3" )]
-        public void Test_compile_includes4( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "_WinAPI_EqualMemory.au3" )]
+		public void Test_compile_includes4( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow(
-                                () => {
-                                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
+			Assert.DoesNotThrow(
+							    () => {
+									byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
 
-                                    Assembly assembly = Assembly.Load( assemblyBytes );
-                                    Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                                    MethodInfo method = type.GetMethod( "f_Example" );
-                                    object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
-                                    object res = method.Invoke( instance, null );
-                                } );
-        }
+									Assembly assembly = Assembly.Load( assemblyBytes );
+									Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+									MethodInfo method = type.GetMethod( "f_Example" );
+									object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
+									object res = method.Invoke( instance, null );
+								} );
+		}
 
-        [TestCase( "Benchmark.au3" )]
-        public void Test_compile_Benchmark( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "Benchmark.au3" )]
+		public void Test_compile_Benchmark( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow(
-                                () => {
-                                    byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-                                    File.WriteAllBytes( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe", assemblyBytes );
-                                    Process process = Process.Start( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe" );
-                                    while( !process.HasExited ) {
-                                        Thread.Sleep( 1000 );
-                                    }
-                                    Debug.Write( process.ExitCode );
-                                } );
-        }
+			Assert.DoesNotThrow(
+							    () => {
+									byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+									File.WriteAllBytes( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe", assemblyBytes );
+									Process process = Process.Start( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe" );
+									while( !process.HasExited ) {
+										Thread.Sleep( 1000 );
+									}
+									Debug.Write( process.ExitCode );
+								} );
+		}
 
-        [TestCase( "DES.au3" )]
-        public void Test_compile_DES( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "DES.au3" )]
+		public void Test_compile_DES( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow(
-                                () => {
-                                    Program.Compile( "/IN", path, "/OUT", path+".exe", "/CONSOLE" );
+			Assert.DoesNotThrow(
+							    () => {
+									Program.Compile( "/IN", path, "/OUT", path+".exe", "/CONSOLE" );
 
-                                    Process process = Process.Start( path+".exe" );
+									Process process = Process.Start( path+".exe" );
 
-                                    Assert.NotNull( process );
+									Assert.NotNull( process );
 
-                                    while( !process.HasExited ) {
-                                        Thread.Sleep( 1000 );
-                                    }
-                                    Debug.Write( process.ExitCode );
-                                } );
-        }
+									while( !process.HasExited ) {
+										Thread.Sleep( 1000 );
+									}
+									Debug.Write( process.ExitCode );
+								} );
+		}
 
-        [TestCase( "RC4.au3" )]
-        public void Test_compile_RC4( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "RC4.au3" )]
+		public void Test_compile_RC4( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow(
-                                () => {
-                                    Program.Compile( "/IN", path, "/OUT", path+".exe", "/CONSOLE" );
+			Assert.DoesNotThrow(
+							    () => {
+									Program.Compile( "/IN", path, "/OUT", path+".exe", "/CONSOLE" );
 
-                                    Process process = Process.Start( path+".exe" );
+									Process process = Process.Start( path+".exe" );
 
-                                    Assert.NotNull( process );
+									Assert.NotNull( process );
 
-                                    while( !process.HasExited ) {
-                                        Thread.Sleep( 1000 );
-                                    }
-                                    Debug.Write( process.ExitCode );
-                                } );
-        }
+									while( !process.HasExited ) {
+										Thread.Sleep( 1000 );
+									}
+									Debug.Write( process.ExitCode );
+								} );
+		}
 
-        [TestCase( "WinAPI.au3" )]
-        public void Test_compile__WinAPI_GetCurrentProcessID( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "WinAPI.au3" )]
+		public void Test_compile__WinAPI_GetCurrentProcessID( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            var assemblyBytes = new byte[] {};
-            Assert.DoesNotThrow(
-                                () => {
-                                    assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-                                } );
+			var assemblyBytes = new byte[] {};
+			Assert.DoesNotThrow(
+							    () => {
+									assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+								} );
 
-            Assembly assembly = Assembly.Load( assemblyBytes );
-            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
-            MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentProcessID" ) );
-            MethodInfo _WinAPI_FloatToInt = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_FloatToInt" ) );
-            object invoke = _WinAPI_FloatToInt.Invoke(
-                                                      instance,
-                                                      new[] {
-                                                          new DoubleVariant( 1234.012335 )
-                                                      } );
+			Assembly assembly = Assembly.Load( assemblyBytes );
+			Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+			object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
+			MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentProcessID" ) );
+			MethodInfo _WinAPI_FloatToInt = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_FloatToInt" ) );
+			object invoke = _WinAPI_FloatToInt.Invoke(
+													  instance,
+													  new[] {
+														  new DoubleVariant( 1234.012335 )
+													  } );
 
-            object res = methodInfo.Invoke( instance, null );
-        }
+			object res = methodInfo.Invoke( instance, null );
+		}
 
-        [TestCase( "WinAPITheme.au3" )]
-        public void Test_compile__WinAPI_GetCurrentThemeName( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "WinAPITheme.au3" )]
+		public void Test_compile__WinAPI_GetCurrentThemeName( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            var assemblyBytes = new byte[] {};
-            Assert.DoesNotThrow(
-                                () => {
-                                    assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-                                } );
+			var assemblyBytes = new byte[] {};
+			Assert.DoesNotThrow(
+							    () => {
+									assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+								} );
 
-            Assembly assembly = Assembly.Load( assemblyBytes );
-            Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            object instance = type.GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
-            MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentThemeName" ) );
-            object invoke = methodInfo.Invoke( instance, new object[0] );
-        }
+			Assembly assembly = Assembly.Load( assemblyBytes );
+			Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
+			object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
+			MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentThemeName" ) );
+			object invoke = methodInfo.Invoke( instance, new object[0] );
+		}
 
-        [TestCase( "ContinueCase.au3" )]
-        public void Test_compile_ContinueCase( string file ) {
-            string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
-            string script = File.ReadAllText( path );
+		[TestCase( "ContinueCase.au3" )]
+		public void Test_compile_ContinueCase( string file ) {
+			string path = string.Format( "{0}..\\..\\..\\testdata\\userfunctions\\{1}", Environment.CurrentDirectory, file );
+			string script = File.ReadAllText( path );
 
-            var assemblyBytes = new byte[] {};
-            Assert.DoesNotThrow(
-                                () => {
-                                    assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
-                                    object instanceWithDefaultParameters = Assembly.Load(assemblyBytes).GetTypes()[0].GetConstructors()[0].Invoke(Constants.Array<object>.Empty);
-                                    object invoke =
-                                    instanceWithDefaultParameters.GetType()
-                                                                 .GetMethods()
-                                                                 .Single( x => x.Name.Contains( "Foo" ) )
-                                                                 .Invoke( instanceWithDefaultParameters, null );
-                                    File.WriteAllBytes( path+".exe", assemblyBytes );
-                                } );
-        }
+			var assemblyBytes = new byte[] {};
+			Assert.DoesNotThrow(
+							    () => {
+									assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
+									object instanceWithDefaultParameters = Assembly.Load( assemblyBytes ).GetTypes()[0].GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
+									object invoke = instanceWithDefaultParameters.GetType().GetMethods().Single( x => x.Name.Contains( "Foo" ) ).Invoke( instanceWithDefaultParameters, null );
+									File.WriteAllBytes( path+".exe", assemblyBytes );
+								} );
+		}
 
-        [Test]
-        public void Foo() {
-        }
-    }
+		[Test]
+		public void Foo() {}
+	}
 }

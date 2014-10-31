@@ -4,14 +4,14 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.Collection
 {
-    public sealed class TokenCollection : List<Token>
-    {
-        public TokenCollection( IEnumerable<Token> tokens ) : base( tokens ) {}
+	public sealed class TokenCollection : List<Token>
+	{
+		public TokenCollection( IEnumerable<Token> tokens ) : base( tokens ) {}
 
-        public TokenCollection() {}
+		public TokenCollection() {}
 
-        public override string ToString() {
-            return string.Join( " ", this.Select( token => token.ToString() ) );
-        }
-    }
+		public override string ToString() {
+			return string.Join( " ", this.Select( token => token.ToString() ) );
+		}
+	}
 }

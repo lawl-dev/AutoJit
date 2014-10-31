@@ -5,29 +5,29 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
-    public sealed class BooleanNegateExpression : ExpressionBase
-    {
-        public BooleanNegateExpression( IExpressionNode left, Token @operator ) {
-            Left = left;
-            Operator = @operator;
-            Initialize();
-        }
+	public sealed class BooleanNegateExpression : ExpressionBase
+	{
+		public BooleanNegateExpression( IExpressionNode left, Token @operator ) {
+			Left = left;
+			Operator = @operator;
+			Initialize();
+		}
 
-        public IExpressionNode Left { get; private set; }
-        public Token Operator { get; private set; }
+		public IExpressionNode Left { get; private set; }
+		public Token Operator { get; private set; }
 
-        public override IEnumerable<ISyntaxNode> Children {
-            get {
-                return Left.ToEnumerable();
-            }
-        }
+		public override IEnumerable<ISyntaxNode> Children {
+			get {
+				return Left.ToEnumerable();
+			}
+		}
 
-        public override string ToSource() {
-            return string.Format( "NOT {0}", Left.ToSource() );
-        }
+		public override string ToSource() {
+			return string.Format( "NOT {0}", Left.ToSource() );
+		}
 
-        public override object Clone() {
-            return new BooleanNegateExpression( (IExpressionNode)Left.Clone(), Operator );
-        }
-    }
+		public override object Clone() {
+			return new BooleanNegateExpression( (IExpressionNode)Left.Clone(), Operator );
+		}
+	}
 }

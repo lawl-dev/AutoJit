@@ -4,31 +4,31 @@ using AutoJIT.Parser.AST.Statements.Interface;
 
 namespace AutoJIT.Parser.AST.Statements
 {
-    public sealed class InitDefaultParameterStatement : StatementBase
-    {
-        public InitDefaultParameterStatement( string parameterName, IExpressionNode defaultValue ) {
-            ParameterName = parameterName;
-            DefaultValue = defaultValue;
-            Initialize();
-        }
+	public sealed class InitDefaultParameterStatement : StatementBase
+	{
+		public InitDefaultParameterStatement( string parameterName, IExpressionNode defaultValue ) {
+			ParameterName = parameterName;
+			DefaultValue = defaultValue;
+			Initialize();
+		}
 
-        public string ParameterName { get; private set; }
-        public IExpressionNode DefaultValue { get; private set; }
+		public string ParameterName { get; private set; }
+		public IExpressionNode DefaultValue { get; private set; }
 
-        public override IEnumerable<ISyntaxNode> Children {
-            get {
-                return new List<ISyntaxNode> {
-                    DefaultValue
-                };
-            }
-        }
+		public override IEnumerable<ISyntaxNode> Children {
+			get {
+				return new List<ISyntaxNode> {
+					DefaultValue
+				};
+			}
+		}
 
-        public override string ToSource() {
-            return string.Empty;
-        }
+		public override string ToSource() {
+			return string.Empty;
+		}
 
-        public override object Clone() {
-            return new InitDefaultParameterStatement( (string)ParameterName.Clone(), (IExpressionNode)DefaultValue.Clone() );
-        }
-    }
+		public override object Clone() {
+			return new InitDefaultParameterStatement( (string)ParameterName.Clone(), (IExpressionNode)DefaultValue.Clone() );
+		}
+	}
 }

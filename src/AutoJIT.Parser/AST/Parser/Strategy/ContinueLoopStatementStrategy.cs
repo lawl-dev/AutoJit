@@ -10,27 +10,24 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-    public sealed class ContinueLoopStatementStrategy : StatementParserStrategyBase<ContinueloopStatement>
-    {
-        public ContinueLoopStatementStrategy(
-        IStatementParser statementParser,
-        IExpressionParser expressionParser,
-        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+	public sealed class ContinueLoopStatementStrategy : StatementParserStrategyBase<ContinueloopStatement>
+	{
+		public ContinueLoopStatementStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-            return ParseContinueloop( block ).ToEnumerable();
-        }
+		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+			return ParseContinueloop( block ).ToEnumerable();
+		}
 
-        private ContinueloopStatement ParseContinueloop( TokenQueue block ) {
-            Token expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
+		private ContinueloopStatement ParseContinueloop( TokenQueue block ) {
+			Token expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
 
-            int level = expressionPart != null
-            ? expressionPart.Value.Int32Value
-            : 1;
+			int level = expressionPart != null
+			? expressionPart.Value.Int32Value
+			: 1;
 
-            ConsumeAndEnsure( block, TokenType.NewLine );
+			ConsumeAndEnsure( block, TokenType.NewLine );
 
-            return AutoitStatementFactory.CreateContinueloopStatement( level );
-        }
-    }
+			return AutoitStatementFactory.CreateContinueloopStatement( level );
+		}
+	}
 }

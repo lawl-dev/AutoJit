@@ -10,27 +10,24 @@ using AutoJIT.Parser.Extensions;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-    public sealed class ReturnStatementParserStrategy : StatementParserStrategyBase<ReturnStatement>
-    {
-        public ReturnStatementParserStrategy(
-        IStatementParser statementParser,
-        IExpressionParser expressionParser,
-        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+	public sealed class ReturnStatementParserStrategy : StatementParserStrategyBase<ReturnStatement>
+	{
+		public ReturnStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-            return ParseReturn( block ).ToEnumerable();
-        }
+		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+			return ParseReturn( block ).ToEnumerable();
+		}
 
-        private ReturnStatement ParseReturn( TokenQueue block ) {
-            TokenCollection returnExpressionTokenCollection = ParseUntilNewLine( block );
+		private ReturnStatement ParseReturn( TokenQueue block ) {
+			TokenCollection returnExpressionTokenCollection = ParseUntilNewLine( block );
 
-            IExpressionNode returnExpression = ExpressionParser.ParseBlock( returnExpressionTokenCollection, true );
+			IExpressionNode returnExpression = ExpressionParser.ParseBlock( returnExpressionTokenCollection, true );
 
-            if( returnExpression == null ) {
-                returnExpression = new NullExpression();
-            }
+			if( returnExpression == null ) {
+				returnExpression = new NullExpression();
+			}
 
-            return AutoitStatementFactory.CreateReturnStatement( returnExpression );
-        }
-    }
+			return AutoitStatementFactory.CreateReturnStatement( returnExpression );
+		}
+	}
 }

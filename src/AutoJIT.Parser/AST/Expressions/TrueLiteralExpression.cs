@@ -3,20 +3,20 @@ using System.Linq;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
-    public sealed class TrueLiteralExpression : ExpressionBase
-    {
-        public override IEnumerable<ISyntaxNode> Children {
-            get {
-                return Enumerable.Empty<ISyntaxNode>();
-            }
-        }
+	public sealed class TrueLiteralExpression : ExpressionBase
+	{
+		public override IEnumerable<ISyntaxNode> Children {
+			get {
+				return Enumerable.Empty<ISyntaxNode>();
+			}
+		}
 
-        public override string ToSource() {
-            return "True";
-        }
+		public override string ToSource() {
+			return "True";
+		}
 
-        public override object Clone() {
-            return new TrueLiteralExpression();
-        }
-    }
+		public override object Clone() {
+			return new TrueLiteralExpression();
+		}
+	}
 }

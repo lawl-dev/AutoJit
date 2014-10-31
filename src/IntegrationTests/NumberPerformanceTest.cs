@@ -1,4 +1,4 @@
 ﻿namespace UnitTests
 {
-    public class NumberPerformanceTest {}
+	public class NumberPerformanceTest {}
 }

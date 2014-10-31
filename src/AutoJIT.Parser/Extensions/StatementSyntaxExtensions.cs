@@ -4,14 +4,14 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.Parser.Extensions
 {
-    public static class StatementSyntaxExtensions
-    {
-        public static ElseClauseSyntax ToElseClause( this StatementSyntax src ) {
-            return SyntaxFactory.ElseClause( src );
-        }
+	public static class StatementSyntaxExtensions
+	{
+		public static ElseClauseSyntax ToElseClause( this StatementSyntax src ) {
+			return SyntaxFactory.ElseClause( src );
+		}
 
-        public static BlockSyntax ToBlock( this IEnumerable<StatementSyntax> stc ) {
-            return SyntaxFactory.Block( stc );
-        }
-    }
+		public static BlockSyntax ToBlock( this IEnumerable<StatementSyntax> stc ) {
+			return SyntaxFactory.Block( stc );
+		}
+	}
 }

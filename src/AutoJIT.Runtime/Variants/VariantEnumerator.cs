@@ -2,26 +2,26 @@
 
 namespace AutoJITRuntime.Variants
 {
-    internal class VariantEnumerator : IEnumerator
-    {
-        private readonly IEnumerator _innerEnumerator;
+	internal class VariantEnumerator : IEnumerator
+	{
+		private readonly IEnumerator _innerEnumerator;
 
-        public VariantEnumerator( IEnumerable enumerable ) {
-            _innerEnumerator = enumerable.GetEnumerator();
-        }
+		public VariantEnumerator( IEnumerable enumerable ) {
+			_innerEnumerator = enumerable.GetEnumerator();
+		}
 
-        public bool MoveNext() {
-            return _innerEnumerator.MoveNext();
-        }
+		public bool MoveNext() {
+			return _innerEnumerator.MoveNext();
+		}
 
-        public void Reset() {
-            _innerEnumerator.Reset();
-        }
+		public void Reset() {
+			_innerEnumerator.Reset();
+		}
 
-        public object Current {
-            get {
-                return Variant.Create( _innerEnumerator.Current );
-            }
-        }
-    }
+		public object Current {
+			get {
+				return Variant.Create( _innerEnumerator.Current );
+			}
+		}
+	}
 }

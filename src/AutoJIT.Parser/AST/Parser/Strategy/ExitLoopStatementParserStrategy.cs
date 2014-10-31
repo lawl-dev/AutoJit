@@ -10,27 +10,24 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-    public sealed class ExitLoopStatementParserStrategy : StatementParserStrategyBase<ExitloopStatement>
-    {
-        public ExitLoopStatementParserStrategy(
-        IStatementParser statementParser,
-        IExpressionParser expressionParser,
-        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+	public sealed class ExitLoopStatementParserStrategy : StatementParserStrategyBase<ExitloopStatement>
+	{
+		public ExitLoopStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-            return ParseExitloop( block ).ToEnumerable();
-        }
+		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+			return ParseExitloop( block ).ToEnumerable();
+		}
 
-        private ExitloopStatement ParseExitloop( TokenQueue block ) {
-            Token expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
+		private ExitloopStatement ParseExitloop( TokenQueue block ) {
+			Token expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
 
-            int level = expressionPart != null
-            ? expressionPart.Value.Int32Value
-            : 1;
+			int level = expressionPart != null
+			? expressionPart.Value.Int32Value
+			: 1;
 
-            ConsumeAndEnsure( block, TokenType.NewLine );
+			ConsumeAndEnsure( block, TokenType.NewLine );
 
-            return AutoitStatementFactory.CreateExitloopStatement( level );
-        }
-    }
+			return AutoitStatementFactory.CreateExitloopStatement( level );
+		}
+	}
 }

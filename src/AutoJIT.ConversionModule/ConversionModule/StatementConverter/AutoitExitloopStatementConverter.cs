@@ -2,27 +2,25 @@ using System.Collections.Generic;
 using AutoJIT.CSharpConverter.ConversionModule.Factory;
 using AutoJIT.Infrastructure;
 using AutoJIT.Parser.AST.Statements;
-using AutoJIT.Parser.Service;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-    internal sealed class AutoitExitloopStatementConverter : AutoitStatementConverterBase<ExitloopStatement>
-    {
-        public AutoitExitloopStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService )
-        : base( cSharpStatementFactory, injectionService ) {}
+	internal sealed class AutoitExitloopStatementConverter : AutoitStatementConverterBase<ExitloopStatement>
+	{
+		public AutoitExitloopStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
-        public override IEnumerable<StatementSyntax> Convert( ExitloopStatement statement, IContextService context ) {
-            var toReturn = new List<StatementSyntax>();
+		public override IEnumerable<StatementSyntax> Convert( ExitloopStatement statement, IContextService context ) {
+			var toReturn = new List<StatementSyntax>();
 
-            string exitLoopLabelName = context.GetExitLoopLabelName( statement.Level );
+			string exitLoopLabelName = context.GetExitLoopLabelName( statement.Level );
 
-            GotoStatementSyntax gotoStatement = SyntaxFactory.GotoStatement( SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( exitLoopLabelName ) );
+			GotoStatementSyntax gotoStatement = SyntaxFactory.GotoStatement( SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( exitLoopLabelName ) );
 
-            toReturn.Add( gotoStatement );
+			toReturn.Add( gotoStatement );
 
-            return toReturn;
-        }
-    }
+			return toReturn;
+		}
+	}
 }

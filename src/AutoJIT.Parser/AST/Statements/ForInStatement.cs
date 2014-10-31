@@ -7,49 +7,46 @@ using AutoJIT.Parser.AST.Statements.Interface;
 
 namespace AutoJIT.Parser.AST.Statements
 {
-    public sealed class ForInStatement : StatementBase
-    {
-        public ForInStatement( VariableExpression variableExpression, IExpressionNode toEnumerate, IEnumerable<IStatementNode> block ) {
-            Block = block;
-            VariableExpression = variableExpression;
-            ToEnumerate = toEnumerate;
-            Initialize();
-        }
+	public sealed class ForInStatement : StatementBase
+	{
+		public ForInStatement( VariableExpression variableExpression, IExpressionNode toEnumerate, IEnumerable<IStatementNode> block ) {
+			Block = block;
+			VariableExpression = variableExpression;
+			ToEnumerate = toEnumerate;
+			Initialize();
+		}
 
-        public IEnumerable<IStatementNode> Block { get; private set; }
-        public IExpressionNode ToEnumerate { get; private set; }
-        public VariableExpression VariableExpression { get; private set; }
+		public IEnumerable<IStatementNode> Block { get; private set; }
+		public IExpressionNode ToEnumerate { get; private set; }
+		public VariableExpression VariableExpression { get; private set; }
 
-        public override IEnumerable<ISyntaxNode> Children {
-            get {
-                var syntaxNodes = new List<ISyntaxNode> {
-                    ToEnumerate,
-                    VariableExpression
-                };
+		public override IEnumerable<ISyntaxNode> Children {
+			get {
+				var syntaxNodes = new List<ISyntaxNode> {
+					ToEnumerate,
+					VariableExpression
+				};
 
-                if( Block != null ) {
-                    syntaxNodes.AddRange( Block );
-                }
+				if( Block != null ) {
+					syntaxNodes.AddRange( Block );
+				}
 
-                return syntaxNodes;
-            }
-        }
+				return syntaxNodes;
+			}
+		}
 
-        public override string ToSource() {
-            string toReturn = string.Empty;
-            toReturn += string.Format( "For {0} In {1}{2}", VariableExpression.ToSource(), ToEnumerate.ToSource(), Environment.NewLine );
-            foreach(IStatementNode node in Block) {
-                toReturn += string.Format( "{0}{1}", node.ToSource(), Environment.NewLine );
-            }
-            toReturn += string.Format( "Next{0}", Environment.NewLine );
-            return toReturn;
-        }
+		public override string ToSource() {
+			string toReturn = string.Empty;
+			toReturn += string.Format( "For {0} In {1}{2}", VariableExpression.ToSource(), ToEnumerate.ToSource(), Environment.NewLine );
+			foreach(IStatementNode node in Block) {
+				toReturn += string.Format( "{0}{1}", node.ToSource(), Environment.NewLine );
+			}
+			toReturn += string.Format( "Next{0}", Environment.NewLine );
+			return toReturn;
+		}
 
-        public override object Clone() {
-            return new ForInStatement(
-            (VariableExpression)VariableExpression.Clone(),
-            (IExpressionNode)ToEnumerate.Clone(),
-            Block.Select( x => (IStatementNode)x.Clone() ) );
-        }
-    }
+		public override object Clone() {
+			return new ForInStatement( (VariableExpression)VariableExpression.Clone(), (IExpressionNode)ToEnumerate.Clone(), Block.Select( x => (IStatementNode)x.Clone() ) );
+		}
+	}
 }

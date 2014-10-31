@@ -108,6 +108,7 @@
     <Compile Include="AST\Parser\Strategy\WhileStatementParserStrategy.cs" />
     <Compile Include="AST\PragmaOptions.cs" />
     <Compile Include="AST\Statements\AssignStatement.cs" />
+    <Compile Include="AST\Expressions\CaseCondition.cs" />
     <Compile Include="AST\Statements\ContinueCaseStatement.cs" />
     <Compile Include="AST\Statements\ContinueloopStatement.cs" />
     <Compile Include="AST\Statements\DimStatement.cs" />
@@ -128,8 +129,10 @@
     <Compile Include="AST\Statements\LocalEnumDeclarationStatement.cs" />
     <Compile Include="AST\Statements\ReDimStatement.cs" />
     <Compile Include="AST\Statements\ReturnStatement.cs" />
+    <Compile Include="AST\Statements\SelectCase.cs" />
     <Compile Include="AST\Statements\SelectCaseStatement.cs" />
     <Compile Include="AST\Statements\StaticDeclarationStatement.cs" />
+    <Compile Include="AST\Statements\SwitchCase.cs" />
     <Compile Include="AST\Statements\SwitchCaseStatement.cs" />
     <Compile Include="AST\Statements\WhileStatement.cs" />
     <Compile Include="AST\SyntaxNodeBase.cs" />

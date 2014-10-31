@@ -12,39 +12,35 @@ using AutoJIT.Parser.Lex.Interface;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-    public sealed class StaticStatementParserStrategy : StatementParserStrategyBase<StaticDeclarationStatement>
-    {
-        private readonly ITokenFactory _tokenFactory;
+	public sealed class StaticStatementParserStrategy : StatementParserStrategyBase<StaticDeclarationStatement>
+	{
+		private readonly ITokenFactory _tokenFactory;
 
-        public StaticStatementParserStrategy(
-        IStatementParser statementParser,
-        IExpressionParser expressionParser,
-        ITokenFactory tokenFactory,
-        IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
-            _tokenFactory = tokenFactory;
-        }
+		public StaticStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, ITokenFactory tokenFactory, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
+			_tokenFactory = tokenFactory;
+		}
 
-        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-            return ParseLocal( block );
-        }
+		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+			return ParseLocal( block );
+		}
 
-        private IEnumerable<IStatementNode> ParseLocal( TokenQueue block ) {
-            var toReturn = new List<IStatementNode>();
+		private IEnumerable<IStatementNode> ParseLocal( TokenQueue block ) {
+			var toReturn = new List<IStatementNode>();
 
 
-            while( block.Any()
-                   && block.Peek().Type == TokenType.Variable ) {
-                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
+			while( block.Any()
+				   && block.Peek().Type == TokenType.Variable ) {
+				var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
 
-                IExpressionNode initExpression = null;
-                if( Consume( block, TokenType.Equal ) ) {
-                    initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
-                }
-                toReturn.Add( AutoitStatementFactory.CreateStaticDeclarationStatement( variableExpression, initExpression ) );
+				IExpressionNode initExpression = null;
+				if( Consume( block, TokenType.Equal ) ) {
+					initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
+				}
+				toReturn.Add( AutoitStatementFactory.CreateStaticDeclarationStatement( variableExpression, initExpression ) );
 
-                Consume( block, TokenType.Comma );
-            }
-            return toReturn;
-        }
-    }
+				Consume( block, TokenType.Comma );
+			}
+			return toReturn;
+		}
+	}
 }
