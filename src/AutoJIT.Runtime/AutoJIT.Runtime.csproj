@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DynamicFunctionWrapper.cs" />
     <Compile Include="Exceptions\ArrayDimensionIsInvalidException.cs" />
     <Compile Include="Exceptions\ArrayGivenIsNotAnArrayException.cs" />
     <Compile Include="Exceptions\ASCIIcodeIsGreaterThan255Exception.cs" />

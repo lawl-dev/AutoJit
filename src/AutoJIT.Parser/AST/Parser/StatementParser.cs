@@ -25,10 +25,6 @@ namespace AutoJIT.Parser.AST.Parser
 		}
 
 		private IEnumerable<IStatementNode> ParseStatementNodes( TokenQueue block ) {
-			if( block == null ) {
-				return new List<IStatementNode>();
-			}
-
 			var statements = new List<IStatementNode>();
 
 			while( block.Any() ) {
@@ -56,10 +52,8 @@ namespace AutoJIT.Parser.AST.Parser
 					if( isVariableFunctionCall ) {
 						return ResolveStrategy<VariableFunctionCallStatement>();
 					}
-					else {
-						return ResolveStrategy<AssignStatement>();
-					}
-				case TokenType.Userfunction:
+			        return ResolveStrategy<AssignStatement>();
+			    case TokenType.Userfunction:
 				case TokenType.Function:
 					return ResolveStrategy<FunctionCallStatement>();
 				case TokenType.Keyword:
@@ -69,11 +63,9 @@ namespace AutoJIT.Parser.AST.Parser
 							if( Consume( block, Keywords.Global ) ) {
 								goto case Keywords.Global;
 							}
-							if( Consume( block, Keywords.Local ) ) {
-								return ResolveStrategy<StaticDeclarationStatement>();
-							}
-							break;
-						case Keywords.Global:
+					        Consume( block, Keywords.Local );
+					        return ResolveStrategy<StaticDeclarationStatement>();
+					    case Keywords.Global:
 							if( Consume( block, Keywords.Enum ) ) {
 								return ResolveStrategy<GlobalEnumDeclarationStatement>();
 							}
@@ -88,11 +80,10 @@ namespace AutoJIT.Parser.AST.Parser
 								return ResolveStrategy<LocalEnumDeclarationStatement>();
 							}
 
-							if( Consume( block, Keywords.Static ) ) {
-								return ResolveStrategy<StaticDeclarationStatement>();
-							}
-							return ResolveStrategy<LocalDeclarationStatement>();
-						case Keywords.Dim:
+							return Consume( block, Keywords.Static )
+							    ? ResolveStrategy<StaticDeclarationStatement>()
+							    : ResolveStrategy<LocalDeclarationStatement>();
+					    case Keywords.Dim:
 							return ResolveStrategy<DimStatement>();
 						case Keywords.Redim:
 							return ResolveStrategy<ReDimStatement>();

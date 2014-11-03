@@ -164,6 +164,10 @@ namespace AutoJITRuntime
 				return Create( runtimeStruct );
 			}
 
+
+	        if ( @object is Variant ) {
+                return CreateStrategies[((Variant)@object).GetRealType()](((Variant)@object).GetValue());
+	        }
 		    return CreateStrategies[@object.GetType()]( @object );
 		}
 

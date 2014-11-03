@@ -40,11 +40,6 @@ namespace AutoJIT.Parser.AST.Parser
 		}
 
 		private IExpressionNode ParseBlock( TokenQueue block ) {
-			if( block == null
-				|| !block.Any() ) {
-				return null;
-			}
-
 			Token @operator;
 
 			IExpressionNode leftNode = ParseExpressionNode( block );

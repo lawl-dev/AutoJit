@@ -80,6 +80,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Optimizer
 					return a / b;
 				case "%":
 					throw new NotImplementedException();
+                case "==":
+			        return a == b;
 			}
 			throw new NotImplementedException();
 		}

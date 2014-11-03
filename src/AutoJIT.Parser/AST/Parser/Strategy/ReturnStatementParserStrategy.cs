@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
@@ -21,9 +22,12 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 		private ReturnStatement ParseReturn( TokenQueue block ) {
 			TokenCollection returnExpressionTokenCollection = ParseUntilNewLine( block );
 
-			IExpressionNode returnExpression = ExpressionParser.ParseBlock( returnExpressionTokenCollection, true );
+		    IExpressionNode returnExpression = null;
+		    if ( returnExpressionTokenCollection.Any() ) {
+		        returnExpression = ExpressionParser.ParseBlock( returnExpressionTokenCollection, true );
+		    }
 
-			if( returnExpression == null ) {
+		    if( returnExpression == null ) {
 				returnExpression = new NullExpression();
 			}
 
