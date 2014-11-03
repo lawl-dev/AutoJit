@@ -21,7 +21,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
 			ExpressionSyntax exitExpression = statement.ExitExpression == null
 			? SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( 0 ) )
-			: Convert( statement.ExitExpression, context );
+			: ConvertGeneric( statement.ExitExpression, context );
 
 			toReturn.Add( CSharpStatementFactory.CreateInvocationExpression( runtimeInstanceName, exitFunctionName, CompilerHelper.GetParameterInfo( exitFunctionName, exitExpression ) ).ToStatementSyntax() );
 

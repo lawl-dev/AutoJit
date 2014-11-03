@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace AutoJITRuntime.Variants
 {
@@ -23,12 +24,14 @@ namespace AutoJITRuntime.Variants
 		}
 
 		public override Variant Invoke( params object[] parameter ) {
-			var result = _methodInfo.Invoke( _instance, parameter );
-			return (Variant)result;
+		    var result = _methodInfo.Invoke( _instance, parameter );
+            
+            return (Variant)result;
 		}
 
-		public override object GetValue() {
-			throw new NotImplementedException();
+
+	    public override object GetValue() {
+            return _methodInfo;
 		}
 
 		public override string GetString() {

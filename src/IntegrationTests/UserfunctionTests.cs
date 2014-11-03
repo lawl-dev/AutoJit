@@ -1,8 +1,13 @@
 using System;
+using System.CodeDom;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using AutoJIT.Compiler;
 using AutoJIT.CompilerApplication;
@@ -29,7 +34,7 @@ namespace UnitTests
 			string script = File.ReadAllText( path );
 
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
 									Assembly assembly = Assembly.Load( assemblyBytes );
 									Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
@@ -45,7 +50,7 @@ namespace UnitTests
 			string script = File.ReadAllText( path );
 
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
 
 									Assembly assembly = Assembly.Load( assemblyBytes );
@@ -61,7 +66,7 @@ namespace UnitTests
 			string script = File.ReadAllText( path );
 
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
 
 									Assembly assembly = Assembly.Load( assemblyBytes );
@@ -78,7 +83,7 @@ namespace UnitTests
 			string script = File.ReadAllText( path );
 
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
 									File.WriteAllBytes( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe", assemblyBytes );
 									Process process = Process.Start( @"C:\Users\Brunnmeier\Desktop\backup\WUHUUU.exe" );
@@ -95,7 +100,7 @@ namespace UnitTests
 			string script = File.ReadAllText( path );
 
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									Program.Compile( "/IN", path, "/OUT", path+".exe", "/CONSOLE" );
 
 									Process process = Process.Start( path+".exe" );
@@ -115,7 +120,7 @@ namespace UnitTests
 			string script = File.ReadAllText( path );
 
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									Program.Compile( "/IN", path, "/OUT", path+".exe", "/CONSOLE" );
 
 									Process process = Process.Start( path+".exe" );
@@ -136,7 +141,7 @@ namespace UnitTests
 
 			var assemblyBytes = new byte[] {};
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
 								} );
 
@@ -161,7 +166,7 @@ namespace UnitTests
 
 			var assemblyBytes = new byte[] {};
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
 								} );
 
@@ -179,7 +184,7 @@ namespace UnitTests
 
 			var assemblyBytes = new byte[] {};
 			Assert.DoesNotThrow(
-							    () => {
+								() => {
 									assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
 									object instanceWithDefaultParameters = Assembly.Load( assemblyBytes ).GetTypes()[0].GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
 									object invoke = instanceWithDefaultParameters.GetType().GetMethods().Single( x => x.Name.Contains( "Foo" ) ).Invoke( instanceWithDefaultParameters, null );
@@ -189,7 +194,11 @@ namespace UnitTests
 
 		[Test]
 		public void Foo() {
-			
+
 		}
+
+	    public void Foo2() {
+	        
+	    }
 	}
 }

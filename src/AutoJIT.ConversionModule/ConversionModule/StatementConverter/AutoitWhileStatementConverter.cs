@@ -20,7 +20,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 			string exitLoopLabelName = context.GetExitLoopLabelName();
 			string coninueLoopLabelName = context.GetConinueLoopLabelName();
 
-			ExpressionSyntax condition = Convert( statement.Condition, context );
+			ExpressionSyntax condition = ConvertGeneric( statement.Condition, context );
 			List<StatementSyntax> block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
 			block.Add( SyntaxFactory.LabeledStatement( coninueLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 

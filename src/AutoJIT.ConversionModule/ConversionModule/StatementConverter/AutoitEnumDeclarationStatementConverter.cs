@@ -32,7 +32,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 				toReturn.Add( AssignVariable( statement, context, scope ) );
 			}
 			else {
-				toReturn.Add( SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName, scope ) ), Convert( statement.AutoInitExpression, context ) ).ToStatementSyntax() );
+				toReturn.Add( SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName, scope ) ), ConvertGeneric( statement.AutoInitExpression, context ) ).ToStatementSyntax() );
 			}
 			return toReturn;
 		}
@@ -53,7 +53,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 		}
 
 		private StatementSyntax AssignVariable( EnumDeclarationStatement statement, IContextService context, Scope scope ) {
-			return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName, scope ) ), Convert( statement.UserInitExpression, context ) ).ToStatementSyntax();
+			return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName, scope ) ), ConvertGeneric( statement.UserInitExpression, context ) ).ToStatementSyntax();
 		}
 	}
 }

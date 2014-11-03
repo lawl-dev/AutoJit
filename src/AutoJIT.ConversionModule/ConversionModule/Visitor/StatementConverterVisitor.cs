@@ -123,6 +123,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
 		public IEnumerable<StatementSyntax> Visit( WhileStatement node ) {
 			return GetConverter<WhileStatement>().Convert( node, ContextService );
 		}
+        
+        public IEnumerable<StatementSyntax> Visit( VariableFunctionCallStatement node ) {
+            return GetConverter<VariableFunctionCallStatement>().Convert(node, ContextService);
+		}
 
 		private IAutoitStatementConverter<T, StatementSyntax> GetConverter<T>() where T : IStatementNode {
 			var converter = _injectionService.Inject<IAutoitStatementConverter<T, StatementSyntax>>();

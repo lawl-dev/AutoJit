@@ -17,7 +17,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 			var toReturn = new List<StatementSyntax>();
 
 			string variableName = context.GetVariableName( statement.ArrayExpression.IdentifierName );
-			IEnumerable<CSharpParameterInfo> parameter = statement.ArrayExpression.AccessParameter.Select( x => new CSharpParameterInfo( Convert( x, context ), false ) );
+			IEnumerable<CSharpParameterInfo> parameter = statement.ArrayExpression.AccessParameter.Select( x => new CSharpParameterInfo( ConvertGeneric( x, context ), false ) );
 
 			toReturn.Add( CSharpStatementFactory.CreateInvocationExpression( variableName, CompilerHelper.GetVariantMemberName( x => x.ReDim() ), parameter ).ToStatementSyntax() );
 

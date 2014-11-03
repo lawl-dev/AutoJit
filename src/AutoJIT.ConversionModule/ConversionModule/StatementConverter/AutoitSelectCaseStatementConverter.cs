@@ -35,7 +35,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
 																				block.Insert( 0, statementSyntax );
 
-																				IfStatementSyntax ifStatementSyntax = CSharpStatementFactory.CreateIfStatement( Convert( @case.Condition, context ), block );
+																				IfStatementSyntax ifStatementSyntax = CSharpStatementFactory.CreateIfStatement( ConvertGeneric( @case.Condition, context ), block );
 																				return ifStatementSyntax;
 																			} ).ToArray();
 

@@ -60,18 +60,18 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 			switch(node.Operator.Type) {
 				case TokenType.PowAssign:
 					kind = SyntaxKind.SimpleAssignmentExpression;
-					toAssign = CSharpStatementFactory.CreateInvocationExpression( context.GetVariableName( node.Variable.IdentifierName ), CompilerHelper.GetVariantMemberName( x => x.PowAssign( null ) ), new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false ).ToEnumerable() );
+					toAssign = CSharpStatementFactory.CreateInvocationExpression( context.GetVariableName( node.Variable.IdentifierName ), CompilerHelper.GetVariantMemberName( x => x.PowAssign( null ) ), new CSharpParameterInfo( ConvertGeneric( node.ExpressionToAssign, context ), false ).ToEnumerable() );
 					break;
 				case TokenType.ConcatAssign:
 					kind = SyntaxKind.SimpleAssignmentExpression;
-					toAssign = CSharpStatementFactory.CreateInvocationExpression( context.GetVariableName( node.Variable.IdentifierName ), CompilerHelper.GetVariantMemberName( x => x.ConcatAssign( null ) ), new CSharpParameterInfo( Convert( node.ExpressionToAssign, context ), false ).ToEnumerable() );
+					toAssign = CSharpStatementFactory.CreateInvocationExpression( context.GetVariableName( node.Variable.IdentifierName ), CompilerHelper.GetVariantMemberName( x => x.ConcatAssign( null ) ), new CSharpParameterInfo( ConvertGeneric( node.ExpressionToAssign, context ), false ).ToEnumerable() );
 					break;
 				default:
 					kind = GetAssignOperatorKind( node.Operator );
-					toAssign = Convert( node.ExpressionToAssign, context );
+					toAssign = ConvertGeneric( node.ExpressionToAssign, context );
 					break;
 			}
-			return SyntaxFactory.BinaryExpression( kind, Convert( node.Variable, context ), toAssign ).ToStatementSyntax();
+			return SyntaxFactory.BinaryExpression( kind, ConvertGeneric( node.Variable, context ), toAssign ).ToStatementSyntax();
 		}
 
 		private SyntaxKind GetAssignOperatorKind( Token assignOperator ) {

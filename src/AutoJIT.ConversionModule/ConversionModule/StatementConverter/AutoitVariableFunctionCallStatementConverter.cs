@@ -12,7 +12,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 		public AutoitVariableFunctionCallStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 		
 		public override IEnumerable<StatementSyntax> Convert( VariableFunctionCallStatement statement, IContextService context ) {
-			var toReturn = Convert(statement.VariableFunctionCallExpression, context);
+			var toReturn = ConvertGeneric(statement.VariableFunctionCallExpression, context);
 
 
 			return toReturn.ToStatementSyntax().ToEnumerable();

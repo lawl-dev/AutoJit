@@ -14,7 +14,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 		public override IEnumerable<StatementSyntax> Convert( FunctionCallStatement statement, IContextService context ) {
 			var toReturn = new List<StatementSyntax>();
 
-			ExpressionSyntax callExpression = Convert( statement.FunctionCallExpression, context );
+			ExpressionSyntax callExpression = ConvertGeneric( statement.FunctionCallExpression, context );
 
 			toReturn.Add( callExpression.ToStatementSyntax() );
 

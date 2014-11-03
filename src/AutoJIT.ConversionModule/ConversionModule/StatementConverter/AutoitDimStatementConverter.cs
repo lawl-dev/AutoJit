@@ -56,7 +56,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 		}
 
 		private StatementSyntax AssignVariable( DimStatement node, IContextService contextService ) {
-			return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, Convert( node.VariableExpression, contextService ), Convert( node.InitExpression, contextService ) ).ToStatementSyntax();
+			return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, ConvertGeneric( node.VariableExpression, contextService ), ConvertGeneric( node.InitExpression, contextService ) ).ToStatementSyntax();
 		}
 
 		private StatementSyntax InitArray( DimStatement node, IContextService context ) {
@@ -64,7 +64,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 		}
 
 		private ExpressionSyntax GetArrayInitExpression( DimStatement node, IContextService context ) {
-			SeparatedSyntaxList<ExpressionSyntax> openBracketToken = ( (ArrayExpression)node.VariableExpression ).AccessParameter.Select( x => Convert( x, context ) ).ToSeparatedSyntaxList();
+			SeparatedSyntaxList<ExpressionSyntax> openBracketToken = ( (ArrayExpression)node.VariableExpression ).AccessParameter.Select( x => ConvertGeneric( x, context ) ).ToSeparatedSyntaxList();
 			ArrayCreationExpressionSyntax arrayCreationExpressionSyntax = SyntaxFactory.ArrayCreationExpression( SyntaxFactory.ArrayType( SyntaxFactory.IdentifierName( typeof(Variant).Name ) ).WithRankSpecifiers( SyntaxFactory.ArrayRankSpecifier( openBracketToken ).ToEnumerable().ToSyntaxList() ) );
 
 			return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof(Variant).Name ), SyntaxFactory.IdentifierName( CompilerHelper.GetVariantMemberName( x => Variant.CreateArray( null ) ) ) ) ).WithArgumentList( SyntaxFactory.ArgumentList( SyntaxFactory.Argument( arrayCreationExpressionSyntax ).ToSeparatedSyntaxList() ) );

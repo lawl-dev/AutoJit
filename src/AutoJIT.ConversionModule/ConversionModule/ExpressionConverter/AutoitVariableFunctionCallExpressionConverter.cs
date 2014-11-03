@@ -17,7 +17,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 		{
 			IEnumerable<ArgumentSyntax> parameter = CreateParameter(node.Parameter, contextService);
 
-			var invokeName = CompilerHelper.GetVariantMemberName( x=>x.Invoke(  ) );
+			var invokeName = CompilerHelper.GetVariantMemberName( x=>x.Invoke( null ) );
 
 
 			return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, ConvertGeneric( node.VariableExpression, contextService ), SyntaxFactory.IdentifierName( invokeName ) ) ).WithArgumentList( SyntaxFactory.ArgumentList().AddArguments( parameter.ToArray() ) );

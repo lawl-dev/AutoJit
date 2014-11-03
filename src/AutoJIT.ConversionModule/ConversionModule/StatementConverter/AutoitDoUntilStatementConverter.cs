@@ -24,7 +24,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 			List<StatementSyntax> block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
 			block.Add( SyntaxFactory.LabeledStatement( coninueLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
-			toReturn.Add( SyntaxFactory.DoStatement( block.ToBlock(), SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, Convert( statement.Condition, context ) ) ) );
+			toReturn.Add( SyntaxFactory.DoStatement( block.ToBlock(), SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, ConvertGeneric( statement.Condition, context ) ) ) );
 			toReturn.Add( SyntaxFactory.LabeledStatement( exitLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
 			context.UnregisterLoop();

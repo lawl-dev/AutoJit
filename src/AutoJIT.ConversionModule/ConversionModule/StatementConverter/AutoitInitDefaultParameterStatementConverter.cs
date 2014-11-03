@@ -13,7 +13,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 		public AutoitInitDefaultParameterStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
 		public override IEnumerable<StatementSyntax> Convert( InitDefaultParameterStatement statement, IContextService context ) {
-			return SyntaxFactory.IfStatement( SyntaxFactory.BinaryExpression( SyntaxKind.EqualsExpression, SyntaxFactory.IdentifierName( statement.ParameterName ), SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ), SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( statement.ParameterName ), Convert( statement.DefaultValue, context ) ).ToStatementSyntax() ).ToEnumerable();
+			return SyntaxFactory.IfStatement( SyntaxFactory.BinaryExpression( SyntaxKind.EqualsExpression, SyntaxFactory.IdentifierName( statement.ParameterName ), SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ), SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( statement.ParameterName ), ConvertGeneric( statement.DefaultValue, context ) ).ToStatementSyntax() ).ToEnumerable();
 		}
 	}
 }

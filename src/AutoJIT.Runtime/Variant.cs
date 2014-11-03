@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Globalization;
 using System.Linq;
@@ -153,39 +154,9 @@ namespace AutoJITRuntime
 			return new FunctionVariant( instance, name );
 		}
 
-		public static Variant Create( object @object ) {
+	    public static Variant Create( object @object ) {
 			if( @object == null ) {
 				return new NullVariant();
-			}
-
-			var bytes = @object as byte[];
-			if( bytes != null ) {
-				return Create( bytes );
-			}
-
-			if( @object is int ) {
-				return Create( (int)@object );
-			}
-
-			if( @object is Int64 ) {
-				return Create( (Int64)@object );
-			}
-
-			if( @object is double ) {
-				return Create( (double)@object );
-			}
-
-			if( @object is bool ) {
-				return Create( (bool)@object );
-			}
-
-			var str = @object as string;
-			if( str != null ) {
-				return Create( str );
-			}
-
-			if( @object is IntPtr ) {
-				return Create( (IntPtr)@object );
 			}
 
 			var runtimeStruct = @object as IRuntimeStruct;
@@ -193,73 +164,7 @@ namespace AutoJITRuntime
 				return Create( runtimeStruct );
 			}
 
-			var @default = @object as Default;
-			if( @default != null ) {
-				return Create( @default );
-			}
-
-			if( @object is char ) {
-				return Create( (char)@object );
-			}
-
-			var stringBuilder = @object as StringBuilder;
-			if( stringBuilder != null ) {
-				return Create( stringBuilder );
-			}
-
-			var vararr = @object as Variant[];
-			if( vararr != null ) {
-				return Create( vararr );
-			}
-
-			var var2d = @object as Variant[,];
-			if( var2d != null ) {
-				return Create( var2d );
-			}
-
-			var var3d = @object as Variant[,,];
-			if( var3d != null ) {
-				return Create( var3d );
-			}
-
-			var variant = @object as Variant;
-			if( variant != null ) {
-				return variant;
-			}
-
-			if( @object is byte ) {
-				return Create( (byte)@object );
-			}
-
-			if( @object is UIntPtr ) {
-				return Create( unchecked( (IntPtr)(long)(ulong)(UIntPtr)@object ) );
-			}
-
-			if( @object is Int16 ) {
-				return Create( (Int16)@object );
-			}
-
-			if( @object is UInt16 ) {
-				return Create( (UInt16)@object );
-			}
-
-			if( @object is UInt32 ) {
-				var uint32 = (UInt32)@object;
-				if( uint32 > int.MaxValue
-					|| uint32 < int.MinValue ) {
-					return Create( uint32 );
-				}
-				return Create( (Int32)uint32 );
-			}
-
-			if( @object is UInt64 ) {
-				return Create( (Int64)(UInt64)@object );
-			}
-
-			if( @object is float ) {
-				return Create( (float)@object );
-			}
-			throw new NotImplementedException();
+		    return CreateStrategies[@object.GetType()]( @object );
 		}
 
 		public abstract object GetValue();
@@ -603,6 +508,39 @@ namespace AutoJITRuntime
 			}
 		}
 
+        private static readonly Dictionary<Type, Func<object, Variant>> CreateStrategies = new Dictionary<Type, Func<object, Variant>>() {
+	        { typeof (int), o => Create( (int) o ) },
+	        { typeof (byte[]), o => Create( (byte[]) o ) },
+	        { typeof (Int64), o => Create( (Int64) o ) },
+	        { typeof (double), o => Create( (double) o ) },
+	        { typeof (bool), o => Create( (bool) o ) },
+	        { typeof (string), o => Create( (string) o ) },
+	        { typeof (IntPtr), o => Create( (IntPtr) o ) },
+	        { typeof (Default), o => Create( (Default) o ) },
+	        { typeof (char), o => Create( (char) o ) },
+	        { typeof (StringBuilder), o => Create( (StringBuilder) o ) },
+	        { typeof (Variant[]), o => Create( (Variant[]) o ) },
+	        { typeof (Variant[,]), o => Create( (Variant[,]) o ) },
+	        { typeof (Variant[,,]), o => Create( (Variant[,,]) o ) },
+	        { typeof (Variant), o => (Variant) o },
+	        { typeof (byte), o => Create( (byte) o ) },
+	        { typeof (UIntPtr), o => Create( unchecked( (IntPtr) (long) (ulong) (UIntPtr) o ) ) },
+	        { typeof (Int16), o => Create( (Int16) o ) },
+	        { typeof (UInt16), o => Create( (UInt16) o ) }, {
+	            typeof (UInt32), o => {
+	                var uint32 = (UInt32) o;
+	                if ( uint32 > int.MaxValue
+	                     ||
+	                     uint32 < int.MinValue ) {
+	                    return Create( uint32 );
+	                }
+	                return Create( (Int32) uint32 );
+	            }
+	        },
+	        { typeof (UInt64), o => Create( (Int64) (UInt64) o ) },
+	        { typeof (float), o => Create( (float) o ) }
+	    };
+
 		#region explicit_operaotr
 		public static implicit operator Int32( Variant a ) {
 			return a.GetInt();
@@ -632,6 +570,5 @@ namespace AutoJITRuntime
 			return a.GetBinary();
 		}
 		#endregion
-
 	}
 }

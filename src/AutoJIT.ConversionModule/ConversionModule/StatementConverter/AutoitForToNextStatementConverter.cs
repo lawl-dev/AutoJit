@@ -105,11 +105,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 																																		   SyntaxFactory.ArgumentList(
 																																									  SyntaxFactory.SeparatedList(
 																																																  new[] {
-																																																	  SyntaxFactory.Argument( Convert( node.StartExpression, context ) ),
-																																																	  SyntaxFactory.Argument( Convert( node.EndExpression, context ) ),
+																																																	  SyntaxFactory.Argument( ConvertGeneric( node.StartExpression, context ) ),
+																																																	  SyntaxFactory.Argument( ConvertGeneric( node.EndExpression, context ) ),
 																																																	  SyntaxFactory.Argument(
 																																																							 node.StepExpression != null
-																																																							 ? Convert( node.StepExpression, context )
+																																																							 ? ConvertGeneric( node.StepExpression, context )
 																																																							 : SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) )
 																																																  } ) ) );
 		}

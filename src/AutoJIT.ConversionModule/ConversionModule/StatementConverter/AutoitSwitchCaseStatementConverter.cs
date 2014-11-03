@@ -77,15 +77,15 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 			foreach(CaseCondition condition in caseConditionExpressions) {
 				if( condition.Right != null ) {
 					var toParameter = new List<ExpressionSyntax> {
-						Convert( condition.Left, context ),
-						Convert( condition.Right, context ),
-						Convert( statement.Condition, context )
+						ConvertGeneric( condition.Left, context ),
+						ConvertGeneric( condition.Right, context ),
+						ConvertGeneric( statement.Condition, context )
 					};
 					InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression( context.GetRuntimeInstanceName(), toFunctionName, CompilerHelper.GetParameterInfo( toFunctionName, toParameter.ToArray() ) );
 					caseConditions.Add( caseCondition );
 				}
 				else {
-					InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression( context.GetRuntimeInstanceName(), equalFunctionName, CompilerHelper.GetParameterInfo( equalFunctionName, Convert( statement.Condition, context ), Convert( condition.Left, context ) ) );
+					InvocationExpressionSyntax caseCondition = CSharpStatementFactory.CreateInvocationExpression( context.GetRuntimeInstanceName(), equalFunctionName, CompilerHelper.GetParameterInfo( equalFunctionName, ConvertGeneric( statement.Condition, context ), ConvertGeneric( condition.Left, context ) ) );
 					caseConditions.Add( caseCondition );
 				}
 			}
