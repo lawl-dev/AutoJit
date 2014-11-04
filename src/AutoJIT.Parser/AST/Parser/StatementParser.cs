@@ -104,7 +104,7 @@ namespace AutoJIT.Parser.AST.Parser
 						case Keywords.Exitloop:
 							return ResolveStrategy<ExitloopStatement>();
 						case Keywords.Continueloop:
-							return ResolveStrategy<ContinueloopStatement>();
+							return ResolveStrategy<ContinueLoopStatement>();
 						case Keywords.ContinueCase:
 							return ResolveStrategy<ContinueCaseStatement>();
 						default:

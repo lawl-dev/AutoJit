@@ -23,11 +23,9 @@ namespace AutoJIT.Parser.AST
 			}
 		}
 
-		public void Accept( ISyntaxVisitor<ISyntaxNode, ISyntaxNode> visitor ) {
-			throw new NotImplementedException();
-		}
+        public abstract TResult Accept<TResult>(SyntaxVisitorBase<TResult> visitor);
 
-		public ISyntaxNode Parent {
+	    public ISyntaxNode Parent {
 			get {
 				return _parent;
 			}

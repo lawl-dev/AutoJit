@@ -3,6 +3,7 @@ using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
@@ -22,7 +23,11 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitVariableFunctionCallStatement( this );
+	    }
+
+	    public override string ToSource() {
 			return VariableFunctionCallExpression.ToSource();
 		}
 

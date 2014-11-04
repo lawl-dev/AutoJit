@@ -5,6 +5,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 {
 	public interface IAutoitToCSharpConverter
 	{
-		NamespaceDeclarationSyntax Convert( AutoitScriptRootNode root );
+		NamespaceDeclarationSyntax Convert( AutoitScriptRoot root );
 	}
 }

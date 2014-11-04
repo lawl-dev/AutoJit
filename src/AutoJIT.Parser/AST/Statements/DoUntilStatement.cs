@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
@@ -31,7 +32,11 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitDoUntilStatement( this );
+	    }
+
+	    public override string ToSource() {
 			string toReturn = string.Empty;
 			toReturn += string.Format( "Do{0}", Environment.NewLine );
 			foreach(IStatementNode node in Block) {
@@ -44,5 +49,13 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new DoUntilStatement( (IExpressionNode)Condition.Clone(), Block.Select( x => (IStatementNode)x.Clone() ) );
 		}
+
+	    public DoUntilStatement Update( IExpressionNode condition, IEnumerable<IStatementNode> block ) {
+	        if ( Condition == condition &&
+	             Block == block ) {
+	            return this;
+	        }
+            return new DoUntilStatement( condition, block );
+	    }
 	}
 }

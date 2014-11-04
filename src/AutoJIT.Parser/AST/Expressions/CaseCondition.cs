@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
@@ -25,7 +26,11 @@ namespace AutoJIT.Parser.AST.Expressions
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitCaseCondition( this );
+	    }
+
+	    public override string ToSource() {
 			if( Right == null ) {
 				return Left.ToSource();
 			}
@@ -35,5 +40,13 @@ namespace AutoJIT.Parser.AST.Expressions
 		public override object Clone() {
 			return new CaseCondition( (IExpressionNode)Left.Clone(), (IExpressionNode)Right.Clone() );
 		}
+
+	    public CaseCondition Update( IExpressionNode left, IExpressionNode right ) {
+	        if ( Left == left &&
+	             Right == right ) {
+	            return this;
+	        }
+            return new CaseCondition( left, right );
+	    }
 	}
 }

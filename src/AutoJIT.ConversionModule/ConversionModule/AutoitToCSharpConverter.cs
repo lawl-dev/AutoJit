@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoJIT.CSharpConverter.ConversionModule.Visitor;
 using AutoJIT.Parser.AST;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -6,17 +7,16 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 {
 	public class AutoitToCSharpConverter : IAutoitToCSharpConverter
 	{
-		private readonly AutoJITScriptConversionVisitor _autoJITScriptConversionVisitor;
+	    private readonly ConversionVisitor _conversionVisitor;
 
-		public AutoitToCSharpConverter( AutoJITScriptConversionVisitor autoJITScriptConversionVisitor ) {
-			_autoJITScriptConversionVisitor = autoJITScriptConversionVisitor;
-		}
+	    public AutoitToCSharpConverter(ConversionVisitor conversionVisitor) {
+            _conversionVisitor = conversionVisitor;
+        }
 
-		public NamespaceDeclarationSyntax Convert( AutoitScriptRootNode root ) {
-			_autoJITScriptConversionVisitor.InitializeContext( new Context( "_functions", "_context" ) );
-			NamespaceDeclarationSyntax syntax = _autoJITScriptConversionVisitor.Visit( root );
-
-			return syntax;
-		}
+	    public NamespaceDeclarationSyntax Convert( AutoitScriptRoot root ) {
+			_conversionVisitor.InitializeContext( new Context( "_functions", "_context" ) );
+	        var cSharpSyntaxNode = _conversionVisitor.Visit( root ).Single();
+	        return (NamespaceDeclarationSyntax) cSharpSyntaxNode;
+	    }
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
@@ -27,7 +28,11 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitWhileStatement( this );
+	    }
+
+	    public override string ToSource() {
 			string toReturn = string.Format( "While {0}", Condition.ToSource() );
 			toReturn += Environment.NewLine;
 			foreach(IStatementNode statement in Block) {

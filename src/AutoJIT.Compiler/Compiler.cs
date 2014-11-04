@@ -33,7 +33,7 @@ namespace AutoJIT.Compiler
 			var pragmaOptions = new PragmaOptions();
 			script = _pragmaParser.IncludeDependenciesAndResolvePragmas( script, pragmaOptions );
 
-			AutoitScriptRootNode autoJITScript = _scriptParser.ParseScript( script, pragmaOptions );
+			AutoitScriptRoot autoJITScript = _scriptParser.ParseScript( script, pragmaOptions );
 
 			NamespaceDeclarationSyntax cSharpTree = _autoitToCSharpConverter.Convert( autoJITScript );
 

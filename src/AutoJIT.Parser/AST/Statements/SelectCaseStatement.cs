@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
@@ -29,7 +30,11 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitSelectCaseStatement( this );
+	    }
+
+	    public override string ToSource() {
 			string toReturn = string.Format( "Select{0}", Environment.NewLine );
 			foreach(SelectCase @case in Cases) {
 				toReturn += string.Format( "{0}{1}", @case.ToSource(), Environment.NewLine );

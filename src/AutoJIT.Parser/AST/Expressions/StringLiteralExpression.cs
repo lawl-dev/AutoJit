@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Expressions
@@ -14,7 +15,11 @@ namespace AutoJIT.Parser.AST.Expressions
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitStringLiteralExpression( this );
+	    }
+
+	    public override string ToSource() {
 			return string.Format( "'{0}'", LiteralToken );
 		}
 

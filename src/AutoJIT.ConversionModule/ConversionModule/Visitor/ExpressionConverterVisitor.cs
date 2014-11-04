@@ -9,7 +9,7 @@ using Microsoft.CSharp.RuntimeBinder;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
 {
-	public class ExpressionConverterVisitor : IExpressionVisitor<ExpressionSyntax>
+	public class ExpressionConverterVisitor
 	{
 		private readonly IInjectionService _injectionService;
 		private IContextService _contextService;

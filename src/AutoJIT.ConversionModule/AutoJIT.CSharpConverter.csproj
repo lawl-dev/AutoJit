@@ -69,10 +69,6 @@
   <ItemGroup>
     <Compile Include="AutojitCheck\InvalidSemanticException.cs" />
     <Compile Include="AutojitCheck\SemanticCheckerVisitor.cs" />
-    <Compile Include="AutojitCheck\SyntaxPrintVisitor.cs" />
-    <Compile Include="AutojitCheck\SyntaxRewriterBase.cs" />
-    <Compile Include="AutojitCheck\SyntaxRewriterTest.cs" />
-    <Compile Include="AutojitCheck\SyntaxVisitorBase.cs" />
     <Compile Include="ConversionModule\AutoitToCSharpConverter.cs" />
     <Compile Include="ConversionModule\Context.cs" />
     <Compile Include="ConversionModule\ContextService.cs" />
@@ -137,10 +133,8 @@
     <Compile Include="ConversionModule\StatementConverter\AutoitVariableFunctionCallStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitWhileStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\Interface\IAutoitStatementConverter.cs" />
-    <Compile Include="ConversionModule\Visitor\AutoJITScriptConversionVisitor.cs" />
     <Compile Include="ConversionModule\Visitor\ExpressionConverterVisitor.cs" />
-    <Compile Include="ConversionModule\Visitor\FunctionVisitor.cs" />
-    <Compile Include="ConversionModule\Visitor\StatementConverterVisitor.cs" />
+    <Compile Include="ConversionModule\Visitor\ConversionVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

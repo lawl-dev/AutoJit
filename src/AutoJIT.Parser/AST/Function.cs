@@ -9,12 +9,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.Parser.AST
 {
-	public sealed class FunctionNode : SyntaxNodeBase
+	public sealed class Function : SyntaxNodeBase
 	{
 		public readonly TokenQueue Queue;
 		public IList<IStatementNode> Statements = new List<IStatementNode>();
 
-		public FunctionNode( string name, IEnumerable<AutoitParameterInfo> autoitParameterInfos ) {
+		public Function( string name, IEnumerable<AutoitParameterInfo> autoitParameterInfos ) {
 			Name = name;
 			Parameter = autoitParameterInfos;
 			Queue = new TokenQueue( new Token[0] );
@@ -29,10 +29,10 @@ namespace AutoJIT.Parser.AST
 			}
 		}
 
-		public MemberDeclarationSyntax Accept( IFunctionVisitor<MemberDeclarationSyntax> visitor ) {
-			return visitor.Visit( this );
-		}
-
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitFunction( this );
+	    }
+        
 		public override string ToSource() {
 			string toReturn = string.Format( "Func {0}({1})", Name, string.Join( ", ", Parameter ) );
 			foreach(IStatementNode statement in Statements) {
@@ -43,7 +43,7 @@ namespace AutoJIT.Parser.AST
 		}
 
 		public override object Clone() {
-			return new FunctionNode( (string)Name.Clone(), Parameter ) {
+			return new Function( (string)Name.Clone(), Parameter ) {
 				Statements = Statements.Select( x => (IStatementNode)x.Clone() ).ToList()
 			};
 		}

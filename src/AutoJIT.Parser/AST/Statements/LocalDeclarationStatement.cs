@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
@@ -27,7 +28,11 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitLocalDeclarationStatement( this );
+	    }
+
+	    public override string ToSource() {
 			string toReturn = string.Format( "Local {0}", VariableExpression.ToSource() );
 			if( InitExpression != null ) {
 				toReturn += string.Format( " = {0}", InitExpression.ToSource() );

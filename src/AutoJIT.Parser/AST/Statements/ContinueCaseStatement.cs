@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
@@ -12,12 +13,20 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitContinueCaseStatement( this );
+	    }
+
+	    public override string ToSource() {
 			return "ContinueCase";
 		}
 
 		public override object Clone() {
 			return new ContinueCaseStatement();
 		}
+
+	    public ContinueCaseStatement Update() {
+	        return new ContinueCaseStatement();
+	    }
 	}
 }

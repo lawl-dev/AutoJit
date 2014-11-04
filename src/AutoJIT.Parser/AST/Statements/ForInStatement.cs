@@ -4,6 +4,7 @@ using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
@@ -35,7 +36,11 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitForInStatement( this );
+	    }
+
+	    public override string ToSource() {
 			string toReturn = string.Empty;
 			toReturn += string.Format( "For {0} In {1}{2}", VariableExpression.ToSource(), ToEnumerate.ToSource(), Environment.NewLine );
 			foreach(IStatementNode node in Block) {
@@ -48,5 +53,14 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new ForInStatement( (VariableExpression)VariableExpression.Clone(), (IExpressionNode)ToEnumerate.Clone(), Block.Select( x => (IStatementNode)x.Clone() ) );
 		}
+
+	    public ForInStatement Update( IExpressionNode toEnumerate, VariableExpression variableExpression, IEnumerable<IStatementNode> block ) {
+	        if ( ToEnumerate == toEnumerate &&
+	             VariableExpression == variableExpression &&
+	             Block == block ) {
+	            return this;
+	        }
+            return new ForInStatement( variableExpression, toEnumerate, block );
+	    }
 	}
 }

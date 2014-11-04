@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
-	public sealed class ContinueloopStatement : StatementBase
+	public sealed class ContinueLoopStatement : StatementBase
 	{
-		public ContinueloopStatement( int level ) {
+		public ContinueLoopStatement( int level ) {
 			Level = level;
 		}
 
@@ -18,12 +19,20 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitContinueLoopStatement( this );
+	    }
+
+	    public override string ToSource() {
 			return string.Format( "Continueloop {0}", Level );
 		}
 
 		public override object Clone() {
-			return new ContinueloopStatement( Level );
+			return new ContinueLoopStatement( Level );
 		}
+
+	    public ContinueLoopStatement Update( int level ) {
+	        return new ContinueLoopStatement( level );
+	    }
 	}
 }

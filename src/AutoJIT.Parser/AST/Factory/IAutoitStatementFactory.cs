@@ -11,7 +11,7 @@ namespace AutoJIT.Parser.AST.Factory
 	{
 		AssignStatement CreateAssignStatement( VariableExpression variableExpression, IExpressionNode expression, Token @operator );
 		ContinueCaseStatement CreateContinueCaseStatement();
-		ContinueloopStatement CreateContinueloopStatement( int level );
+		ContinueLoopStatement CreateContinueloopStatement( int level );
 		DimStatement CreateDimStatement( VariableExpression variableExpression, IExpressionNode initExpression );
 		DoUntilStatement CreateDoUntilStatement( IExpressionNode condition, List<IStatementNode> block );
 		ExitloopStatement CreateExitloopStatement( int level );

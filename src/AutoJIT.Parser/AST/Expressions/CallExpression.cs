@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
@@ -20,12 +21,23 @@ namespace AutoJIT.Parser.AST.Expressions
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitCallExpression( this );
+	    }
+
+	    public override string ToSource() {
 			return string.Format( "{0}({1})", IdentifierName, string.Join( ", ", Parameter ) );
 		}
 
 		public override object Clone() {
 			return new CallExpression( (string)IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
 		}
+
+	    public CallExpression Update( IEnumerable<IExpressionNode> parameter, string identifierName ) {
+	        if ( Parameter == parameter && IdentifierName == identifierName ) {
+	            return this;
+	        }
+            return new CallExpression( identifierName, parameter );
+	    }
 	}
 }

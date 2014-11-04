@@ -40,9 +40,9 @@ namespace WindowsFormsApplication1
 		private void OnChange1( object sender, EventArgs e ) {
 			string text = ( (TextBox)sender ).Text;
 			try {
-				AutoitScriptRootNode autoitScriptRootNode = _scriptParser.ParseScript( text, new PragmaOptions() );
+				AutoitScriptRoot autoitScriptRoot = _scriptParser.ParseScript( text, new PragmaOptions() );
 
-				textBox2.Text = _optimizer.Optimize( _autoitToCSharpConverter.Convert( autoitScriptRootNode ).NormalizeWhitespace() ).ToFullString();
+				textBox2.Text = _optimizer.Optimize( _autoitToCSharpConverter.Convert( autoitScriptRoot ).NormalizeWhitespace() ).ToFullString();
 			}
 			catch(Exception ex) {}
 		}

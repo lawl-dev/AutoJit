@@ -5,8 +5,5 @@ namespace AutoJIT.Parser.AST.Expressions
 {
 	public abstract class ExpressionBase : SyntaxNodeBase, IExpressionNode
 	{
-		public TReturn Accpet<TReturn>( IExpressionVisitor<TReturn> visitor ) {
-			return visitor.Visit( this );
-		}
 	}
 }

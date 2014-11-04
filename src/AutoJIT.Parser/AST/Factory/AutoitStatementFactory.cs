@@ -40,8 +40,8 @@ namespace AutoJIT.Parser.AST.Factory
 			return new ContinueCaseStatement();
 		}
 
-		public ContinueloopStatement CreateContinueloopStatement( int level ) {
-			return new ContinueloopStatement( level );
+		public ContinueLoopStatement CreateContinueloopStatement( int level ) {
+			return new ContinueLoopStatement( level );
 		}
 
 		public DimStatement CreateDimStatement( VariableExpression variableExpression, IExpressionNode initExpression ) {

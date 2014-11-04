@@ -38,7 +38,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule
 			Bind<IAutoitStatementConverter<DimStatement, StatementSyntax>, AutoitDimStatementConverter>();
 			Bind<IAutoitStatementConverter<GlobalDeclarationStatement, StatementSyntax>, AutoitGlobalDeclarationStatementConverter>();
 			Bind<IAutoitStatementConverter<ExitloopStatement, StatementSyntax>, AutoitExitloopStatementConverter>();
-			Bind<IAutoitStatementConverter<ContinueloopStatement, StatementSyntax>, AutoitContinueloopStatementConverter>();
+			Bind<IAutoitStatementConverter<ContinueLoopStatement, StatementSyntax>, AutoitContinueloopStatementConverter>();
 			Bind<IAutoitStatementConverter<ReDimStatement, StatementSyntax>, AutoitRedimStatementConverter>();
 			Bind<IAutoitStatementConverter<InitDefaultParameterStatement, StatementSyntax>, AutoitInitDefaultParameterStatementConverter>();
 			Bind<IAutoitStatementConverter<ContinueCaseStatement, StatementSyntax>, AutoitContinueCaseStatementConverter>();

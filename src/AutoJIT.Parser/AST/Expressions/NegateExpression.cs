@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions.Interface;
+using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Extensions;
 
 namespace AutoJIT.Parser.AST.Expressions
@@ -19,7 +20,11 @@ namespace AutoJIT.Parser.AST.Expressions
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitNegateExpression( this );
+	    }
+
+	    public override string ToSource() {
 			return string.Format( "-{0}", ExpressionNode.ToSource() );
 		}
 

@@ -46,7 +46,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AST\AutoitScriptRootNode.cs" />
+    <Compile Include="AST\AutoitScriptRoot.cs" />
     <Compile Include="AST\Expressions\ArrayExpression.cs" />
     <Compile Include="AST\Expressions\ArrayInitExpression.cs" />
     <Compile Include="AST\Expressions\BinaryExpression.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="AST\Expressions\VariableFunctionCallExpression.cs" />
     <Compile Include="AST\Factory\AutoitStatementFactory.cs" />
     <Compile Include="AST\Factory\IAutoitStatementFactory.cs" />
-    <Compile Include="AST\FunctionNode.cs" />
+    <Compile Include="AST\Function.cs" />
     <Compile Include="AST\ISyntaxNode.cs" />
     <Compile Include="AST\Parser\ExpressionParseBase.cs" />
     <Compile Include="AST\Parser\ExpressionParser.cs" />
@@ -141,12 +141,9 @@
     <Compile Include="AST\Statements\VariableFunctionCallStatement.cs" />
     <Compile Include="AST\Statements\WhileStatement.cs" />
     <Compile Include="AST\SyntaxNodeBase.cs" />
-    <Compile Include="AST\Visitor\IExpressionSyntaxVisitor.cs" />
-    <Compile Include="AST\Visitor\IExpressionVisitor.cs" />
-    <Compile Include="AST\Visitor\IFunctionSyntaxVisitor.cs" />
-    <Compile Include="AST\Visitor\IFunctionVisitor.cs" />
-    <Compile Include="AST\Visitor\IStatementVisitor.cs" />
     <Compile Include="AST\Visitor\ISyntaxVisitor.cs" />
+    <Compile Include="AST\Visitor\SyntaxRewriterBase.cs" />
+    <Compile Include="AST\Visitor\SyntaxVisitorBase.cs" />
     <Compile Include="AutoitParameterInfo.cs" />
     <Compile Include="Collection\TokenCollection.cs" />
     <Compile Include="Collection\TokenQueue.cs" />

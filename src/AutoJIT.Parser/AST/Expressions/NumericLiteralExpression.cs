@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Expressions
@@ -24,7 +25,11 @@ namespace AutoJIT.Parser.AST.Expressions
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitNumericLiteralExpression( this );
+	    }
+
+	    public override string ToSource() {
 			string toReturn = "";
 			if( Negativ ) {
 				toReturn += "-";

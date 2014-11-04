@@ -10,7 +10,7 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-	public sealed class ContinueLoopStatementStrategy : StatementParserStrategyBase<ContinueloopStatement>
+	public sealed class ContinueLoopStatementStrategy : StatementParserStrategyBase<ContinueLoopStatement>
 	{
 		public ContinueLoopStatementStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
@@ -18,7 +18,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 			return ParseContinueloop( block ).ToEnumerable();
 		}
 
-		private ContinueloopStatement ParseContinueloop( TokenQueue block ) {
+		private ContinueLoopStatement ParseContinueloop( TokenQueue block ) {
 			Token expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
 
 			int level = expressionPart != null

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
@@ -21,7 +22,11 @@ namespace AutoJIT.Parser.AST.Statements
 			}
 		}
 
-		public override string ToSource() {
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitReDimStatement( this );
+	    }
+
+	    public override string ToSource() {
 			return string.Format( "Redim {0}", ArrayExpression.ToSource() );
 		}
 

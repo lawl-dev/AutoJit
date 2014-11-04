@@ -28,7 +28,7 @@ namespace AutoJIT.Parser
 		private void RegisterStatementParserStrategys() {
 			Bind<IStatementParserStrategyResolver, StatementParserStrategyResolver>();
 			Bind<IStatementParserStrategy<AssignStatement>, AssignStatementParserStrategy>();
-			Bind<IStatementParserStrategy<ContinueloopStatement>, ContinueLoopStatementStrategy>();
+			Bind<IStatementParserStrategy<ContinueLoopStatement>, ContinueLoopStatementStrategy>();
 			Bind<IStatementParserStrategy<DimStatement>, DimStatementParserStrategy>();
 			Bind<IStatementParserStrategy<DoUntilStatement>, DoUntilStatementParserStrategy>();
 			Bind<IStatementParserStrategy<ExitloopStatement>, ExitLoopStatementParserStrategy>();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Expressions.Interface;
@@ -26,5 +27,13 @@ namespace AutoJIT.Parser.AST.Expressions
 		public override object Clone() {
 			return new ArrayExpression( (string)IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
 		}
+
+        public ArrayExpression Update(string identifierName, IEnumerable<IExpressionNode> accessParameter) {
+            if ( identifierName == IdentifierName &&
+                 accessParameter == AccessParameter ) {
+                return this;
+            }
+            return new ArrayExpression( identifierName, accessParameter );
+        }
 	}
 }

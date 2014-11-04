@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Expressions.Interface;
+using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
@@ -23,7 +24,11 @@ namespace AutoJIT.Parser.AST.Expressions
 			}
 		}
 
-		public override string ToSource()
+	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+	        return visitor.VisitVariableFunctionCallExpression( this );
+	    }
+
+	    public override string ToSource()
 		{
 			var parameters = string.Join(", ", Parameter.Select(x => x.ToSource()));
 			return string.Format("{0}({1})", VariableExpression.ToSource(), parameters);

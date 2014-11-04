@@ -8,11 +8,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-	internal sealed class AutoitContinueloopStatementConverter : AutoitStatementConverterBase<ContinueloopStatement>
+	internal sealed class AutoitContinueloopStatementConverter : AutoitStatementConverterBase<ContinueLoopStatement>
 	{
 		public AutoitContinueloopStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
-		public override IEnumerable<StatementSyntax> Convert( ContinueloopStatement statement, IContextService context ) {
+		public override IEnumerable<StatementSyntax> Convert( ContinueLoopStatement statement, IContextService context ) {
 			string coninueLoopLabelName = context.GetConinueLoopLabelName( statement.Level );
 
 			GotoStatementSyntax toReturn = SyntaxFactory.GotoStatement( SyntaxKind.GotoStatement, SyntaxFactory.IdentifierName( coninueLoopLabelName ) );

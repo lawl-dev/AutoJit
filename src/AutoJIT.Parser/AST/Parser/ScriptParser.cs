@@ -23,26 +23,26 @@ namespace AutoJIT.Parser.AST.Parser
 			_statementParser = statementParser;
 		}
 
-		public AutoitScriptRootNode ParseScript( string script, PragmaOptions pragmaOptions ) {
+		public AutoitScriptRoot ParseScript( string script, PragmaOptions pragmaOptions ) {
 			TokenCollection token = _lexer.Lex( script );
 
-			AutoitScriptRootNode autoJITScript = GetAutoJITScript( token, pragmaOptions );
+			AutoitScriptRoot autoJITScript = GetAutoJITScript( token, pragmaOptions );
 
-			foreach(FunctionNode function in autoJITScript.Functions) {
+			foreach(Function function in autoJITScript.Functions) {
 				function.Statements = _statementParser.ParseBlock( function.Queue ).ToList();
 				function.Statements.Add( new ReturnStatement( new NullExpression() ) );
 			}
-			autoJITScript.MainFunctionNode.Statements = _statementParser.ParseBlock( autoJITScript.MainFunctionNode.Queue ).ToList();
-			autoJITScript.MainFunctionNode.Statements.Add( new ReturnStatement( new NullExpression() ) );
+			autoJITScript.MainFunction.Statements = _statementParser.ParseBlock( autoJITScript.MainFunction.Queue ).ToList();
+			autoJITScript.MainFunction.Statements.Add( new ReturnStatement( new NullExpression() ) );
 			return autoJITScript;
 		}
 
-		private AutoitScriptRootNode GetAutoJITScript( IEnumerable<Token> tokens, PragmaOptions pragmaOptions ) {
+		private AutoitScriptRoot GetAutoJITScript( IEnumerable<Token> tokens, PragmaOptions pragmaOptions ) {
 			var tokenQueue = new TokenQueue( tokens );
 
-			var main = new FunctionNode( "Main", new List<AutoitParameterInfo>() );
+			var main = new Function( "Main", new List<AutoitParameterInfo>() );
 
-			var functions = new List<FunctionNode>();
+			var functions = new List<Function>();
 			bool isFunctionBody = false;
 
 			while( tokenQueue.Any() ) {
@@ -65,13 +65,13 @@ namespace AutoJIT.Parser.AST.Parser
 					Token functionName = tokenQueue.Dequeue();
 					string name = functionName.Value.StringValue;
 
-					functions.Add( new FunctionNode( name, ParseFunctionParameter( tokenQueue ) ) );
+					functions.Add( new Function( name, ParseFunctionParameter( tokenQueue ) ) );
 				}
 				else if( token.Value.Keyword != Keywords.Endfunc ) {
 					main.Queue.Enqueue( token );
 				}
 			}
-			return new AutoitScriptRootNode( functions, main, pragmaOptions );
+			return new AutoitScriptRoot( functions, main, pragmaOptions );
 		}
 
 		private IEnumerable<AutoitParameterInfo> ParseFunctionParameter( TokenQueue tokenQueue ) {
