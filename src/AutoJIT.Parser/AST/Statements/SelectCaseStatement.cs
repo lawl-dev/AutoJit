@@ -54,5 +54,13 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new SelectCaseStatement( Cases.Select( x => (SelectCase)x.Clone() ).ToList(), CloneEnumerableAs<IStatementNode>( Else ) );
 		}
+
+	    public SelectCaseStatement Update( IEnumerable<SelectCase> selectCases, IEnumerable<IStatementNode> @else ) {
+	        if ( this.Cases == selectCases &&
+	             Else == @else ) {
+	            return this;
+	        }
+            return new SelectCaseStatement( selectCases, @else );
+	    }
 	}
 }

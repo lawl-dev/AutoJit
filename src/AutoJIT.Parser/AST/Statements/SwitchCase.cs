@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
+using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.AST.Visitor;
 
@@ -8,14 +9,14 @@ namespace AutoJIT.Parser.AST.Statements
 {
 	public sealed class SwitchCase : StatementBase
 	{
-		public SwitchCase( List<CaseCondition> conditions, List<IStatementNode> block ) {
+		public SwitchCase( IEnumerable<CaseCondition> conditions, IEnumerable<IStatementNode> block ) {
 			Conditions = conditions;
 			Block = block;
 			Initialize();
 		}
 
-		public List<CaseCondition> Conditions { get; private set; }
-		public List<IStatementNode> Block { get; private set; }
+		public IEnumerable<CaseCondition> Conditions { get; private set; }
+		public IEnumerable<IStatementNode> Block { get; private set; }
 
 		public override IEnumerable<ISyntaxNode> Children {
 			get {
@@ -43,5 +44,13 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new SwitchCase( Conditions.Select( x => (CaseCondition)x.Clone() ).ToList(), Block.Select( x => (IStatementNode)x.Clone() ).ToList() );
 		}
+
+	    public SwitchCase Update( IEnumerable<CaseCondition> conditions, IEnumerable<IStatementNode> block ) {
+	        if ( Conditions == conditions &&
+	             Block == block ) {
+	            return this;
+	        }
+            return new SwitchCase( conditions, block );
+	    }
 	}
 }

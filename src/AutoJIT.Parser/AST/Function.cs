@@ -53,5 +53,14 @@ namespace AutoJIT.Parser.AST
 			toReturn += string.Format( "Parameter: {0}{1}", String.Join( ", ", Parameter.Select( x => x.ParameterName ) ), Environment.NewLine );
 			return toReturn;
 		}
+
+	    public Function Update( string name, IEnumerable<AutoitParameterInfo> parameter, IEnumerable<IStatementNode> statements ) {
+	        if ( Name == name &&
+	             Parameter == parameter &&
+	             Statements == statements ) {
+	            return this;
+	        }
+            return new Function( name, Parameter ){Statements = statements.ToList()};
+	    }
 	}
 }

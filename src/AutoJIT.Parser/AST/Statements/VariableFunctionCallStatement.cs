@@ -34,5 +34,12 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new VariableFunctionCallStatement( (VariableFunctionCallExpression)VariableFunctionCallExpression.Clone());
 		}
+
+	    public VariableFunctionCallStatement Update( VariableFunctionCallExpression variableFunctionCallExpression ) {
+	        if ( VariableFunctionCallExpression == variableFunctionCallExpression ) {
+	            return this;
+	        }
+            return new VariableFunctionCallStatement( variableFunctionCallExpression );
+	    }
 	}
 }

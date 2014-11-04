@@ -33,5 +33,12 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new ReturnStatement( CloneAs<IExpressionNode>( ReturnExpression ) );
 		}
+
+	    public ReturnStatement Update( IExpressionNode returnExpression ) {
+	        if ( ReturnExpression == returnExpression ) {
+	            return this;
+	        }
+            return new ReturnStatement( returnExpression );
+	    }
 	}
 }

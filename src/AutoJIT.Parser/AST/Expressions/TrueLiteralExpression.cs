@@ -23,5 +23,9 @@ namespace AutoJIT.Parser.AST.Expressions
 		public override object Clone() {
 			return new TrueLiteralExpression();
 		}
+
+	    public TrueLiteralExpression Update() {
+	        return new TrueLiteralExpression();
+	    }
 	}
 }

@@ -33,5 +33,13 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new FunctionCallStatement( (IExpressionNode)FunctionCallExpression.Clone() );
 		}
+
+	    public FunctionCallStatement Update( IExpressionNode functionCallExpression ) {
+	        if ( FunctionCallExpression == functionCallExpression ) {
+	            return this;
+	        }
+
+            return new FunctionCallStatement( functionCallExpression );
+	    }
 	}
 }

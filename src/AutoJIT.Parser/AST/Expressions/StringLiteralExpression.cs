@@ -26,5 +26,12 @@ namespace AutoJIT.Parser.AST.Expressions
 		public override object Clone() {
 			return new StringLiteralExpression( LiteralToken );
 		}
+
+	    public StringLiteralExpression Update( Token literalToken ) {
+	        if ( LiteralToken == literalToken ) {
+	            return this;
+	        }
+            return new StringLiteralExpression( literalToken );
+	    }
 	}
 }

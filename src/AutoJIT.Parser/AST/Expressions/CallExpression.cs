@@ -33,7 +33,7 @@ namespace AutoJIT.Parser.AST.Expressions
 			return new CallExpression( (string)IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
 		}
 
-	    public CallExpression Update( IEnumerable<IExpressionNode> parameter, string identifierName ) {
+	    public virtual CallExpression Update( IEnumerable<IExpressionNode> parameter, string identifierName ) {
 	        if ( Parameter == parameter && IdentifierName == identifierName ) {
 	            return this;
 	        }

@@ -41,5 +41,13 @@ namespace AutoJIT.Parser.AST.Expressions
 		public override object Clone() {
 			return new NumericLiteralExpression( LiteralToken, SignOperators );
 		}
+
+	    public NumericLiteralExpression Update( Token literalToken, IEnumerable<Token> signOperators ) {
+	        if ( LiteralToken == literalToken &&
+	             SignOperators == signOperators ) {
+	            return this;
+	        }
+            return new NumericLiteralExpression( literalToken, signOperators );
+	    }
 	}
 }

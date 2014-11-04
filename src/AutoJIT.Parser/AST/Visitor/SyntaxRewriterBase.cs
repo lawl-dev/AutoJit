@@ -126,5 +126,157 @@ namespace AutoJIT.Parser.AST.Visitor
             var block = node.Block.Select( x=>(IStatementNode)Visit( x ) );
             return node.Update( variableExpression, startExpression, endExpression, stepExpression, block );
         }
+
+        public override ISyntaxNode VisitFunction( Function node ) {
+            var name = node.Name;
+            var parameter = node.Parameter;
+            var statements = node.Statements.Select( x=>(IStatementNode)Visit( x ) );
+            return node.Update( name, parameter, statements );
+        }
+
+        public override ISyntaxNode VisitFunctionCallStatement( FunctionCallStatement node ) {
+            var functionCallExpression = (IExpressionNode)Visit(node.FunctionCallExpression);
+            return node.Update( functionCallExpression );
+        }
+
+        public override ISyntaxNode VisitFunctionExpression( FunctionExpression node ) {
+            var identifierName = node.IdentifierName;
+            return node.Update( identifierName );
+        }
+
+        public override ISyntaxNode VisitGlobalDeclarationStatement( GlobalDeclarationStatement node ) {
+            var variableExpression = (VariableExpression)Visit(node.VariableExpression);
+            var initExpression = (IExpressionNode)Visit(node.InitExpression);
+            var isConst = node.IsConst;
+            return node.Update( variableExpression, initExpression, isConst );
+        }
+
+        public override ISyntaxNode VisitIfElseStatement( IfElseStatement node ) {
+            var condition = (IExpressionNode)Visit(node.Condition);
+            var ifBlock = node.IfBlock.Select( x=>(IStatementNode)x );
+            var elseIfConditions = node.ElseIfConditions.Select( x=>(IExpressionNode)Visit( x ) );
+            var elseIfBlocks = node.ElseIfBlocks.Select( x=>x.Select( y=>(IStatementNode)Visit( y ) ) );
+            var elseBlock = node.ElseBlock.Select( x=>(IStatementNode)Visit( x ) );
+            return node.Update( condition, ifBlock, elseIfConditions, elseIfBlocks, elseBlock );
+        }
+
+        public override ISyntaxNode VisitInitDefaultParameterStatement( InitDefaultParameterStatement node ) {
+            var parameterName = node.ParameterName;
+            var defaultValue = (IExpressionNode)Visit(node.DefaultValue);
+            return node.Update( parameterName, defaultValue );
+        }
+
+        public override ISyntaxNode VisitLocalDeclarationStatement( LocalDeclarationStatement node ) {
+            var variableExpression = (VariableExpression)Visit(node.VariableExpression);
+            var initExpression = (IExpressionNode)Visit(node.InitExpression);
+            var isConst = node.IsConst;
+            return node.Update(variableExpression, initExpression, isConst);
+        }
+
+        public override ISyntaxNode VisitMacroExpression( MacroExpression node ) {
+            var macroName = node.MacroName;
+            return node.Update( macroName );
+        }
+
+        public override ISyntaxNode VisitNegateExpression( NegateExpression node ) {
+            var expressionNode = (IExpressionNode)Visit(node.ExpressionNode);
+            return node.Update( expressionNode );
+        }
+
+        public override ISyntaxNode VisitNullExpression( NullExpression node ) {
+            return node.Update();
+        }
+
+        public override ISyntaxNode VisitNumericLiteralExpression( NumericLiteralExpression node ) {
+            var signOperators = node.SignOperators;
+            var literalToken = node.LiteralToken;
+            return node.Update( literalToken, signOperators );
+        }
+
+        public override ISyntaxNode VisitReDimStatement( ReDimStatement node ) {
+            var arrayExpression = (ArrayExpression)Visit(node.ArrayExpression);
+            return node.Update( arrayExpression );
+        }
+
+        public override ISyntaxNode VisitReturnStatement( ReturnStatement node ) {
+            var returnExpression = (IExpressionNode)Visit( node.ReturnExpression );
+            return node.Update( returnExpression );
+        }
+
+        public override ISyntaxNode VisitSelectCase( SelectCase node ) {
+            var condition = (IExpressionNode)Visit(node.Condition);
+            var block = node.Block.Select( x=>(IStatementNode)Visit( x ) );
+            return node.Update( condition, block );
+        }
+
+        public override ISyntaxNode VisitSelectCaseStatement( SelectCaseStatement node ) {
+            var selectCases = node.Cases.Select( x=>(SelectCase)Visit(x) );
+            var @else = node.Else.Select( x=>(IStatementNode)Visit(x) );
+            return node.Update( selectCases, @else );
+        }
+
+        public override ISyntaxNode VisitStaticDeclarationStatement( StaticDeclarationStatement node ) {
+            var variableExpression = (VariableExpression)Visit(node.VariableExpression);
+            var initExpression = (IExpressionNode)Visit(node.InitExpression);
+            var isConst = node.IsConst;
+            return node.Update( variableExpression, initExpression, isConst );
+        }
+
+        public override ISyntaxNode VisitStringLiteralExpression( StringLiteralExpression node ) {
+            var literalToken = node.LiteralToken;
+            return node.Update( literalToken );
+        }
+
+        public override ISyntaxNode VisitSwitchCase( SwitchCase node ) {
+            var conditions = node.Conditions.Select( x=>(CaseCondition)Visit( x ) );
+            var block = node.Block.Select( x=>(IStatementNode)Visit( x ) );
+            return node.Update( conditions, block );
+        }
+
+        public override ISyntaxNode VisitSwitchCaseStatement( SwitchCaseStatement node ) {
+            var cases = node.Cases.Select( x=>(SwitchCase)Visit(x) );
+            var condition = (IExpressionNode)Visit(node.Condition);
+            var @else = node.Else.Select( x=>(IStatementNode)Visit( x ) );
+            return node.Update( condition, cases, @else );
+        }
+
+        public override ISyntaxNode VisitTernaryExpression( TernaryExpression node ) {
+            var condition = (IExpressionNode) Visit( node.Condition );
+            var ifTrue = (IExpressionNode)Visit( node.IfTrue );
+            var ifFalse = (IExpressionNode)Visit( node.IfFalse );
+            return node.Update( condition, ifTrue, ifFalse );
+        }
+
+        public override ISyntaxNode VisitTrueLiteralExpression( TrueLiteralExpression node ) {
+            return node.Update();
+        }
+
+        public override ISyntaxNode VisitUserfunctionCallExpression( UserfunctionCallExpression node ) {
+            var identifierName = node.IdentifierName;
+            var parameter = node.Parameter.Select( x=>(IExpressionNode)Visit( x ) );
+            return node.Update( parameter, identifierName );
+        }
+
+        public override ISyntaxNode VisitVariableExpression( VariableExpression node ) {
+            var identifierName = node.IdentifierName;
+            return node.Update( identifierName );
+        }
+
+        public override ISyntaxNode VisitVariableFunctionCallExpression( VariableFunctionCallExpression node ) {
+            var parameter = node.Parameter.Select( x=>(IExpressionNode)Visit(x) );
+            var variableExpression = (VariableExpression)Visit(node.VariableExpression);
+            return node.Update( variableExpression, parameter );
+        }
+
+        public override ISyntaxNode VisitVariableFunctionCallStatement( VariableFunctionCallStatement node ) {
+            var variableFunctionCallExpression = (VariableFunctionCallExpression)Visit(node.VariableFunctionCallExpression);
+            return node.Update( variableFunctionCallExpression );
+        }
+
+        public override ISyntaxNode VisitWhileStatement( WhileStatement node ) {
+            var condition = (IExpressionNode)Visit( node.Condition );
+            var block = node.Block.Select( x=>(IStatementNode)Visit( x ) );
+            return node.Update( condition, block );
+        }
     }
 }

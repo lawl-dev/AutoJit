@@ -29,5 +29,12 @@ namespace AutoJIT.Parser.AST.Expressions
 		public override object Clone() {
 			return new MacroExpression( (string)MacroName.Clone() );
 		}
+
+	    public MacroExpression Update( string macroName ) {
+	        if ( MacroName == macroName ) {
+	            return this;
+	        }
+            return new MacroExpression( macroName );
+	    }
 	}
 }

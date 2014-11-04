@@ -43,5 +43,15 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new LocalDeclarationStatement( (VariableExpression)VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ), IsConst );
 		}
+
+	    public virtual LocalDeclarationStatement Update( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst ) {
+            if (VariableExpression == variableExpression &&
+              InitExpression == initExpression &&
+              IsConst == isConst)
+            {
+                return this;
+            }
+            return new LocalDeclarationStatement(variableExpression, initExpression, isConst);
+        }
 	}
 }

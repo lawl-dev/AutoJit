@@ -89,5 +89,16 @@ namespace AutoJIT.Parser.AST.Statements
 			: null,
 			CloneEnumerableAs<IStatementNode>( ElseBlock ) );
 		}
+
+	    public IfElseStatement Update( IExpressionNode condition, IEnumerable<IStatementNode> ifBlock, IEnumerable<IExpressionNode> elseIfConditions, IEnumerable<IEnumerable<IStatementNode>> elseIfBlocks, IEnumerable<IStatementNode> elseBlock ) {
+	        if ( Condition == condition &&
+	             IfBlock == ifBlock &&
+	             ElseIfConditions == elseIfConditions &&
+	             ElseIfBlocks == elseIfBlocks &&
+	             ElseBlock == elseBlock ) {
+	            return this;
+	        }
+            return new IfElseStatement( condition, ifBlock, elseIfConditions, elseIfBlocks, elseBlock );
+	    }
 	}
 }

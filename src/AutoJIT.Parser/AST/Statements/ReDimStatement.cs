@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions;
+using AutoJIT.Parser.AST.Parser.Strategy;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.AST.Visitor;
 
@@ -33,5 +34,12 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new ReDimStatement( (ArrayExpression)ArrayExpression.Clone() );
 		}
+
+	    public ReDimStatement Update( ArrayExpression arrayExpression ) {
+	        if ( ArrayExpression == arrayExpression ) {
+	            return this;
+	        }
+            return new ReDimStatement( arrayExpression );
+	    }
 	}
 }

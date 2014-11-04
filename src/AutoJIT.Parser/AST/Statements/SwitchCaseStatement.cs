@@ -9,7 +9,7 @@ namespace AutoJIT.Parser.AST.Statements
 {
 	public sealed class SwitchCaseStatement : StatementBase
 	{
-		public SwitchCaseStatement( IExpressionNode condition, List<SwitchCase> cases, IEnumerable<IStatementNode> @else ) {
+		public SwitchCaseStatement( IExpressionNode condition, IEnumerable<SwitchCase> cases, IEnumerable<IStatementNode> @else ) {
 			Condition = condition;
 			Cases = cases;
 			Else = @else;
@@ -17,7 +17,7 @@ namespace AutoJIT.Parser.AST.Statements
 		}
 
 		public IExpressionNode Condition { get; private set; }
-		public List<SwitchCase> Cases { get; private set; }
+		public IEnumerable<SwitchCase> Cases { get; private set; }
 		public IEnumerable<IStatementNode> Else { get; private set; }
 
 		public override IEnumerable<ISyntaxNode> Children {
@@ -55,5 +55,14 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new SwitchCaseStatement( (IExpressionNode)Condition.Clone(), Cases.Select( x => (SwitchCase)x.Clone() ).ToList(), CloneEnumerableAs<IStatementNode>( Else ) );
 		}
+
+	    public SwitchCaseStatement Update( IExpressionNode condition, IEnumerable<SwitchCase> cases, IEnumerable<IStatementNode> @else ) {
+	        if ( Condition == condition &&
+	             Cases == cases &&
+	             Else == @else ) {
+	            return this;
+	        }
+            return new SwitchCaseStatement( condition, cases, @else );
+	    }
 	}
 }

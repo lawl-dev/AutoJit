@@ -35,5 +35,13 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new InitDefaultParameterStatement( (string)ParameterName.Clone(), (IExpressionNode)DefaultValue.Clone() );
 		}
+
+	    public InitDefaultParameterStatement Update( string parameterName, IExpressionNode defaultValue ) {
+	        if ( ParameterName == parameterName &&
+	             DefaultValue == defaultValue ) {
+	            return this;
+	        }
+            return new InitDefaultParameterStatement( parameterName, defaultValue );
+	    }
 	}
 }

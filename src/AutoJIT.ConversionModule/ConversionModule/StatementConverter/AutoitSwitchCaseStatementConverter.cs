@@ -23,7 +23,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
 			var ifs = new List<IfStatementSyntax>();
 
-			for( int i = 0; i < statement.Cases.Count; i++ ) {
+			for( int i = 0; i < statement.Cases.Count(); i++ ) {
 				context.RegisterCase();
 				string continueCaseLabelName = context.GetContinueCaseLabelName();
 				string format = string.Format( "JUMPABHACK_{0}", continueCaseLabelName );

@@ -43,5 +43,14 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new GlobalDeclarationStatement( (VariableExpression)VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ), IsConst );
 		}
+
+	    public GlobalDeclarationStatement Update( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst ) {
+	        if ( VariableExpression == variableExpression &&
+	             InitExpression == initExpression &&
+	             IsConst == isConst ) {
+	            return this;
+	        }
+            return new GlobalDeclarationStatement( variableExpression, initExpression, isConst );
+	    }
 	}
 }

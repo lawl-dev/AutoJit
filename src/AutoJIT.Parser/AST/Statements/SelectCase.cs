@@ -9,7 +9,7 @@ namespace AutoJIT.Parser.AST.Statements
 {
 	public sealed class SelectCase : StatementBase
 	{
-		public SelectCase( IExpressionNode condition, List<IStatementNode> block ) {
+		public SelectCase( IExpressionNode condition, IEnumerable<IStatementNode> block ) {
 			Condition = condition;
 			Block = block;
 			Initialize();
@@ -45,5 +45,13 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new SelectCase( (IExpressionNode)Condition.Clone(), Block.Select( x => (IStatementNode)x.Clone() ).ToList() );
 		}
+
+	    public SelectCase Update( IExpressionNode condition, IEnumerable<IStatementNode> block ) {
+	        if ( Condition == condition &&
+	             Block == block ) {
+	            return this;
+	        }
+            return new SelectCase( condition, block );
+	    }
 	}
 }

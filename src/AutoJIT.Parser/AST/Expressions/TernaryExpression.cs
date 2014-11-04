@@ -38,5 +38,14 @@ namespace AutoJIT.Parser.AST.Expressions
 		public override object Clone() {
 			return new TernaryExpression( (IExpressionNode)Condition.Clone(), (IExpressionNode)IfTrue.Clone(), (IExpressionNode)IfFalse.Clone() );
 		}
+
+	    public TernaryExpression Update( IExpressionNode condition, IExpressionNode ifTrue, IExpressionNode ifFalse ) {
+	        if ( Condition == condition &&
+	             IfTrue == ifTrue &&
+	             IfFalse == ifFalse ) {
+	            return this;
+	        }
+            return new TernaryExpression( condition, ifTrue, ifFalse );
+	    }
 	}
 }

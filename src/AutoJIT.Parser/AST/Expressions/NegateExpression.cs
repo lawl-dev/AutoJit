@@ -31,5 +31,12 @@ namespace AutoJIT.Parser.AST.Expressions
 		public override object Clone() {
 			return new NegateExpression( (IExpressionNode)ExpressionNode.Clone() );
 		}
+
+	    public NegateExpression Update( IExpressionNode expressionNode ) {
+	        if ( ExpressionNode == expressionNode ) {
+	            return this;
+	        }
+            return new NegateExpression( expressionNode );
+	    }
 	}
 }

@@ -12,10 +12,19 @@ using System.Threading;
 using AutoJIT.Compiler;
 using AutoJIT.CompilerApplication;
 using AutoJIT.Infrastructure;
+using AutoJIT.Parser;
+using AutoJIT.Parser.AST;
+using AutoJIT.Parser.AST.Expressions;
+using AutoJIT.Parser.AST.Parser.Interface;
+using AutoJIT.Parser.AST.Statements;
+using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
+using AutoJIT.Parser.Lex;
 using AutoJITRuntime;
 using AutoJITRuntime.Variants;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
+using SwitchCase = AutoJIT.Parser.AST.Statements.SwitchCase;
 
 namespace UnitTests
 {
@@ -194,11 +203,22 @@ namespace UnitTests
 
 		[Test]
 		public void Foo() {
-
+		    var parserBootStrapper = new ParserBootStrapper();
+		    var scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
+		    string script = "Func F()"+Environment.NewLine;
+		    script += "$i = 0"+Environment.NewLine;
+		    script += "EndFunc";
+		    var autoitScriptRoot = scriptParser.ParseScript( script, new PragmaOptions() );
+		    var rewriter = new Rewriter();
+		    var newTree = rewriter.Visit( autoitScriptRoot );
+            Console.Write(newTree.ToSource());
 		}
 
-	    public void Foo2() {
-	        
+	    class Rewriter:SyntaxRewriterBase
+	    {
+	        public override ISyntaxNode VisitAssignStatement( AssignStatement node ) {
+	            return new SwitchCaseStatement( new TrueLiteralExpression(), new[] { new SwitchCase( new[] { new CaseCondition( new TrueLiteralExpression(), null ), new CaseCondition( new FalseLiteralExpression(), null ) }, Enumerable.Empty<IStatementNode>() ) }, Enumerable.Empty<IStatementNode>() );
+	        }
 	    }
 	}
 }

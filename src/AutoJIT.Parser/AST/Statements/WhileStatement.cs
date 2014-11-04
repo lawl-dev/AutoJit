@@ -45,5 +45,13 @@ namespace AutoJIT.Parser.AST.Statements
 		public override object Clone() {
 			return new WhileStatement( (IExpressionNode)Condition.Clone(), Block.Select( x => (IStatementNode)x.Clone() ) );
 		}
+
+	    public WhileStatement Update( IExpressionNode condition, IEnumerable<IStatementNode> block ) {
+	        if ( Condition == condition &&
+	             Block == block ) {
+	            return this;
+	        }
+            return new WhileStatement( condition, block );
+	    }
 	}
 }
