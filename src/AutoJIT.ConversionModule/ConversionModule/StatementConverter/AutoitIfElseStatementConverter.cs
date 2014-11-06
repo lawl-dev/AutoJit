@@ -8,49 +8,49 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-	internal sealed class AutoitIfElseStatementConverter : AutoitStatementConverterBase<IfElseStatement>
-	{
-		private readonly ICSharpStatementFactory _cSharpStatementFactory;
+    internal sealed class AutoitIfElseStatementConverter : AutoitStatementConverterBase<IfElseStatement>
+    {
+        private readonly ICSharpStatementFactory _cSharpStatementFactory;
 
-		public AutoitIfElseStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {
-			_cSharpStatementFactory = cSharpStatementFactory;
-		}
+        public AutoitIfElseStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {
+            _cSharpStatementFactory = cSharpStatementFactory;
+        }
 
-		public override IEnumerable<StatementSyntax> Convert( IfElseStatement statement, IContextService context ) {
-			var toReturn = new List<StatementSyntax>();
+        public override IEnumerable<StatementSyntax> Convert( IfElseStatement statement, IContextService context ) {
+            var toReturn = new List<StatementSyntax>();
 
-			IfStatementSyntax ifStatement = _cSharpStatementFactory.CreateIfStatement( ConvertGeneric( statement.Condition, context ), statement.IfBlock.SelectMany( x => ConvertGeneric( x, context ) ) );
+            IfStatementSyntax ifStatement = _cSharpStatementFactory.CreateIfStatement( ConvertGeneric( statement.Condition, context ), (BlockSyntax) ConvertGeneric( statement.IfBlock, context ).Single() );
 
-			var elseIfs = new List<IfStatementSyntax>();
+            var elseIfs = new List<IfStatementSyntax>();
 
-			if( statement.ElseIfConditions != null ) {
-				for( int i = 0; i < statement.ElseIfConditions.Count(); i++ ) {
-					IfStatementSyntax innerIfStatement = _cSharpStatementFactory.CreateIfStatement( ConvertGeneric( statement.ElseIfConditions.ElementAt( i ), context ), statement.ElseIfBlocks.ElementAt( i ).SelectMany( x => ConvertGeneric( x, context ) ) );
-					elseIfs.Add( innerIfStatement );
-				}
-			}
+            if ( statement.ElseIfConditions != null ) {
+                for ( int i = 0; i < statement.ElseIfConditions.Count(); i++ ) {
+                    IfStatementSyntax innerIfStatement = _cSharpStatementFactory.CreateIfStatement( ConvertGeneric( statement.ElseIfConditions.ElementAt( i ), context ), (BlockSyntax) ConvertGeneric( statement.ElseIfBlocks.ElementAt( i ), context ).Single() );
+                    elseIfs.Add( innerIfStatement );
+                }
+            }
 
-			if( elseIfs.Count > 1 ) {
-				for( int index = elseIfs.Count-1; index > 0; index-- ) {
-					IfStatementSyntax innerIf = elseIfs[index];
-					elseIfs[index-1] = elseIfs[index-1].WithElse( innerIf.ToElseClause() );
-				}
-			}
+            if ( elseIfs.Count > 1 ) {
+                for ( int index = elseIfs.Count-1; index > 0; index-- ) {
+                    IfStatementSyntax innerIf = elseIfs[index];
+                    elseIfs[index-1] = elseIfs[index-1].WithElse( innerIf.ToElseClause() );
+                }
+            }
 
-			if( elseIfs.Any() ) {
-				if( statement.ElseBlock != null ) {
-					elseIfs[0] = elseIfs[0].WithElse( statement.ElseBlock.SelectMany( x => ConvertGeneric( x, context ) ).ToBlock().ToElseClause() );
-				}
-				ifStatement = ifStatement.WithElse( elseIfs[0].ToElseClause() );
-			}
-			else {
-				if( statement.ElseBlock != null ) {
-					ifStatement = ifStatement.WithElse( statement.ElseBlock.SelectMany( x => ConvertGeneric( x, context ) ).ToBlock().ToElseClause() );
-				}
-			}
-			toReturn.Add( ifStatement );
+            if ( elseIfs.Any() ) {
+                if ( statement.ElseBlock != null ) {
+                    elseIfs[0] = elseIfs[0].WithElse( ConvertGeneric( statement.ElseBlock, context ).Single().ToElseClause() );
+                }
+                ifStatement = ifStatement.WithElse( elseIfs[0].ToElseClause() );
+            }
+            else {
+                if ( statement.ElseBlock != null ) {
+                    ifStatement = ifStatement.WithElse( ConvertGeneric( statement.ElseBlock, context ).Single().ToElseClause() );
+                }
+            }
+            toReturn.Add( ifStatement );
 
-			return toReturn;
-		}
-	}
+            return toReturn;
+        }
+    }
 }

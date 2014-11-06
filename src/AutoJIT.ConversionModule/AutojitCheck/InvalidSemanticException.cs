@@ -2,16 +2,16 @@
 
 namespace AutoJIT.CSharpConverter.AutojitCheck
 {
-	public class InvalidSemanticException : Exception
-	{
-		private readonly string _message;
+    public class InvalidSemanticException : Exception
+    {
+        private readonly string _message;
 
-		public InvalidSemanticException( string message ) {
-			_message = message;
-		}
+        public InvalidSemanticException( string message ) {
+            _message = message;
+        }
 
-		public override string ToString() {
-			return _message;
-		}
-	}
+        public override string ToString() {
+            return _message;
+        }
+    }
 }

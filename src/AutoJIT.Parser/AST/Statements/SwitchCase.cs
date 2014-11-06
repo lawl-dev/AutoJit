@@ -1,56 +1,55 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
-using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Statements
 {
-	public sealed class SwitchCase : StatementBase
-	{
-		public SwitchCase( IEnumerable<CaseCondition> conditions, IEnumerable<IStatementNode> block ) {
-			Conditions = conditions;
-			Block = block;
-			Initialize();
-		}
+    public sealed class SwitchCase : StatementBase
+    {
+        public SwitchCase( IEnumerable<CaseCondition> conditions, BlockStatement block ) {
+            Conditions = conditions;
+            Block = block;
+            Initialize();
+        }
 
-		public IEnumerable<CaseCondition> Conditions { get; private set; }
-		public IEnumerable<IStatementNode> Block { get; private set; }
+        public IEnumerable<CaseCondition> Conditions { get; private set; }
+        public BlockStatement Block { get; private set; }
 
-		public override IEnumerable<ISyntaxNode> Children {
-			get {
-				var nodes = new List<ISyntaxNode>();
+        public override IEnumerable<ISyntaxNode> Children {
+            get {
+                var nodes = new List<ISyntaxNode>();
 
-				nodes.AddRange( Conditions );
-				nodes.AddRange( Block );
+                nodes.AddRange( Conditions );
+                nodes.Add( Block );
 
-				return nodes;
-			}
-		}
+                return nodes;
+            }
+        }
 
-	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
-	        return visitor.VisitSwitchCase( this );
-	    }
+        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+            return visitor.VisitSwitchCase( this );
+        }
 
-	    public override string ToSource() {
-			string toReturn = string.Empty;
-			foreach(CaseCondition condition in Conditions) {
-				toReturn += condition.ToSource();
-			}
-			return toReturn;
-		}
+        public override string ToSource() {
+            string toReturn = "Case ";
+            toReturn += string.Format( "{0}{1}", string.Join( ", ", Conditions.Select( x => x.ToSource() ) ), Environment.NewLine );
+            toReturn += Block.ToSource();
+            return toReturn;
+        }
 
-		public override object Clone() {
-			return new SwitchCase( Conditions.Select( x => (CaseCondition)x.Clone() ).ToList(), Block.Select( x => (IStatementNode)x.Clone() ).ToList() );
-		}
+        public override object Clone() {
+            return new SwitchCase( Conditions.Select( x => (CaseCondition) x.Clone() ).ToList(), (BlockStatement) Block.Clone() );
+        }
 
-	    public SwitchCase Update( IEnumerable<CaseCondition> conditions, IEnumerable<IStatementNode> block ) {
-	        if ( Conditions == conditions &&
-	             Block == block ) {
-	            return this;
-	        }
+        public SwitchCase Update( IEnumerable<CaseCondition> conditions, BlockStatement block ) {
+            if ( Conditions == conditions &&
+                 Block == block ) {
+                return this;
+            }
             return new SwitchCase( conditions, block );
-	    }
-	}
+        }
+    }
 }

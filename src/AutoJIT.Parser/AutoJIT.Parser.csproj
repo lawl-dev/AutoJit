@@ -64,6 +64,7 @@
     <Compile Include="AST\Expressions\NumericLiteralExpression.cs" />
     <Compile Include="AST\Expressions\StringLiteralExpression.cs" />
     <Compile Include="AST\Expressions\TernaryExpression.cs" />
+    <Compile Include="AST\Expressions\TokenNode.cs" />
     <Compile Include="AST\Expressions\TrueLiteralExpression.cs" />
     <Compile Include="AST\Expressions\UserfunctionCallExpression.cs" />
     <Compile Include="AST\Expressions\UserfunctionExpression.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="AST\PragmaOptions.cs" />
     <Compile Include="AST\Statements\AssignStatement.cs" />
     <Compile Include="AST\Expressions\CaseCondition.cs" />
+    <Compile Include="AST\Statements\BlockStatement.cs" />
     <Compile Include="AST\Statements\ContinueCaseStatement.cs" />
     <Compile Include="AST\Statements\ContinueloopStatement.cs" />
     <Compile Include="AST\Statements\DimStatement.cs" />

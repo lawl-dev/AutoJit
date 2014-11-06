@@ -6,16 +6,16 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-	internal sealed class AutoitReturnStatementConverter : AutoitStatementConverterBase<ReturnStatement>
-	{
-		public AutoitReturnStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+    internal sealed class AutoitReturnStatementConverter : AutoitStatementConverterBase<ReturnStatement>
+    {
+        public AutoitReturnStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
-		public override IEnumerable<StatementSyntax> Convert( ReturnStatement statement, IContextService context ) {
-			var toReturn = new List<StatementSyntax>();
+        public override IEnumerable<StatementSyntax> Convert( ReturnStatement statement, IContextService context ) {
+            var toReturn = new List<StatementSyntax>();
 
-			toReturn.Add( CSharpStatementFactory.CreateReturn( ConvertGeneric( statement.ReturnExpression, context ) ) );
+            toReturn.Add( CSharpStatementFactory.CreateReturn( ConvertGeneric( statement.ReturnExpression, context ) ) );
 
-			return toReturn;
-		}
-	}
+            return toReturn;
+        }
+    }
 }

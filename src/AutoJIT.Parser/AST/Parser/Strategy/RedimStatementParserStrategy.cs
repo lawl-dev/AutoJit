@@ -10,24 +10,25 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-	public sealed class RedimStatementParserStrategy : StatementParserStrategyBase<ReDimStatement>
-	{
-		public RedimStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+    public sealed class RedimStatementParserStrategy : StatementParserStrategyBase<ReDimStatement>
+    {
+        public RedimStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-			return ParseRedim( block );
-		}
+        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+            return ParseRedim( block );
+        }
 
-		private IEnumerable<ReDimStatement> ParseRedim( TokenQueue block ) {
-			var toReturn = new List<ReDimStatement>();
-			do {
-				Consume( block, TokenType.Comma );
-				var arrayExpression = ExpressionParser.ParseSingle<ArrayExpression>( block );
+        private IEnumerable<ReDimStatement> ParseRedim( TokenQueue block ) {
+            var toReturn = new List<ReDimStatement>();
+            do {
+                Consume( block, TokenType.Comma );
+                var arrayExpression = ExpressionParser.ParseSingle<ArrayExpression>( block );
 
-				toReturn.Add( AutoitStatementFactory.CreateReDimStatement( arrayExpression ) );
-			} while( block.Any()
-					 && block.Peek().Type == TokenType.Comma );
-			return toReturn;
-		}
-	}
+                toReturn.Add( AutoitStatementFactory.CreateReDimStatement( arrayExpression ) );
+            } while ( block.Any()
+                      &&
+                      block.Peek().Type == TokenType.Comma );
+            return toReturn;
+        }
+    }
 }

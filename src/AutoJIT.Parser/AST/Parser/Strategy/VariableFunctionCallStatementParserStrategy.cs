@@ -9,15 +9,14 @@ using AutoJIT.Parser.Extensions;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-	public sealed class VariableFunctionCallStatementParserStrategy : StatementParserStrategyBase<VariableFunctionCallStatement>
-	{
-		public VariableFunctionCallStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
-		
-		
-		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-			var variableFunctionCallExpression = ExpressionParser.ParseSingle<VariableFunctionCallExpression>( block );
+    public sealed class VariableFunctionCallStatementParserStrategy : StatementParserStrategyBase<VariableFunctionCallStatement>
+    {
+        public VariableFunctionCallStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-			return new VariableFunctionCallStatement( variableFunctionCallExpression ).ToEnumerable();
-		}
-	}
+        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+            var variableFunctionCallExpression = ExpressionParser.ParseSingle<VariableFunctionCallExpression>( block );
+
+            return new VariableFunctionCallStatement( variableFunctionCallExpression ).ToEnumerable();
+        }
+    }
 }

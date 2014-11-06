@@ -9,27 +9,27 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-	internal sealed class AutoitDoUntilStatementConverter : AutoitStatementConverterBase<DoUntilStatement>
-	{
-		public AutoitDoUntilStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+    internal sealed class AutoitDoUntilStatementConverter : AutoitStatementConverterBase<DoUntilStatement>
+    {
+        public AutoitDoUntilStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
-		public override IEnumerable<StatementSyntax> Convert( DoUntilStatement statement, IContextService context ) {
-			var toReturn = new List<StatementSyntax>();
+        public override IEnumerable<StatementSyntax> Convert( DoUntilStatement statement, IContextService context ) {
+            var toReturn = new List<StatementSyntax>();
 
-			context.RegisterLoop();
+            context.RegisterLoop();
 
-			string coninueLoopLabelName = context.GetConinueLoopLabelName();
-			string exitLoopLabelName = context.GetExitLoopLabelName();
+            string coninueLoopLabelName = context.GetConinueLoopLabelName();
+            string exitLoopLabelName = context.GetExitLoopLabelName();
 
-			List<StatementSyntax> block = statement.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
-			block.Add( SyntaxFactory.LabeledStatement( coninueLoopLabelName, SyntaxFactory.EmptyStatement() ) );
+            List<StatementSyntax> block = statement.Block.Block.SelectMany( x => ConvertGeneric( x, context ) ).ToList();
+            block.Add( SyntaxFactory.LabeledStatement( coninueLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
-			toReturn.Add( SyntaxFactory.DoStatement( block.ToBlock(), SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, ConvertGeneric( statement.Condition, context ) ) ) );
-			toReturn.Add( SyntaxFactory.LabeledStatement( exitLoopLabelName, SyntaxFactory.EmptyStatement() ) );
+            toReturn.Add( SyntaxFactory.DoStatement( block.ToBlock(), SyntaxFactory.PrefixUnaryExpression( SyntaxKind.LogicalNotExpression, ConvertGeneric( statement.Condition, context ) ) ) );
+            toReturn.Add( SyntaxFactory.LabeledStatement( exitLoopLabelName, SyntaxFactory.EmptyStatement() ) );
 
-			context.UnregisterLoop();
+            context.UnregisterLoop();
 
-			return toReturn;
-		}
-	}
+            return toReturn;
+        }
+    }
 }

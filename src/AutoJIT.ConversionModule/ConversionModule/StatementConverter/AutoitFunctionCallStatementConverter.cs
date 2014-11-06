@@ -7,18 +7,18 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-	internal sealed class AutoitFunctionCallStatementConverter : AutoitStatementConverterBase<FunctionCallStatement>
-	{
-		public AutoitFunctionCallStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+    internal sealed class AutoitFunctionCallStatementConverter : AutoitStatementConverterBase<FunctionCallStatement>
+    {
+        public AutoitFunctionCallStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
-		public override IEnumerable<StatementSyntax> Convert( FunctionCallStatement statement, IContextService context ) {
-			var toReturn = new List<StatementSyntax>();
+        public override IEnumerable<StatementSyntax> Convert( FunctionCallStatement statement, IContextService context ) {
+            var toReturn = new List<StatementSyntax>();
 
-			ExpressionSyntax callExpression = ConvertGeneric( statement.FunctionCallExpression, context );
+            ExpressionSyntax callExpression = ConvertGeneric( statement.FunctionCallExpression, context );
 
-			toReturn.Add( callExpression.ToStatementSyntax() );
+            toReturn.Add( callExpression.ToStatementSyntax() );
 
-			return toReturn;
-		}
-	}
+            return toReturn;
+        }
+    }
 }

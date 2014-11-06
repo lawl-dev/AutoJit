@@ -7,19 +7,19 @@ using AutoJIT.Parser.Collection;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-	public abstract class StatementParserStrategyBase<TStatement> : StatementParserBase, IStatementParserStrategy<TStatement>
-	where TStatement : IStatementNode
-	{
-		protected readonly IAutoitStatementFactory AutoitStatementFactory;
-		protected readonly IExpressionParser ExpressionParser;
-		protected readonly IStatementParser StatementParser;
+    public abstract class StatementParserStrategyBase<TStatement> : StatementParserBase, IStatementParserStrategy<TStatement>
+        where TStatement : IStatementNode
+    {
+        protected readonly IAutoitStatementFactory AutoitStatementFactory;
+        protected readonly IExpressionParser ExpressionParser;
+        protected readonly IStatementParser StatementParser;
 
-		protected StatementParserStrategyBase( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) {
-			StatementParser = statementParser;
-			ExpressionParser = expressionParser;
-			AutoitStatementFactory = autoitStatementFactory;
-		}
+        protected StatementParserStrategyBase( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) {
+            StatementParser = statementParser;
+            ExpressionParser = expressionParser;
+            AutoitStatementFactory = autoitStatementFactory;
+        }
 
-		public abstract IEnumerable<IStatementNode> Parse( TokenQueue block );
-	}
+        public abstract IEnumerable<IStatementNode> Parse( TokenQueue block );
+    }
 }

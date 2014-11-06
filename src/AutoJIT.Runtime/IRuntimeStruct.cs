@@ -1,4 +1,4 @@
 namespace AutoJITRuntime
 {
-	public interface IRuntimeStruct {}
+    public interface IRuntimeStruct {}
 }

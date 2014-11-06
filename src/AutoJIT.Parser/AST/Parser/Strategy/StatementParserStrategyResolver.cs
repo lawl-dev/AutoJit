@@ -4,16 +4,16 @@ using AutoJIT.Parser.AST.Statements.Interface;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-	public sealed class StatementParserStrategyResolver : IStatementParserStrategyResolver
-	{
-		private readonly IInjectionService _injectionService;
+    public sealed class StatementParserStrategyResolver : IStatementParserStrategyResolver
+    {
+        private readonly IInjectionService _injectionService;
 
-		public StatementParserStrategyResolver( IInjectionService injectionService ) {
-			_injectionService = injectionService;
-		}
+        public StatementParserStrategyResolver( IInjectionService injectionService ) {
+            _injectionService = injectionService;
+        }
 
-		public IStatementParserStrategy<TStatement> Resolve<TStatement>() where TStatement : IStatementNode {
-			return _injectionService.Inject<IStatementParserStrategy<TStatement>>();
-		}
-	}
+        public IStatementParserStrategy<TStatement> Resolve<TStatement>() where TStatement : IStatementNode {
+            return _injectionService.Inject<IStatementParserStrategy<TStatement>>();
+        }
+    }
 }

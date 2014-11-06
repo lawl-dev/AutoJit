@@ -2,13 +2,13 @@
 
 namespace AutoJIT.CompilerApplication
 {
-	internal class CompileOptions
-	{
-		public Uri InFile { get; set; }
-		public Uri OutFile { get; set; }
-		public Uri Icon { get; set; }
-		public bool IsConsole { get; set; }
-		public bool IsForms { get; set; }
-		public bool Optimize { get; set; }
-	}
+    internal class CompileOptions
+    {
+        public Uri InFile { get; set; }
+        public Uri OutFile { get; set; }
+        public Uri Icon { get; set; }
+        public bool IsConsole { get; set; }
+        public bool IsForms { get; set; }
+        public bool Optimize { get; set; }
+    }
 }

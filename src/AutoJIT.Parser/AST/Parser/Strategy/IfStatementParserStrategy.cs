@@ -11,97 +11,97 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-	public sealed class IfStatementParserStrategy : StatementParserStrategyBase<IfElseStatement>
-	{
-		public IfStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+    public sealed class IfStatementParserStrategy : StatementParserStrategyBase<IfElseStatement>
+    {
+        public IfStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-			return ParseIf( block ).ToEnumerable();
-		}
+        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+            return ParseIf( block ).ToEnumerable();
+        }
 
-		private IfElseStatement ParseIf( TokenQueue block ) {
-			IList<TokenCollection> elseIfcondition = new List<TokenCollection>();
-			IList<TokenCollection> elseIfBlock = new List<TokenCollection>();
-			TokenCollection elseBlock = null;
-			TokenCollection condition = ParseIfCondition( block );
-			bool lastBlockWasLine = false;
-			TokenCollection ifBlock;
-			if( Consume( block, TokenType.NewLine ) ) {
-				ifBlock = ParseIfBlock( block );
-			}
-			else {
-				ifBlock = ParseIfLineBlock( block );
-				lastBlockWasLine = true;
-			}
+        private IfElseStatement ParseIf( TokenQueue block ) {
+            IList<TokenCollection> elseIfcondition = new List<TokenCollection>();
+            IList<TokenCollection> elseIfBlock = new List<TokenCollection>();
+            TokenCollection elseBlock = null;
+            TokenCollection condition = ParseIfCondition( block );
+            bool lastBlockWasLine = false;
+            TokenCollection ifBlock;
+            if ( Consume( block, TokenType.NewLine ) ) {
+                ifBlock = ParseIfBlock( block );
+            }
+            else {
+                ifBlock = ParseIfLineBlock( block );
+                lastBlockWasLine = true;
+            }
 
-			bool hasElseIf = block.Any() && block.Peek().Value.Keyword == Keywords.ElseIf;
-			while( hasElseIf ) {
-				ConsumeAndEnsure( block, Keywords.ElseIf );
-				TokenCollection elseIfCondition = ParseElseIfCondition( block );
-				elseIfcondition.Add( elseIfCondition );
+            bool hasElseIf = block.Any() && block.Peek().Value.Keyword == Keywords.ElseIf;
+            while ( hasElseIf ) {
+                ConsumeAndEnsure( block, Keywords.ElseIf );
+                TokenCollection elseIfCondition = ParseElseIfCondition( block );
+                elseIfcondition.Add( elseIfCondition );
 
-				TokenCollection elseIfBlock2;
-				if( Consume( block, TokenType.NewLine ) ) {
-					elseIfBlock2 = ParseElseIfBlock( block );
-					lastBlockWasLine = false;
-				}
-				else {
-					elseIfBlock2 = ParseElseIfLineBlock( block );
-					ConsumeAndEnsure( block, TokenType.NewLine );
-					lastBlockWasLine = true;
-				}
+                TokenCollection elseIfBlock2;
+                if ( Consume( block, TokenType.NewLine ) ) {
+                    elseIfBlock2 = ParseElseIfBlock( block );
+                    lastBlockWasLine = false;
+                }
+                else {
+                    elseIfBlock2 = ParseElseIfLineBlock( block );
+                    ConsumeAndEnsure( block, TokenType.NewLine );
+                    lastBlockWasLine = true;
+                }
 
-				elseIfBlock.Add( elseIfBlock2 );
-				hasElseIf = block.Any() && block.Peek().Value.Keyword == Keywords.ElseIf;
-			}
+                elseIfBlock.Add( elseIfBlock2 );
+                hasElseIf = block.Any() && block.Peek().Value.Keyword == Keywords.ElseIf;
+            }
 
-			bool hasElse = block.Any() && block.Peek().Value.Keyword == Keywords.Else;
-			if( hasElse ) {
-				ConsumeAndEnsure( block, Keywords.Else );
-				if( Consume( block, TokenType.NewLine ) ) {
-					elseBlock = ParseElseBlock( block );
-					lastBlockWasLine = false;
-				}
-				else {
-					elseBlock = ParseElseLineBlock( block );
-					ConsumeAndEnsure( block, TokenType.NewLine );
-					lastBlockWasLine = true;
-				}
-			}
+            bool hasElse = block.Any() && block.Peek().Value.Keyword == Keywords.Else;
+            if ( hasElse ) {
+                ConsumeAndEnsure( block, Keywords.Else );
+                if ( Consume( block, TokenType.NewLine ) ) {
+                    elseBlock = ParseElseBlock( block );
+                    lastBlockWasLine = false;
+                }
+                else {
+                    elseBlock = ParseElseLineBlock( block );
+                    ConsumeAndEnsure( block, TokenType.NewLine );
+                    lastBlockWasLine = true;
+                }
+            }
 
-			if( !lastBlockWasLine ) {
-				ConsumeAndEnsure( block, Keywords.EndIf );
-			}
+            if ( !lastBlockWasLine ) {
+                ConsumeAndEnsure( block, Keywords.EndIf );
+            }
 
-			IExpressionNode conditionExpression = ExpressionParser.ParseBlock( condition, true );
+            IExpressionNode conditionExpression = ExpressionParser.ParseBlock( condition, true );
 
-			List<IStatementNode> ifBlockStatements = StatementParser.ParseBlock( ifBlock );
-			Queue<IExpressionNode> elseIfConditionExpressions = null;
-			Queue<List<IStatementNode>> elseIfBlockStatements = null;
-			if( elseIfcondition.Any() ) {
-				elseIfConditionExpressions = elseIfcondition.Select( x => ExpressionParser.ParseBlock( x, true ) ).Where( x => x != null ).ToQueue();
+            List<IStatementNode> ifBlockStatements = StatementParser.ParseBlock( ifBlock );
+            IEnumerable<IExpressionNode> elseIfConditionExpressions = new List<IExpressionNode>();
+            IEnumerable<List<IStatementNode>> elseIfBlockStatements = new List<List<IStatementNode>>();
+            if ( elseIfcondition.Any() ) {
+                elseIfConditionExpressions = elseIfcondition.Select( x => ExpressionParser.ParseBlock( x, true ) ).Where( x => x != null ).ToQueue();
 
-				elseIfBlockStatements = elseIfBlock.Select( x => StatementParser.ParseBlock( x ) ).ToQueue();
-			}
+                elseIfBlockStatements = elseIfBlock.Select( x => StatementParser.ParseBlock( x ) ).ToQueue();
+            }
 
-			IEnumerable<IStatementNode> elseBlockStatements = null;
-			if( elseBlock != null ) {
-				elseBlockStatements = StatementParser.ParseBlock( elseBlock );
-			}
+            IEnumerable<IStatementNode> elseBlockStatements = new List<IStatementNode>();
+            if ( elseBlock != null ) {
+                elseBlockStatements = StatementParser.ParseBlock( elseBlock );
+            }
 
-			return AutoitStatementFactory.CreateIfElseStatement( conditionExpression, ifBlockStatements, elseIfConditionExpressions, elseIfBlockStatements, elseBlockStatements );
-		}
+            return AutoitStatementFactory.CreateIfElseStatement( conditionExpression, ifBlockStatements, elseIfConditionExpressions, elseIfBlockStatements, elseBlockStatements );
+        }
 
-		private TokenCollection ParseElseLineBlock( TokenQueue block ) {
-			return ParseIfLineBlock( block );
-		}
+        private TokenCollection ParseElseLineBlock( TokenQueue block ) {
+            return ParseIfLineBlock( block );
+        }
 
-		private TokenCollection ParseElseIfLineBlock( TokenQueue block ) {
-			return ParseIfLineBlock( block );
-		}
+        private TokenCollection ParseElseIfLineBlock( TokenQueue block ) {
+            return ParseIfLineBlock( block );
+        }
 
-		private TokenCollection ParseIfLineBlock( TokenQueue block ) {
-			return new TokenCollection( block.DequeueUntil( x => x.Type == TokenType.NewLine ) );
-		}
-	}
+        private TokenCollection ParseIfLineBlock( TokenQueue block ) {
+            return new TokenCollection( block.DequeueUntil( x => x.Type == TokenType.NewLine ) );
+        }
+    }
 }

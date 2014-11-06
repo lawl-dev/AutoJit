@@ -2,10 +2,10 @@
 
 namespace AutoJIT.Parser
 {
-	public static class Utils
-	{
-		public static IEnumerable<T> GetEnumerable<T>( params T[] ts ) {
-			return ts;
-		}
-	}
+    public static class Utils
+    {
+        public static IEnumerable<T> GetEnumerable<T>( params T[] ts ) {
+            return ts;
+        }
+    }
 }

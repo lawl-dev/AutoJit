@@ -2,8 +2,8 @@
 
 namespace AutoJIT.Parser.Lex.Interface
 {
-	public interface ILexer
-	{
-		TokenCollection Lex( string autoitScript );
-	}
+    public interface ILexer
+    {
+        TokenCollection Lex( string autoitScript );
+    }
 }

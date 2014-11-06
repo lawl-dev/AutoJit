@@ -9,19 +9,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-	internal sealed class AutoitRedimStatementConverter : AutoitStatementConverterBase<ReDimStatement>
-	{
-		public AutoitRedimStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
+    internal sealed class AutoitRedimStatementConverter : AutoitStatementConverterBase<ReDimStatement>
+    {
+        public AutoitRedimStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
-		public override IEnumerable<StatementSyntax> Convert( ReDimStatement statement, IContextService context ) {
-			var toReturn = new List<StatementSyntax>();
+        public override IEnumerable<StatementSyntax> Convert( ReDimStatement statement, IContextService context ) {
+            var toReturn = new List<StatementSyntax>();
 
-			string variableName = context.GetVariableName( statement.ArrayExpression.IdentifierName );
-			IEnumerable<CSharpParameterInfo> parameter = statement.ArrayExpression.AccessParameter.Select( x => new CSharpParameterInfo( ConvertGeneric( x, context ), false ) );
+            string variableName = context.GetVariableName( statement.ArrayExpression.IdentifierName );
+            IEnumerable<CSharpParameterInfo> parameter = statement.ArrayExpression.AccessParameter.Select( x => new CSharpParameterInfo( ConvertGeneric( x, context ), false ) );
 
-			toReturn.Add( CSharpStatementFactory.CreateInvocationExpression( variableName, CompilerHelper.GetVariantMemberName( x => x.ReDim() ), parameter ).ToStatementSyntax() );
+            toReturn.Add( CSharpStatementFactory.CreateInvocationExpression( variableName, CompilerHelper.GetVariantMemberName( x => x.ReDim() ), parameter ).ToStatementSyntax() );
 
-			return toReturn;
-		}
-	}
+            return toReturn;
+        }
+    }
 }

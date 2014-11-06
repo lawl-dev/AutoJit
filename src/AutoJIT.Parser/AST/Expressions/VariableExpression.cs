@@ -4,38 +4,35 @@ using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
-	public class VariableExpression : ExpressionBase
-	{
-		public VariableExpression( string identifierName ) {
-			IdentifierName = identifierName;
-		}
+    public class VariableExpression : ExpressionBase
+    {
+        public VariableExpression( string identifierName ) {
+            IdentifierName = identifierName;
+        }
 
-		public string IdentifierName { get; private set; }
+        public string IdentifierName { get; private set; }
 
-		public override IEnumerable<ISyntaxNode> Children {
-			get {
-				return Enumerable.Empty<ISyntaxNode>();
-			}
-		}
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return Enumerable.Empty<ISyntaxNode>(); }
+        }
 
-	    public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
-	        return visitor.VisitVariableExpression( this );
-	    }
+        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+            return visitor.VisitVariableExpression( this );
+        }
 
-	    public override string ToSource() {
-			return string.Format( "${0}", IdentifierName );
-		}
+        public override string ToSource() {
+            return string.Format( "${0}", IdentifierName );
+        }
 
-		public override object Clone() {
-			return new VariableExpression( (string)IdentifierName.Clone() );
-		}
+        public override object Clone() {
+            return new VariableExpression( (string) IdentifierName.Clone() );
+        }
 
-	    public VariableExpression Update( string identifierName ) {
-	        if ( IdentifierName == identifierName ) {
-	            return this;
-	        }
+        public VariableExpression Update( string identifierName ) {
+            if ( IdentifierName == identifierName ) {
+                return this;
+            }
             return new VariableExpression( identifierName );
-
-	    }
-	}
+        }
+    }
 }

@@ -11,22 +11,22 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-	public sealed class AssignStatementParserStrategy : StatementParserStrategyBase<AssignStatement>
-	{
-		public AssignStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+    public sealed class AssignStatementParserStrategy : StatementParserStrategyBase<AssignStatement>
+    {
+        public AssignStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-			return ParseAssignStatement( block ).ToEnumerable();
-		}
+        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+            return ParseAssignStatement( block ).ToEnumerable();
+        }
 
-		private AssignStatement ParseAssignStatement( TokenQueue block ) {
-			var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
-			Token assignOperator = ParseVariableAssign( block );
-			TokenCollection variableAssignExpressionTokenCollection = ParseVariableAssignExpression( block );
+        private AssignStatement ParseAssignStatement( TokenQueue block ) {
+            var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
+            Token assignOperator = ParseVariableAssign( block );
+            TokenCollection variableAssignExpressionTokenCollection = ParseVariableAssignExpression( block );
 
-			IExpressionNode variableAssignExpression = ExpressionParser.ParseBlock( variableAssignExpressionTokenCollection, true );
+            IExpressionNode variableAssignExpression = ExpressionParser.ParseBlock( variableAssignExpressionTokenCollection, true );
 
-			return AutoitStatementFactory.CreateAssignStatement( variableExpression, variableAssignExpression, assignOperator );
-		}
-	}
+            return AutoitStatementFactory.CreateAssignStatement( variableExpression, variableAssignExpression, assignOperator );
+        }
+    }
 }

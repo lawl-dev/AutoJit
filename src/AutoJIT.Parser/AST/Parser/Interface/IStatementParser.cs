@@ -4,8 +4,8 @@ using AutoJIT.Parser.Collection;
 
 namespace AutoJIT.Parser.AST.Parser.Interface
 {
-	public interface IStatementParser
-	{
-		List<IStatementNode> ParseBlock( TokenQueue block );
-	}
+    public interface IStatementParser
+    {
+        List<IStatementNode> ParseBlock( TokenQueue block );
+    }
 }

@@ -110,6 +110,7 @@
     <Compile Include="ConversionModule\Optimizer\Optimizer.cs" />
     <Compile Include="ConversionModule\Scope.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitAssignStatementConverter.cs" />
+    <Compile Include="ConversionModule\StatementConverter\AutoitBlockStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitContinueCaseStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitContinueloopStatementConverter.cs" />
     <Compile Include="ConversionModule\StatementConverter\AutoitDimStatementConverter.cs" />

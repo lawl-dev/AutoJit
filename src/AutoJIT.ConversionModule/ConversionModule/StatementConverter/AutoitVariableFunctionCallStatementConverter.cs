@@ -7,15 +7,14 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 {
-	internal sealed class AutoitVariableFunctionCallStatementConverter : AutoitStatementConverterBase<VariableFunctionCallStatement>
-	{
-		public AutoitVariableFunctionCallStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
-		
-		public override IEnumerable<StatementSyntax> Convert( VariableFunctionCallStatement statement, IContextService context ) {
-			var toReturn = ConvertGeneric(statement.VariableFunctionCallExpression, context);
+    internal sealed class AutoitVariableFunctionCallStatementConverter : AutoitStatementConverterBase<VariableFunctionCallStatement>
+    {
+        public AutoitVariableFunctionCallStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
+        public override IEnumerable<StatementSyntax> Convert( VariableFunctionCallStatement statement, IContextService context ) {
+            ExpressionSyntax toReturn = ConvertGeneric( statement.VariableFunctionCallExpression, context );
 
-			return toReturn.ToStatementSyntax().ToEnumerable();
-		}
-	}
+            return toReturn.ToStatementSyntax().ToEnumerable();
+        }
+    }
 }

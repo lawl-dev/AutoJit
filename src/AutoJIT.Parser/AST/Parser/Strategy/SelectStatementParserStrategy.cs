@@ -10,39 +10,39 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
-	public sealed class SelectStatementParserStrategy : StatementParserStrategyBase<SelectCaseStatement>
-	{
-		public SelectStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+    public sealed class SelectStatementParserStrategy : StatementParserStrategyBase<SelectCaseStatement>
+    {
+        public SelectStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
 
-		public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
-			return ParseSelect( block ).ToEnumerable();
-		}
+        public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
+            return ParseSelect( block ).ToEnumerable();
+        }
 
-		private SelectCaseStatement ParseSelect( TokenQueue block ) {
-			ConsumeAndEnsure( block, TokenType.NewLine );
-			var cases = new List<SelectCase>();
+        private SelectCaseStatement ParseSelect( TokenQueue block ) {
+            ConsumeAndEnsure( block, TokenType.NewLine );
+            var cases = new List<SelectCase>();
 
-			IEnumerable<IStatementNode> elseStatements = new List<IStatementNode>();
-			while( block.Peek().Value.Keyword != Keywords.Endselect ) {
-				ConsumeAndEnsure( block, Keywords.Case );
+            IEnumerable<IStatementNode> elseStatements = new List<IStatementNode>();
+            while ( block.Peek().Value.Keyword != Keywords.Endselect ) {
+                ConsumeAndEnsure( block, Keywords.Case );
 
-				if( block.Peek().Value.Keyword != Keywords.Else ) {
-					TokenCollection expression = ParseUntilNewLine( block );
-					TokenCollection caseBlock = ParseInnerUntilSwitchSelect( block );
+                if ( block.Peek().Value.Keyword != Keywords.Else ) {
+                    TokenCollection expression = ParseUntilNewLine( block );
+                    TokenCollection caseBlock = ParseInnerUntilSwitchSelect( block );
 
-					IExpressionNode caseCondition = ExpressionParser.ParseBlock( expression, true );
-					List<IStatementNode> caseStatements = StatementParser.ParseBlock( caseBlock );
-					cases.Add( new SelectCase( caseCondition, caseStatements ) );
-				}
-				else {
-					ConsumeAndEnsure( block, Keywords.Else );
-					TokenCollection elseBlock = ParseInnerUntil( block, Keywords.Select, Keywords.Endselect, true );
+                    IExpressionNode caseCondition = ExpressionParser.ParseBlock( expression, true );
+                    List<IStatementNode> caseStatements = StatementParser.ParseBlock( caseBlock );
+                    cases.Add( new SelectCase( caseCondition, new BlockStatement( caseStatements ) ) );
+                }
+                else {
+                    ConsumeAndEnsure( block, Keywords.Else );
+                    TokenCollection elseBlock = ParseInnerUntil( block, Keywords.Select, Keywords.Endselect, true );
 
-					elseStatements = StatementParser.ParseBlock( elseBlock );
-				}
-			}
-			ConsumeAndEnsure( block, Keywords.Endselect );
-			return AutoitStatementFactory.CreateSelectStatement( cases, elseStatements );
-		}
-	}
+                    elseStatements = StatementParser.ParseBlock( elseBlock );
+                }
+            }
+            ConsumeAndEnsure( block, Keywords.Endselect );
+            return AutoitStatementFactory.CreateSelectStatement( cases, elseStatements );
+        }
+    }
 }
