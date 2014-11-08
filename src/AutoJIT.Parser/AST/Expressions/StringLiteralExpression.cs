@@ -7,11 +7,7 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class StringLiteralExpression : LiteralExpression
     {
-        public StringLiteralExpression( Token literalToken ) : base( literalToken ) {}
-
-        public override IEnumerable<ISyntaxNode> Children {
-            get { return Enumerable.Empty<ISyntaxNode>(); }
-        }
+        public StringLiteralExpression( TokenNode literalToken ) : base( literalToken ) {}
 
         public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
             return visitor.VisitStringLiteralExpression( this );
@@ -25,11 +21,11 @@ namespace AutoJIT.Parser.AST.Expressions
             return new StringLiteralExpression( LiteralToken );
         }
 
-        public StringLiteralExpression Update( Token literalToken ) {
+        public StringLiteralExpression Update( TokenNode literalToken ) {
             if ( LiteralToken == literalToken ) {
                 return this;
             }
-            return new StringLiteralExpression( literalToken );
+            return new StringLiteralExpression( (TokenNode) literalToken.Clone() );
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Visitor;
@@ -21,13 +22,14 @@ namespace AutoJIT.Parser.AST.Statements
             throw new NotImplementedException();
         }
 
+
         public GlobalEnumDeclarationStatement Update( VariableExpression variableExpression, IExpressionNode userInitExpression, IExpressionNode autoInitExpression ) {
             if ( VariableExpression == variableExpression &&
                  UserInitExpression == userInitExpression &&
                  AutoInitExpression == autoInitExpression ) {
                 return this;
             }
-            return new GlobalEnumDeclarationStatement( variableExpression, userInitExpression, autoInitExpression );
+            return new GlobalEnumDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) userInitExpression.Clone(), (IExpressionNode) autoInitExpression.Clone() );
         }
     }
 }

@@ -2,17 +2,25 @@ Func Chalange($a, $b, $c = "hallo", $d = 123)
 	If $a > $b Then
 		Switch $d
 			Case 1 To $a
+				Return 1
 			Case $b To $a
+				Return 2
 			Case $c To $d
+				Return 3
 			Case Else
+				Return 4
 		EndSwitch
 	ElseIf $b > $c Or $a > $b Then
 		If $a > $b Then
 			Switch $d
 				Case 1 To $a
+					Return 5
 				Case $b To $a
+					Return 6
 				Case $c To $d
+					Return 7
 				Case Else
+					Return 8
 			EndSwitch
 		ElseIf $b > $c Or $a > $b Then
 			Return True
@@ -26,6 +34,7 @@ Func Chalange($a, $b, $c = "hallo", $d = 123)
 							For $dd In $ff
 								$sString = $dd & $ff & @CRLF
 							Next
+							Return 9
 						Next
 						For $c = 5 To 1 Step -1
 							Return 4
@@ -46,19 +55,18 @@ Func Chalange($a, $b, $c = "hallo", $d = 123)
 								Do
 									Do
 										Do
-
+											Return A()
 										Until True
-
 									Until True
-
 								Until True
 								Select
 									Case $a
+										$abc = B
+										Return $abc()
 									Case 1 = 2 And 3 = 4
 									Case True
 									Case Else
 								EndSelect
-
 							Case 1 = 2 And 3 = 4
 							Case True
 								Select
@@ -74,9 +82,13 @@ Func Chalange($a, $b, $c = "hallo", $d = 123)
 					Case Else
 				EndSwitch
 			Case $b To $a
+				$lol = A
+				$lol2 = B
 				Switch $d
 					Case 1 To $a
+						$lol()
 					Case $b To $a
+						$lol2()
 					Case $c To $d
 					Case Else
 				EndSwitch
@@ -91,3 +103,14 @@ Func Chalange($a, $b, $c = "hallo", $d = 123)
 		EndSwitch
 	EndIf
 EndFunc   ;==>Chalange
+
+
+Func A()
+	Return 1337
+	Return B()
+EndFunc
+
+
+Func B()
+	Return 1338
+EndFunc

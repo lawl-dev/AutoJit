@@ -38,7 +38,7 @@ namespace AutoJIT.Parser.AST.Statements
             if ( ReturnExpression == returnExpression ) {
                 return this;
             }
-            return new ReturnStatement( returnExpression );
+            return new ReturnStatement( (IExpressionNode) returnExpression.Clone() );
         }
     }
 }

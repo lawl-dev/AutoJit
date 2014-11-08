@@ -39,10 +39,10 @@ namespace AutoJIT.Parser.AST.Expressions
 
         public VariableFunctionCallExpression Update( VariableExpression variableExpression, IEnumerable<IExpressionNode> parameter ) {
             if ( VariableExpression == variableExpression &&
-                 Parameter == parameter ) {
+                 EnumerableEquals(Parameter, parameter) ) {
                 return this;
             }
-            return new VariableFunctionCallExpression( variableExpression, parameter );
+            return new VariableFunctionCallExpression( variableExpression, parameter.Select( x=>(IExpressionNode)x.Clone() ) );
         }
     }
 }

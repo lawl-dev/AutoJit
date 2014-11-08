@@ -38,7 +38,7 @@ namespace AutoJIT.Parser.AST.Statements
             if ( ArrayExpression == arrayExpression ) {
                 return this;
             }
-            return new ReDimStatement( arrayExpression );
+            return new ReDimStatement( (ArrayExpression) arrayExpression.Clone() );
         }
     }
 }

@@ -45,11 +45,11 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public SwitchCase Update( IEnumerable<CaseCondition> conditions, BlockStatement block ) {
-            if ( Conditions == conditions &&
+            if ( EnumerableEquals( Conditions, conditions) &&
                  Block == block ) {
                 return this;
             }
-            return new SwitchCase( conditions, block );
+            return new SwitchCase( conditions.Select( x=>(CaseCondition)x.Clone() ), (BlockStatement) block.Clone() );
         }
     }
 }

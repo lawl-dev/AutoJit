@@ -34,7 +34,7 @@ namespace AutoJIT.Parser.AST.Expressions
             if ( ExpressionNode == expressionNode ) {
                 return this;
             }
-            return new NegateExpression( expressionNode );
+            return new NegateExpression( (IExpressionNode) expressionNode.Clone() );
         }
     }
 }

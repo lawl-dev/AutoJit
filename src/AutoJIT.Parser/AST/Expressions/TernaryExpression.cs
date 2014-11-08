@@ -45,7 +45,7 @@ namespace AutoJIT.Parser.AST.Expressions
                  IfFalse == ifFalse ) {
                 return this;
             }
-            return new TernaryExpression( condition, ifTrue, ifFalse );
+            return new TernaryExpression( (IExpressionNode) condition.Clone(), (IExpressionNode) ifTrue.Clone(), (IExpressionNode) ifFalse.Clone() );
         }
     }
 }

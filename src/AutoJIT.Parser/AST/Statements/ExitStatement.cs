@@ -38,7 +38,7 @@ namespace AutoJIT.Parser.AST.Statements
             if ( ExitExpression == exitExpression ) {
                 return this;
             }
-            return new ExitStatement( exitExpression );
+            return new ExitStatement( (IExpressionNode) exitExpression.Clone() );
         }
     }
 }

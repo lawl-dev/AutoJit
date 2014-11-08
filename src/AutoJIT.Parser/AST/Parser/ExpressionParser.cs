@@ -98,12 +98,12 @@ namespace AutoJIT.Parser.AST.Parser
                     toReturn = ParseBlock( GetInnerExpression( block ) );
                     break;
                 case TokenType.String:
-                    toReturn = new StringLiteralExpression( block.Dequeue() );
+                    toReturn = new StringLiteralExpression( new TokenNode( block.Dequeue() ) );
                     break;
                 case TokenType.Int32:
                 case TokenType.Int64:
                 case TokenType.Double:
-                    toReturn = new NumericLiteralExpression( block.Dequeue(), signOperators );
+                    toReturn = new NumericLiteralExpression( new TokenNode( block.Dequeue() ), signOperators.Select( x=>new TokenNode( x ) ) );
                     break;
                 case TokenType.Variable:
                     toReturn = ParseVariable( block );
@@ -133,7 +133,7 @@ namespace AutoJIT.Parser.AST.Parser
                     break;
                 case TokenType.NOT:
                     Token @operator = block.Dequeue();
-                    toReturn = new BooleanNegateExpression( ParseExpressionNode( block ), @operator );
+                    toReturn = new BooleanNegateExpression( ParseExpressionNode( block ), new TokenNode( @operator ) );
                     break;
                 case TokenType.Keyword:
                     switch (block.Peek().Value.Keyword) {

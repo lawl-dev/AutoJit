@@ -32,7 +32,7 @@ namespace AutoJIT.Parser.AST.Expressions
             if ( MacroName == macroName ) {
                 return this;
             }
-            return new MacroExpression( macroName );
+            return new MacroExpression( (string) macroName.Clone() );
         }
     }
 }

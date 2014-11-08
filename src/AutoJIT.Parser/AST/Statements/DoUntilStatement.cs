@@ -52,7 +52,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new DoUntilStatement( condition, block );
+            return new DoUntilStatement( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
         }
     }
 }

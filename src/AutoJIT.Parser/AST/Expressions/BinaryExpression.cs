@@ -48,7 +48,7 @@ namespace AutoJIT.Parser.AST.Expressions
                  Operator == @operator ) {
                 return this;
             }
-            return new BinaryExpression( left, right, @operator );
+            return new BinaryExpression( (IExpressionNode) left.Clone(), (IExpressionNode) right.Clone(), @operator );
         }
     }
 }

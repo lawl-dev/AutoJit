@@ -46,7 +46,7 @@ namespace AutoJIT.Parser.AST.Expressions
                  Right == right ) {
                 return this;
             }
-            return new CaseCondition( left, right );
+            return new CaseCondition( (IExpressionNode) left.Clone(), (IExpressionNode) right.Clone() );
         }
     }
 }

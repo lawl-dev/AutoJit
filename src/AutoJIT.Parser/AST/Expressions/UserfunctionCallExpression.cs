@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoJIT.Parser.AST.Expressions.Interface;
 
 namespace AutoJIT.Parser.AST.Expressions
@@ -13,10 +14,10 @@ namespace AutoJIT.Parser.AST.Expressions
 
         public UserfunctionCallExpression Update( IEnumerable<IExpressionNode> parameter, string identifierName ) {
             if ( IdentifierName == identifierName &&
-                 Parameter == parameter ) {
+                 EnumerableEquals(Parameter, parameter) ) {
                 return this;
             }
-            return new UserfunctionCallExpression( identifierName, parameter );
+            return new UserfunctionCallExpression( (string) identifierName.Clone(), parameter.Select( x=>(IExpressionNode)x.Clone() ) );
         }
     }
 }

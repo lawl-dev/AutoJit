@@ -1,13 +1,19 @@
+using System.Collections.Generic;
+using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Expressions
 {
     public abstract class LiteralExpression : ExpressionBase
     {
-        protected LiteralExpression( Token literalToken ) {
+        protected LiteralExpression( TokenNode literalToken ) {
             LiteralToken = literalToken;
         }
 
-        public Token LiteralToken { get; private set; }
+        public override IEnumerable<ISyntaxNode> Children {
+            get { return LiteralToken.ToEnumerable(); }
+        }
+
+        public TokenNode LiteralToken { get; private set; }
     }
 }

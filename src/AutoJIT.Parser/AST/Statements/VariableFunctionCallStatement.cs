@@ -37,7 +37,7 @@ namespace AutoJIT.Parser.AST.Statements
             if ( VariableFunctionCallExpression == variableFunctionCallExpression ) {
                 return this;
             }
-            return new VariableFunctionCallStatement( variableFunctionCallExpression );
+            return new VariableFunctionCallStatement( (VariableFunctionCallExpression) variableFunctionCallExpression.Clone() );
         }
     }
 }

@@ -47,7 +47,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Operator == @operator ) {
                 return this;
             }
-            return new AssignStatement( variable, expressionToAssign, @operator );
+            return new AssignStatement( (VariableExpression) variable.Clone(), (IExpressionNode) expressionToAssign.Clone(), (TokenNode) @operator.Clone() );
         }
     }
 }

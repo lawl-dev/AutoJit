@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Visitor;
@@ -15,14 +16,14 @@ namespace AutoJIT.Parser.AST.Statements
         public override object Clone() {
             return new LocalEnumDeclarationStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) UserInitExpression.Clone(), (IExpressionNode) AutoInitExpression.Clone() );
         }
-
+        
         public LocalEnumDeclarationStatement Update( VariableExpression variableExpression, IExpressionNode userInitExpression, IExpressionNode autoInitExpression ) {
             if ( VariableExpression == variableExpression &&
                  UserInitExpression == userInitExpression &&
                  AutoInitExpression == autoInitExpression ) {
                 return this;
             }
-            return new LocalEnumDeclarationStatement( variableExpression, userInitExpression, autoInitExpression );
+            return new LocalEnumDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) userInitExpression.Clone(), (IExpressionNode) autoInitExpression.Clone() );
         }
     }
 }

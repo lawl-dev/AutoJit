@@ -41,7 +41,7 @@ namespace AutoJIT.Parser.AST.Statements
                  DefaultValue == defaultValue ) {
                 return this;
             }
-            return new InitDefaultParameterStatement( parameterName, defaultValue );
+            return new InitDefaultParameterStatement( (string) parameterName.Clone(), (IExpressionNode) defaultValue.Clone() );
         }
     }
 }

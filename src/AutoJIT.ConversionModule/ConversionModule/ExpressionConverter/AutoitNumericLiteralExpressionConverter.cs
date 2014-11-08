@@ -16,7 +16,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public override ExpressionSyntax Convert( NumericLiteralExpression node, IContextService contextService ) {
             ExpressionSyntax expression = null;
 
-            switch (node.LiteralToken.Type) {
+            switch (node.LiteralToken.Token.Type) {
                 case TokenType.Int32:
                     expression = GetIntLiteralExpression( node );
                     break;
@@ -32,7 +32,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private ExpressionSyntax GetDoubleLiteralExpression( NumericLiteralExpression node ) {
-            double value = node.LiteralToken.Value.DoubleValue;
+            double value = node.LiteralToken.Token.Value.DoubleValue;
             if ( node.Negativ ) {
                 value = -value;
             }
@@ -40,7 +40,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private ExpressionSyntax GetInt64LiteralExpression( NumericLiteralExpression node ) {
-            long value = node.LiteralToken.Value.Int64Value;
+            long value = node.LiteralToken.Token.Value.Int64Value;
             if ( node.Negativ ) {
                 value = -value;
             }
@@ -48,7 +48,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private ExpressionSyntax GetIntLiteralExpression( NumericLiteralExpression node ) {
-            int value = node.LiteralToken.Value.Int32Value;
+            int value = node.LiteralToken.Token.Value.Int32Value;
             if ( node.Negativ ) {
                 value = -value;
             }

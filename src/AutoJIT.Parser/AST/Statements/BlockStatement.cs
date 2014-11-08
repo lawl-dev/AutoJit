@@ -35,7 +35,10 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public BlockStatement Update( IEnumerable<IStatementNode> block ) {
-            throw new NotImplementedException();
+            if ( EnumerableEquals( Block, block ) ) {
+                return this;
+            }
+            return new BlockStatement( block.Select( x=>(IStatementNode)x.Clone() ) );
         }
     }
 }

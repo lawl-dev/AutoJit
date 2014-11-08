@@ -39,7 +39,7 @@ namespace AutoJIT.Parser.AST.Statements
                 return this;
             }
 
-            return new FunctionCallStatement( functionCallExpression );
+            return new FunctionCallStatement( (CallExpression) functionCallExpression.Clone() );
         }
     }
 }

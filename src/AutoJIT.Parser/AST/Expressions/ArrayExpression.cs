@@ -27,10 +27,10 @@ namespace AutoJIT.Parser.AST.Expressions
 
         public ArrayExpression Update( string identifierName, IEnumerable<IExpressionNode> accessParameter ) {
             if ( identifierName == IdentifierName &&
-                 accessParameter == AccessParameter ) {
+                 EnumerableEquals(accessParameter, AccessParameter) ) {
                 return this;
             }
-            return new ArrayExpression( identifierName, accessParameter );
+            return new ArrayExpression( identifierName, accessParameter.Select( x=>(IExpressionNode)x.Clone() ) );
         }
     }
 }

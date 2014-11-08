@@ -54,11 +54,11 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public SelectCaseStatement Update( IEnumerable<SelectCase> selectCases, BlockStatement @else ) {
-            if ( Cases == selectCases &&
+            if ( EnumerableEquals( Cases, selectCases)&&
                  Else == @else ) {
                 return this;
             }
-            return new SelectCaseStatement( selectCases, @else );
+            return new SelectCaseStatement( selectCases.Select( x=>(SelectCase)x.Clone() ), (BlockStatement) @else.Clone() );
         }
     }
 }

@@ -47,7 +47,7 @@ namespace AutoJIT.Parser.AST.Statements
                  InitExpression == initExpression ) {
                 return this;
             }
-            return new DimStatement( variableExpression, initExpression );
+            return new DimStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) initExpression.Clone() );
         }
     }
 }

@@ -31,10 +31,10 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public ArrayInitExpression Update( IEnumerable<IExpressionNode> toAssign ) {
-            if ( ToAssign == toAssign ) {
+            if ( EnumerableEquals(ToAssign, toAssign) ) {
                 return this;
             }
-            return new ArrayInitExpression( ToAssign );
+            return new ArrayInitExpression( ToAssign.Select( x=>(IExpressionNode)x.Clone() ).ToList() );
         }
     }
 }

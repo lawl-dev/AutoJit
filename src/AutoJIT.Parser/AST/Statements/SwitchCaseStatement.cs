@@ -56,11 +56,11 @@ namespace AutoJIT.Parser.AST.Statements
 
         public SwitchCaseStatement Update( IExpressionNode condition, IEnumerable<SwitchCase> cases, BlockStatement @else ) {
             if ( Condition == condition &&
-                 Cases == cases &&
+                 EnumerableEquals( Cases,cases) &&
                  Else == @else ) {
                 return this;
             }
-            return new SwitchCaseStatement( condition, cases, @else );
+            return new SwitchCaseStatement( (IExpressionNode) condition.Clone(), cases.Select( x=>(SwitchCase)x.Clone() ), (BlockStatement) @else.Clone() );
         }
     }
 }

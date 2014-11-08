@@ -48,7 +48,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new WhileStatement( condition, block );
+            return new WhileStatement( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
         }
     }
 }

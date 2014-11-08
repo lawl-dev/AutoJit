@@ -48,7 +48,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new SelectCase( condition, block );
+            return new SelectCase( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
         }
     }
 }

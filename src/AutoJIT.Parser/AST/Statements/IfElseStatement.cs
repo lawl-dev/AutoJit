@@ -88,12 +88,12 @@ namespace AutoJIT.Parser.AST.Statements
         public IfElseStatement Update( IExpressionNode condition, BlockStatement ifBlock, IEnumerable<IExpressionNode> elseIfConditions, IEnumerable<BlockStatement> elseIfBlocks, BlockStatement elseBlock ) {
             if ( Condition == condition &&
                  IfBlock == ifBlock &&
-                 ElseIfConditions.SequenceEqual( elseIfConditions ) &&
-                 ElseIfBlocks.SequenceEqual( elseIfBlocks ) &&
+                 EnumerableEquals(ElseIfConditions, elseIfConditions ) &&
+                 EnumerableEquals( ElseIfBlocks, elseIfBlocks ) &&
                  ElseBlock == elseBlock ) {
                 return this;
             }
-            return new IfElseStatement( condition, ifBlock, elseIfConditions, elseIfBlocks, elseBlock );
+            return new IfElseStatement( (IExpressionNode) condition.Clone(), (BlockStatement) ifBlock.Clone(), elseIfConditions.Select( x=>(IExpressionNode)x.Clone() ), elseIfBlocks.Select( x=>(BlockStatement)x.Clone() ), (BlockStatement) elseBlock.Clone() );
         }
     }
 }

@@ -32,7 +32,7 @@ namespace AutoJIT.Parser.AST.Expressions
             if ( IdentifierName == identifierName ) {
                 return this;
             }
-            return new VariableExpression( identifierName );
+            return new VariableExpression( (string) identifierName.Clone() );
         }
     }
 }

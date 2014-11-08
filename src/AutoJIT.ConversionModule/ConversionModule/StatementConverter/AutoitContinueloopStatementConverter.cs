@@ -14,7 +14,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
 
         public override IEnumerable<StatementSyntax> Convert( ContinueLoopStatement statement, IContextService context ) {
             string coninueLoopLabelName = context.GetConinueLoopLabelName(
-                statement.Level.Token == null
+                statement.Level == null
                     ? 1
                     : statement.Level.Token.Value.Int32Value );
 

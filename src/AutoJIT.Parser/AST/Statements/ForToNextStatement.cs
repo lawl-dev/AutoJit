@@ -68,7 +68,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new ForToNextStatement( variableExpression, startExpression, endExpression, stepExpression, block );
+            return new ForToNextStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) startExpression.Clone(), (IExpressionNode) endExpression.Clone(), (IExpressionNode) stepExpression.Clone(), (BlockStatement) block.Clone() );
         }
     }
 }

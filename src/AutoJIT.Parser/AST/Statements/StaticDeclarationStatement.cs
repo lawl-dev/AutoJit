@@ -25,7 +25,7 @@ namespace AutoJIT.Parser.AST.Statements
                 return this;
             }
 
-            return new StaticDeclarationStatement( variableExpression, initExpression );
+            return new StaticDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) initExpression.Clone() );
         }
     }
 }

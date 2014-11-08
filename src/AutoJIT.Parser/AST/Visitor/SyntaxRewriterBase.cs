@@ -43,7 +43,7 @@ namespace AutoJIT.Parser.AST.Visitor
 
         public override ISyntaxNode VisitBooleanNegateExpression( BooleanNegateExpression node ) {
             var left = (IExpressionNode) Visit( node.Left );
-            Token @operator = node.Operator;
+            TokenNode @operator = (TokenNode)Visit(node.Operator);
             return node.Update( left, @operator );
         }
 
@@ -189,8 +189,8 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitNumericLiteralExpression( NumericLiteralExpression node ) {
-            IEnumerable<Token> signOperators = node.SignOperators;
-            Token literalToken = node.LiteralToken;
+            IEnumerable<TokenNode> signOperators = node.SignOperators.Select( x=>(TokenNode)Visit( x ) );
+            TokenNode literalToken = (TokenNode)Visit(node.LiteralToken);
             return node.Update( literalToken, signOperators );
         }
 
@@ -224,7 +224,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitStringLiteralExpression( StringLiteralExpression node ) {
-            Token literalToken = node.LiteralToken;
+            TokenNode literalToken = (TokenNode) Visit(node.LiteralToken);
             return node.Update( literalToken );
         }
 

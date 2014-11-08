@@ -322,7 +322,7 @@ namespace UnitTests
         private class Rewriter : SyntaxRewriterBase
         {
             public override ISyntaxNode VisitAssignStatement( AssignStatement node ) {
-                return new FunctionCallStatement( new CallExpression( "ConsoleWrite", new NumericLiteralExpression( new Token { Type = TokenType.Int32, Value = new TokenValue { Int32Value = 1337 } }, Enumerable.Empty<Token>() ).ToEnumerable() ) );
+                return new FunctionCallStatement( new CallExpression( "ConsoleWrite", new NumericLiteralExpression( new TokenNode( new Token { Type = TokenType.Int32, Value = new TokenValue { Int32Value = 1337 } } ), Enumerable.Empty<TokenNode>() ).ToEnumerable() ) );
             }
         }
     }

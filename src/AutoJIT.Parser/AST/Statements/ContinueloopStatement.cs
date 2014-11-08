@@ -15,7 +15,11 @@ namespace AutoJIT.Parser.AST.Statements
         public TokenNode Level { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return Enumerable.Empty<ISyntaxNode>(); }
+            get {
+                var nodes = new List<ISyntaxNode>();
+                nodes.Add( Level );
+                return nodes;
+            }
         }
 
         public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
@@ -31,7 +35,10 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public ContinueLoopStatement Update( TokenNode level ) {
-            return new ContinueLoopStatement( level );
+            if ( Level == level ) {
+                return this;
+            }
+            return new ContinueLoopStatement( (TokenNode) level.Clone() );
         }
     }
 }

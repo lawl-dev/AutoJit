@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using AutoJIT.Infrastructure;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
@@ -28,7 +30,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             Token @operator = _tokenFactory.CreatePlus( -1, -1 );
 
-            IExpressionNode left = new NumericLiteralExpression( _tokenFactory.CreateInt( 1, -1, -1 ), new List<Token>() );
+            IExpressionNode left = new NumericLiteralExpression( new TokenNode( _tokenFactory.CreateInt( 1, -1, -1 ) ), Enumerable.Empty<TokenNode>() );
             if ( Consume( block, Keywords.Step ) ) {
                 @operator = block.Dequeue();
                 left = ExpressionParser.ParseSingle<IExpressionNode>( block );
@@ -45,13 +47,13 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
                 IExpressionNode autoInitExpression = lastVariableExpression == null
                     ? (IExpressionNode) new NumericLiteralExpression(
-                        _tokenFactory.CreateInt(
+                        new TokenNode( _tokenFactory.CreateInt(
                             @operator.Type == TokenType.Mult
                                 ? 1
                                 : 0,
                             -1,
-                            -1 ),
-                        new List<Token>() )
+                            -1 ) ),
+                        Enumerable.Empty<TokenNode>() )
                     : new BinaryExpression( (IExpressionNode) lastVariableExpression.Clone(), (IExpressionNode) left.Clone(), new TokenNode( @operator ) );
 
                 toReturn.Add( AutoitStatementFactory.CreateEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression, true ) );

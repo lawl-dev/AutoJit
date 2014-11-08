@@ -8,17 +8,22 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class BooleanNegateExpression : ExpressionBase
     {
-        public BooleanNegateExpression( IExpressionNode left, Token @operator ) {
+        public BooleanNegateExpression( IExpressionNode left, TokenNode @operator ) {
             Left = left;
             Operator = @operator;
             Initialize();
         }
 
         public IExpressionNode Left { get; private set; }
-        public Token Operator { get; private set; }
+        public TokenNode Operator { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return Left.ToEnumerable(); }
+            get {
+                var nodes = new List<ISyntaxNode>();
+                nodes.Add( Operator );
+                nodes.Add( Left );
+                return nodes;
+            }
         }
 
         public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
@@ -33,12 +38,12 @@ namespace AutoJIT.Parser.AST.Expressions
             return new BooleanNegateExpression( (IExpressionNode) Left.Clone(), Operator );
         }
 
-        public BooleanNegateExpression Update( IExpressionNode left, Token @operator ) {
+        public BooleanNegateExpression Update( IExpressionNode left, TokenNode @operator ) {
             if ( Left == left &&
                  Operator == @operator ) {
                 return this;
             }
-            return new BooleanNegateExpression( left, @operator );
+            return new BooleanNegateExpression( (IExpressionNode) left.Clone(), (TokenNode) @operator.Clone() );
         }
     }
 }

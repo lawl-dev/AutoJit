@@ -33,7 +33,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public virtual CallExpression Update( IList<IExpressionNode> parameter, string identifierName ) {
-            if ( Parameter.All( parameter.Contains ) &&
+            if ( EnumerableEquals( Parameter, parameter ) &&
                  IdentifierName == identifierName ) {
                 return this;
             }

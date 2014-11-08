@@ -56,5 +56,9 @@ namespace AutoJIT.Parser.AST
                 ? default( T ).ToEnumerable()
                 : objects.Select( x => (T) x.Clone() );
         }
+
+        protected bool EnumerableEquals<T>( IEnumerable<T> a, IEnumerable<T> b ) {
+            return a.Count() == b.Count() && a.SequenceEqual( b );
+        }
     }
 }
