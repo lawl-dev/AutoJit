@@ -26,7 +26,7 @@ namespace AutoJIT.Parser.AST.Expressions
             if ( Negativ ) {
                 toReturn += "-";
             }
-            toReturn += LiteralToken;
+            toReturn += LiteralToken.Token;
             return toReturn;
         }
 

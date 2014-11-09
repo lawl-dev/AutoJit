@@ -103,7 +103,10 @@ namespace AutoJIT.Parser.AST.Parser
                 case TokenType.Int32:
                 case TokenType.Int64:
                 case TokenType.Double:
-                    toReturn = new NumericLiteralExpression( new TokenNode( block.Dequeue() ), signOperators.Select( x=>new TokenNode( x ) ) );
+                    toReturn = new NumericLiteralExpression(
+                        new TokenNode( block.Dequeue() ), signOperators == null
+                            ? null
+                            : signOperators.Select( x => new TokenNode( x ) ) );
                     break;
                 case TokenType.Variable:
                     toReturn = ParseVariable( block );
