@@ -110,9 +110,9 @@
     <Compile Include="Variants\VariantEnumerator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Contrib.csproj">
       <Project>{bd7ec48e-68b2-43cf-a23c-caaaabcf2c55}</Project>
-      <Name>AutoJIT.Infrastructure</Name>
+      <Name>AutoJIT.Contrib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

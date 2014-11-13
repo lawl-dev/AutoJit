@@ -96,9 +96,9 @@
       <Project>{A702CB78-13EA-414A-AFBE-C9CD3126DB77}</Project>
       <Name>AutoJIT.Compiler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Contrib.csproj">
       <Project>{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}</Project>
-      <Name>AutoJIT.Infrastructure</Name>
+      <Name>AutoJIT.Contrib</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Parser\AutoJIT.Parser.csproj">
       <Project>{62DDB9A0-7AA3-411F-B0C3-DA4DFE22299B}</Project>

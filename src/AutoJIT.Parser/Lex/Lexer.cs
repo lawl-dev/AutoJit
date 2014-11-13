@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Exceptions;
 using AutoJIT.Parser.Extensions;
@@ -20,20 +21,20 @@ namespace AutoJIT.Parser.Lex
         }
 
         public TokenCollection Lex( string autoitScript ) {
-            string[] lines = autoitScript.Split( Environment.NewLine.ToEnumerable().ToArray(), StringSplitOptions.None );
+            string[] lines = Regex.Split( autoitScript, string.Format( "({0})", Environment.NewLine ) );
 
-            List<List<Token>> tokenizesLines = lines.Select( ( line, index ) => LexLine( index, line ).ToList() ).ToList();
+            var tokenizedLines = lines.Select( ( line, index ) => LexLine( index, line ).ToList() ).ToList();
 
-            for ( int i = tokenizesLines.Count-1; i >= 0; i-- ) {
-                if ( tokenizesLines[i].Any( x => x.Type == TokenType.ContinueLine ) ) {
-                    tokenizesLines[i].RemoveAt( tokenizesLines[i].Count-1 );
-                    tokenizesLines[i].RemoveAt( tokenizesLines[i].Count-1 );
-                    tokenizesLines[i].AddRange( tokenizesLines[i+1] );
-                    tokenizesLines[i+1].Clear();
+            for ( int i = tokenizedLines.Count-1; i >= 0; i-- ) {
+                if ( tokenizedLines[i].Any( x => x.Type == TokenType.ContinueLine ) ) {
+                    tokenizedLines[i].RemoveAt( tokenizedLines[i].Count-1 );
+                    tokenizedLines[i].RemoveAt( tokenizedLines[i].Count-1 );
+                    tokenizedLines[i].AddRange( tokenizedLines[i+1] );
+                    tokenizedLines[i+1].Clear();
                 }
             }
 
-            return new TokenCollection( tokenizesLines.SelectMany( x => x ) );
+            return new TokenCollection( tokenizedLines.SelectMany( x => x ) );
         }
 
         private IEnumerable<Token> LexLine( int lineNum, string line ) {
@@ -276,12 +277,20 @@ namespace AutoJIT.Parser.Lex
                         tokenQueue.Dequeue();
                         toReturn.Add( _tokenFactory.CreateContinueLine( pos, lineNum ) );
                         break;
+                    case '\r':
+                        tokenQueue.Dequeue();
+                        if ( tokenQueue.Peek() == '\n' ) {
+                            tokenQueue.Dequeue();
+                            toReturn.Add( _tokenFactory.CreateEndline( pos, lineNum ) );
+                        }
+                        else {
+                            throw new InvalidOperationException(string.Format("Error: Line: {0}, Pos {1}", lineNum, pos));
+                        }
+                        break;
                     default:
                         throw new InvalidOperationException( string.Format( "Error: Line: {0}, Pos {1}", lineNum, pos ) );
                 }
             }
-
-            toReturn.Add( _tokenFactory.CreateEndline( pos, lineNum ) );
             return toReturn;
         }
 

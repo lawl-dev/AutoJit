@@ -1,6 +1,6 @@
+using AutoJIT.Contrib;
 using AutoJIT.CSharpConverter.ConversionModule;
 using AutoJIT.CSharpConverter.ConversionModule.Optimizer;
-using AutoJIT.Infrastructure;
 using AutoJIT.Parser;
 
 namespace AutoJIT.Compiler

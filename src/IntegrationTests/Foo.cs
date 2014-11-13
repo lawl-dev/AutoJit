@@ -1,1 +1,7 @@
-
+namespace UnitTests
+{
+    class MyClass
+    {
+        
+    }
+}

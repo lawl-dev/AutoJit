@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoJIT.Infrastructure
+namespace AutoJIT.Contrib
 {
     public interface IInjectionService
     {

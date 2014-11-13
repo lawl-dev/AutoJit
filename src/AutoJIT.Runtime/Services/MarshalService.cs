@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
-using AutoJIT.Infrastructure;
+using AutoJIT.Contrib;
 using AutoJITRuntime.Exceptions;
 using AutoJITRuntime.Variants;
 using IndexOutOfRangeException = AutoJITRuntime.Exceptions.IndexOutOfRangeException;

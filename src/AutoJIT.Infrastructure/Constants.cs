@@ -1,4 +1,4 @@
-namespace AutoJIT.Infrastructure
+namespace AutoJIT.Contrib
 {
     public static class Constants
     {

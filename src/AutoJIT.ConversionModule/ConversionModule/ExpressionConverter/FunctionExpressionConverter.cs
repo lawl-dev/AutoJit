@@ -1,5 +1,5 @@
+using AutoJIT.Contrib;
 using AutoJIT.CSharpConverter.ConversionModule.Helper;
-using AutoJIT.Infrastructure;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJITRuntime;
 using Microsoft.CodeAnalysis.CSharp;

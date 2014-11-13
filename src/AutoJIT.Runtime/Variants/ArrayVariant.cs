@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using AutoJIT.Infrastructure;
+using AutoJIT.Contrib;
 
 namespace AutoJITRuntime.Variants
 {

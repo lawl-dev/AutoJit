@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using AutoJIT.Infrastructure;
+using AutoJIT.Contrib;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Extensions;
 using AutoJITRuntime;

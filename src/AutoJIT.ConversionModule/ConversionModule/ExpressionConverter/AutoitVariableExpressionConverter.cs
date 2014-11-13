@@ -1,4 +1,4 @@
-﻿using AutoJIT.Infrastructure;
+﻿using AutoJIT.Contrib;
 using AutoJIT.Parser.AST.Expressions;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

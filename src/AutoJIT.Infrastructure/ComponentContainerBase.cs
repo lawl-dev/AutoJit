@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace AutoJIT.Infrastructure
+namespace AutoJIT.Contrib
 {
     public abstract class ComponentContainerBase : IDependencyContainer
     {

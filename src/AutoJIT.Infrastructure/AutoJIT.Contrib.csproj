@@ -7,8 +7,8 @@
     <ProjectGuid>{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoJIT.Infrastructure</RootNamespace>
-    <AssemblyName>AutoJIT.Infrastructure</AssemblyName>
+    <RootNamespace>AutoJIT.Contrib</RootNamespace>
+    <AssemblyName>AutoJIT.Contrib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

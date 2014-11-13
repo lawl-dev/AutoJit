@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using AutoJIT.Compiler;
-using AutoJIT.Infrastructure;
+using AutoJIT.Contrib;
 using AutoJITRuntime.Variants;
 using ILRepacking;
 using Microsoft.CodeAnalysis;

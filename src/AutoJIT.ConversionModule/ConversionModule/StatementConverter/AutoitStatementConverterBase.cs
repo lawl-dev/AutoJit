@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using AutoJIT.Contrib;
 using AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter.Interface;
 using AutoJIT.CSharpConverter.ConversionModule.Factory;
 using AutoJIT.CSharpConverter.ConversionModule.StatementConverter.Interface;
-using AutoJIT.Infrastructure;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

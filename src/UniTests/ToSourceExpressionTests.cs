@@ -1,4 +1,4 @@
-﻿using AutoJIT.Infrastructure;
+﻿using AutoJIT.Contrib;
 using AutoJIT.Parser.AST.Parser;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.Lex;
@@ -53,6 +53,15 @@ namespace UniTests
             var token = _lexer.Lex(@case);
             var node = _expressionParser.ParseBlock(token, true);
             Assert.AreEqual(@case, node.ToSource());
+        }
+
+
+        [TestCase("1 == 2 ? False : True")]
+        [TestCase("1 == 2 ? 2 == 3 ? False : True : 3 == 4 ? Call() : False")]
+        public void Test_TernaryToSource(string ternary) {
+            var token = _lexer.Lex(ternary);
+            var node = _expressionParser.ParseBlock(token, true);
+            Assert.AreEqual(ternary, node.ToSource());
         }
     }
 }

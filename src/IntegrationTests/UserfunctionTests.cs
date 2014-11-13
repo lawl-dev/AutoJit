@@ -6,10 +6,12 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Security.Cryptography;
 using System.Threading;
 using AutoJIT.Compiler;
 using AutoJIT.CompilerApplication;
-using AutoJIT.Infrastructure;
+using AutoJIT.Contrib;
 using AutoJIT.Parser;
 using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Expressions;
@@ -204,6 +206,92 @@ namespace UnitTests
             ISyntaxNode newTree = rewriter.Visit( autoitScriptRoot );
             Console.Write( newTree.ToSource() );
         }
+
+        [Test]
+        public void Foo3() {
+            var methodInfos = AppDomain.CurrentDomain.GetAssemblies().SelectMany( x => x.GetTypes() ).Where( x => x.IsPublic && x.Namespace.StartsWith( "System" )).SelectMany( x => x.GetMethods() ).Where( x =>x.IsPublic ).ToList();
+
+            var allowedTypes = new List<Type>() {
+                typeof (int),
+                typeof (Int64),
+                typeof (double),
+                typeof (float),
+                typeof (byte[]),
+                typeof (int[]),
+                typeof (Int64[]),
+                typeof (double[]),
+                typeof (float[]),
+                typeof (string[]),
+                typeof (string),
+                typeof (bool),
+                typeof (bool[])
+            };
+
+            var withParameters = methodInfos.Where( x=>x.IsStatic && x.GetParameters().All( y=>allowedTypes.Contains(y.ParameterType) || y.ParameterType.IsEnum) ).ToList();
+
+            var infos = withParameters.Where( x=>allowedTypes.Contains(x.ReturnType) || x.ReturnType.IsEnum).ToList();
+
+            var statics = infos.Where( x=>!x.Name.StartsWith( "get_" ) && !x.Name.StartsWith( "set_" ) && !x.Name.StartsWith( "op_" )).ToList();
+
+            var nonstatics = methodInfos.Where(x =>x.GetParameters().All(y => allowedTypes.Contains(y.ParameterType) || y.ParameterType.IsEnum)).ToList();
+
+            var nstatics = nonstatics.Where( x=>allowedTypes.Contains(x.DeclaringType) && allowedTypes.Contains(x.ReturnType) || x.ReturnType.IsEnum).ToList();
+
+            var res = nstatics.Where( x=>!x.Name.StartsWith( "get_" ) && !x.Name.StartsWith( "set_" ) && !x.Name.StartsWith( "op_" )).ToList();
+
+            var enumerable = typeof(object).GetMethods().Select( x=>x.Name ).ToList();
+
+            var list = res.Where( x=>!enumerable.Contains(x.Name) ).ToList();
+
+
+            string cl = string.Empty;
+
+            var dictionary = new Dictionary<string, bool>();
+            foreach (var info in statics)
+            {
+                if(dictionary.ContainsKey( info.Name +  info.GetParameters().Length )) continue;
+                dictionary.Add( info.Name + info.GetParameters().Length, true );
+
+                string mt = string.Empty;
+                var @join = string.Join(", ", info.GetParameters().Select( x=>"Variant " + x.Name ));
+                var s = string.Join(", ", info.GetParameters().Select( x=>x.ParameterType.IsEnum ? "(" + x.ParameterType.Name +")(int)" + x.Name: "(" + x.ParameterType +  ")" + x.Name ));
+
+                mt += string.Format( "public Variant {0}{1}({2})", info.DeclaringType.Name, info.Name, @join );
+                mt += "{";
+                if ( info.ReturnType.IsEnum ) {
+                    mt += string.Format("return Variant.Create((int){0}.{1}({2}));", info.DeclaringType, info.Name, s);
+                }
+                else {
+                    mt += string.Format("return Variant.Create({0}.{1}({2}));", info.DeclaringType, info.Name, s);
+                }
+                mt += "}";
+                cl += mt;
+            }
+
+            foreach (var info in list) {
+                if (dictionary.ContainsKey(info.Name + info.GetParameters().Length)) continue;
+                dictionary.Add(info.Name + info.GetParameters().Length, true);
+
+                string mt = string.Empty;
+                var @join = string.Join( ", ", ( "Variant "+info.DeclaringType.Name ).ToEnumerable().Concat( info.GetParameters().Select( x => "Variant "+x.Name ) ) );
+
+                var s = string.Join(", ", info.GetParameters().Select(x => x.ParameterType.IsEnum ? "(" + x.ParameterType.Name + ")(int)" + x.Name : "(" + x.ParameterType + ")" + x.Name));
+
+                mt += string.Format("public Variant {0}{1}({2})", info.DeclaringType.Name, info.Name, @join);
+                mt += "{";
+                if (info.ReturnType.IsEnum)
+                {
+                    mt += string.Format("return Variant.Create((int){0}.{1}({2}));", info.DeclaringType.Name, info.Name, s);
+                }
+                else
+                {
+                    mt += string.Format("return Variant.Create((({0}){1}).{2}({3}));", info.DeclaringType, info.DeclaringType.Name, info.Name, s);
+                }
+                mt += "}";
+                cl += mt;
+            }
+        }
+
 
         [Test]
         public void Foo2() {

@@ -180,9 +180,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Contrib.csproj">
       <Project>{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}</Project>
-      <Name>AutoJIT.Infrastructure</Name>
+      <Name>AutoJIT.Contrib</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
       <Project>{f0e90f7f-f287-423b-ae31-bda2ff7532fd}</Project>

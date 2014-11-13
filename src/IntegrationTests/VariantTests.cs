@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using AutoJIT.Compiler;
-using AutoJIT.Infrastructure;
+using AutoJIT.Contrib;
 using AutoJITRuntime;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;

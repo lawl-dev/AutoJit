@@ -67,9 +67,9 @@
       <Project>{a702cb78-13ea-414a-afbe-c9cd3126db77}</Project>
       <Name>AutoJIT.Compiler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj">
+    <ProjectReference Include="..\AutoJIT.Infrastructure\AutoJIT.Contrib.csproj">
       <Project>{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}</Project>
-      <Name>AutoJIT.Infrastructure</Name>
+      <Name>AutoJIT.Contrib</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoJIT.Runtime\AutoJIT.Runtime.csproj">
       <Project>{F0E90F7F-F287-423B-AE31-BDA2FF7532FD}</Project>

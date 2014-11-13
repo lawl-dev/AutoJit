@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using AutoJIT.Infrastructure;
+using AutoJIT.Contrib;
 
 namespace AutoJITRuntime.Variants
 {

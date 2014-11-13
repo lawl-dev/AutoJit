@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using AutoJIT.Contrib;
 using AutoJIT.CSharpConverter.ConversionModule.Helper;
-using AutoJIT.Infrastructure;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

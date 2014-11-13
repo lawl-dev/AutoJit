@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using AutoJIT.Infrastructure;
+using AutoJIT.Contrib;
 using AutoJITRuntime.Exceptions;
 
 namespace AutoJITRuntime.Services

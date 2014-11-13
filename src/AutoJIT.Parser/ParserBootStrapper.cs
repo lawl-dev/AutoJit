@@ -1,4 +1,4 @@
-﻿using AutoJIT.Infrastructure;
+﻿using AutoJIT.Contrib;
 using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser;
 using AutoJIT.Parser.AST.Parser.Interface;

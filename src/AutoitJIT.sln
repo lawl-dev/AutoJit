@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{75FBA7BB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{EB37EA02-4384-4DD1-92AE-DC69992D1A41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoJIT.Infrastructure", "AutoJIT.Infrastructure\AutoJIT.Infrastructure.csproj", "{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoJIT.Contrib", "AutoJIT.Infrastructure\AutoJIT.Contrib.csproj", "{BD7EC48E-68B2-43CF-A23C-CAAAABCF2C55}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTests", "UniTests\UniTests.csproj", "{9C62FF1A-BD72-4E18-BE73-163FFB12100A}"
 EndProject
