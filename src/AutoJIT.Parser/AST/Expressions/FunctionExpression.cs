@@ -6,11 +6,11 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public class FunctionExpression : ExpressionBase
     {
-        public FunctionExpression( string identifierName ) {
+        public FunctionExpression( TokenNode identifierName ) {
             IdentifierName = identifierName;
         }
 
-        public string IdentifierName { get; private set; }
+        public TokenNode IdentifierName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return Enumerable.Empty<ISyntaxNode>(); }
@@ -21,18 +21,18 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override string ToSource() {
-            return IdentifierName;
+            return IdentifierName.ToSource();
         }
 
         public override object Clone() {
             return new FunctionExpression( IdentifierName );
         }
 
-        public FunctionExpression Update( string identifierName ) {
+        public FunctionExpression Update( TokenNode identifierName ) {
             if ( IdentifierName == identifierName ) {
                 return this;
             }
-            return new FunctionExpression( (string) identifierName.Clone() );
+            return new FunctionExpression( (TokenNode) identifierName.Clone() );
         }
     }
 }

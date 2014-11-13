@@ -20,7 +20,7 @@ namespace AutoJIT.Parser
             Bind<ITokenFactory, TokenFactory>();
             Bind<IOperatorPrecedenceService, OperatorPrecedenceService>();
             Bind<IScriptParser, ScriptParser>();
-            Bind<IAutoitStatementFactory, AutoitStatementFactory>();
+            Bind<IAutoitSyntaxFactory, AutoitSyntaxFactory>();
 
             RegisterStatementParserStrategys();
         }

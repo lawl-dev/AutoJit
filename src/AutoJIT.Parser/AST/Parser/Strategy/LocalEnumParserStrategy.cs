@@ -16,7 +16,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
     {
         private readonly ITokenFactory _tokenFactory;
 
-        public LocalEnumParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory, ITokenFactory tokenFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
+        public LocalEnumParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory, ITokenFactory tokenFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {
             _tokenFactory = tokenFactory;
         }
 
@@ -55,7 +55,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                         Enumerable.Empty<TokenNode>() )
                     : new BinaryExpression( (IExpressionNode) lastVariableExpression.Clone(), (IExpressionNode) left.Clone(), new TokenNode( @operator ) );
 
-                toReturn.Add( AutoitStatementFactory.CreateEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression, false ) );
+                toReturn.Add( AutoitSyntaxFactory.CreateEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression, false ) );
 
                 lastVariableExpression = variableExpression;
 

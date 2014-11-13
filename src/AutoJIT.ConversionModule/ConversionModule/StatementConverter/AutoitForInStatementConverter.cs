@@ -14,9 +14,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( ForInStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            context.RegisterLocal( statement.VariableExpression.IdentifierName );
+            context.RegisterLocal( statement.VariableExpression.IdentifierName.Token.Value.StringValue );
 
-            string variableName = context.GetVariableName( statement.VariableExpression.IdentifierName );
+            string variableName = context.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue );
             var block = (BlockSyntax) ConvertGeneric( statement.Block, context ).Single();
 
             toReturn.Add( CSharpStatementFactory.CreateForInStatement( variableName, ConvertGeneric( statement.ToEnumerate, context ), block ) );

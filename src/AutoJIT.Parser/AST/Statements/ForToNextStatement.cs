@@ -47,7 +47,7 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override string ToSource() {
             string toReturn = string.Format( "For {0} = {1} To {2}", VariableExpression.ToSource(), StartExpression.ToSource(), EndExpression.ToSource() );
-            if ( StartExpression != null ) {
+            if ( StepExpression != null ) {
                 toReturn += string.Format( " Step {0}", StepExpression.ToSource() );
             }
             toReturn += Environment.NewLine;
@@ -68,7 +68,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new ForToNextStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) startExpression.Clone(), (IExpressionNode) endExpression.Clone(), (IExpressionNode) stepExpression.Clone(), (BlockStatement) block.Clone() );
+            return new ForToNextStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) startExpression.Clone(), (IExpressionNode) endExpression.Clone(), CloneAs<IExpressionNode>( stepExpression ), (BlockStatement) block.Clone() );
         }
     }
 }

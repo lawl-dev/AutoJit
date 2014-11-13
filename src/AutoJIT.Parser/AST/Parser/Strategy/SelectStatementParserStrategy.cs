@@ -12,7 +12,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class SelectStatementParserStrategy : StatementParserStrategyBase<SelectCaseStatement>
     {
-        public SelectStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public SelectStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseSelect( block ).ToEnumerable();
@@ -42,7 +42,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 }
             }
             ConsumeAndEnsure( block, Keywords.Endselect );
-            return AutoitStatementFactory.CreateSelectStatement( cases, elseStatements );
+            return AutoitSyntaxFactory.CreateSelectStatement( cases, elseStatements );
         }
     }
 }

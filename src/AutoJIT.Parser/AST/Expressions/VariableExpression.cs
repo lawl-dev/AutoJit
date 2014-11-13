@@ -6,11 +6,11 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public class VariableExpression : ExpressionBase
     {
-        public VariableExpression( string identifierName ) {
+        public VariableExpression( TokenNode identifierName ) {
             IdentifierName = identifierName;
         }
 
-        public string IdentifierName { get; private set; }
+        public TokenNode IdentifierName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return Enumerable.Empty<ISyntaxNode>(); }
@@ -21,18 +21,18 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override string ToSource() {
-            return string.Format( "${0}", IdentifierName );
+            return string.Format( "{0}", IdentifierName.ToSource() );
         }
 
         public override object Clone() {
-            return new VariableExpression( (string) IdentifierName.Clone() );
+            return new VariableExpression( (TokenNode) IdentifierName.Clone() );
         }
 
-        public VariableExpression Update( string identifierName ) {
+        public VariableExpression Update( TokenNode identifierName ) {
             if ( IdentifierName == identifierName ) {
                 return this;
             }
-            return new VariableExpression( (string) identifierName.Clone() );
+            return new VariableExpression( (TokenNode) identifierName.Clone() );
         }
     }
 }

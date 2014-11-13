@@ -11,7 +11,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class WhileStatementParserStrategy : StatementParserStrategyBase<WhileStatement>
     {
-        public WhileStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public WhileStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseWhile( block ).ToEnumerable();
@@ -24,7 +24,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             IExpressionNode whileExpression = ExpressionParser.ParseBlock( whileExpressionToken, true );
             List<IStatementNode> whileBlockStatements = StatementParser.ParseBlock( whileBlock );
 
-            return AutoitStatementFactory.CreateWhileStatement( whileExpression, whileBlockStatements );
+            return AutoitSyntaxFactory.CreateWhileStatement( whileExpression, whileBlockStatements );
         }
     }
 }

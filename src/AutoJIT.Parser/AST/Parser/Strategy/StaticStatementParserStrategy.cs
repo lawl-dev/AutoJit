@@ -16,7 +16,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
     {
         private readonly ITokenFactory _tokenFactory;
 
-        public StaticStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, ITokenFactory tokenFactory, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {
+        public StaticStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, ITokenFactory tokenFactory, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {
             _tokenFactory = tokenFactory;
         }
 
@@ -36,7 +36,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 if ( Consume( block, TokenType.Equal ) ) {
                     initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
                 }
-                toReturn.Add( AutoitStatementFactory.CreateStaticDeclarationStatement( variableExpression, initExpression ) );
+                toReturn.Add( AutoitSyntaxFactory.CreateStaticDeclarationStatement( variableExpression, initExpression ) );
 
                 Consume( block, TokenType.Comma );
             }

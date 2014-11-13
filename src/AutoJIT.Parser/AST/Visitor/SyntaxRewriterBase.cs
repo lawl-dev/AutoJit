@@ -49,7 +49,7 @@ namespace AutoJIT.Parser.AST.Visitor
 
         public override ISyntaxNode VisitCallExpression( CallExpression node ) {
             List<IExpressionNode> parameter = node.Parameter.Select( x => (IExpressionNode) Visit( x ) ).ToList();
-            string identifierName = node.IdentifierName;
+            var identifierName = (TokenNode)Visit(node.IdentifierName);
             return node.Update( parameter, identifierName );
         }
 
@@ -141,7 +141,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitFunctionExpression( FunctionExpression node ) {
-            string identifierName = node.IdentifierName;
+            var identifierName = (TokenNode)Visit(node.IdentifierName);
             return node.Update( identifierName );
         }
 
@@ -175,7 +175,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitMacroExpression( MacroExpression node ) {
-            string macroName = node.MacroName;
+            var macroName = (TokenNode)Visit(node.MacroName);
             return node.Update( macroName );
         }
 
@@ -253,13 +253,13 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitUserfunctionCallExpression( UserfunctionCallExpression node ) {
-            string identifierName = node.IdentifierName;
+            var identifierName = (TokenNode)Visit(node.IdentifierName);
             IEnumerable<IExpressionNode> parameter = node.Parameter.Select( x => (IExpressionNode) Visit( x ) );
             return node.Update( parameter, identifierName );
         }
 
         public override ISyntaxNode VisitVariableExpression( VariableExpression node ) {
-            string identifierName = node.IdentifierName;
+            var identifierName = (TokenNode)Visit(node.IdentifierName);
             return node.Update( identifierName );
         }
 
@@ -283,6 +283,10 @@ namespace AutoJIT.Parser.AST.Visitor
         public override ISyntaxNode VisitBlockStatement( BlockStatement node ) {
             IEnumerable<IStatementNode> block = node.Block.Select( x => (IStatementNode) Visit( x ) );
             return node.Update( block );
+        }
+
+        public override ISyntaxNode VisitToken( TokenNode node ) {
+            return node.Update();
         }
     }
 }

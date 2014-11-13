@@ -15,7 +15,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ForInStatementParserStrategy : StatementParserStrategyBase<ForInStatement>
     {
-        public ForInStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ForInStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseForIn( block ).ToEnumerable();
@@ -37,7 +37,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             List<IStatementNode> statements = StatementParser.ParseBlock( statementTokenCollection );
             var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( new TokenQueue( localVariableName ) );
 
-            return AutoitStatementFactory.CreateForInStatement( variableExpression, toEnumerate, statements );
+            return AutoitSyntaxFactory.CreateForInStatement( variableExpression, toEnumerate, statements );
         }
     }
 }

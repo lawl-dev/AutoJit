@@ -12,7 +12,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class RedimStatementParserStrategy : StatementParserStrategyBase<ReDimStatement>
     {
-        public RedimStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public RedimStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseRedim( block );
@@ -24,7 +24,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 Consume( block, TokenType.Comma );
                 var arrayExpression = ExpressionParser.ParseSingle<ArrayExpression>( block );
 
-                toReturn.Add( AutoitStatementFactory.CreateReDimStatement( arrayExpression ) );
+                toReturn.Add( AutoitSyntaxFactory.CreateReDimStatement( arrayExpression ) );
             } while ( block.Any()
                       &&
                       block.Peek().Type == TokenType.Comma );

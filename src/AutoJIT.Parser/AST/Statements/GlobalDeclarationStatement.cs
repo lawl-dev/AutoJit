@@ -33,7 +33,10 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override string ToSource() {
-            string toReturn = string.Format( "Global {0}", VariableExpression.ToSource() );
+            string toReturn = string.Format(
+                "Global {0}{1}", IsConst
+                    ? "Const "
+                    : string.Empty, VariableExpression.ToSource() );
             if ( InitExpression != null ) {
                 toReturn += string.Format( " = {0}", InitExpression.ToSource() );
             }
@@ -50,7 +53,10 @@ namespace AutoJIT.Parser.AST.Statements
                  IsConst == isConst ) {
                 return this;
             }
-            return new GlobalDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) initExpression.Clone(), isConst );
+            return new GlobalDeclarationStatement(
+                (VariableExpression) variableExpression.Clone(), initExpression != null
+                    ? (IExpressionNode) initExpression.Clone()
+                    : null, isConst );
         }
     }
 }

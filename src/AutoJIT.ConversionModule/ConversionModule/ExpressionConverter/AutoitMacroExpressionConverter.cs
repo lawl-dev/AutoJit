@@ -18,7 +18,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
         public override ExpressionSyntax Convert( MacroExpression node, IContextService contextService ) {
             string contextInstanceName = contextService.GetContextInstanceName();
-            string macroName = CompilerHelper.GetMacros( x => x.Name.Equals( node.MacroName, StringComparison.CurrentCultureIgnoreCase ) ).Single();
+            string macroName = CompilerHelper.GetMacros(x => x.Name.Equals(node.MacroName.Token.Value.StringValue, StringComparison.CurrentCultureIgnoreCase)).Single();
 
             return _cSharpStatementFactory.CreateMemberAccessExpression( contextInstanceName, macroName );
         }

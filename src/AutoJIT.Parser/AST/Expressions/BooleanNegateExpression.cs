@@ -35,7 +35,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new BooleanNegateExpression( (IExpressionNode) Left.Clone(), Operator );
+            return new BooleanNegateExpression( (IExpressionNode) Left.Clone(), (TokenNode) Operator.Clone() );
         }
 
         public BooleanNegateExpression Update( IExpressionNode left, TokenNode @operator ) {

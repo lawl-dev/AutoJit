@@ -7,7 +7,7 @@ using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Factory
 {
-    public interface IAutoitStatementFactory
+    public interface IAutoitSyntaxFactory
     {
         AssignStatement CreateAssignStatement( VariableExpression variableExpression, IExpressionNode expression, Token @operator );
         ContinueCaseStatement CreateContinueCaseStatement();
@@ -34,5 +34,28 @@ namespace AutoJIT.Parser.AST.Factory
         SelectCaseStatement CreateSelectStatement( IEnumerable<SelectCase> cases, IEnumerable<IStatementNode> elseStatements );
         WhileStatement CreateWhileStatement( IExpressionNode condition, List<IStatementNode> block );
         IStatementNode CreateStaticDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression );
+        ArrayExpression CreateArrayExpression( TokenNode identifierName, List<IExpressionNode> accessParameter );
+        ArrayInitExpression CreateArrayInitExpression(List<IExpressionNode> toAssign);
+        BinaryExpression CreateBinaryExpression(IExpressionNode left, IExpressionNode right, TokenNode @operator);
+        BooleanNegateExpression CreateBooleanNegateExpression(IExpressionNode left, TokenNode @operator);
+        CallExpression CreateCallExpression( TokenNode identifierName, List<IExpressionNode> parameter );
+        CaseCondition CreateCaseCondition( IExpressionNode left, IExpressionNode right );
+        DefaultExpression CreateDefaultExpression();
+        FalseLiteralExpression CreateFalseLiteralExpression();
+        FunctionExpression CreateFunctionExpression( TokenNode identifierName );
+        MacroExpression CreateMacroExpression( TokenNode identifierName );
+        NegateExpression CreateNegateExpression( IExpressionNode expression );
+        NullExpression CreateNullExpression();
+        NumericLiteralExpression CreateNumericLiteralExpression( TokenNode literalToken, IEnumerable<TokenNode> signOperators );
+        StringLiteralExpression CreateStringLiteralExpression( TokenNode literalToken );
+        TernaryExpression CreateTernaryExpression( IExpressionNode condition, IExpressionNode ifTrue, IExpressionNode ifFalse );
+        TokenNode CreateTokenNode( Token token );
+        TokenNode CreateTokenNode(string value);
+        TrueLiteralExpression CreateTrueLiteralExpression();
+        UserfunctionCallExpression CreateUserfunctionCallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter );
+        UserfunctionExpression CreateUserfunctionExpression( TokenNode identifierName );
+        VariableExpression CreateVariableExpression( TokenNode identifierName );
+        VariableFunctionCallExpression CreateVariableFunctionCallExpression( VariableExpression variableExpression, IEnumerable<IExpressionNode> parameter );
+        TokenNode CreateTokenNode( int token );
     }
 }

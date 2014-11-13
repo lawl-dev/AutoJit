@@ -7,13 +7,13 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public class CallExpression : ExpressionBase
     {
-        public CallExpression( string identifierName, IEnumerable<IExpressionNode> parameter ) {
+        public CallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter ) {
             IdentifierName = identifierName;
             Parameter = parameter;
             Initialize();
         }
 
-        public string IdentifierName { get; private set; }
+        public TokenNode IdentifierName { get; private set; }
         public IEnumerable<IExpressionNode> Parameter { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
@@ -25,19 +25,19 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override string ToSource() {
-            return string.Format( "{0}({1})", IdentifierName, string.Join( ", ", Parameter.Select( x => x.ToSource() ) ) );
+            return string.Format( "{0}({1})", IdentifierName.Token.Value.StringValue, string.Join( ", ", Parameter.Select( x => x.ToSource() ) ) );
         }
 
         public override object Clone() {
-            return new CallExpression( (string) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
+            return new CallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
         }
 
-        public virtual CallExpression Update( IList<IExpressionNode> parameter, string identifierName ) {
+        public virtual CallExpression Update( IList<IExpressionNode> parameter, TokenNode identifierName ) {
             if ( EnumerableEquals( Parameter, parameter ) &&
                  IdentifierName == identifierName ) {
                 return this;
             }
-            return new CallExpression( (string) identifierName.Clone(), parameter.Select( x => (IExpressionNode) x.Clone() ) );
+            return new CallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x => (IExpressionNode) x.Clone() ) );
         }
     }
 }

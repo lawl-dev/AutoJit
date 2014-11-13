@@ -14,6 +14,7 @@ using AutoJIT.Parser;
 using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
+using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Visitor;
@@ -407,8 +408,10 @@ namespace IntegrationTests
 
         private class Rewriter : SyntaxRewriterBase
         {
+            private readonly IAutoitSyntaxFactory _syntaxFactory = new AutoitSyntaxFactory( new TokenFactory() );
+
             public override ISyntaxNode VisitAssignStatement( AssignStatement node ) {
-                return new FunctionCallStatement( new CallExpression( "ConsoleWrite", new NumericLiteralExpression( new TokenNode( new Token { Type = TokenType.Int32, Value = new TokenValue { Int32Value = 1337 } } ), Enumerable.Empty<TokenNode>() ).ToEnumerable() ) );
+                return _syntaxFactory.CreateFunctionCallStatement( _syntaxFactory.CreateCallExpression( _syntaxFactory.CreateTokenNode( "ConsoleWrite" ), new List<IExpressionNode> { _syntaxFactory.CreateNumericLiteralExpression( _syntaxFactory.CreateTokenNode( 1337 ), Enumerable.Empty<TokenNode>() ) } ) );
             }
         }
     }

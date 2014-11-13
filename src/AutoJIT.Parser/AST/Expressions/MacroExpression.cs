@@ -6,11 +6,11 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class MacroExpression : ExpressionBase
     {
-        public MacroExpression( string macroName ) {
+        public MacroExpression( TokenNode macroName ) {
             MacroName = macroName;
         }
 
-        public string MacroName { get; private set; }
+        public TokenNode MacroName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get { return Enumerable.Empty<ISyntaxNode>(); }
@@ -21,18 +21,18 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override string ToSource() {
-            return string.Format( "@{0}", MacroName );
+            return string.Format( "{0}", MacroName.ToSource() );
         }
 
         public override object Clone() {
-            return new MacroExpression( (string) MacroName.Clone() );
+            return new MacroExpression( (TokenNode) MacroName.Clone() );
         }
 
-        public MacroExpression Update( string macroName ) {
+        public MacroExpression Update( TokenNode macroName ) {
             if ( MacroName == macroName ) {
                 return this;
             }
-            return new MacroExpression( (string) macroName.Clone() );
+            return new MacroExpression(  (TokenNode) macroName.Clone() );
         }
     }
 }

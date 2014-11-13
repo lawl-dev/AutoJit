@@ -6,11 +6,19 @@ using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Lex;
+using AutoJIT.Parser.Lex.Interface;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AutoJIT.Parser.AST.Factory
 {
-    public sealed class AutoitStatementFactory : IAutoitStatementFactory
+    public sealed class AutoitSyntaxFactory : IAutoitSyntaxFactory
     {
+        private readonly ITokenFactory _tokenFactory;
+
+        public AutoitSyntaxFactory(ITokenFactory tokenFactory) {
+            _tokenFactory = tokenFactory;
+        }
+
         public AssignStatement CreateAssignStatement( VariableExpression variableExpression, IExpressionNode expression, Token @operator ) {
             if ( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
@@ -201,6 +209,235 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "variableExpression" );
             }
             return new StaticDeclarationStatement( variableExpression, initExpression );
+        }
+
+        public ArrayExpression CreateArrayExpression( TokenNode identifierName, List<IExpressionNode> accessParameter ) {
+            if ( identifierName == null ) {
+                throw new ArgumentNullException("identifierName");
+            }
+
+            if ( accessParameter == null ) {
+                throw new ArgumentNullException("accessParameter");
+            }
+            
+            if ( !accessParameter.Any() ) {
+                throw new ArgumentException("Not allowed", "accessParameter");
+            }
+
+            return new ArrayExpression( identifierName, accessParameter );
+        }
+
+        public ArrayInitExpression CreateArrayInitExpression(List<IExpressionNode> toAssign) {
+            if ( toAssign == null ) {
+                throw new ArgumentNullException("toAssign");
+            }
+            return new ArrayInitExpression( toAssign );
+        }
+
+        public BinaryExpression CreateBinaryExpression(IExpressionNode left, IExpressionNode right, TokenNode @operator) {
+            if ( left == null ) {
+                throw new ArgumentNullException("Left");
+            }
+
+            if ( right == null ) {
+                throw new ArgumentNullException("right");
+            }
+
+            if ( @operator == null ) {
+                throw new ArgumentNullException("operator");
+            }
+
+            if ( !@operator.Token.IsBinaryExpression ) {
+                throw new ArgumentException("Invalid operator", "@operator");
+            }
+
+            return new BinaryExpression( left, right, @operator );
+        }
+
+        public BooleanNegateExpression CreateBooleanNegateExpression(IExpressionNode left, TokenNode @operator) {
+            if ( left == null ) {
+                throw new ArgumentNullException("left");
+            }
+
+            if ( @operator == null ) {
+                throw new ArgumentNullException("operator");
+            }
+
+            if ( @operator.Token.Type != TokenType.NOT ) {
+                throw new ArgumentException("Invalid token", "@operator");
+            }
+
+            return new BooleanNegateExpression( left, @operator );
+        }
+
+        public CallExpression CreateCallExpression( TokenNode identifierName, List<IExpressionNode> parameter ) {
+            if ( identifierName == null ) {
+                throw new ArgumentNullException("identifierName");
+            }
+
+            if ( parameter == null ) {
+                throw new ArgumentNullException("parameter");
+            }
+
+            return new CallExpression( identifierName, parameter );
+        }
+
+        public CaseCondition CreateCaseCondition( IExpressionNode left, IExpressionNode right ) {
+            if ( left == null ) {
+                throw new ArgumentNullException("left");
+            }
+
+            if ( right == null ) {
+                throw new ArgumentNullException("right");
+            }
+
+            return new CaseCondition( left, right);
+        }
+
+        public DefaultExpression CreateDefaultExpression() {
+            return new DefaultExpression();
+        }
+
+        public FalseLiteralExpression CreateFalseLiteralExpression() {
+            return new FalseLiteralExpression();
+        }
+
+        public FunctionExpression CreateFunctionExpression( TokenNode identifierName ) {
+            if ( identifierName == null ) {
+                throw new ArgumentNullException("identifierName");
+            }
+            
+            return new FunctionExpression( identifierName );
+        }
+
+        public MacroExpression CreateMacroExpression( TokenNode identifierName ) {
+            if (identifierName == null)
+            {
+                throw new ArgumentNullException("identifierName");
+            }
+            
+            return new MacroExpression( identifierName );
+        }
+
+        public NegateExpression CreateNegateExpression( IExpressionNode expression ) {
+            if ( expression == null ) {
+                throw new ArgumentNullException("expression");
+            }
+
+            return new NegateExpression( expression );
+        }
+
+        public NullExpression CreateNullExpression() {
+            return new NullExpression();
+        }
+
+        public NumericLiteralExpression CreateNumericLiteralExpression( TokenNode literalToken, IEnumerable<TokenNode> signOperators ) {
+            if ( literalToken == null ) {
+                throw new ArgumentNullException("literalToken");
+            }
+
+            if ( signOperators == null ) {
+                throw new ArgumentNullException("signOperators");
+            }
+
+            return new NumericLiteralExpression( literalToken, signOperators );
+        }
+
+        public StringLiteralExpression CreateStringLiteralExpression( TokenNode literalToken ) {
+            if ( literalToken == null ) {
+                throw new ArgumentNullException("literalToken");
+            }
+
+            if ( literalToken.Token.Type != TokenType.String ) {
+                throw new ArgumentException( "Literal is not a string", "literalToken" );
+            }
+            return new StringLiteralExpression( literalToken );
+        }
+
+        public TernaryExpression CreateTernaryExpression( IExpressionNode condition, IExpressionNode ifTrue, IExpressionNode ifFalse ) {
+            if ( condition == null ) {
+                throw new ArgumentNullException("condition");
+            }
+
+            if ( ifTrue == null ) {
+                throw new ArgumentNullException("ifTrue");
+            }
+
+            if ( ifFalse == null ) {
+                throw new ArgumentNullException("ifFalse");
+            }
+
+            return new TernaryExpression( condition, ifTrue, ifFalse );
+        }
+
+        public TokenNode CreateTokenNode( Token token ) {
+            if ( token == null ) {
+                throw new ArgumentNullException("token");
+            }
+
+            return new TokenNode( token );
+        }
+
+        public TokenNode CreateTokenNode(string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
+            return new TokenNode( _tokenFactory.CreateString( value, -1, -1 ) );
+        }
+
+        public TrueLiteralExpression CreateTrueLiteralExpression() {
+            return new TrueLiteralExpression();
+        }
+
+        public UserfunctionCallExpression CreateUserfunctionCallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter ) {
+            if (identifierName == null)
+            {
+                throw new ArgumentNullException("identifierName");
+            }
+
+            if (parameter == null)
+            {
+                throw new ArgumentNullException("parameter");
+            }
+
+
+            return new UserfunctionCallExpression( identifierName, parameter );
+        }
+
+        public UserfunctionExpression CreateUserfunctionExpression( TokenNode identifierName ) {
+            if ( identifierName == null ) {
+                throw new ArgumentNullException("identifierName");
+            }
+
+            return new UserfunctionExpression( identifierName );
+        }
+
+        public VariableExpression CreateVariableExpression( TokenNode identifierName ) {
+            if (identifierName == null)
+            {
+                throw new ArgumentNullException("identifierName");
+            }
+            
+            return new VariableExpression( identifierName );
+        }
+
+        public VariableFunctionCallExpression CreateVariableFunctionCallExpression( VariableExpression variableExpression, IEnumerable<IExpressionNode> parameter ) {
+            if ( variableExpression == null ) {
+                throw new ArgumentNullException("variableExpression");
+            }
+
+            if ( parameter == null ) {
+                throw new ArgumentNullException("parameter");
+            }
+
+            return new VariableFunctionCallExpression( variableExpression, parameter );
+        }
+
+        public TokenNode CreateTokenNode( int token ) {
+            return new TokenNode(_tokenFactory.CreateInt( token, -1, -1 ));
         }
     }
 }

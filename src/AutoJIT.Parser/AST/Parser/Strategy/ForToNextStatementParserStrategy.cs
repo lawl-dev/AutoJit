@@ -13,7 +13,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ForToNextStatementParserStrategy : StatementParserStrategyBase<ForToNextStatement>
     {
-        public ForToNextStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ForToNextStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseForTo( block ).ToEnumerable();
@@ -43,7 +43,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             List<IStatementNode> statements = StatementParser.ParseBlock( statementsTokenCollection );
 
-            return AutoitStatementFactory.CreateForToNextStatement( variableExpression, startExpression, endExpression, stepExpressions, statements );
+            return AutoitSyntaxFactory.CreateForToNextStatement( variableExpression, startExpression, endExpression, stepExpressions, statements );
         }
     }
 }

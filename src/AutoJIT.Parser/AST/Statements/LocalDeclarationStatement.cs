@@ -50,7 +50,7 @@ namespace AutoJIT.Parser.AST.Statements
                  IsConst == isConst ) {
                 return this;
             }
-            return new LocalDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) initExpression.Clone(), isConst );
+            return new LocalDeclarationStatement( (VariableExpression) variableExpression.Clone(), CloneAs<IExpressionNode>( initExpression ), isConst );
         }
     }
 }

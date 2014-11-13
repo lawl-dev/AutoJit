@@ -19,14 +19,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public AutoitStaticDeclarationStatementConverter( ICSharpStatementFactory cSharpStatementFactory, IInjectionService injectionService ) : base( cSharpStatementFactory, injectionService ) {}
 
         public override IEnumerable<StatementSyntax> Convert( StaticDeclarationStatement statement, IContextService context ) {
-            if ( context.IsDeclaredStatic( statement.VariableExpression.IdentifierName ) ) {
+            if ( context.IsDeclaredStatic( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) ) {
                 throw new InvalidOperationException();
             }
 
             var toReturn = new List<StatementSyntax>();
 
-            context.RegisterStatic( statement.VariableExpression.IdentifierName );
-            context.PushGlobalVariable( statement.VariableExpression.IdentifierName, DeclareGlobal( statement, context ) );
+            context.RegisterStatic( statement.VariableExpression.IdentifierName.Token.Value.StringValue );
+            context.PushGlobalVariable( statement.VariableExpression.IdentifierName.Token.Value.StringValue, DeclareGlobal( statement, context ) );
             if ( statement.VariableExpression is ArrayExpression ) {
                 var iniStatements = new List<StatementSyntax>();
                 iniStatements.Add( InitArray( statement, context ) );
@@ -47,12 +47,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private StatementSyntax AddNullCheck( StaticDeclarationStatement statement, IEnumerable<StatementSyntax> iniStatements, IContextService context ) {
-            IfStatementSyntax ifStatement = SyntaxFactory.IfStatement( SyntaxFactory.BinaryExpression( SyntaxKind.EqualsExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName ) ), SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ), iniStatements.ToBlock() );
+            IfStatementSyntax ifStatement = SyntaxFactory.IfStatement( SyntaxFactory.BinaryExpression( SyntaxKind.EqualsExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) ), SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ), iniStatements.ToBlock() );
             return ifStatement;
         }
 
         private StatementSyntax AssignArray( StaticDeclarationStatement statement, IContextService contextService ) {
-            return CSharpStatementFactory.CreateInvocationExpression( contextService.GetVariableName( statement.VariableExpression.IdentifierName ), CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ), new CSharpParameterInfo( ConvertGeneric( statement.InitExpression, contextService ), false ).ToEnumerable() ).ToStatementSyntax();
+            return CSharpStatementFactory.CreateInvocationExpression( contextService.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ), CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ), new CSharpParameterInfo( ConvertGeneric( statement.InitExpression, contextService ), false ).ToEnumerable() ).ToStatementSyntax();
         }
 
         private FieldDeclarationSyntax DeclareGlobal( StaticDeclarationStatement node, IContextService context ) {
@@ -61,20 +61,20 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private VariableDeclarationSyntax DeclareVariable( StaticDeclarationStatement statement, IContextService context ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariableUninit( typeof (Variant).Name, context.GetVariableName( statement.VariableExpression.IdentifierName ) );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariableUninit( typeof (Variant).Name, context.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) );
             return declarationSyntax;
         }
 
         private StatementSyntax AssignVariable( StaticDeclarationStatement statement, IContextService contextService ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName ) ), ConvertGeneric( statement.InitExpression, contextService ) ).ToStatementSyntax();
+            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) ), ConvertGeneric( statement.InitExpression, contextService ) ).ToStatementSyntax();
         }
 
         private StatementSyntax AssignNullVariant( StaticDeclarationStatement statement, IContextService contextService ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName ) ), SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ).ToStatementSyntax();
+            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) ), SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ).ToStatementSyntax();
         }
 
         private StatementSyntax InitArray( StaticDeclarationStatement statement, IContextService contextService ) {
-            BinaryExpressionSyntax binaryExpression = SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName ) ), GetArrayInitExpression( statement, contextService ) );
+            BinaryExpressionSyntax binaryExpression = SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) ), GetArrayInitExpression( statement, contextService ) );
 
             return binaryExpression.ToStatementSyntax();
         }

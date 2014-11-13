@@ -13,7 +13,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class LocalStatementParserStrategy : StatementParserStrategyBase<LocalDeclarationStatement>
     {
-        public LocalStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public LocalStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseLocal( block );
@@ -33,7 +33,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 if ( Consume( block, TokenType.Equal ) ) {
                     initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
                 }
-                toReturn.Add( AutoitStatementFactory.CreateLocalDeclarationStatement( variableExpression, initExpression, isConst ) );
+                toReturn.Add( AutoitSyntaxFactory.CreateLocalDeclarationStatement( variableExpression, initExpression, isConst ) );
 
                 Consume( block, TokenType.Comma );
             }

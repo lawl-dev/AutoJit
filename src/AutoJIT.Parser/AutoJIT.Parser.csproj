@@ -70,8 +70,8 @@
     <Compile Include="AST\Expressions\UserfunctionExpression.cs" />
     <Compile Include="AST\Expressions\VariableExpression.cs" />
     <Compile Include="AST\Expressions\VariableFunctionCallExpression.cs" />
-    <Compile Include="AST\Factory\AutoitStatementFactory.cs" />
-    <Compile Include="AST\Factory\IAutoitStatementFactory.cs" />
+    <Compile Include="AST\Factory\AutoitSyntaxFactory.cs" />
+    <Compile Include="AST\Factory\IAutoitSyntaxFactory.cs" />
     <Compile Include="AST\Function.cs" />
     <Compile Include="AST\ISyntaxNode.cs" />
     <Compile Include="AST\Parser\ExpressionParseBase.cs" />

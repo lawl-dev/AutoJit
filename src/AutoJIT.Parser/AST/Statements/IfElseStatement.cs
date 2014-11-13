@@ -61,7 +61,7 @@ namespace AutoJIT.Parser.AST.Statements
                 for ( int i = 0; i < ElseIfConditions.Count(); i++ ) {
                     IExpressionNode conditionExpression = ElseIfConditions.Skip( i ).First();
                     BlockStatement statements = ElseIfBlocks.Skip( i ).First();
-                    toReturn += string.Format( "ElseIf {0}{1}", conditionExpression.ToSource(), Environment.NewLine );
+                    toReturn += string.Format( "ElseIf {0} Then{1}", conditionExpression.ToSource(), Environment.NewLine );
                     toReturn += statements.ToSource();
                 }
             }

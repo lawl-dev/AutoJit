@@ -10,7 +10,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         public AutoitVariableExpressionConverter( IInjectionService injectionService ) : base( injectionService ) {}
 
         public override ExpressionSyntax Convert( VariableExpression node, IContextService contextService ) {
-            return SyntaxFactory.IdentifierName( contextService.GetVariableName( node.IdentifierName ) );
+            return SyntaxFactory.IdentifierName( contextService.GetVariableName( node.IdentifierName.Token.Value.StringValue ) );
         }
     }
 }

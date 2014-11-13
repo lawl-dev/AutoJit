@@ -11,7 +11,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
 
         public override ExpressionSyntax Convert( CallExpression node, IContextService contextService ) {
             string runtimeInstanceName = contextService.GetRuntimeInstanceName();
-            string functionName = node.IdentifierName;
+            string functionName = node.IdentifierName.Token.Value.StringValue;
             IEnumerable<ArgumentSyntax> parameter = CreateParameter( node.Parameter, contextService );
 
             return CreateInvocationExpression( runtimeInstanceName, functionName, parameter );

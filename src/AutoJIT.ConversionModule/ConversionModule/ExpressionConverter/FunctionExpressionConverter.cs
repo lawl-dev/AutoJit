@@ -15,7 +15,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
             string createFunctionName = CompilerHelper.GetVariantMemberName( x => Variant.CreateFunction( null, null ) );
 
             ArgumentSyntax runtimeName = SyntaxFactory.Argument( SyntaxFactory.IdentifierName( contextService.GetRuntimeInstanceName() ) );
-            ArgumentSyntax funcName = SyntaxFactory.Argument( SyntaxFactory.LiteralExpression( SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal( node.IdentifierName, node.IdentifierName ) ) );
+            ArgumentSyntax funcName = SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(node.IdentifierName.Token.Value.StringValue, node.IdentifierName.Token.Value.StringValue)));
 
             return SyntaxFactory.InvocationExpression( SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( typeof (Variant).Name ), SyntaxFactory.IdentifierName( createFunctionName ) ) ).WithArgumentList( SyntaxFactory.ArgumentList().AddArguments( runtimeName, funcName ) );
         }

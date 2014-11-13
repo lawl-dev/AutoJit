@@ -17,10 +17,11 @@ namespace AutoJIT.CSharpConverter.AutojitCheck
         public void Visit( object o ) {}
 
         public void Visit( GlobalDeclarationStatement global ) {
-            if ( _constGlobal.ContainsKey( global.VariableExpression.IdentifierName ) ) {
-                throw new InvalidSemanticException( string.Format( "{0} previously declared as a 'Const'", global.VariableExpression.IdentifierName ) );
+            if (_constGlobal.ContainsKey(global.VariableExpression.IdentifierName.Token.Value.StringValue))
+            {
+                throw new InvalidSemanticException(string.Format("{0} previously declared as a 'Const'", global.VariableExpression.IdentifierName.Token.Value.StringValue));
             }
-            _constGlobal.Add( global.VariableExpression.IdentifierName, global );
+            _constGlobal.Add(global.VariableExpression.IdentifierName.Token.Value.StringValue, global);
         }
     }
 }

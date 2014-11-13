@@ -13,7 +13,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class DimStatementParserStrategy : StatementParserStrategyBase<DimStatement>
     {
-        public DimStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public DimStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseDim( block );
@@ -29,7 +29,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                     initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
                 }
 
-                toReturn.Add( AutoitStatementFactory.CreateDimStatement( variableExpression, initExpression ) );
+                toReturn.Add( AutoitSyntaxFactory.CreateDimStatement( variableExpression, initExpression ) );
 
                 Consume( block, TokenType.Comma );
             }

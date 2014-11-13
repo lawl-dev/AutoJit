@@ -13,7 +13,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class ExitLoopStatementParserStrategy : StatementParserStrategyBase<ExitloopStatement>
     {
-        public ExitLoopStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public ExitLoopStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseExitloop( block ).ToEnumerable();
@@ -28,7 +28,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             ConsumeAndEnsure( block, TokenType.NewLine );
 
-            return AutoitStatementFactory.CreateExitloopStatement( level );
+            return AutoitSyntaxFactory.CreateExitloopStatement( level );
         }
     }
 }

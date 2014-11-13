@@ -20,8 +20,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         public override IEnumerable<StatementSyntax> Convert( LocalDeclarationStatement statement, IContextService context ) {
             var toReturn = new List<StatementSyntax>();
 
-            if ( !context.IsDeclaredLocal( statement.VariableExpression.IdentifierName ) ) {
-                context.RegisterLocal( statement.VariableExpression.IdentifierName );
+            if ( !context.IsDeclaredLocal( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) ) {
+                context.RegisterLocal( statement.VariableExpression.IdentifierName.Token.Value.StringValue );
                 toReturn.Add( DeclareLocal( statement, context ) );
             }
             if ( statement.VariableExpression is ArrayExpression ) {
@@ -38,7 +38,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private StatementSyntax AssignArray( LocalDeclarationStatement statement, IContextService contextService ) {
-            return CSharpStatementFactory.CreateInvocationExpression( contextService.GetVariableName( statement.VariableExpression.IdentifierName ), CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ), new CSharpParameterInfo( ConvertGeneric( statement.InitExpression, contextService ), false ).ToEnumerable() ).ToStatementSyntax();
+            return CSharpStatementFactory.CreateInvocationExpression( contextService.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ), CompilerHelper.GetVariantMemberName( x => x.InitArray( null ) ), new CSharpParameterInfo( ConvertGeneric( statement.InitExpression, contextService ), false ).ToEnumerable() ).ToStatementSyntax();
         }
 
         private StatementSyntax DeclareLocal( LocalDeclarationStatement statement, IContextService context ) {
@@ -47,16 +47,16 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private VariableDeclarationSyntax DeclareVariable( LocalDeclarationStatement statement, IContextService context ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, context.GetVariableName( statement.VariableExpression.IdentifierName, Scope.Local ) );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, context.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue, Scope.Local ) );
             return declarationSyntax;
         }
 
         private StatementSyntax AssignVariable( LocalDeclarationStatement statement, IContextService contextService ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName ) ), ConvertGeneric( statement.InitExpression, contextService ) ).ToStatementSyntax();
+            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) ), ConvertGeneric( statement.InitExpression, contextService ) ).ToStatementSyntax();
         }
 
         private StatementSyntax InitArray( LocalDeclarationStatement statement, IContextService contextService ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName ) ), GetArrayInitExpression( statement, contextService ) ).ToStatementSyntax();
+            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( contextService.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue ) ), GetArrayInitExpression( statement, contextService ) ).ToStatementSyntax();
         }
 
         private ExpressionSyntax GetArrayInitExpression( LocalDeclarationStatement statement, IContextService contextService ) {

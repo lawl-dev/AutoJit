@@ -21,12 +21,13 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             var toReturn = new List<StatementSyntax>();
 
             if ( context.GetIsGlobalContext() ) {
-                context.RegisterGlobal( statement.VariableExpression.IdentifierName );
-                context.PushGlobalVariable( statement.VariableExpression.IdentifierName, DeclareGlobal( statement, context ) );
+                context.RegisterGlobal(statement.VariableExpression.IdentifierName.Token.Value.StringValue);
+                context.PushGlobalVariable(statement.VariableExpression.IdentifierName.Token.Value.StringValue, DeclareGlobal(statement, context));
             }
             else {
-                if ( !context.IsDeclaredLocal( statement.VariableExpression.IdentifierName ) ) {
-                    context.RegisterLocal( statement.VariableExpression.IdentifierName );
+                if (!context.IsDeclaredLocal(statement.VariableExpression.IdentifierName.Token.Value.StringValue))
+                {
+                    context.RegisterLocal(statement.VariableExpression.IdentifierName.Token.Value.StringValue);
                     toReturn.Add( DeclareLocal( statement, context ) );
                 }
             }
@@ -51,7 +52,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private VariableDeclarationSyntax DeclareVariable( DimStatement node, IContextService context ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, context.GetVariableName( node.VariableExpression.IdentifierName ) );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable(typeof(Variant).Name, context.GetVariableName(node.VariableExpression.IdentifierName.Token.Value.StringValue));
             return declarationSyntax;
         }
 
@@ -60,7 +61,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private StatementSyntax InitArray( DimStatement node, IContextService context ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( node.VariableExpression.IdentifierName ) ), GetArrayInitExpression( node, context ) ).ToStatementSyntax();
+            return SyntaxFactory.BinaryExpression(SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName(context.GetVariableName(node.VariableExpression.IdentifierName.Token.Value.StringValue)), GetArrayInitExpression(node, context)).ToStatementSyntax();
         }
 
         private ExpressionSyntax GetArrayInitExpression( DimStatement node, IContextService context ) {

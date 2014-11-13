@@ -13,7 +13,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class IfStatementParserStrategy : StatementParserStrategyBase<IfElseStatement>
     {
-        public IfStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public IfStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseIf( block ).ToEnumerable();
@@ -89,7 +89,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 elseBlockStatements = StatementParser.ParseBlock( elseBlock );
             }
 
-            return AutoitStatementFactory.CreateIfElseStatement( conditionExpression, ifBlockStatements, elseIfConditionExpressions, elseIfBlockStatements, elseBlockStatements );
+            return AutoitSyntaxFactory.CreateIfElseStatement( conditionExpression, ifBlockStatements, elseIfConditionExpressions, elseIfBlockStatements, elseBlockStatements );
         }
 
         private TokenCollection ParseElseLineBlock( TokenQueue block ) {

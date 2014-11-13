@@ -27,7 +27,10 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override string ToSource() {
-            return string.Format( "Continueloop {0}", Level.Token );
+            return string.Format(
+                "Continueloop {0}", Level != null
+                    ? Level.Token.Value.Int32Value
+                    : 1 );
         }
 
         public override object Clone() {

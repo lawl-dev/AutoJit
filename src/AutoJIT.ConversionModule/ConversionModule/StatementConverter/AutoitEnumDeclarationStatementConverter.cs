@@ -19,12 +19,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             Scope scope;
             if ( statement is GlobalEnumDeclarationStatement ) {
                 scope = Scope.Global;
-                context.RegisterGlobal( statement.VariableExpression.IdentifierName );
-                context.PushGlobalVariable( context.GetVariableName( statement.VariableExpression.IdentifierName, Scope.Global ), DeclareGlobal( statement, context ) );
+                context.RegisterGlobal( statement.VariableExpression.IdentifierName.Token.Value.StringValue );
+                context.PushGlobalVariable( context.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue, Scope.Global ), DeclareGlobal( statement, context ) );
             }
             else {
                 scope = Scope.Local;
-                context.RegisterLocal( statement.VariableExpression.IdentifierName );
+                context.RegisterLocal( statement.VariableExpression.IdentifierName.Token.Value.StringValue );
                 toReturn.Add( DeclareLocal( statement, context ) );
             }
 
@@ -32,7 +32,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                 toReturn.Add( AssignVariable( statement, context, scope ) );
             }
             else {
-                toReturn.Add( SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName, scope ) ), ConvertGeneric( statement.AutoInitExpression, context ) ).ToStatementSyntax() );
+                toReturn.Add( SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue, scope ) ), ConvertGeneric( statement.AutoInitExpression, context ) ).ToStatementSyntax() );
             }
             return toReturn;
         }
@@ -48,12 +48,12 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private VariableDeclarationSyntax DeclareVariable( EnumDeclarationStatement statement, IContextService context, Scope scope ) {
-            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, context.GetVariableName( statement.VariableExpression.IdentifierName, scope ) );
+            VariableDeclarationSyntax declarationSyntax = CSharpStatementFactory.CreateVariable( typeof (Variant).Name, context.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue, scope ) );
             return declarationSyntax;
         }
 
         private StatementSyntax AssignVariable( EnumDeclarationStatement statement, IContextService context, Scope scope ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName, scope ) ), ConvertGeneric( statement.UserInitExpression, context ) ).ToStatementSyntax();
+            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( statement.VariableExpression.IdentifierName.Token.Value.StringValue, scope ) ), ConvertGeneric( statement.UserInitExpression, context ) ).ToStatementSyntax();
         }
     }
 }

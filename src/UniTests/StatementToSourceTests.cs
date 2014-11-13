@@ -51,7 +51,7 @@ namespace UniTests
                 Bind<IStatementParserStrategy<ContinueCaseStatement>, ContinueCaseStatementStrategy>();
                 Bind<IStatementParserStrategy<StaticDeclarationStatement>, StaticStatementParserStrategy>();
                 Bind<IStatementParserStrategy<VariableFunctionCallStatement>, VariableFunctionCallStatementParserStrategy>();
-                Bind<IAutoitStatementFactory, AutoitStatementFactory>();
+                Bind<IAutoitSyntaxFactory, AutoitSyntaxFactory>();
             }
         }
 

@@ -11,7 +11,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class DoUntilStatementParserStrategy : StatementParserStrategyBase<DoUntilStatement>
     {
-        public DoUntilStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public DoUntilStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseDoUntil( block ).ToEnumerable();
@@ -24,7 +24,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             IExpressionNode doWHileExpression = ExpressionParser.ParseBlock( doWhileExpressionToken, true );
             List<IStatementNode> doWhileBlockStatements = StatementParser.ParseBlock( doWhileBlockToken );
 
-            return AutoitStatementFactory.CreateDoUntilStatement( doWHileExpression, doWhileBlockStatements );
+            return AutoitSyntaxFactory.CreateDoUntilStatement( doWHileExpression, doWhileBlockStatements );
         }
 
         private TokenCollection ParseDoWhileBlock( TokenQueue block ) {

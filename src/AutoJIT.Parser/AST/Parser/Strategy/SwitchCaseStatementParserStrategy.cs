@@ -15,7 +15,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 {
     public sealed class SwitchCaseStatementParserStrategy : StatementParserStrategyBase<SwitchCaseStatement>
     {
-        public SwitchCaseStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitStatementFactory autoitStatementFactory ) : base( statementParser, expressionParser, autoitStatementFactory ) {}
+        public SwitchCaseStatementParserStrategy( IStatementParser statementParser, IExpressionParser expressionParser, IAutoitSyntaxFactory autoitSyntaxFactory ) : base( statementParser, expressionParser, autoitSyntaxFactory ) {}
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             return ParseSwitch( block ).ToEnumerable();

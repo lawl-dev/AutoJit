@@ -27,8 +27,8 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
             string handlerName = GetHandlerName();
 
             bool loacl = false;
-            if ( !context.IsDeclaredLocal( statement.VariableExpression.IdentifierName ) ) {
-                context.RegisterLocal( statement.VariableExpression.IdentifierName );
+            if ( !context.IsDeclaredLocal( statement.VariableExpression.IdentifierName.Token.Value.StringValue) ) {
+                context.RegisterLocal( statement.VariableExpression.IdentifierName.Token.Value.StringValue );
                 loacl = true;
             }
 
@@ -63,7 +63,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private static LocalDeclarationStatementSyntax GetIndexLocalDeclaration( ForToNextStatement node, VariableDeclarationSyntax indexVariableDeclaration, IContextService context ) {
-            return SyntaxFactory.LocalDeclarationStatement( indexVariableDeclaration.WithVariables( SyntaxFactory.VariableDeclarator( context.GetVariableName( node.VariableExpression.IdentifierName ) ).WithInitializer( SyntaxFactory.EqualsValueClause( SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ) ).ToSeparatedSyntaxList() ) );
+            return SyntaxFactory.LocalDeclarationStatement(indexVariableDeclaration.WithVariables(SyntaxFactory.VariableDeclarator(context.GetVariableName(node.VariableExpression.IdentifierName.Token.Value.StringValue)).WithInitializer(SyntaxFactory.EqualsValueClause(SyntaxFactory.LiteralExpression(SyntaxKind.NullLiteralExpression))).ToSeparatedSyntaxList()));
         }
 
         private ForStatementSyntax CreateForStatement( ForToNextStatement node, IContextService context, string continueCaseLabelName ) {
@@ -73,7 +73,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private static BinaryExpressionSyntax GetNextIndexExpression( ForToNextStatement node, string handlerName, IContextService context ) {
-            return SyntaxFactory.BinaryExpression( SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName( context.GetVariableName( node.VariableExpression.IdentifierName ) ), SyntaxFactory.MemberAccessExpression( SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName( handlerName ), SyntaxFactory.IdentifierName( @"Index" ) ) );
+            return SyntaxFactory.BinaryExpression(SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName(context.GetVariableName(node.VariableExpression.IdentifierName.Token.Value.StringValue)), SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, SyntaxFactory.IdentifierName(handlerName), SyntaxFactory.IdentifierName(@"Index")));
         }
 
         private static InvocationExpressionSyntax GetConditionExpression( string handlerName ) {
@@ -81,7 +81,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
         }
 
         private static VariableDeclarationSyntax GetIndexVariableDeclaration( ForToNextStatement node, IContextService context ) {
-            return SyntaxFactory.VariableDeclaration( SyntaxFactory.IdentifierName( typeof (Variant).Name ), SyntaxFactory.VariableDeclarator( context.GetVariableName( node.VariableExpression.IdentifierName ) ).ToSeparatedSyntaxList() );
+            return SyntaxFactory.VariableDeclaration(SyntaxFactory.IdentifierName(typeof(Variant).Name), SyntaxFactory.VariableDeclarator(context.GetVariableName(node.VariableExpression.IdentifierName.Token.Value.StringValue)).ToSeparatedSyntaxList());
         }
 
         private static SeparatedSyntaxList<ExpressionSyntax> GetIndexFromHandlerExpression( string handlerName ) {
