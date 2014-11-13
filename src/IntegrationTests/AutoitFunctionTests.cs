@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using AutoJITRuntime;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public class AutoitFunctionTests : AutoitFunctionTestBase
     {

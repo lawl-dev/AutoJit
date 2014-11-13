@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public class StatementTestsBase
     {

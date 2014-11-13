@@ -6,7 +6,7 @@ using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Lex.Interface;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public class OperatorPrecedenceServiceTests : AutoitFunctionTestBase
     {

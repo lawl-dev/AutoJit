@@ -1,7 +1,7 @@
 using AutoJITRuntime;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     internal class ForToNextLooperTests
     {

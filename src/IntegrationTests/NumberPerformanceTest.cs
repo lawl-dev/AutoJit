@@ -1,4 +1,4 @@
-﻿namespace UnitTests
+﻿namespace IntegrationTests
 {
     public class NumberPerformanceTest {}
 }

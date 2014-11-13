@@ -3,7 +3,7 @@ using System.Threading;
 using AutoJIT.CompilerApplication;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public class TestsByExitCode
     {

@@ -6,8 +6,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Security.Cryptography;
 using System.Threading;
 using AutoJIT.Compiler;
 using AutoJIT.CompilerApplication;
@@ -25,7 +23,7 @@ using AutoJITRuntime.Variants;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public class UserfunctionTests
     {

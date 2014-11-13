@@ -9,7 +9,7 @@ using AutoJITRuntime;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public abstract class AutoitFunctionTestBase
     {

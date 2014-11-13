@@ -7,7 +7,7 @@ using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Lex.Interface;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public class LexerTests
     {

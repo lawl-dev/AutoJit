@@ -7,7 +7,7 @@ using AutoJITRuntime;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public class VariantTests : AutoitFunctionTestBase
     {

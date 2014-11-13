@@ -6,7 +6,7 @@ using AutoJIT.Contrib;
 using AutoJITRuntime.Services;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace IntegrationTests
 {
     public class MarshalBridgeTests
     {
