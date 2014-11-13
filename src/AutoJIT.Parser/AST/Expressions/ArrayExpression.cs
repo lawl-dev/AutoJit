@@ -18,7 +18,8 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override string ToSource() {
-            return string.Format( "${0}{1}", IdentifierName, AccessParameter.Select( x => string.Format( "[{0}]", x.ToSource() ) ) );
+            var accessParameter = AccessParameter.Select( x => string.Format( "[{0}]", x.ToSource() ) ).ToList();
+            return string.Format( "${0}{1}", IdentifierName, accessParameter.Single() );
         }
 
         public override object Clone() {

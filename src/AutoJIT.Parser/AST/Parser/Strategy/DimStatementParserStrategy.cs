@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
@@ -20,7 +21,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
         private IEnumerable<DimStatement> ParseDim( TokenQueue block ) {
             var toReturn = new List<DimStatement>();
-            while ( block.Peek().Type == TokenType.Variable ) {
+            while ( block.Any() && block.Peek().Type == TokenType.Variable ) {
                 var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
 
                 IExpressionNode initExpression = null;

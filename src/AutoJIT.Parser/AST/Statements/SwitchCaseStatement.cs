@@ -41,12 +41,13 @@ namespace AutoJIT.Parser.AST.Statements
         public override string ToSource() {
             string toReturn = string.Format( "Switch {0}{1}", Condition.ToSource(), Environment.NewLine );
             foreach (SwitchCase @case in Cases) {
-                toReturn += string.Format( "{0}{1}", @case.ToSource(), Environment.NewLine );
+                toReturn += @case.ToSource();
             }
             if ( Else != null ) {
-                toReturn += string.Format( "Case Else{0}", Environment.NewLine );
-                toReturn += Else.ToSource();
+                toReturn += string.Format("	Case Else{0}", Environment.NewLine);
+                toReturn += "	" + Else.ToSource();
             }
+            toReturn += "EndSwitch";
             return toReturn;
         }
 

@@ -43,7 +43,7 @@ namespace AutoJIT.Parser.AST.Statements
             string toReturn = string.Empty;
             toReturn += string.Format( "For {0} In {1}{2}", VariableExpression.ToSource(), ToEnumerate.ToSource(), Environment.NewLine );
             toReturn += Block.ToSource();
-            toReturn += string.Format( "Next{0}", Environment.NewLine );
+            toReturn += "Next";
             return toReturn;
         }
 

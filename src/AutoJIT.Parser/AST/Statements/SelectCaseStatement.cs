@@ -37,12 +37,12 @@ namespace AutoJIT.Parser.AST.Statements
         public override string ToSource() {
             string toReturn = string.Format( "Select{0}", Environment.NewLine );
             foreach (SelectCase @case in Cases) {
-                toReturn += string.Format( "{0}{1}", @case.ToSource(), Environment.NewLine );
+                toReturn += @case.ToSource();
             }
 
             if ( Else != null ) {
-                toReturn += string.Format( "Case Else{0}", Environment.NewLine );
-                toReturn += Else.ToSource();
+                toReturn += string.Format("	Case Else{0}", Environment.NewLine);
+                toReturn += "	" + Else.ToSource();
             }
 
             toReturn += "EndSelect";

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace AutoJIT.WrapIt
 {
-    public class Class1
+    public class WrapItFunctions
     {
+        class StringFunctions
+        {
+            public void Foo() {
+            }
+        }
     }
 }

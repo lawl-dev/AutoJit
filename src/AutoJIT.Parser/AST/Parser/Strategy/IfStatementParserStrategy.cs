@@ -101,7 +101,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private TokenCollection ParseIfLineBlock( TokenQueue block ) {
-            return new TokenCollection( block.DequeueUntil( x => x.Type == TokenType.NewLine ) );
+            return new TokenCollection( block.DequeueUntil( x => x.Type == TokenType.NewLine, false) );
         }
     }
 }

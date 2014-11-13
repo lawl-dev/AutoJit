@@ -23,7 +23,7 @@ namespace AutoJIT.Parser.Extensions
             return list;
         }
 
-        public static IEnumerable<T> DequeueUntil<T>( this Queue<T> queue, Func<T, bool> expression ) {
+        public static IEnumerable<T> DequeueUntil<T>( this Queue<T> queue, Func<T, bool> expression, bool throwIfEmpty = true ) {
             var list = new List<T>();
 
             if ( queue.Any() ) {
@@ -37,6 +37,9 @@ namespace AutoJIT.Parser.Extensions
                     }
                 }
             }
+            if ( !queue.Any() &&
+                 !throwIfEmpty )
+                return list;
 
             list.Add( queue.Dequeue() );
             return list;

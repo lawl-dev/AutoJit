@@ -34,9 +34,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override string ToSource() {
-            string toReturn = "Case ";
+            string toReturn = "	Case ";
             toReturn += string.Format( "{0}{1}", string.Join( ", ", Conditions.Select( x => x.ToSource() ) ), Environment.NewLine );
-            toReturn += Block.ToSource();
+            toReturn += "	" + Block.ToSource();
             return toReturn;
         }
 

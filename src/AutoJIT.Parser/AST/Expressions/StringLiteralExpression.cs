@@ -14,11 +14,11 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override string ToSource() {
-            return string.Format( "'{0}'", LiteralToken );
+            return string.Format( "{0}", LiteralToken.ToSource() );
         }
 
         public override object Clone() {
-            return new StringLiteralExpression( LiteralToken );
+            return new StringLiteralExpression( (TokenNode) LiteralToken.Clone() );
         }
 
         public StringLiteralExpression Update( TokenNode literalToken ) {

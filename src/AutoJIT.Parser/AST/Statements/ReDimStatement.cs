@@ -27,7 +27,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override string ToSource() {
-            return string.Format( "Redim {0}", ArrayExpression.ToSource() );
+            return string.Format( "ReDim {0}", ArrayExpression.ToSource() );
         }
 
         public override object Clone() {

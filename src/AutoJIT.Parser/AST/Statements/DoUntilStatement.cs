@@ -39,7 +39,7 @@ namespace AutoJIT.Parser.AST.Statements
             string toReturn = string.Empty;
             toReturn += string.Format( "Do{0}", Environment.NewLine );
             toReturn += Block.ToSource();
-            toReturn += string.Format( "Until {0}{1}", Condition.ToSource(), Environment.NewLine );
+            toReturn += string.Format( "Until {0}", Condition.ToSource() );
             return toReturn;
         }
 

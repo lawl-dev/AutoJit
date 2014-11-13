@@ -54,7 +54,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override string ToSource() {
-            string toReturn = string.Format( "If {0} Then {1}", Condition.ToSource(), Environment.NewLine );
+            string toReturn = string.Format( "If {0} Then{1}", Condition.ToSource(), Environment.NewLine );
             toReturn += IfBlock.ToSource();
 
             if ( ElseIfConditions != null ) {
@@ -66,11 +66,11 @@ namespace AutoJIT.Parser.AST.Statements
                 }
             }
 
-            if ( ElseBlock != null ) {
+            if ( ElseBlock != null && ElseBlock.Block.Any()) {
                 toReturn += "Else"+Environment.NewLine;
                 toReturn += ElseBlock.ToSource();
             }
-            toReturn += "WEnd";
+            toReturn += "EndIf";
             return toReturn;
         }
 

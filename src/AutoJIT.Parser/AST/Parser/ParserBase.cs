@@ -164,7 +164,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected static bool Consume( TokenQueue block, TokenType tokenType ) {
-            if ( block.Peek().Type != tokenType ) {
+            if ( !block.Any() || block.Peek().Type != tokenType ) {
                 return false;
             }
             block.Dequeue();

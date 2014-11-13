@@ -25,10 +25,10 @@ $timer = TimerInit()
 
 For $lol = 0 To 1337
 
-Local $key = "8787878787878787"
-Local $message = "Supercalifradialisticexpialidocious"
-Local $ciphertext = des($key, $message, 1)
-Local $recovered_message = des($key, $ciphertext, 0)
+	Local $key = "8787878787878787"
+	Local $message = "Supercalifradialisticexpialidocious"
+	Local $ciphertext = des($key, $message, 1)
+	Local $recovered_message = des($key, $ciphertext, 0)
 Next
 
 $diff = TimerDiff($timer)
@@ -46,7 +46,7 @@ Exit $diff
 Func des($key, $message, $encrypt, $mode = 0, $iv = '')
 	; declaring this locally speeds things up a bit
 	Local $spfunction1[64] = [0x1010400, 0, 0x10000, 0x1010404, 0x1010004, 0x10404, 0x4, 0x10000, 0x400, 0x1010400, 0x1010404, 0x400, 0x1000404, 0x1010004, 0x1000000, 0x4, 0x404, 0x1000400, 0x1000400, 0x10400, 0x10400, 0x1010000, 0x1010000, 0x1000404, 0x10004, 0x1000004, 0x1000004, 0x10004, 0, 0x404, 0x10404, 0x1000000, 0x10000, 0x1010404, 0x4, 0x1010000, 0x1010400, 0x1000000, 0x1000000, 0x400, 0x1010004, 0x10000, 0x10400, 0x1000004, 0x400, 0x4, 0x1000404, 0x10404, 0x1010404, 0x10004, 0x1010000, 0x1000404, 0x1000004, 0x404, 0x10404, 0x1010400, 0x404, 0x1000400, 0x1000400, 0, 0x10004, 0x10400, 0, 0x1010004]
-	Local $spfunction2[64] = [ -0x7fef7fe0, -0x7fff8000, 0x8000, 0x108020, 0x100000, 0x20, -0x7fefffe0, -0x7fff7fe0, -0x7fffffe0, -0x7fef7fe0, -0x7fef8000, -0x80000000, -0x7fff8000, 0x100000, 0x20, -0x7fefffe0, 0x108000, 0x100020, -0x7fff7fe0, 0, -0x80000000, 0x8000, 0x108020, -0x7ff00000, 0x100020, -0x7fffffe0, 0, 0x108000, 0x8020, -0x7fef8000, -0x7ff00000, 0x8020, 0, 0x108020, -0x7fefffe0, 0x100000, -0x7fff7fe0, -0x7ff00000, -0x7fef8000, 0x8000, -0x7ff00000, -0x7fff8000, 0x20, -0x7fef7fe0, 0x108020, 0x20, 0x8000, -0x80000000, 0x8020, -0x7fef8000, 0x100000, -0x7fffffe0, 0x100020, -0x7fff7fe0, -0x7fffffe0, 0x100020, 0x108000, 0, -0x7fff8000, 0x8020, -0x80000000, -0x7fefffe0, -0x7fef7fe0, 0x108000]
+	Local $spfunction2[64] = [-0x7fef7fe0, -0x7fff8000, 0x8000, 0x108020, 0x100000, 0x20, -0x7fefffe0, -0x7fff7fe0, -0x7fffffe0, -0x7fef7fe0, -0x7fef8000, -0x80000000, -0x7fff8000, 0x100000, 0x20, -0x7fefffe0, 0x108000, 0x100020, -0x7fff7fe0, 0, -0x80000000, 0x8000, 0x108020, -0x7ff00000, 0x100020, -0x7fffffe0, 0, 0x108000, 0x8020, -0x7fef8000, -0x7ff00000, 0x8020, 0, 0x108020, -0x7fefffe0, 0x100000, -0x7fff7fe0, -0x7ff00000, -0x7fef8000, 0x8000, -0x7ff00000, -0x7fff8000, 0x20, -0x7fef7fe0, 0x108020, 0x20, 0x8000, -0x80000000, 0x8020, -0x7fef8000, 0x100000, -0x7fffffe0, 0x100020, -0x7fff7fe0, -0x7fffffe0, 0x100020, 0x108000, 0, -0x7fff8000, 0x8020, -0x80000000, -0x7fefffe0, -0x7fef7fe0, 0x108000]
 	Local $spfunction3[64] = [0x208, 0x8020200, 0, 0x8020008, 0x8000200, 0, 0x20208, 0x8000200, 0x20008, 0x8000008, 0x8000008, 0x20000, 0x8020208, 0x20008, 0x8020000, 0x208, 0x8000000, 0x8, 0x8020200, 0x200, 0x20200, 0x8020000, 0x8020008, 0x20208, 0x8000208, 0x20200, 0x20000, 0x8000208, 0x8, 0x8020208, 0x200, 0x8000000, 0x8020200, 0x8000000, 0x20008, 0x208, 0x20000, 0x8020200, 0x8000200, 0, 0x200, 0x20008, 0x8020208, 0x8000200, 0x8000008, 0x200, 0, 0x8020008, 0x8000208, 0x20000, 0x8000000, 0x8020208, 0x8, 0x20208, 0x20200, 0x8000008, 0x8020000, 0x8000208, 0x208, 0x8020000, 0x20208, 0x8, 0x8020008, 0x20200]
 	Local $spfunction4[64] = [0x802001, 0x2081, 0x2081, 0x80, 0x802080, 0x800081, 0x800001, 0x2001, 0, 0x802000, 0x802000, 0x802081, 0x81, 0, 0x800080, 0x800001, 0x1, 0x2000, 0x800000, 0x802001, 0x80, 0x800000, 0x2001, 0x2080, 0x800081, 0x1, 0x2080, 0x800080, 0x2000, 0x802080, 0x802081, 0x81, 0x800080, 0x800001, 0x802000, 0x802081, 0x81, 0, 0, 0x802000, 0x2080, 0x800080, 0x800081, 0x1, 0x802001, 0x2081, 0x2081, 0x80, 0x802081, 0x81, 0x1, 0x2000, 0x800001, 0x2001, 0x802080, 0x800081, 0x2001, 0x2080, 0x800000, 0x802001, 0x80, 0x800000, 0x2000, 0x802080]
 	Local $spfunction5[64] = [0x100, 0x2080100, 0x2080000, 0x42000100, 0x80000, 0x100, 0x40000000, 0x2080000, 0x40080100, 0x80000, 0x2000100, 0x40080100, 0x42000100, 0x42080000, 0x80100, 0x40000000, 0x2000000, 0x40080000, 0x40080000, 0, 0x40000100, 0x42080100, 0x42080100, 0x2000100, 0x42080000, 0x40000100, 0, 0x42000000, 0x2080100, 0x2000000, 0x42000000, 0x80100, 0x80000, 0x42000100, 0x100, 0x2000000, 0x40000000, 0x2080000, 0x42000100, 0x40080100, 0x2000100, 0x40000000, 0x42080000, 0x2080100, 0x40080100, 0x100, 0x2000000, 0x42080000, 0x42080100, 0x80100, 0x42000000, 0x42080100, 0x2080000, 0, 0x40080000, 0x42000000, 0x80100, 0x2000100, 0x40000100, 0x80000, 0, 0x40080000, 0x2080100, 0x40000100]
@@ -158,7 +158,7 @@ Func des($key, $message, $encrypt, $mode = 0, $iv = '')
 				; the result is attained by passing these bytes through the S selection functions
 				$temp = $left
 				$left = $right
-				$right = BitXOR($temp, BitOR($spfunction2[BitAND(BitAND(BitShift($right1, 24), $masks[24]), 0x3f) ], $spfunction4[BitAND(BitAND(BitShift($right1, 16), $masks[16]), 0x3f) ], $spfunction6[BitAND(BitAND(BitShift($right1, 8), $masks[8]), 0x3f) ], $spfunction8[BitAND($right1, 0x3f) ], $spfunction1[BitAND(BitAND(BitShift($right2, 24), $masks[24]), 0x3f) ], $spfunction3[BitAND(BitAND(BitShift($right2, 16), $masks[16]), 0x3f) ], $spfunction5[BitAND(BitAND(BitShift($right2, 8), $masks[8]), 0x3f) ], $spfunction7[BitAND($right2, 0x3f) ]))
+				$right = BitXOR($temp, BitOR($spfunction2[BitAND(BitAND(BitShift($right1, 24), $masks[24]), 0x3f)], $spfunction4[BitAND(BitAND(BitShift($right1, 16), $masks[16]), 0x3f)], $spfunction6[BitAND(BitAND(BitShift($right1, 8), $masks[8]), 0x3f)], $spfunction8[BitAND($right1, 0x3f)], $spfunction1[BitAND(BitAND(BitShift($right2, 24), $masks[24]), 0x3f)], $spfunction3[BitAND(BitAND(BitShift($right2, 16), $masks[16]), 0x3f)], $spfunction5[BitAND(BitAND(BitShift($right2, 8), $masks[8]), 0x3f)], $spfunction7[BitAND($right2, 0x3f)]))
 				$i += $loopinc
 			WEnd
 			; unreverse left and right
@@ -330,8 +330,8 @@ Func des_createKeys($key)
 			; this conversion will look like PC-2 except only the last 6 bits of each byte are used
 			; rather than 48 consecutive bits and the order of lines will be according to
 			; how the S selection functions will be applied: S2, S4, S6, S8, S1, S3, S5, S7
-			$lefttemp = BitOR($pc2bytes0[BitAND(BitShift($left, 28), $masks[28]) ], $pc2bytes1[BitAND(BitAND(BitShift($left, 24), $masks[24]), 0xf) ], $pc2bytes2[BitAND(BitAND(BitShift($left, 20), $masks[20]), 0xf) ], $pc2bytes3[BitAND(BitAND(BitShift($left, 16), $masks[16]), 0xf) ], $pc2bytes4[BitAND(BitAND(BitShift($left, 12), $masks[12]), 0xf) ], $pc2bytes5[BitAND(BitAND(BitShift($left, 8), $masks[8]), 0xf) ], $pc2bytes6[BitAND(BitAND(BitShift($left, 4), $masks[4]), 0xf) ])
-			$righttemp = BitOR($pc2bytes7[BitAND(BitShift($right, 28), $masks[28]) ], $pc2bytes8[BitAND(BitAND(BitShift($right, 24), $masks[24]), 0xf) ], $pc2bytes9[BitAND(BitAND(BitShift($right, 20), $masks[20]), 0xf) ], $pc2bytes10[BitAND(BitAND(BitShift($right, 16), $masks[16]), 0xf) ], $pc2bytes11[BitAND(BitAND(BitShift($right, 12), $masks[12]), 0xf) ], $pc2bytes12[BitAND(BitAND(BitShift($right, 8), $masks[8]), 0xf) ], $pc2bytes13[BitAND(BitAND(BitShift($right, 4), $masks[4]), 0xf) ])
+			$lefttemp = BitOR($pc2bytes0[BitAND(BitShift($left, 28), $masks[28])], $pc2bytes1[BitAND(BitAND(BitShift($left, 24), $masks[24]), 0xf)], $pc2bytes2[BitAND(BitAND(BitShift($left, 20), $masks[20]), 0xf)], $pc2bytes3[BitAND(BitAND(BitShift($left, 16), $masks[16]), 0xf)], $pc2bytes4[BitAND(BitAND(BitShift($left, 12), $masks[12]), 0xf)], $pc2bytes5[BitAND(BitAND(BitShift($left, 8), $masks[8]), 0xf)], $pc2bytes6[BitAND(BitAND(BitShift($left, 4), $masks[4]), 0xf)])
+			$righttemp = BitOR($pc2bytes7[BitAND(BitShift($right, 28), $masks[28])], $pc2bytes8[BitAND(BitAND(BitShift($right, 24), $masks[24]), 0xf)], $pc2bytes9[BitAND(BitAND(BitShift($right, 20), $masks[20]), 0xf)], $pc2bytes10[BitAND(BitAND(BitShift($right, 16), $masks[16]), 0xf)], $pc2bytes11[BitAND(BitAND(BitShift($right, 12), $masks[12]), 0xf)], $pc2bytes12[BitAND(BitAND(BitShift($right, 8), $masks[8]), 0xf)], $pc2bytes13[BitAND(BitAND(BitShift($right, 4), $masks[4]), 0xf)])
 			$temp = BitAND(BitXOR(BitAND(BitShift($righttemp, 16), $masks[16]), $lefttemp), 0x0000ffff)
 			$keys[$n] = BitXOR($lefttemp, $temp)
 			$keys[$n + 1] = BitXOR($righttemp, BitShift($temp, -16))

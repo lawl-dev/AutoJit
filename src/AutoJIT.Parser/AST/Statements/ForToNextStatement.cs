@@ -48,7 +48,7 @@ namespace AutoJIT.Parser.AST.Statements
         public override string ToSource() {
             string toReturn = string.Format( "For {0} = {1} To {2}", VariableExpression.ToSource(), StartExpression.ToSource(), EndExpression.ToSource() );
             if ( StartExpression != null ) {
-                toReturn += string.Format( " Step {0}", StartExpression.ToSource() );
+                toReturn += string.Format( " Step {0}", StepExpression.ToSource() );
             }
             toReturn += Environment.NewLine;
             toReturn += Block.ToSource();

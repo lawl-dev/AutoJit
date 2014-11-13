@@ -145,13 +145,13 @@ namespace AutoJIT.Parser.Lex
 
         public Token CreateUserfunction( string functionName, int pos, int line ) {
             Token res = CreateToken( TokenType.Userfunction, pos, line );
-            res.Value = new TokenValue( string.Format( "f_{0}", functionName ) );
+            res.Value = new TokenValue( string.Format( "{0}", functionName ) );
             return res;
         }
 
         public Token CreateVariable( string variableName, int pos, int line ) {
             Token res = CreateToken( TokenType.Variable, pos, line );
-            res.Value = new TokenValue( string.Format( "v_{0}", variableName ) );
+            res.Value = new TokenValue( string.Format( "{0}", variableName ) );
             return res;
         }
 

@@ -23,7 +23,15 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override string ToSource() {
-            return string.Join( Environment.NewLine, Block.Select( x => x.ToSource() ) );
+            if ( Block.Count() > 1 ) {
+                var statements = string.Join(Environment.NewLine + "	", Block.Select(x => x.ToSource()));
+
+                return string.Format("	{0}{1}", statements, Environment.NewLine);
+            }
+            if ( Block.Count() == 1 ) {
+                return string.Format("	{0}{1}", Block.Single().ToSource(), Environment.NewLine);
+            }
+            return string.Empty;
         }
 
         public override object Clone() {

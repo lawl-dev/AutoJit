@@ -34,7 +34,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override string ToSource() {
-            return string.Format( "{0}{1}{2}", Variable.ToSource(), Operator.ToSource(), ExpressionToAssign.ToSource() );
+            return string.Format( "{0} {1} {2}", Variable.ToSource(), Operator.ToSource(), ExpressionToAssign.ToSource() );
         }
 
         public override object Clone() {

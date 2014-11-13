@@ -30,6 +30,9 @@ namespace AutoJIT.Contrib
                 return new InjectionService( this );
             }
 
+            if ( !_registrations.ContainsKey( serviceType ) ) {
+                throw new ServiceNotBoundException( serviceType );
+            }
             return _registrations[serviceType]();
         }
 
