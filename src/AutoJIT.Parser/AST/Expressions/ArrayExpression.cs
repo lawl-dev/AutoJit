@@ -19,7 +19,7 @@ namespace AutoJIT.Parser.AST.Expressions
 
         public override string ToSource() {
             var accessParameter = AccessParameter.Select( x => string.Format( "[{0}]", x.ToSource() ) ).ToList();
-            return string.Format( "${0}{1}", IdentifierName, accessParameter.Single() );
+            return string.Format( "${0}{1}", IdentifierName, string.Join( string.Empty, accessParameter) );
         }
 
         public override object Clone() {
