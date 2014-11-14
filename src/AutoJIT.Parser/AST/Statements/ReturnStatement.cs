@@ -9,7 +9,6 @@ namespace AutoJIT.Parser.AST.Statements
     {
         public ReturnStatement( IExpressionNode returnExpression ) {
             ReturnExpression = returnExpression;
-            Initialize();
         }
 
         public IExpressionNode ReturnExpression { get; private set; }
@@ -31,14 +30,18 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ReturnStatement( CloneAs<IExpressionNode>( ReturnExpression ) );
+            var statement = new ReturnStatement( CloneAs<IExpressionNode>( ReturnExpression ) );
+            statement.Initialize();
+            return statement;
         }
 
         public ReturnStatement Update( IExpressionNode returnExpression ) {
             if ( ReturnExpression == returnExpression ) {
                 return this;
             }
-            return new ReturnStatement( (IExpressionNode) returnExpression.Clone() );
+            var statement = new ReturnStatement( (IExpressionNode) returnExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

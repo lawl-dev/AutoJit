@@ -18,14 +18,18 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new StringLiteralExpression( (TokenNode) LiteralToken.Clone() );
+            var expression = new StringLiteralExpression( (TokenNode) LiteralToken.Clone() );
+            expression.Initialize();
+            return expression;
         }
 
         public StringLiteralExpression Update( TokenNode literalToken ) {
             if ( LiteralToken == literalToken ) {
                 return this;
             }
-            return new StringLiteralExpression( (TokenNode) literalToken.Clone() );
+            var expression = new StringLiteralExpression( (TokenNode) literalToken.Clone() );
+            expression.Initialize();
+            return expression;
         }
     }
 }

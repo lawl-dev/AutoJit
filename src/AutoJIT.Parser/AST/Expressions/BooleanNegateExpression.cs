@@ -11,7 +11,6 @@ namespace AutoJIT.Parser.AST.Expressions
         public BooleanNegateExpression( IExpressionNode left, TokenNode @operator ) {
             Left = left;
             Operator = @operator;
-            Initialize();
         }
 
         public IExpressionNode Left { get; private set; }
@@ -35,7 +34,9 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new BooleanNegateExpression( (IExpressionNode) Left.Clone(), (TokenNode) Operator.Clone() );
+            var expression = new BooleanNegateExpression( (IExpressionNode) Left.Clone(), (TokenNode) Operator.Clone() );
+            expression.Initialize();
+            return expression;
         }
 
         public BooleanNegateExpression Update( IExpressionNode left, TokenNode @operator ) {
@@ -43,7 +44,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  Operator == @operator ) {
                 return this;
             }
-            return new BooleanNegateExpression( (IExpressionNode) left.Clone(), (TokenNode) @operator.Clone() );
+            var expression = new BooleanNegateExpression( (IExpressionNode) left.Clone(), (TokenNode) @operator.Clone() );
+            expression.Initialize();
+            return expression;
         }
     }
 }

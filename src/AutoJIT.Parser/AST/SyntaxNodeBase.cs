@@ -39,7 +39,7 @@ namespace AutoJIT.Parser.AST
         public abstract string ToSource();
         public abstract object Clone();
 
-        protected void Initialize() {
+        public void Initialize() {
             foreach (ISyntaxNode child in Children.Where( x => x != null )) {
                 child.Parent = this;
             }
@@ -54,7 +54,7 @@ namespace AutoJIT.Parser.AST
         protected IEnumerable<T> CloneEnumerableAs<T>( IEnumerable<ICloneable> objects ) where T : ISyntaxNode {
             return objects == null
                 ? default( T ).ToEnumerable()
-                : objects.Select( x => (T) x.Clone() );
+                : objects.Select( x => (T) x.Clone() ).ToList();
         }
 
         protected bool EnumerableEquals<T>( IEnumerable<T> a, IEnumerable<T> b ) {

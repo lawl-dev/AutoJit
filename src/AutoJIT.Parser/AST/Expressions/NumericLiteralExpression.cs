@@ -13,6 +13,15 @@ namespace AutoJIT.Parser.AST.Expressions
 
         public IEnumerable<TokenNode> SignOperators { get; private set; }
 
+        public override IEnumerable<ISyntaxNode> Children {
+            get {
+                var nodes = new List<ISyntaxNode>();
+                nodes.Add(LiteralToken);
+                nodes.AddRange( SignOperators.ToList() );
+                return nodes;
+            }
+        }
+
         public bool Negativ {
             get { return SignOperators != null && SignOperators.Count( x => x.Token.Type == TokenType.Minus ) % 2 != 0; }
         }
@@ -31,7 +40,9 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new NumericLiteralExpression( LiteralToken, SignOperators );
+            var expression = new NumericLiteralExpression( (TokenNode) LiteralToken.Clone(), SignOperators.Select( x=>(TokenNode)x.Clone() ) );
+            expression.Initialize();
+            return expression;
         }
 
         public NumericLiteralExpression Update( TokenNode literalToken, IEnumerable<TokenNode> signOperators ) {
@@ -39,7 +50,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  EnumerableEquals(SignOperators, signOperators) ) {
                 return this;
             }
-            return new NumericLiteralExpression( (TokenNode) literalToken.Clone(), signOperators.Select( x=>(TokenNode)x.Clone() ) );
+            var expression = new NumericLiteralExpression( (TokenNode) literalToken.Clone(), signOperators.Select( x=>(TokenNode)x.Clone() ) );
+            expression.Initialize();
+            return expression;
         }
     }
 }

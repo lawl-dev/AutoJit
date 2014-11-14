@@ -173,7 +173,9 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             foreach (AutoitParameterInfo parameterInfo in parameter) {
                 context.RegisterLocal( parameterInfo.ParameterName );
                 if ( parameterInfo.DefaultValue != null ) {
-                    statementNodes.Insert( 0, new InitDefaultParameterStatement( context.GetVariableName( parameterInfo.ParameterName ), parameterInfo.DefaultValue ) );
+                    var statement = new InitDefaultParameterStatement( context.GetVariableName( parameterInfo.ParameterName ), parameterInfo.DefaultValue );
+                    statement.Initialize();
+                    statementNodes.Insert( 0, statement );
                 }
             }
             return statementNodes;

@@ -9,7 +9,6 @@ namespace AutoJIT.Parser.AST.Statements
     {
         public FunctionCallStatement( CallExpression functionCallExpression ) {
             FunctionCallExpression = functionCallExpression;
-            Initialize();
         }
 
         public CallExpression FunctionCallExpression { get; private set; }
@@ -31,7 +30,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new FunctionCallStatement( (CallExpression) FunctionCallExpression.Clone() );
+            var statement = new FunctionCallStatement( (CallExpression) FunctionCallExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public FunctionCallStatement Update( CallExpression functionCallExpression ) {
@@ -39,7 +40,9 @@ namespace AutoJIT.Parser.AST.Statements
                 return this;
             }
 
-            return new FunctionCallStatement( (CallExpression) functionCallExpression.Clone() );
+            var statement = new FunctionCallStatement( (CallExpression) functionCallExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

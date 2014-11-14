@@ -15,7 +15,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new GlobalEnumDeclarationStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) UserInitExpression.Clone(), (IExpressionNode) AutoInitExpression.Clone() );
+            var statement = new GlobalEnumDeclarationStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) UserInitExpression.Clone(), (IExpressionNode) AutoInitExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public override string ToSource() {
@@ -29,7 +31,9 @@ namespace AutoJIT.Parser.AST.Statements
                  AutoInitExpression == autoInitExpression ) {
                 return this;
             }
-            return new GlobalEnumDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) userInitExpression.Clone(), (IExpressionNode) autoInitExpression.Clone() );
+            var statement = new GlobalEnumDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) userInitExpression.Clone(), (IExpressionNode) autoInitExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

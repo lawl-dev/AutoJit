@@ -76,15 +76,15 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             IExpressionNode conditionExpression = ExpressionParser.ParseBlock( condition, true );
 
             List<IStatementNode> ifBlockStatements = StatementParser.ParseBlock( ifBlock );
-            IEnumerable<IExpressionNode> elseIfConditionExpressions = new List<IExpressionNode>();
-            IEnumerable<List<IStatementNode>> elseIfBlockStatements = new List<List<IStatementNode>>();
+            List<IExpressionNode> elseIfConditionExpressions = new List<IExpressionNode>();
+            List<List<IStatementNode>> elseIfBlockStatements = new List<List<IStatementNode>>();
             if ( elseIfcondition.Any() ) {
-                elseIfConditionExpressions = elseIfcondition.Select( x => ExpressionParser.ParseBlock( x, true ) ).Where( x => x != null ).ToQueue();
+                elseIfConditionExpressions = elseIfcondition.Select( x => ExpressionParser.ParseBlock( x, true ) ).Where( x => x != null ).ToList();
 
-                elseIfBlockStatements = elseIfBlock.Select( x => StatementParser.ParseBlock( x ) ).ToQueue();
+                elseIfBlockStatements = elseIfBlock.Select( x => StatementParser.ParseBlock( x ) ).ToList();
             }
 
-            IEnumerable<IStatementNode> elseBlockStatements = new List<IStatementNode>();
+            List<IStatementNode> elseBlockStatements = new List<IStatementNode>();
             if ( elseBlock != null ) {
                 elseBlockStatements = StatementParser.ParseBlock( elseBlock );
             }

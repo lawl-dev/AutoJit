@@ -13,7 +13,6 @@ namespace AutoJIT.Parser.AST
             PragmaOptions = pragmaOptions;
             Functions = functions;
             MainFunction = main;
-            Initialize();
         }
 
         public Function MainFunction { get; set; }
@@ -52,7 +51,9 @@ namespace AutoJIT.Parser.AST
                  Functions == functions ) {
                 return this;
             }
-            return new AutoitScriptRoot( functions, mainFunction, pragmaOptions );
+            var root = new AutoitScriptRoot( functions.Select( x=>(Function)x.Clone() ), (Function) mainFunction.Clone(), pragmaOptions );
+            root.Initialize();
+            return root;
         }
     }
 }

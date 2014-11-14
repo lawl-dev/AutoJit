@@ -9,7 +9,9 @@ namespace AutoJIT.Parser.AST.Expressions
         public UserfunctionCallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter ) : base( identifierName, parameter ) {}
 
         public override object Clone() {
-            return new UserfunctionCallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
+            var expression = new UserfunctionCallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
+            expression.Initialize();
+            return expression;
         }
 
         public UserfunctionCallExpression Update( IEnumerable<IExpressionNode> parameter, TokenNode identifierName ) {
@@ -17,7 +19,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  EnumerableEquals(Parameter, parameter) ) {
                 return this;
             }
-            return new UserfunctionCallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            var expression = new UserfunctionCallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            expression.Initialize();
+            return expression;
         }
     }
 }

@@ -12,7 +12,6 @@ namespace AutoJIT.Parser.AST.Statements
             IsConst = isConst;
             VariableExpression = variableExpression;
             InitExpression = initExpression;
-            Initialize();
         }
 
         public bool IsConst { get; private set; }
@@ -44,7 +43,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new GlobalDeclarationStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ), IsConst );
+            var statement = new GlobalDeclarationStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ), IsConst );
+            statement.Initialize();
+            return statement;
         }
 
         public GlobalDeclarationStatement Update( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst ) {
@@ -53,10 +54,12 @@ namespace AutoJIT.Parser.AST.Statements
                  IsConst == isConst ) {
                 return this;
             }
-            return new GlobalDeclarationStatement(
+            var statement = new GlobalDeclarationStatement(
                 (VariableExpression) variableExpression.Clone(), initExpression != null
                     ? (IExpressionNode) initExpression.Clone()
                     : null, isConst );
+            statement.Initialize();
+            return statement;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             TokenNode level = expressionPart != null
                 ? new TokenNode( expressionPart )
-                : null;
+                : AutoitSyntaxFactory.CreateTokenNode( 1 );
 
             ConsumeAndEnsure( block, TokenType.NewLine );
 

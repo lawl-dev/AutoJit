@@ -231,7 +231,7 @@ namespace AutoJIT.Parser.AST.Visitor
             return VisitDefault( node );
         }
 
-        public TResult Visit( ISyntaxNode node ) {
+        public virtual TResult Visit( ISyntaxNode node ) {
             return node != null
                 ? ( node ).Accept( this )
                 : default( TResult );

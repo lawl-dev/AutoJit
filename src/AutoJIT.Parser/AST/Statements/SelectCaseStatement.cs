@@ -11,7 +11,6 @@ namespace AutoJIT.Parser.AST.Statements
         public SelectCaseStatement( IEnumerable<SelectCase> cases, BlockStatement @else ) {
             Cases = cases;
             Else = @else;
-            Initialize();
         }
 
         public IEnumerable<SelectCase> Cases { get; private set; }
@@ -50,7 +49,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new SelectCaseStatement( Cases.Select( x => (SelectCase) x.Clone() ).ToList(), (BlockStatement) Else.Clone() );
+            var statement = new SelectCaseStatement( Cases.Select( x => (SelectCase) x.Clone() ).ToList(), (BlockStatement) Else.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public SelectCaseStatement Update( IEnumerable<SelectCase> selectCases, BlockStatement @else ) {
@@ -58,7 +59,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Else == @else ) {
                 return this;
             }
-            return new SelectCaseStatement( selectCases.Select( x=>(SelectCase)x.Clone() ), (BlockStatement) @else.Clone() );
+            var statement = new SelectCaseStatement( selectCases.Select( x=>(SelectCase)x.Clone() ), (BlockStatement) @else.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

@@ -8,7 +8,9 @@ namespace AutoJIT.Parser.AST.Statements
         public StaticDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression ) : base( variableExpression, initExpression, false ) {}
 
         public override object Clone() {
-            return new StaticDeclarationStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ) );
+            var statement = new StaticDeclarationStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ) );
+            statement.Initialize();
+            return statement;
         }
 
         public override string ToSource() {
@@ -25,7 +27,9 @@ namespace AutoJIT.Parser.AST.Statements
                 return this;
             }
 
-            return new StaticDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) initExpression.Clone() );
+            var statement = new StaticDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) initExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

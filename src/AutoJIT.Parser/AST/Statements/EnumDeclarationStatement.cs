@@ -28,9 +28,5 @@ namespace AutoJIT.Parser.AST.Statements
                 };
             }
         }
-
-        public override string ToSource() {
-            throw new NotImplementedException();
-        }
     }
 }

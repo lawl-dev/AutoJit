@@ -53,7 +53,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 }
                 else {
                     List<CaseCondition> conditionExpressions = conditions.Select( ParseCaseCondition ).ToList();
-                    cases.Add( new SwitchCase( conditionExpressions, new BlockStatement( StatementParser.ParseBlock( caseBlock ) ) ) );
+                    cases.Add( AutoitSyntaxFactory.CreateSwitchCase( conditionExpressions, AutoitSyntaxFactory.CreateBlockStatement( StatementParser.ParseBlock( caseBlock ) ) ) );
                 }
 
                 if ( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
@@ -61,7 +61,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 }
             }
             ConsumeAndEnsure( block, Keywords.EndSwitch );
-            return new SwitchCaseStatement( condition, cases, new BlockStatement( @else ) );
+            return AutoitSyntaxFactory.CreateSwitchCaseStatement( condition, cases, AutoitSyntaxFactory.CreateBlockStatement( @else ) );
         }
 
         private CaseCondition ParseCaseCondition( TokenCollection line ) {
@@ -85,7 +85,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                     throw new SyntaxTreeException( "Unexpected token", line[0].Col, line[0].Line );
                 }
             }
-            return new CaseCondition( left, right );
+            return AutoitSyntaxFactory.CreateCaseCondition( left, right );
         }
     }
 }

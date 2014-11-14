@@ -13,7 +13,6 @@ namespace AutoJIT.Parser.AST.Statements
             Condition = condition;
             Cases = cases;
             Else = @else;
-            Initialize();
         }
 
         public IExpressionNode Condition { get; private set; }
@@ -52,7 +51,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new SwitchCaseStatement( (IExpressionNode) Condition.Clone(), Cases.Select( x => (SwitchCase) x.Clone() ).ToList(), (BlockStatement) Else.Clone() );
+            var statement = new SwitchCaseStatement( (IExpressionNode) Condition.Clone(), Cases.Select( x => (SwitchCase) x.Clone() ).ToList(), (BlockStatement) Else.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public SwitchCaseStatement Update( IExpressionNode condition, IEnumerable<SwitchCase> cases, BlockStatement @else ) {
@@ -61,7 +62,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Else == @else ) {
                 return this;
             }
-            return new SwitchCaseStatement( (IExpressionNode) condition.Clone(), cases.Select( x=>(SwitchCase)x.Clone() ), (BlockStatement) @else.Clone() );
+            var statement = new SwitchCaseStatement( (IExpressionNode) condition.Clone(), cases.Select( x=>(SwitchCase)x.Clone() ), (BlockStatement) @else.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

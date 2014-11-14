@@ -34,14 +34,18 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ContinueLoopStatement( Level );
+            var statement = new ContinueLoopStatement( (TokenNode) Level.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public ContinueLoopStatement Update( TokenNode level ) {
             if ( Level == level ) {
                 return this;
             }
-            return new ContinueLoopStatement( (TokenNode) level.Clone() );
+            var statement = new ContinueLoopStatement( (TokenNode) level.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

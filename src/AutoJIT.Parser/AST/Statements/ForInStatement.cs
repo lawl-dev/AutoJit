@@ -13,7 +13,6 @@ namespace AutoJIT.Parser.AST.Statements
             Block = block;
             VariableExpression = variableExpression;
             ToEnumerate = toEnumerate;
-            Initialize();
         }
 
         public BlockStatement Block { get; private set; }
@@ -48,7 +47,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ForInStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) ToEnumerate.Clone(), (BlockStatement) Block.Clone() );
+            var statement = new ForInStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) ToEnumerate.Clone(), (BlockStatement) Block.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public ForInStatement Update( IExpressionNode toEnumerate, VariableExpression variableExpression, BlockStatement block ) {
@@ -57,7 +58,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new ForInStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) toEnumerate.Clone(), (BlockStatement) block.Clone() );
+            var statement = new ForInStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) toEnumerate.Clone(), (BlockStatement) block.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

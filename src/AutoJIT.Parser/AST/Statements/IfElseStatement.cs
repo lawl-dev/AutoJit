@@ -9,19 +9,18 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class IfElseStatement : StatementBase
     {
-        public IfElseStatement( IExpressionNode condition, BlockStatement ifBlock, IEnumerable<IExpressionNode> elseIfConditions, IEnumerable<BlockStatement> elseIfBlocks, BlockStatement elseBlock ) {
+        public IfElseStatement( IExpressionNode condition, BlockStatement ifBlock, IEnumerable<IExpressionNode> elseIfConditions, List<BlockStatement> elseIfBlocks, BlockStatement elseBlock ) {
             Condition = condition;
             IfBlock = ifBlock;
             ElseIfConditions = elseIfConditions;
             ElseIfBlocks = elseIfBlocks;
             ElseBlock = elseBlock;
-            Initialize();
         }
 
         public IExpressionNode Condition { get; private set; }
         public BlockStatement IfBlock { get; private set; }
         public IEnumerable<IExpressionNode> ElseIfConditions { get; private set; }
-        public IEnumerable<BlockStatement> ElseIfBlocks { get; private set; }
+        public List<BlockStatement> ElseIfBlocks { get; private set; }
         public BlockStatement ElseBlock { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
@@ -75,14 +74,16 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new IfElseStatement(
+            var statement = new IfElseStatement(
                 (IExpressionNode) Condition.Clone(),
                 (BlockStatement) IfBlock.Clone(),
                 CloneEnumerableAs<IExpressionNode>( ElseIfConditions ),
                 ElseIfBlocks != null
-                    ? ElseIfBlocks.Select( x => (BlockStatement) x.Clone() )
+                    ? ElseIfBlocks.Select( x => (BlockStatement) x.Clone() ).ToList()
                     : null,
                 (BlockStatement) ElseBlock.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public IfElseStatement Update( IExpressionNode condition, BlockStatement ifBlock, IEnumerable<IExpressionNode> elseIfConditions, IEnumerable<BlockStatement> elseIfBlocks, BlockStatement elseBlock ) {
@@ -93,7 +94,9 @@ namespace AutoJIT.Parser.AST.Statements
                  ElseBlock == elseBlock ) {
                 return this;
             }
-            return new IfElseStatement( (IExpressionNode) condition.Clone(), (BlockStatement) ifBlock.Clone(), elseIfConditions.Select( x=>(IExpressionNode)x.Clone() ), elseIfBlocks.Select( x=>(BlockStatement)x.Clone() ), (BlockStatement) elseBlock.Clone() );
+            var statement = new IfElseStatement( (IExpressionNode) condition.Clone(), (BlockStatement) ifBlock.Clone(), elseIfConditions.Select( x=>(IExpressionNode)x.Clone() ), elseIfBlocks.Select( x=>(BlockStatement)x.Clone() ).ToList(), (BlockStatement) elseBlock.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

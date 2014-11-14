@@ -25,14 +25,18 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new FunctionExpression( IdentifierName );
+            var expression = new FunctionExpression( IdentifierName );
+            expression.Initialize();
+            return expression;
         }
 
         public FunctionExpression Update( TokenNode identifierName ) {
             if ( IdentifierName == identifierName ) {
                 return this;
             }
-            return new FunctionExpression( (TokenNode) identifierName.Clone() );
+            var expression = new FunctionExpression( (TokenNode) identifierName.Clone() );
+            expression.Initialize();
+            return expression;
         }
     }
 }

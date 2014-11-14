@@ -11,7 +11,6 @@ namespace AutoJIT.Parser.AST.Statements
         public DimStatement( VariableExpression variableExpression, IExpressionNode initExpression ) {
             VariableExpression = variableExpression;
             InitExpression = initExpression;
-            Initialize();
         }
 
         public VariableExpression VariableExpression { get; private set; }
@@ -39,7 +38,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new DimStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ) );
+            var statement = new DimStatement( (VariableExpression) VariableExpression.Clone(), CloneAs<IExpressionNode>( InitExpression ) );
+            statement.Initialize();
+            return statement;
         }
 
         public DimStatement Update( VariableExpression variableExpression, IExpressionNode initExpression ) {
@@ -47,7 +48,9 @@ namespace AutoJIT.Parser.AST.Statements
                  InitExpression == initExpression ) {
                 return this;
             }
-            return new DimStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) initExpression.Clone() );
+            var statement = new DimStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) initExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

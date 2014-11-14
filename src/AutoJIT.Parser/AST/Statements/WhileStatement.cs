@@ -11,7 +11,6 @@ namespace AutoJIT.Parser.AST.Statements
         public WhileStatement( IExpressionNode condition, BlockStatement block ) {
             Condition = condition;
             Block = block;
-            Initialize();
         }
 
         public IExpressionNode Condition { get; private set; }
@@ -40,7 +39,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new WhileStatement( (IExpressionNode) Condition.Clone(), (BlockStatement) Block.Clone() );
+            var statement = new WhileStatement( (IExpressionNode) Condition.Clone(), (BlockStatement) Block.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public WhileStatement Update( IExpressionNode condition, BlockStatement block ) {
@@ -48,7 +49,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new WhileStatement( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
+            var statement = new WhileStatement( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

@@ -590,7 +590,7 @@ namespace IntegrationTests
             byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false, true );
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             object au3Result = GetAu3Result( string.Format( "f!{0}", expression ), result.GetRealType() );

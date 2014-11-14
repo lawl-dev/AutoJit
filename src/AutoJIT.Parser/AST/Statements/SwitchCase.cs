@@ -12,7 +12,6 @@ namespace AutoJIT.Parser.AST.Statements
         public SwitchCase( IEnumerable<CaseCondition> conditions, BlockStatement block ) {
             Conditions = conditions;
             Block = block;
-            Initialize();
         }
 
         public IEnumerable<CaseCondition> Conditions { get; private set; }
@@ -41,7 +40,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new SwitchCase( Conditions.Select( x => (CaseCondition) x.Clone() ).ToList(), (BlockStatement) Block.Clone() );
+            var switchCase = new SwitchCase( Conditions.Select( x => (CaseCondition) x.Clone() ).ToList(), (BlockStatement) Block.Clone() );
+            switchCase.Initialize();
+            return switchCase;
         }
 
         public SwitchCase Update( IEnumerable<CaseCondition> conditions, BlockStatement block ) {
@@ -49,7 +50,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new SwitchCase( conditions.Select( x=>(CaseCondition)x.Clone() ), (BlockStatement) block.Clone() );
+            var switchCase = new SwitchCase( conditions.Select( x=>(CaseCondition)x.Clone() ), (BlockStatement) block.Clone() );
+            switchCase.Initialize();
+            return switchCase;
         }
     }
 }

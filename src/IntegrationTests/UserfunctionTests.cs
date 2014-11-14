@@ -45,7 +45,7 @@ namespace IntegrationTests
                     byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
                     Assembly assembly = Assembly.Load( assemblyBytes );
                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                    MethodInfo method = type.GetMethod( "f_Example" );
+                    MethodInfo method = type.GetMethod( "Example" );
                     object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
                     object res = method.Invoke( instance, null );
                 } );
@@ -62,7 +62,7 @@ namespace IntegrationTests
 
                     Assembly assembly = Assembly.Load( assemblyBytes );
                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                    MethodInfo method = type.GetMethod( "f_Example" );
+                    MethodInfo method = type.GetMethod( "Example" );
                     object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
                 } );
         }
@@ -78,7 +78,7 @@ namespace IntegrationTests
 
                     Assembly assembly = Assembly.Load( assemblyBytes );
                     Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-                    MethodInfo method = type.GetMethod( "f_Example" );
+                    MethodInfo method = type.GetMethod( "Example" );
                     object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
                     object res = method.Invoke( instance, null );
                 } );
@@ -153,8 +153,8 @@ namespace IntegrationTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
-            MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentProcessID" ) );
-            MethodInfo _WinAPI_FloatToInt = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_FloatToInt" ) );
+            MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "_WinAPI_GetCurrentProcessID" ) );
+            MethodInfo _WinAPI_FloatToInt = instance.GetType().GetMethods().Single( x => x.Name.Equals( "_WinAPI_FloatToInt" ) );
             object invoke = _WinAPI_FloatToInt.Invoke(
                 instance,
                 new[] {
@@ -176,7 +176,7 @@ namespace IntegrationTests
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
-            MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "f__WinAPI_GetCurrentThemeName" ) );
+            MethodInfo methodInfo = instance.GetType().GetMethods().Single( x => x.Name.Equals( "_WinAPI_GetCurrentThemeName" ) );
             object invoke = methodInfo.Invoke( instance, new object[0] );
         }
 
@@ -409,9 +409,19 @@ namespace IntegrationTests
         private class Rewriter : SyntaxRewriterBase
         {
             private readonly IAutoitSyntaxFactory _syntaxFactory = new AutoitSyntaxFactory( new TokenFactory() );
+            private Dictionary<string, string> _names = new Dictionary<string, string>(); 
 
-            public override ISyntaxNode VisitAssignStatement( AssignStatement node ) {
-                return _syntaxFactory.CreateFunctionCallStatement( _syntaxFactory.CreateCallExpression( _syntaxFactory.CreateTokenNode( "ConsoleWrite" ), new List<IExpressionNode> { _syntaxFactory.CreateNumericLiteralExpression( _syntaxFactory.CreateTokenNode( 1337 ), Enumerable.Empty<TokenNode>() ) } ) );
+            public override ISyntaxNode VisitToken( TokenNode node ) {
+                if ( node.Parent.GetType() != typeof (VariableExpression) &&
+                     node.Parent.GetType() != typeof (ArrayExpression) ) {
+                    return base.VisitToken( node );
+                }
+                var name = node.Token.Value.StringValue;
+
+                if ( !_names.ContainsKey( name ) ) {
+                    _names.Add( name,Guid.NewGuid().ToString("N") );
+                }
+                return _syntaxFactory.CreateTokenNode(_names[name]);
             }
         }
     }

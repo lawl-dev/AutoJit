@@ -12,7 +12,6 @@ namespace AutoJIT.Parser.AST.Statements
             Variable = variable;
             ExpressionToAssign = expressionToAssign;
             Operator = @operator;
-            Initialize();
         }
 
         public VariableExpression Variable { get; private set; }
@@ -38,7 +37,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new AssignStatement( (VariableExpression) Variable.Clone(), (IExpressionNode) ExpressionToAssign.Clone(), Operator );
+            var statement = new AssignStatement( (VariableExpression) Variable.Clone(), (IExpressionNode) ExpressionToAssign.Clone(), (TokenNode) Operator.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public AssignStatement Update( VariableExpression variable, IExpressionNode expressionToAssign, TokenNode @operator ) {
@@ -47,7 +48,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Operator == @operator ) {
                 return this;
             }
-            return new AssignStatement( (VariableExpression) variable.Clone(), (IExpressionNode) expressionToAssign.Clone(), (TokenNode) @operator.Clone() );
+            var statement = new AssignStatement( (VariableExpression) variable.Clone(), (IExpressionNode) expressionToAssign.Clone(), (TokenNode) @operator.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

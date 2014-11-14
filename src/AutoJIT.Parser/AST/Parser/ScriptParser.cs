@@ -71,7 +71,9 @@ namespace AutoJIT.Parser.AST.Parser
                     main.Queue.Enqueue( token );
                 }
             }
-            return new AutoitScriptRoot( functions, main, pragmaOptions );
+            var autoitScriptRoot = new AutoitScriptRoot( functions, main, pragmaOptions );
+            autoitScriptRoot.Initialize();
+            return autoitScriptRoot;
         }
 
         private IEnumerable<AutoitParameterInfo> ParseFunctionParameter( TokenQueue tokenQueue ) {

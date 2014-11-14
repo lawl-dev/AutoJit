@@ -48,7 +48,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentException( "operator" );
             }
 
-            return new AssignStatement( variableExpression, expression, new TokenNode( @operator ) );
+            var statement = new AssignStatement( variableExpression, expression, new TokenNode( @operator ) );
+            statement.Initialize();
+            return statement;
         }
 
         public ContinueCaseStatement CreateContinueCaseStatement() {
@@ -56,7 +58,9 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
         public ContinueLoopStatement CreateContinueloopStatement( TokenNode level ) {
-            return new ContinueLoopStatement( level );
+            var statement = new ContinueLoopStatement( level );
+            statement.Initialize();
+            return statement;
         }
 
         public DimStatement CreateDimStatement( VariableExpression variableExpression, IExpressionNode initExpression ) {
@@ -64,7 +68,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "variableExpression" );
             }
 
-            return new DimStatement( variableExpression, initExpression );
+            var statement = new DimStatement( variableExpression, initExpression );
+            statement.Initialize();
+            return statement;
         }
 
         public DoUntilStatement CreateDoUntilStatement( IExpressionNode condition, IEnumerable<IStatementNode> block ) {
@@ -76,15 +82,83 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "block" );
             }
 
-            return new DoUntilStatement( condition, new BlockStatement( block ) );
+            var statement = new DoUntilStatement( condition, CreateBlockStatement( block ) );
+            statement.Initialize();
+            return statement;
+        }
+
+        public BlockStatement CreateBlockStatement( IEnumerable<IStatementNode> block ) {
+            var statement = new BlockStatement( block );
+            statement.Initialize();
+            return statement;
+        }
+
+        public SelectCase CreateSelectCase( IExpressionNode caseCondition, BlockStatement blockStatement ) {
+            if ( caseCondition == null ) {
+                throw new ArgumentNullException("caseCondition");
+            }
+
+            if ( blockStatement == null ) {
+                throw new ArgumentNullException("blockStatement");
+            }
+
+            var selectCase = new SelectCase( caseCondition, blockStatement );
+            selectCase.Initialize();
+            return selectCase;
+        }
+
+        public SwitchCase CreateSwitchCase( List<CaseCondition> caseConditions, BlockStatement blockStatement ) {
+            if ( caseConditions == null ) {
+                throw new ArgumentNullException("caseConditions");
+            }
+
+            if ( blockStatement == null ) {
+                throw new ArgumentNullException("blockStatement");
+            }
+
+            var switchCase = new SwitchCase( caseConditions, blockStatement );
+            switchCase.Initialize();
+            return switchCase;
+        }
+
+        public SwitchCaseStatement CreateSwitchCaseStatement( IExpressionNode condition, List<SwitchCase> cases, BlockStatement elseBlock ) {
+            if ( condition == null ) {
+                throw new ArgumentNullException("condition");
+            }
+
+            if ( cases == null ) {
+                throw new ArgumentNullException("cases");
+            }
+
+            if ( elseBlock == null ) {
+                throw new ArgumentNullException("elseBlock");
+            }
+
+            var statement = new SwitchCaseStatement( condition, cases, elseBlock );
+            statement.Initialize();
+            return statement;
+        }
+
+        public VariableFunctionCallStatement CreateVariableFunctionCallStatement( VariableFunctionCallExpression variableFunctionCallExpression ) {
+            if ( variableFunctionCallExpression == null ) {
+                throw new ArgumentNullException("variableFunctionCallExpression");
+            }
+
+            var statement = new VariableFunctionCallStatement( variableFunctionCallExpression );
+            statement.Initialize();
+            return statement;
         }
 
         public ExitloopStatement CreateExitloopStatement( TokenNode level ) {
-            return new ExitloopStatement( level );
+            var statement = new ExitloopStatement( level );
+            statement.Initialize();
+            return statement;
         }
 
         public ExitStatement CreateExitStatement( IExpressionNode exitCode ) {
-            return new ExitStatement( exitCode );
+            var statement = new ExitStatement( exitCode );
+            statement.Initialize();
+            return statement;
         }
 
         public ForInStatement CreateForInStatement( VariableExpression variableName, IExpressionNode toEnumerate, IEnumerable<IStatementNode> block ) {
@@ -100,7 +174,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "block" );
             }
 
-            return new ForInStatement( variableName, toEnumerate, new BlockStatement( block ) );
+            var statement = new ForInStatement( variableName, toEnumerate, CreateBlockStatement( block ) );
+            statement.Initialize();
+            return statement;
         }
 
         public ForToNextStatement CreateForToNextStatement( VariableExpression variableExpression, IExpressionNode startExpression, IExpressionNode endExpression, IExpressionNode stepExpression, IEnumerable<IStatementNode> block ) {
@@ -120,7 +196,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "block" );
             }
 
-            return new ForToNextStatement( variableExpression, startExpression, endExpression, stepExpression, new BlockStatement( block ) );
+            var statement = new ForToNextStatement( variableExpression, startExpression, endExpression, stepExpression, CreateBlockStatement( block ) );
+            statement.Initialize();
+            return statement;
         }
 
         public FunctionCallStatement CreateFunctionCallStatement( CallExpression functionCallExpression ) {
@@ -128,7 +206,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "functionCallExpression" );
             }
 
-            return new FunctionCallStatement( functionCallExpression );
+            var statement = new FunctionCallStatement( functionCallExpression );
+            statement.Initialize();
+            return statement;
         }
 
         public GlobalDeclarationStatement CreateGlobalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst ) {
@@ -136,7 +216,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "variableExpression" );
             }
 
-            return new GlobalDeclarationStatement( variableExpression, initExpression, isConst );
+            var statement = new GlobalDeclarationStatement( variableExpression, initExpression, isConst );
+            statement.Initialize();
+            return statement;
         }
 
         public EnumDeclarationStatement CreateEnumDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, IExpressionNode autoInitExpression, bool global ) {
@@ -144,12 +226,16 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "variableExpression" );
             }
             if ( global ) {
-                return new GlobalEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression );
+                var statement = new GlobalEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression );
+                statement.Initialize();
+                return statement;
             }
-            return new LocalEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression );
+            var localStatementz = new LocalEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression );
+            localStatementz.Initialize();
+            return localStatementz;
         }
 
-        public IfElseStatement CreateIfElseStatement( IExpressionNode condition, IEnumerable<IStatementNode> ifBlock, IEnumerable<IExpressionNode> elseIfConditions, IEnumerable<IEnumerable<IStatementNode>> elseIfBlocks, IEnumerable<IStatementNode> elseBlock ) {
+        public IfElseStatement CreateIfElseStatement( IExpressionNode condition, List<IStatementNode> ifBlock, List<IExpressionNode> elseIfConditions, List<List<IStatementNode>> elseIfBlocks, List<IStatementNode> elseBlock ) {
             if ( condition == null ) {
                 throw new ArgumentNullException( "condition" );
             }
@@ -158,7 +244,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "ifBlock" );
             }
 
-            return new IfElseStatement( condition, new BlockStatement( ifBlock ), elseIfConditions, elseIfBlocks.Select( x => new BlockStatement( x ) ), new BlockStatement( elseBlock ) );
+            var statement = new IfElseStatement( condition, CreateBlockStatement( ifBlock ), elseIfConditions, elseIfBlocks.Select( CreateBlockStatement ).ToList(), CreateBlockStatement( elseBlock ) );
+            statement.Initialize();
+            return statement;
         }
 
         public LocalDeclarationStatement CreateLocalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst ) {
@@ -166,7 +254,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "variableExpression" );
             }
 
-            return new LocalDeclarationStatement( variableExpression, initExpression, isConst );
+            var statement = new LocalDeclarationStatement( variableExpression, initExpression, isConst );
+            statement.Initialize();
+            return statement;
         }
 
         public ReDimStatement CreateReDimStatement( ArrayExpression arrayExpression ) {
@@ -182,7 +272,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "returnExpression" );
             }
 
-            return new ReturnStatement( returnExpression );
+            var statement = new ReturnStatement( returnExpression );
+            statement.Initialize();
+            return statement;
         }
 
         public SelectCaseStatement CreateSelectStatement( IEnumerable<SelectCase> cases, IEnumerable<IStatementNode> elseStatements ) {
@@ -190,10 +282,12 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "cases" );
             }
 
-            return new SelectCaseStatement(
+            var statement = new SelectCaseStatement(
                 cases, elseStatements != null && elseStatements.Any()
-                    ? new BlockStatement( elseStatements )
+                    ? CreateBlockStatement( elseStatements )
                     : null );
+            statement.Initialize();
+            return statement;
         }
 
         public WhileStatement CreateWhileStatement( IExpressionNode condition, List<IStatementNode> block ) {
@@ -201,14 +295,18 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "condition" );
             }
 
-            return new WhileStatement( condition, new BlockStatement( block ) );
+            var statement = new WhileStatement( condition, CreateBlockStatement( block ) );
+            statement.Initialize();
+            return statement;
         }
 
         public IStatementNode CreateStaticDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression ) {
             if ( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
             }
-            return new StaticDeclarationStatement( variableExpression, initExpression );
+            var statement = new StaticDeclarationStatement( variableExpression, initExpression );
+            statement.Initialize();
+            return statement;
         }
 
         public ArrayExpression CreateArrayExpression( TokenNode identifierName, List<IExpressionNode> accessParameter ) {
@@ -224,14 +322,18 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentException("Not allowed", "accessParameter");
             }
 
-            return new ArrayExpression( identifierName, accessParameter );
+            var arrayExpression = new ArrayExpression( identifierName, accessParameter );
+            arrayExpression.Initialize();
+            return arrayExpression;
         }
 
         public ArrayInitExpression CreateArrayInitExpression(List<IExpressionNode> toAssign) {
             if ( toAssign == null ) {
                 throw new ArgumentNullException("toAssign");
             }
-            return new ArrayInitExpression( toAssign );
+            var initExpression = new ArrayInitExpression( toAssign );
+            initExpression.Initialize();
+            return initExpression;
         }
 
         public BinaryExpression CreateBinaryExpression(IExpressionNode left, IExpressionNode right, TokenNode @operator) {
@@ -251,7 +353,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentException("Invalid operator", "@operator");
             }
 
-            return new BinaryExpression( left, right, @operator );
+            var expression = new BinaryExpression( left, right, @operator );
+            expression.Initialize();
+            return expression;
         }
 
         public BooleanNegateExpression CreateBooleanNegateExpression(IExpressionNode left, TokenNode @operator) {
@@ -267,7 +371,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentException("Invalid token", "@operator");
             }
 
-            return new BooleanNegateExpression( left, @operator );
+            var expression = new BooleanNegateExpression( left, @operator );
+            expression.Initialize();
+            return expression;
         }
 
         public CallExpression CreateCallExpression( TokenNode identifierName, List<IExpressionNode> parameter ) {
@@ -279,7 +385,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("parameter");
             }
 
-            return new CallExpression( identifierName, parameter );
+            var expression = new CallExpression( identifierName, parameter );
+            expression.Initialize();
+            return expression;
         }
 
         public CaseCondition CreateCaseCondition( IExpressionNode left, IExpressionNode right ) {
@@ -291,7 +399,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("right");
             }
 
-            return new CaseCondition( left, right);
+            var condition = new CaseCondition( left, right);
+            condition.Initialize();
+            return condition;
         }
 
         public DefaultExpression CreateDefaultExpression() {
@@ -306,8 +416,10 @@ namespace AutoJIT.Parser.AST.Factory
             if ( identifierName == null ) {
                 throw new ArgumentNullException("identifierName");
             }
-            
-            return new FunctionExpression( identifierName );
+
+            var expression = new FunctionExpression( identifierName );
+            expression.Initialize();
+            return expression;
         }
 
         public MacroExpression CreateMacroExpression( TokenNode identifierName ) {
@@ -315,8 +427,10 @@ namespace AutoJIT.Parser.AST.Factory
             {
                 throw new ArgumentNullException("identifierName");
             }
-            
-            return new MacroExpression( identifierName );
+
+            var expression = new MacroExpression( identifierName );
+            expression.Initialize();
+            return expression;
         }
 
         public NegateExpression CreateNegateExpression( IExpressionNode expression ) {
@@ -324,7 +438,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("expression");
             }
 
-            return new NegateExpression( expression );
+            var negateExpression = new NegateExpression( expression );
+            negateExpression.Initialize();
+            return negateExpression;
         }
 
         public NullExpression CreateNullExpression() {
@@ -340,7 +456,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("signOperators");
             }
 
-            return new NumericLiteralExpression( literalToken, signOperators );
+            var expression = new NumericLiteralExpression( literalToken, signOperators );
+            expression.Initialize();
+            return expression;
         }
 
         public StringLiteralExpression CreateStringLiteralExpression( TokenNode literalToken ) {
@@ -351,7 +469,9 @@ namespace AutoJIT.Parser.AST.Factory
             if ( literalToken.Token.Type != TokenType.String ) {
                 throw new ArgumentException( "Literal is not a string", "literalToken" );
             }
-            return new StringLiteralExpression( literalToken );
+            var expression = new StringLiteralExpression( literalToken );
+            expression.Initialize();
+            return expression;
         }
 
         public TernaryExpression CreateTernaryExpression( IExpressionNode condition, IExpressionNode ifTrue, IExpressionNode ifFalse ) {
@@ -367,7 +487,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("ifFalse");
             }
 
-            return new TernaryExpression( condition, ifTrue, ifFalse );
+            var expression = new TernaryExpression( condition, ifTrue, ifFalse );
+            expression.Initialize();
+            return expression;
         }
 
         public TokenNode CreateTokenNode( Token token ) {
@@ -403,8 +525,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("parameter");
             }
 
-
-            return new UserfunctionCallExpression( identifierName, parameter );
+            var expression = new UserfunctionCallExpression( identifierName, parameter );
+            expression.Initialize();
+            return expression;
         }
 
         public UserfunctionExpression CreateUserfunctionExpression( TokenNode identifierName ) {
@@ -420,8 +543,10 @@ namespace AutoJIT.Parser.AST.Factory
             {
                 throw new ArgumentNullException("identifierName");
             }
-            
-            return new VariableExpression( identifierName );
+
+            var expression = new VariableExpression( identifierName );
+            expression.Initialize();
+            return expression;
         }
 
         public VariableFunctionCallExpression CreateVariableFunctionCallExpression( VariableExpression variableExpression, IEnumerable<IExpressionNode> parameter ) {
@@ -433,7 +558,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("parameter");
             }
 
-            return new VariableFunctionCallExpression( variableExpression, parameter );
+            var expression = new VariableFunctionCallExpression( variableExpression, parameter );
+            expression.Initialize();
+            return expression;
         }
 
         public TokenNode CreateTokenNode( int token ) {

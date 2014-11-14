@@ -13,17 +13,25 @@ namespace AutoJIT.Parser.AST.Statements
             return visitor.VisitLocalEnumDeclarationStatement( this );
         }
 
-        public override object Clone() {
-            return new LocalEnumDeclarationStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) UserInitExpression.Clone(), (IExpressionNode) AutoInitExpression.Clone() );
+        public override string ToSource() {
+            throw new System.NotImplementedException();
         }
-        
+
+        public override object Clone() {
+            var statement = new LocalEnumDeclarationStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) UserInitExpression.Clone(), (IExpressionNode) AutoInitExpression.Clone() );
+            statement.Initialize();
+            return statement;
+        }
+
         public LocalEnumDeclarationStatement Update( VariableExpression variableExpression, IExpressionNode userInitExpression, IExpressionNode autoInitExpression ) {
             if ( VariableExpression == variableExpression &&
                  UserInitExpression == userInitExpression &&
                  AutoInitExpression == autoInitExpression ) {
                 return this;
             }
-            return new LocalEnumDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) userInitExpression.Clone(), (IExpressionNode) autoInitExpression.Clone() );
+            var statement = new LocalEnumDeclarationStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) userInitExpression.Clone(), (IExpressionNode) autoInitExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == "" );
@@ -45,7 +45,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result.IsArray );
@@ -58,7 +58,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result.IsArray );
@@ -71,7 +71,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 10 );
@@ -83,7 +83,7 @@ namespace IntegrationTests
             byte[] assemblyBytes = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 1 );
@@ -96,7 +96,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 15 );
@@ -109,7 +109,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 1 );
@@ -122,7 +122,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 0x01 );
@@ -135,7 +135,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == 2 );
@@ -150,7 +150,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == csresult );
@@ -165,7 +165,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
             Assert.IsTrue( result == csresult );
@@ -178,7 +178,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
@@ -194,7 +194,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
@@ -210,7 +210,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
@@ -226,7 +226,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
@@ -242,7 +242,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
@@ -258,7 +258,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
@@ -274,7 +274,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
@@ -288,7 +288,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 
@@ -304,7 +304,7 @@ namespace IntegrationTests
 
             Assembly assembly = Assembly.Load( assemblyBytes );
             Type type = assembly.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_ExpressionReturner" );
+            MethodInfo method = type.GetMethod( "ExpressionReturner" );
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
             var result = method.Invoke( instance, null ) as Variant;
 

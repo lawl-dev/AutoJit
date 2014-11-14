@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
@@ -29,7 +30,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             Token @operator = _tokenFactory.CreatePlus( -1, -1 );
 
-            IExpressionNode left = new NumericLiteralExpression( new TokenNode( _tokenFactory.CreateInt( 1, -1, -1 ) ), Enumerable.Empty<TokenNode>() );
+            IExpressionNode left = AutoitSyntaxFactory.CreateNumericLiteralExpression( AutoitSyntaxFactory.CreateTokenNode( 1 ), Enumerable.Empty<TokenNode>() );
             if ( Consume( block, Keywords.Step ) ) {
                 @operator = block.Dequeue();
                 left = ExpressionParser.ParseSingle<IExpressionNode>( block );
@@ -45,15 +46,12 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 }
 
                 IExpressionNode autoInitExpression = lastVariableExpression == null
-                    ? (IExpressionNode) new NumericLiteralExpression(
-                        new TokenNode( _tokenFactory.CreateInt(
+                    ? (IExpressionNode) AutoitSyntaxFactory.CreateNumericLiteralExpression(
+                        AutoitSyntaxFactory.CreateTokenNode(
                             @operator.Type == TokenType.Mult
                                 ? 1
-                                : 0,
-                            -1,
-                            -1 ) ),
-                        Enumerable.Empty<TokenNode>() )
-                    : new BinaryExpression( (IExpressionNode) lastVariableExpression.Clone(), (IExpressionNode) left.Clone(), new TokenNode( @operator ) );
+                                : 0 ), Enumerable.Empty<TokenNode>() )
+                    : AutoitSyntaxFactory.CreateBinaryExpression( (IExpressionNode) lastVariableExpression.Clone(), (IExpressionNode) left.Clone(), AutoitSyntaxFactory.CreateTokenNode( @operator ) );
 
                 toReturn.Add( AutoitSyntaxFactory.CreateEnumDeclarationStatement( variableExpression, initExpression, autoInitExpression, true ) );
 

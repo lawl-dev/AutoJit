@@ -11,7 +11,6 @@ namespace AutoJIT.Parser.AST.Statements
         public SelectCase( IExpressionNode condition, BlockStatement block ) {
             Condition = condition;
             Block = block;
-            Initialize();
         }
 
         public IExpressionNode Condition { get; set; }
@@ -40,7 +39,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new SelectCase( (IExpressionNode) Condition.Clone(), (BlockStatement) Block.Clone() );
+            var selectCase = new SelectCase( (IExpressionNode) Condition.Clone(), (BlockStatement) Block.Clone() );
+            selectCase.Initialize();
+            return selectCase;
         }
 
         public SelectCase Update( IExpressionNode condition, BlockStatement block ) {
@@ -48,7 +49,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new SelectCase( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
+            var selectCase = new SelectCase( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
+            selectCase.Initialize();
+            return selectCase;
         }
     }
 }

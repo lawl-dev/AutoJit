@@ -10,7 +10,6 @@ namespace AutoJIT.Parser.AST.Statements
         public InitDefaultParameterStatement( string parameterName, IExpressionNode defaultValue ) {
             ParameterName = parameterName;
             DefaultValue = defaultValue;
-            Initialize();
         }
 
         public string ParameterName { get; private set; }
@@ -33,7 +32,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new InitDefaultParameterStatement( (string) ParameterName.Clone(), (IExpressionNode) DefaultValue.Clone() );
+            var statement = new InitDefaultParameterStatement( (string) ParameterName.Clone(), (IExpressionNode) DefaultValue.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public InitDefaultParameterStatement Update( string parameterName, IExpressionNode defaultValue ) {
@@ -41,7 +42,9 @@ namespace AutoJIT.Parser.AST.Statements
                  DefaultValue == defaultValue ) {
                 return this;
             }
-            return new InitDefaultParameterStatement( (string) parameterName.Clone(), (IExpressionNode) defaultValue.Clone() );
+            var statement = new InitDefaultParameterStatement( (string) parameterName.Clone(), (IExpressionNode) defaultValue.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

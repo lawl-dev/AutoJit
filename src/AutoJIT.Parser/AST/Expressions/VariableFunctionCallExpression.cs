@@ -34,7 +34,9 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new VariableFunctionCallExpression( (VariableExpression) VariableExpression.Clone(), Parameter.Select( x => (IExpressionNode) x.Clone() ) );
+            var expression = new VariableFunctionCallExpression( (VariableExpression) VariableExpression.Clone(), Parameter.Select( x => (IExpressionNode) x.Clone() ) );
+            expression.Initialize();
+            return expression;
         }
 
         public VariableFunctionCallExpression Update( VariableExpression variableExpression, IEnumerable<IExpressionNode> parameter ) {
@@ -42,7 +44,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  EnumerableEquals(Parameter, parameter) ) {
                 return this;
             }
-            return new VariableFunctionCallExpression( variableExpression, parameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            var expression = new VariableFunctionCallExpression( variableExpression, parameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            expression.Initialize();
+            return expression;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace IntegrationTests
         [TestCase( "FRH" )]
         [TestCase( "FRI" )]
         public void TestSimpleMarshaling( string functionName ) {
-            MethodInfo methodInfo = _compiledInstance.GetType().GetMethods().Single( x => x.Name.Equals( "f_"+functionName ) );
+            MethodInfo methodInfo = _compiledInstance.GetType().GetMethods().Single( x => x.Name.Equals( ""+functionName ) );
             var result = (Variant) methodInfo.Invoke( _compiledInstance, null );
             Assert.IsTrue( result );
         }

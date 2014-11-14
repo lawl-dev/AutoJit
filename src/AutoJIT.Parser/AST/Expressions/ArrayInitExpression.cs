@@ -9,7 +9,6 @@ namespace AutoJIT.Parser.AST.Expressions
     {
         public ArrayInitExpression( List<IExpressionNode> toAssign ) {
             ToAssign = toAssign;
-            Initialize();
         }
 
         public List<IExpressionNode> ToAssign { get; private set; }
@@ -27,14 +26,18 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new ArrayInitExpression( ToAssign.Select( x => (IExpressionNode) x.Clone() ).ToList() );
+            var initExpression = new ArrayInitExpression( ToAssign.Select( x => (IExpressionNode) x.Clone() ).ToList() );
+            initExpression.Initialize();
+            return initExpression;
         }
 
         public ArrayInitExpression Update( IEnumerable<IExpressionNode> toAssign ) {
             if ( EnumerableEquals(ToAssign, toAssign) ) {
                 return this;
             }
-            return new ArrayInitExpression( ToAssign.Select( x=>(IExpressionNode)x.Clone() ).ToList() );
+            var initExpression = new ArrayInitExpression( ToAssign.Select( x=>(IExpressionNode)x.Clone() ).ToList() );
+            initExpression.Initialize();
+            return initExpression;
         }
     }
 }

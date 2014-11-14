@@ -11,7 +11,6 @@ namespace AutoJIT.Parser.AST.Statements
         public DoUntilStatement( IExpressionNode condition, BlockStatement block ) {
             Condition = condition;
             Block = block;
-            Initialize();
         }
 
         public IExpressionNode Condition { get; private set; }
@@ -44,7 +43,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new DoUntilStatement( (IExpressionNode) Condition.Clone(), (BlockStatement) Block.Clone() );
+            var untilStatement = new DoUntilStatement( (IExpressionNode) Condition.Clone(), (BlockStatement) Block.Clone() );
+            untilStatement.Initialize();
+            return untilStatement;
         }
 
         public DoUntilStatement Update( IExpressionNode condition, BlockStatement block ) {
@@ -52,7 +53,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new DoUntilStatement( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
+            var statement = new DoUntilStatement( (IExpressionNode) condition.Clone(), (BlockStatement) block.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

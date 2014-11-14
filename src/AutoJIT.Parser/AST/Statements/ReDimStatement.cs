@@ -9,7 +9,6 @@ namespace AutoJIT.Parser.AST.Statements
     {
         public ReDimStatement( ArrayExpression arrayExpression ) {
             ArrayExpression = arrayExpression;
-            Initialize();
         }
 
         public ArrayExpression ArrayExpression { get; private set; }
@@ -31,14 +30,18 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ReDimStatement( (ArrayExpression) ArrayExpression.Clone() );
+            var statement = new ReDimStatement( (ArrayExpression) ArrayExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
 
         public ReDimStatement Update( ArrayExpression arrayExpression ) {
             if ( ArrayExpression == arrayExpression ) {
                 return this;
             }
-            return new ReDimStatement( (ArrayExpression) arrayExpression.Clone() );
+            var statement = new ReDimStatement( (ArrayExpression) arrayExpression.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }

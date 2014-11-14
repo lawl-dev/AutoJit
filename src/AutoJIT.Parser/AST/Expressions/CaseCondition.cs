@@ -38,7 +38,9 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new CaseCondition( (IExpressionNode) Left.Clone(), (IExpressionNode) Right.Clone() );
+            var condition = new CaseCondition( (IExpressionNode) Left.Clone(), (IExpressionNode) Right.Clone() );
+            condition.Initialize();
+            return condition;
         }
 
         public CaseCondition Update( IExpressionNode left, IExpressionNode right ) {
@@ -46,7 +48,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  Right == right ) {
                 return this;
             }
-            return new CaseCondition( (IExpressionNode) left.Clone(), (IExpressionNode) right.Clone() );
+            var condition = new CaseCondition( (IExpressionNode) left.Clone(), (IExpressionNode) right.Clone() );
+            condition.Initialize();
+            return condition;
         }
     }
 }

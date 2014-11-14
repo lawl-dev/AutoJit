@@ -10,14 +10,17 @@ namespace AutoJIT.Parser.AST.Expressions
         public CallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter ) {
             IdentifierName = identifierName;
             Parameter = parameter;
-            Initialize();
         }
 
         public TokenNode IdentifierName { get; private set; }
         public IEnumerable<IExpressionNode> Parameter { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return new List<ISyntaxNode>( Parameter ); }
+            get {
+                var nodes = new List<ISyntaxNode>( Parameter );
+                nodes.Add( IdentifierName );
+                return nodes;
+            }
         }
 
         public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
@@ -29,7 +32,9 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new CallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
+            var expression = new CallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
+            expression.Initialize();
+            return expression;
         }
 
         public virtual CallExpression Update( IList<IExpressionNode> parameter, TokenNode identifierName ) {
@@ -37,7 +42,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  IdentifierName == identifierName ) {
                 return this;
             }
-            return new CallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x => (IExpressionNode) x.Clone() ) );
+            var expression = new CallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x => (IExpressionNode) x.Clone() ) );
+            expression.Initialize();
+            return expression;
         }
     }
 }

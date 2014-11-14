@@ -53,8 +53,8 @@ namespace IntegrationTests
             byte[] assembly = _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false );
             Assembly asm = Assembly.Load( assembly );
             Type type = asm.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo dto2Screencoords = type.GetMethod( "f_Dto2Dscreencoords" );
-            MethodInfo angle = type.GetMethod( "f__Angle" );
+            MethodInfo dto2Screencoords = type.GetMethod( "Dto2Dscreencoords" );
+            MethodInfo angle = type.GetMethod( "_Angle" );
 
             object instance = type.GetConstructors()[0].Invoke( Constants.Array<object>.Empty );
 
@@ -84,7 +84,7 @@ namespace IntegrationTests
             byte[] assembly = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
             Assembly assembly2 = Assembly.Load( assembly );
             Type type = assembly2.GetTypes().Single( x => x.Name == "AutoJITScriptClass" );
-            MethodInfo method = type.GetMethod( "f_DoWhileFor" );
+            MethodInfo method = type.GetMethod( "DoWhileFor" );
         }
     }
 }

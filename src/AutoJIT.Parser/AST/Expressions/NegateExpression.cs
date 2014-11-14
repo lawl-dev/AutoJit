@@ -9,7 +9,6 @@ namespace AutoJIT.Parser.AST.Expressions
     {
         public NegateExpression( IExpressionNode expressionNode ) {
             ExpressionNode = expressionNode;
-            Initialize();
         }
 
         public IExpressionNode ExpressionNode { get; private set; }
@@ -27,14 +26,18 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new NegateExpression( (IExpressionNode) ExpressionNode.Clone() );
+            var expression = new NegateExpression( (IExpressionNode) ExpressionNode.Clone() );
+            expression.Initialize();
+            return expression;
         }
 
         public NegateExpression Update( IExpressionNode expressionNode ) {
             if ( ExpressionNode == expressionNode ) {
                 return this;
             }
-            return new NegateExpression( (IExpressionNode) expressionNode.Clone() );
+            var expression = new NegateExpression( (IExpressionNode) expressionNode.Clone() );
+            expression.Initialize();
+            return expression;
         }
     }
 }

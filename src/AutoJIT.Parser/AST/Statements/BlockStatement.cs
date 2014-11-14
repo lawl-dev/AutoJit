@@ -35,7 +35,9 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new BlockStatement( Block.Select( x => (IStatementNode) x.Clone() ) );
+            var statement = new BlockStatement( Block.Select( x => (IStatementNode) x.Clone() ) );
+            statement.Initialize();
+            return statement;
         }
 
         public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
@@ -46,7 +48,9 @@ namespace AutoJIT.Parser.AST.Statements
             if ( EnumerableEquals( Block, block ) ) {
                 return this;
             }
-            return new BlockStatement( block.Select( x=>(IStatementNode)x.Clone() ) );
+            var statement = new BlockStatement( block.Select( x=>(IStatementNode)x.Clone() ) );
+            statement.Initialize();
+            return statement;
         }
     }
 }

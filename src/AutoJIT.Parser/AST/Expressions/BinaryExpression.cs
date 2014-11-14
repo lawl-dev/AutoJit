@@ -10,7 +10,6 @@ namespace AutoJIT.Parser.AST.Expressions
             Operator = @operator;
             Right = right;
             Left = left;
-            Initialize();
         }
 
         public IExpressionNode Left { get; private set; }
@@ -39,7 +38,9 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new BinaryExpression( (IExpressionNode) Left.Clone(), (IExpressionNode) Right.Clone(), (TokenNode) Operator.Clone() );
+            var expression = new BinaryExpression( (IExpressionNode) Left.Clone(), (IExpressionNode) Right.Clone(), (TokenNode) Operator.Clone() );
+            expression.Initialize();
+            return expression;
         }
 
         public BinaryExpression Update( IExpressionNode left, IExpressionNode right, TokenNode @operator ) {
@@ -48,7 +49,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  Operator == @operator ) {
                 return this;
             }
-            return new BinaryExpression( (IExpressionNode) left.Clone(), (IExpressionNode) right.Clone(), (TokenNode) @operator.Clone() );
+            var expression = new BinaryExpression( (IExpressionNode) left.Clone(), (IExpressionNode) right.Clone(), (TokenNode) @operator.Clone() );
+            expression.Initialize();
+            return expression;
         }
     }
 }

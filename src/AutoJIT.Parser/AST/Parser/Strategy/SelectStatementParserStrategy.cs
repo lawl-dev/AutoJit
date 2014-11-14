@@ -32,7 +32,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
                     IExpressionNode caseCondition = ExpressionParser.ParseBlock( expression, true );
                     List<IStatementNode> caseStatements = StatementParser.ParseBlock( caseBlock );
-                    cases.Add( new SelectCase( caseCondition, new BlockStatement( caseStatements ) ) );
+                    cases.Add( AutoitSyntaxFactory.CreateSelectCase( caseCondition, AutoitSyntaxFactory.CreateBlockStatement( caseStatements ) ) );
                 }
                 else {
                     ConsumeAndEnsure( block, Keywords.Else );

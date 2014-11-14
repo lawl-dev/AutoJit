@@ -25,7 +25,7 @@ namespace AutoJIT.Parser.AST.Factory
 
         EnumDeclarationStatement CreateEnumDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, IExpressionNode autoInitExpression, bool global );
 
-        IfElseStatement CreateIfElseStatement( IExpressionNode condition, IEnumerable<IStatementNode> ifBlock, IEnumerable<IExpressionNode> elseIfConditions, IEnumerable<IEnumerable<IStatementNode>> elseIfBlocks, IEnumerable<IStatementNode> elseBlock );
+        IfElseStatement CreateIfElseStatement( IExpressionNode condition, List<IStatementNode> ifBlock, List<IExpressionNode> elseIfConditions, List<List<IStatementNode>> elseIfBlocks, List<IStatementNode> elseBlock );
 
         LocalDeclarationStatement CreateLocalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst );
 
@@ -57,5 +57,10 @@ namespace AutoJIT.Parser.AST.Factory
         VariableExpression CreateVariableExpression( TokenNode identifierName );
         VariableFunctionCallExpression CreateVariableFunctionCallExpression( VariableExpression variableExpression, IEnumerable<IExpressionNode> parameter );
         TokenNode CreateTokenNode( int token );
+        BlockStatement CreateBlockStatement( IEnumerable<IStatementNode> statementNodes );
+        SelectCase CreateSelectCase( IExpressionNode caseCondition, BlockStatement blockStatement );
+        SwitchCase CreateSwitchCase( List<CaseCondition> caseConditions, BlockStatement blockStatement );
+        SwitchCaseStatement CreateSwitchCaseStatement( IExpressionNode condition, List<SwitchCase> cases, BlockStatement elseBlock );
+        VariableFunctionCallStatement CreateVariableFunctionCallStatement( VariableFunctionCallExpression variableFunctionCallExpression );
     }
 }

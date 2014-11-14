@@ -13,7 +13,11 @@ namespace AutoJIT.Parser.AST.Expressions
         public TokenNode MacroName { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return Enumerable.Empty<ISyntaxNode>(); }
+            get {
+                var nodes = new List<ISyntaxNode>();
+                nodes.Add( MacroName );
+                return nodes;
+            }
         }
 
         public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
@@ -25,14 +29,18 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new MacroExpression( (TokenNode) MacroName.Clone() );
+            var expression = new MacroExpression( (TokenNode) MacroName.Clone() );
+            expression.Initialize();
+            return expression;
         }
 
         public MacroExpression Update( TokenNode macroName ) {
             if ( MacroName == macroName ) {
                 return this;
             }
-            return new MacroExpression(  (TokenNode) macroName.Clone() );
+            var expression = new MacroExpression(  (TokenNode) macroName.Clone() );
+            expression.Initialize();
+            return expression;
         }
     }
 }

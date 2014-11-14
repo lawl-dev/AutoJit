@@ -147,7 +147,7 @@ namespace AutoJIT.Parser.AST.Visitor
 
         public override ISyntaxNode VisitGlobalDeclarationStatement( GlobalDeclarationStatement node ) {
             var variableExpression = (VariableExpression) Visit( node.VariableExpression );
-            var initExpression = (IExpressionNode) Visit( node.InitExpression );
+            var initExpression = node.InitExpression != null ? (IExpressionNode) Visit( node.InitExpression ) : null;
             bool isConst = node.IsConst;
             return node.Update( variableExpression, initExpression, isConst );
         }

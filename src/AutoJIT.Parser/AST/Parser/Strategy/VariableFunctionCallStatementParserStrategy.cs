@@ -15,8 +15,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
         public override IEnumerable<IStatementNode> Parse( TokenQueue block ) {
             var variableFunctionCallExpression = ExpressionParser.ParseSingle<VariableFunctionCallExpression>( block );
-
-            return new VariableFunctionCallStatement( variableFunctionCallExpression ).ToEnumerable();
+            return AutoitSyntaxFactory.CreateVariableFunctionCallStatement( variableFunctionCallExpression ).ToEnumerable();
         }
     }
 }

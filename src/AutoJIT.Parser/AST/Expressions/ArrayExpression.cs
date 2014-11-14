@@ -9,7 +9,6 @@ namespace AutoJIT.Parser.AST.Expressions
     {
         public ArrayExpression( TokenNode identifierName, IEnumerable<IExpressionNode> accessParameter ) : base( identifierName ) {
             AccessParameter = accessParameter;
-            Initialize();
         }
 
         public IEnumerable<IExpressionNode> AccessParameter { get; private set; }
@@ -28,7 +27,9 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new ArrayExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
+            var toReturn = new ArrayExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
+            toReturn.Initialize();
+            return toReturn;
         }
 
         public ArrayExpression Update( TokenNode identifierName, IEnumerable<IExpressionNode> accessParameter ) {
@@ -36,7 +37,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  EnumerableEquals(accessParameter, AccessParameter) ) {
                 return this;
             }
-            return new ArrayExpression( identifierName, accessParameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            var expression = new ArrayExpression( identifierName, accessParameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            expression.Initialize();
+            return expression;
         }
     }
 }

@@ -10,7 +10,6 @@ namespace AutoJIT.Parser.AST.Expressions
             Condition = condition;
             IfTrue = ifTrue;
             IfFalse = ifFalse;
-            Initialize();
         }
 
         public IExpressionNode Condition { get; private set; }
@@ -36,7 +35,9 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            return new TernaryExpression( (IExpressionNode) Condition.Clone(), (IExpressionNode) IfTrue.Clone(), (IExpressionNode) IfFalse.Clone() );
+            var expression = new TernaryExpression( (IExpressionNode) Condition.Clone(), (IExpressionNode) IfTrue.Clone(), (IExpressionNode) IfFalse.Clone() );
+            expression.Initialize();
+            return expression;
         }
 
         public TernaryExpression Update( IExpressionNode condition, IExpressionNode ifTrue, IExpressionNode ifFalse ) {
@@ -45,7 +46,9 @@ namespace AutoJIT.Parser.AST.Expressions
                  IfFalse == ifFalse ) {
                 return this;
             }
-            return new TernaryExpression( (IExpressionNode) condition.Clone(), (IExpressionNode) ifTrue.Clone(), (IExpressionNode) ifFalse.Clone() );
+            var expression = new TernaryExpression( (IExpressionNode) condition.Clone(), (IExpressionNode) ifTrue.Clone(), (IExpressionNode) ifFalse.Clone() );
+            expression.Initialize();
+            return expression;
         }
     }
 }

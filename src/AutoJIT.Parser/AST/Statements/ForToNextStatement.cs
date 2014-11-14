@@ -15,7 +15,6 @@ namespace AutoJIT.Parser.AST.Statements
             EndExpression = endExpression;
             StepExpression = stepExpression;
             Block = block;
-            Initialize();
         }
 
         public IExpressionNode StartExpression { get; private set; }
@@ -57,7 +56,10 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            return new ForToNextStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) StartExpression.Clone(), (IExpressionNode) EndExpression.Clone(), CloneAs<IExpressionNode>( StepExpression ), (BlockStatement) Block.Clone() );
+            var statement = new ForToNextStatement( (VariableExpression) VariableExpression.Clone(), (IExpressionNode) StartExpression.Clone(), (IExpressionNode) EndExpression.Clone(), CloneAs<IExpressionNode>( StepExpression ), (BlockStatement) Block.Clone() );
+
+            statement.Initialize();
+            return statement;
         }
 
         public ForToNextStatement Update( VariableExpression variableExpression, IExpressionNode startExpression, IExpressionNode endExpression, IExpressionNode stepExpression, BlockStatement block ) {
@@ -68,7 +70,9 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            return new ForToNextStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) startExpression.Clone(), (IExpressionNode) endExpression.Clone(), CloneAs<IExpressionNode>( stepExpression ), (BlockStatement) block.Clone() );
+            var statement = new ForToNextStatement( (VariableExpression) variableExpression.Clone(), (IExpressionNode) startExpression.Clone(), (IExpressionNode) endExpression.Clone(), CloneAs<IExpressionNode>( stepExpression ), (BlockStatement) block.Clone() );
+            statement.Initialize();
+            return statement;
         }
     }
 }
