@@ -44,7 +44,7 @@ namespace AutoJIT.Parser.AST.Expressions
                  EnumerableEquals(Parameter, parameter) ) {
                 return this;
             }
-            var expression = new VariableFunctionCallExpression( variableExpression, parameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            var expression = new VariableFunctionCallExpression( (VariableExpression) variableExpression.Clone(), parameter.Select( x=>(IExpressionNode)x.Clone() ) );
             expression.Initialize();
             return expression;
         }

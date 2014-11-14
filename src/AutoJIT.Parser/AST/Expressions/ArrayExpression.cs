@@ -14,7 +14,11 @@ namespace AutoJIT.Parser.AST.Expressions
         public IEnumerable<IExpressionNode> AccessParameter { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return AccessParameter; }
+            get {
+                var nodes = new List<ISyntaxNode>(AccessParameter);
+                nodes.Add( IdentifierName );
+                return nodes;
+            }
         }
 
         public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
@@ -37,7 +41,7 @@ namespace AutoJIT.Parser.AST.Expressions
                  EnumerableEquals(accessParameter, AccessParameter) ) {
                 return this;
             }
-            var expression = new ArrayExpression( identifierName, accessParameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            var expression = new ArrayExpression( (TokenNode) identifierName.Clone(), accessParameter.Select( x=>(IExpressionNode)x.Clone() ) );
             expression.Initialize();
             return expression;
         }

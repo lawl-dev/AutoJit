@@ -54,7 +54,9 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
         public ContinueCaseStatement CreateContinueCaseStatement() {
-            return new ContinueCaseStatement();
+            var statement = new ContinueCaseStatement();
+            statement.Initialize();
+            return statement;
         }
 
         public ContinueLoopStatement CreateContinueloopStatement( TokenNode level ) {
@@ -264,7 +266,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException( "arrayExpression" );
             }
 
-            return new ReDimStatement( arrayExpression );
+            var reDimStatement = new ReDimStatement( arrayExpression );
+            reDimStatement.Initialize();
+            return reDimStatement;
         }
 
         public ReturnStatement CreateReturnStatement( IExpressionNode returnExpression ) {
@@ -405,11 +409,15 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
         public DefaultExpression CreateDefaultExpression() {
-            return new DefaultExpression();
+            var expression = new DefaultExpression();
+            expression.Initialize();
+            return expression;
         }
 
         public FalseLiteralExpression CreateFalseLiteralExpression() {
-            return new FalseLiteralExpression();
+            var expression = new FalseLiteralExpression();
+            expression.Initialize();
+            return expression;
         }
 
         public FunctionExpression CreateFunctionExpression( TokenNode identifierName ) {
@@ -444,7 +452,9 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
         public NullExpression CreateNullExpression() {
-            return new NullExpression();
+            var expression = new NullExpression();
+            expression.Initialize();
+            return expression;
         }
 
         public NumericLiteralExpression CreateNumericLiteralExpression( TokenNode literalToken, IEnumerable<TokenNode> signOperators ) {
@@ -497,7 +507,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("token");
             }
 
-            return new TokenNode( token );
+            var tokenNode = new TokenNode( token );
+            tokenNode.Initialize();
+            return tokenNode;
         }
 
         public TokenNode CreateTokenNode(string value)
@@ -507,11 +519,15 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("value");
             }
 
-            return new TokenNode( _tokenFactory.CreateString( value, -1, -1 ) );
+            var tokenNode = new TokenNode( _tokenFactory.CreateString( value, -1, -1 ) );
+            tokenNode.Initialize();
+            return tokenNode;
         }
 
         public TrueLiteralExpression CreateTrueLiteralExpression() {
-            return new TrueLiteralExpression();
+            var literalExpression = new TrueLiteralExpression();
+            literalExpression.Initialize();
+            return literalExpression;
         }
 
         public UserfunctionCallExpression CreateUserfunctionCallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter ) {
@@ -535,7 +551,9 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("identifierName");
             }
 
-            return new UserfunctionExpression( identifierName );
+            var userfunctionExpression = new UserfunctionExpression( identifierName );
+            userfunctionExpression.Initialize();
+            return userfunctionExpression;
         }
 
         public VariableExpression CreateVariableExpression( TokenNode identifierName ) {
@@ -564,7 +582,9 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
         public TokenNode CreateTokenNode( int token ) {
-            return new TokenNode(_tokenFactory.CreateInt( token, -1, -1 ));
+            var tokenNode = new TokenNode(_tokenFactory.CreateInt( token, -1, -1 ));
+            tokenNode.Initialize();
+            return tokenNode;
         }
     }
 }

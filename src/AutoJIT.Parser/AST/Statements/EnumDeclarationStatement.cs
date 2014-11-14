@@ -12,7 +12,6 @@ namespace AutoJIT.Parser.AST.Statements
             AutoInitExpression = autoInitExpression;
             VariableExpression = variableExpression;
             UserInitExpression = userInitExpression;
-            Initialize();
         }
 
         public IExpressionNode AutoInitExpression { get; private set; }

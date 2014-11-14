@@ -35,7 +35,7 @@ namespace AutoJIT.Parser.AST.Expressions
             if ( EnumerableEquals(ToAssign, toAssign) ) {
                 return this;
             }
-            var initExpression = new ArrayInitExpression( ToAssign.Select( x=>(IExpressionNode)x.Clone() ).ToList() );
+            var initExpression = new ArrayInitExpression( toAssign.Select( x=>(IExpressionNode)x.Clone() ).ToList() );
             initExpression.Initialize();
             return initExpression;
         }
