@@ -46,7 +46,7 @@ namespace AutoJIT.Parser.AST.Factory
         MacroExpression CreateMacroExpression( TokenNode identifierName );
         NegateExpression CreateNegateExpression( IExpressionNode expression );
         NullExpression CreateNullExpression();
-        NumericLiteralExpression CreateNumericLiteralExpression( TokenNode literalToken, IEnumerable<TokenNode> signOperators );
+        NumericLiteralExpression CreateNumericLiteralExpression( TokenNode literalToken, List<TokenNode> signOperators );
         StringLiteralExpression CreateStringLiteralExpression( TokenNode literalToken );
         TernaryExpression CreateTernaryExpression( IExpressionNode condition, IExpressionNode ifTrue, IExpressionNode ifFalse );
         TokenNode CreateTokenNode( Token token );

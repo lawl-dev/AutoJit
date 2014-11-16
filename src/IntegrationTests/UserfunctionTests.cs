@@ -20,6 +20,7 @@ using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
+using AutoJIT.Parser.Lex.Interface;
 using AutoJITRuntime.Variants;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
@@ -409,7 +410,8 @@ namespace IntegrationTests
         private class Rewriter : SyntaxRewriterBase
         {
             private readonly IAutoitSyntaxFactory _syntaxFactory = new AutoitSyntaxFactory( new TokenFactory() );
-            private Dictionary<string, string> _names = new Dictionary<string, string>(); 
+            private readonly ITokenFactory _tokenFactory = new TokenFactory();
+            private readonly Dictionary<string, string> _names = new Dictionary<string, string>(); 
 
             public override ISyntaxNode VisitToken( TokenNode node ) {
                 if ( node.Parent.GetType() != typeof (VariableExpression) &&
@@ -421,7 +423,7 @@ namespace IntegrationTests
                 if ( !_names.ContainsKey( name ) ) {
                     _names.Add( name,Guid.NewGuid().ToString("N") );
                 }
-                return _syntaxFactory.CreateTokenNode(_names[name]);
+                return _syntaxFactory.CreateTokenNode(_tokenFactory.CreateVariable(_names[name], -1, -1));
             }
         }
     }

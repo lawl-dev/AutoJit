@@ -7,17 +7,17 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class NumericLiteralExpression : LiteralExpression
     {
-        public NumericLiteralExpression( TokenNode literalToken, IEnumerable<TokenNode> signOperators ) : base( literalToken ) {
+        public NumericLiteralExpression( TokenNode literalToken, List<TokenNode> signOperators ) : base( literalToken ) {
             SignOperators = signOperators;
         }
 
-        public IEnumerable<TokenNode> SignOperators { get; private set; }
+        public List<TokenNode> SignOperators { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
                 var nodes = new List<ISyntaxNode>();
                 nodes.Add(LiteralToken);
-                nodes.AddRange( SignOperators.ToList() );
+                nodes.AddRange( SignOperators );
                 return nodes;
             }
         }
@@ -40,17 +40,17 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            var expression = new NumericLiteralExpression( (TokenNode) LiteralToken.Clone(), SignOperators.Select( x=>(TokenNode)x.Clone() ) );
+            var expression = new NumericLiteralExpression( (TokenNode) LiteralToken.Clone(), SignOperators.Select( x=>(TokenNode)x.Clone() ).ToList() );
             expression.Initialize();
             return expression;
         }
 
-        public NumericLiteralExpression Update( TokenNode literalToken, IEnumerable<TokenNode> signOperators ) {
+        public NumericLiteralExpression Update( TokenNode literalToken, List<TokenNode> signOperators ) {
             if ( LiteralToken == literalToken &&
                  EnumerableEquals(SignOperators, signOperators) ) {
                 return this;
             }
-            var expression = new NumericLiteralExpression( (TokenNode) literalToken.Clone(), signOperators.Select( x=>(TokenNode)x.Clone() ) );
+            var expression = new NumericLiteralExpression( (TokenNode) literalToken.Clone(), signOperators.Select( x=>(TokenNode)x.Clone() ).ToList() );
             expression.Initialize();
             return expression;
         }

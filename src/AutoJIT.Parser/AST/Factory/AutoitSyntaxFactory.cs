@@ -457,7 +457,7 @@ namespace AutoJIT.Parser.AST.Factory
             return expression;
         }
 
-        public NumericLiteralExpression CreateNumericLiteralExpression( TokenNode literalToken, IEnumerable<TokenNode> signOperators ) {
+        public NumericLiteralExpression CreateNumericLiteralExpression( TokenNode literalToken, List<TokenNode> signOperators ) {
             if ( literalToken == null ) {
                 throw new ArgumentNullException("literalToken");
             }

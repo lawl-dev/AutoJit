@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.Contrib;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
@@ -108,8 +109,8 @@ namespace AutoJIT.Parser.AST.Parser
                 case TokenType.Double:
                     toReturn = _autoitSyntaxFactory.CreateNumericLiteralExpression(
                         _autoitSyntaxFactory.CreateTokenNode( block.Dequeue() ), signOperators == null
-                            ? Enumerable.Empty<TokenNode>()
-                            : signOperators.Select( _autoitSyntaxFactory.CreateTokenNode ) );
+                            ? Constants.Array<TokenNode>.Empty.ToList()
+                            : signOperators.Select( _autoitSyntaxFactory.CreateTokenNode ).ToList() );
                     break;
                 case TokenType.Variable:
                     toReturn = ParseVariable( block );

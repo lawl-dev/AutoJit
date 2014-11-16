@@ -189,7 +189,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitNumericLiteralExpression( NumericLiteralExpression node ) {
-            IEnumerable<TokenNode> signOperators = node.SignOperators.Select( x=>(TokenNode)Visit( x ) );
+            var signOperators = node.SignOperators.Select( x=>(TokenNode)Visit( x ) ).ToList();
             TokenNode literalToken = (TokenNode)Visit(node.LiteralToken);
             return node.Update( literalToken, signOperators );
         }
