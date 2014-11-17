@@ -12,7 +12,8 @@ namespace AutoJIT.Parser.AST.Visitor
     {
         public override ISyntaxNode VisitArrayExpression( ArrayExpression node ) {
             IEnumerable<IExpressionNode> accessParameter = node.AccessParameter.Select( x => (IExpressionNode) Visit( x ) );
-            return node.Update( node.IdentifierName, accessParameter );
+            var identifierName = (TokenNode)Visit(node.IdentifierName);
+            return node.Update( identifierName, accessParameter );
         }
 
         public override ISyntaxNode VisitArrayInitExpression( ArrayInitExpression node ) {
