@@ -7,13 +7,13 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public class CallExpression : ExpressionBase
     {
-        public CallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter ) {
+        public CallExpression( TokenNode identifierName, List<IExpressionNode> parameter ) {
             IdentifierName = identifierName;
             Parameter = parameter;
         }
 
         public TokenNode IdentifierName { get; private set; }
-        public IEnumerable<IExpressionNode> Parameter { get; private set; }
+        public List<IExpressionNode> Parameter { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -32,7 +32,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override object Clone() {
-            var expression = new CallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
+            var expression = new CallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ).ToList() );
             expression.Initialize();
             return expression;
         }
@@ -42,7 +42,7 @@ namespace AutoJIT.Parser.AST.Expressions
                  IdentifierName == identifierName ) {
                 return this;
             }
-            var expression = new CallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x => (IExpressionNode) x.Clone() ) );
+            var expression = new CallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x => (IExpressionNode) x.Clone() ).ToList() );
             expression.Initialize();
             return expression;
         }

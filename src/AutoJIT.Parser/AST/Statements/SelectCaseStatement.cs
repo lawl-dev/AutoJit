@@ -8,12 +8,12 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class SelectCaseStatement : StatementBase
     {
-        public SelectCaseStatement( IEnumerable<SelectCase> cases, BlockStatement @else ) {
+        public SelectCaseStatement( List<SelectCase> cases, BlockStatement @else ) {
             Cases = cases;
             Else = @else;
         }
 
-        public IEnumerable<SelectCase> Cases { get; private set; }
+        public List<SelectCase> Cases { get; private set; }
         public BlockStatement Else { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
@@ -59,7 +59,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Else == @else ) {
                 return this;
             }
-            var statement = new SelectCaseStatement( selectCases.Select( x=>(SelectCase)x.Clone() ), (BlockStatement) @else.Clone() );
+            var statement = new SelectCaseStatement( selectCases.Select( x=>(SelectCase)x.Clone() ).ToList(), (BlockStatement) @else.Clone() );
             statement.Initialize();
             return statement;
         }

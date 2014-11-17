@@ -9,14 +9,14 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class SwitchCaseStatement : StatementBase
     {
-        public SwitchCaseStatement( IExpressionNode condition, IEnumerable<SwitchCase> cases, BlockStatement @else ) {
+        public SwitchCaseStatement( IExpressionNode condition, List<SwitchCase> cases, BlockStatement @else ) {
             Condition = condition;
             Cases = cases;
             Else = @else;
         }
 
         public IExpressionNode Condition { get; private set; }
-        public IEnumerable<SwitchCase> Cases { get; private set; }
+        public List<SwitchCase> Cases { get; private set; }
         public BlockStatement Else { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
@@ -62,7 +62,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Else == @else ) {
                 return this;
             }
-            var statement = new SwitchCaseStatement( (IExpressionNode) condition.Clone(), cases.Select( x=>(SwitchCase)x.Clone() ), (BlockStatement) @else.Clone() );
+            var statement = new SwitchCaseStatement( (IExpressionNode) condition.Clone(), cases.Select( x=>(SwitchCase)x.Clone() ).ToList(), (BlockStatement) @else.Clone() );
             statement.Initialize();
             return statement;
         }

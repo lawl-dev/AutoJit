@@ -7,11 +7,11 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class ArrayExpression : VariableExpression
     {
-        public ArrayExpression( TokenNode identifierName, IEnumerable<IExpressionNode> accessParameter ) : base( identifierName ) {
+        public ArrayExpression( TokenNode identifierName, List<IExpressionNode> accessParameter ) : base( identifierName ) {
             AccessParameter = accessParameter;
         }
 
-        public IEnumerable<IExpressionNode> AccessParameter { get; private set; }
+        public List<IExpressionNode> AccessParameter { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -27,11 +27,11 @@ namespace AutoJIT.Parser.AST.Expressions
 
         public override string ToSource() {
             var accessParameter = AccessParameter.Select( x => string.Format( "[{0}]", x.ToSource() ) ).ToList();
-            return string.Format( "${0}{1}", IdentifierName.ToSource(), string.Join( string.Empty, accessParameter) );
+            return string.Format( "{0}{1}", IdentifierName.ToSource(), string.Join( string.Empty, accessParameter) );
         }
 
         public override object Clone() {
-            var toReturn = new ArrayExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ) );
+            var toReturn = new ArrayExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( AccessParameter ).ToList() );
             toReturn.Initialize();
             return toReturn;
         }
@@ -41,7 +41,7 @@ namespace AutoJIT.Parser.AST.Expressions
                  EnumerableEquals(accessParameter, AccessParameter) ) {
                 return this;
             }
-            var expression = new ArrayExpression( (TokenNode) identifierName.Clone(), accessParameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            var expression = new ArrayExpression( (TokenNode) identifierName.Clone(), accessParameter.Select( x=>(IExpressionNode)x.Clone() ).ToList() );
             expression.Initialize();
             return expression;
         }

@@ -9,12 +9,12 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class SwitchCase : StatementBase
     {
-        public SwitchCase( IEnumerable<CaseCondition> conditions, BlockStatement block ) {
+        public SwitchCase( List<CaseCondition> conditions, BlockStatement block ) {
             Conditions = conditions;
             Block = block;
         }
 
-        public IEnumerable<CaseCondition> Conditions { get; private set; }
+        public List<CaseCondition> Conditions { get; private set; }
         public BlockStatement Block { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
@@ -50,7 +50,7 @@ namespace AutoJIT.Parser.AST.Statements
                  Block == block ) {
                 return this;
             }
-            var switchCase = new SwitchCase( conditions.Select( x=>(CaseCondition)x.Clone() ), (BlockStatement) block.Clone() );
+            var switchCase = new SwitchCase( conditions.Select( x=>(CaseCondition)x.Clone() ).ToList(), (BlockStatement) block.Clone() );
             switchCase.Initialize();
             return switchCase;
         }

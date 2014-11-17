@@ -8,11 +8,11 @@ namespace AutoJIT.Parser.AST.Statements
 {
     public sealed class BlockStatement : StatementBase
     {
-        public BlockStatement( IEnumerable<IStatementNode> block ) {
+        public BlockStatement( List<IStatementNode> block ) {
             Block = block;
         }
 
-        public IEnumerable<IStatementNode> Block { get; set; }
+        public List<IStatementNode> Block { get; set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -35,7 +35,7 @@ namespace AutoJIT.Parser.AST.Statements
         }
 
         public override object Clone() {
-            var statement = new BlockStatement( Block.Select( x => (IStatementNode) x.Clone() ) );
+            var statement = new BlockStatement( Block.Select( x => (IStatementNode) x.Clone() ).ToList() );
             statement.Initialize();
             return statement;
         }
@@ -48,7 +48,7 @@ namespace AutoJIT.Parser.AST.Statements
             if ( EnumerableEquals( Block, block ) ) {
                 return this;
             }
-            var statement = new BlockStatement( block.Select( x=>(IStatementNode)x.Clone() ) );
+            var statement = new BlockStatement( block.Select( x=>(IStatementNode)x.Clone() ).ToList() );
             statement.Initialize();
             return statement;
         }

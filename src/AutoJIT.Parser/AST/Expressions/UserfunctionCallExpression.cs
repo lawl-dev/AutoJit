@@ -6,10 +6,10 @@ namespace AutoJIT.Parser.AST.Expressions
 {
     public sealed class UserfunctionCallExpression : CallExpression
     {
-        public UserfunctionCallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter ) : base( identifierName, parameter ) {}
+        public UserfunctionCallExpression( TokenNode identifierName, List<IExpressionNode> parameter ) : base( identifierName, parameter ) {}
 
         public override object Clone() {
-            var expression = new UserfunctionCallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ) );
+            var expression = new UserfunctionCallExpression( (TokenNode) IdentifierName.Clone(), CloneEnumerableAs<IExpressionNode>( Parameter ).ToList() );
             expression.Initialize();
             return expression;
         }
@@ -19,7 +19,7 @@ namespace AutoJIT.Parser.AST.Expressions
                  EnumerableEquals(Parameter, parameter) ) {
                 return this;
             }
-            var expression = new UserfunctionCallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x=>(IExpressionNode)x.Clone() ) );
+            var expression = new UserfunctionCallExpression( (TokenNode) identifierName.Clone(), parameter.Select( x=>(IExpressionNode)x.Clone() ).ToList() );
             expression.Initialize();
             return expression;
         }

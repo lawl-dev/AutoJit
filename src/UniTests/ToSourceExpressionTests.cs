@@ -1,4 +1,5 @@
 ﻿using AutoJIT.Contrib;
+using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.Lex;
@@ -18,6 +19,7 @@ namespace UniTests
                 Bind<IExpressionParser, ExpressionParser>();
                 Bind<IOperatorPrecedenceService, OperatorPrecedenceService>();
                 Bind<ITokenFactory, TokenFactory>();
+                Bind<IAutoitSyntaxFactory, AutoitSyntaxFactory>();
                 Bind<ILexer, Lexer>();
             }
         }

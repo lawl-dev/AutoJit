@@ -90,7 +90,7 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
         public BlockStatement CreateBlockStatement( IEnumerable<IStatementNode> block ) {
-            var statement = new BlockStatement( block );
+            var statement = new BlockStatement( block.ToList() );
             statement.Initialize();
             return statement;
         }
@@ -287,7 +287,7 @@ namespace AutoJIT.Parser.AST.Factory
             }
 
             var statement = new SelectCaseStatement(
-                cases, elseStatements != null && elseStatements.Any()
+                cases.ToList(), elseStatements != null && elseStatements.Any()
                     ? CreateBlockStatement( elseStatements )
                     : null );
             statement.Initialize();
@@ -541,7 +541,7 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("parameter");
             }
 
-            var expression = new UserfunctionCallExpression( identifierName, parameter );
+            var expression = new UserfunctionCallExpression( identifierName, parameter.ToList() );
             expression.Initialize();
             return expression;
         }
@@ -576,7 +576,7 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("parameter");
             }
 
-            var expression = new VariableFunctionCallExpression( variableExpression, parameter );
+            var expression = new VariableFunctionCallExpression( variableExpression, parameter.ToList() );
             expression.Initialize();
             return expression;
         }
