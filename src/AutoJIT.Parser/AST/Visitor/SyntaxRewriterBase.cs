@@ -24,7 +24,7 @@ namespace AutoJIT.Parser.AST.Visitor
         public override ISyntaxNode VisitAssignStatement( AssignStatement node ) {
             var variable = (VariableExpression) Visit( node.Variable );
             var expressionToAssign = (IExpressionNode) Visit( node.ExpressionToAssign );
-            TokenNode @operator = node.Operator;
+            TokenNode @operator = (TokenNode)Visit(node.Operator);
             return node.Update( variable, expressionToAssign, @operator );
         }
 
@@ -38,7 +38,7 @@ namespace AutoJIT.Parser.AST.Visitor
         public override ISyntaxNode VisitBinaryExpression( BinaryExpression node ) {
             var left = (IExpressionNode) Visit( node.Left );
             var right = (IExpressionNode) Visit( node.Right );
-            TokenNode @operator = node.Operator;
+            TokenNode @operator = (TokenNode) Visit(node.Operator);
             return node.Update( left, right, @operator );
         }
 
@@ -65,7 +65,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitContinueLoopStatement( ContinueLoopStatement node ) {
-            TokenNode level = node.Level;
+            TokenNode level = (TokenNode) Visit(node.Level);
             return node.Update( level );
         }
 
@@ -105,7 +105,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitExitloopStatement( ExitloopStatement node ) {
-            TokenNode level = node.Level;
+            TokenNode level = (TokenNode) Visit(node.Level);
             return node.Update( level );
         }
 
