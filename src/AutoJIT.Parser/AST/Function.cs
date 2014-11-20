@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Collection;
@@ -10,20 +11,24 @@ namespace AutoJIT.Parser.AST
 {
     public sealed class Function : SyntaxNodeBase
     {
-        public readonly TokenQueue Queue;
-        public IList<IStatementNode> Statements = new List<IStatementNode>();
-
-        public Function( string name, IEnumerable<AutoitParameterInfo> autoitParameterInfos ) {
+        public Function( TokenNode name, List<AutoitParameterInfo> autoitParameterInfos, List<IStatementNode> statements ) {
             Name = name;
             Parameter = autoitParameterInfos;
-            Queue = new TokenQueue( new Token[0] );
+            Statements = statements;
         }
 
-        public string Name { get; private set; }
-        public IEnumerable<AutoitParameterInfo> Parameter { get; private set; }
+        public TokenNode Name { get; private set; }
+        public List<AutoitParameterInfo> Parameter { get; private set; }
+        public List<IStatementNode> Statements { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
-            get { return Statements; }
+            get {
+                var nodes = new List<ISyntaxNode>();
+                nodes.Add( Name );
+                nodes.AddRange( Parameter );
+                nodes.AddRange( Statements );
+                return nodes;
+            }
         }
 
         public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
@@ -31,7 +36,7 @@ namespace AutoJIT.Parser.AST
         }
 
         public override string ToSource() {
-            string toReturn = string.Format( "Func {0}({1}) {2}", Name, string.Join( ", ", Parameter ), Environment.NewLine );
+            string toReturn = string.Format( "Func {0}({1}) {2}", Name.Token.Value.StringValue, string.Join( ", ", Parameter.Select( x=>x.ToSource() ) ), Environment.NewLine );
 
             foreach (IStatementNode statement in Statements) {
                 toReturn += string.Format( "{0}{1}", statement.ToSource(), Environment.NewLine );
@@ -42,9 +47,7 @@ namespace AutoJIT.Parser.AST
         }
 
         public override object Clone() {
-            return new Function( (string) Name.Clone(), Parameter ) {
-                Statements = Statements.Select( x => (IStatementNode) x.Clone() ).ToList()
-            };
+            return new Function( (TokenNode) Name.Clone(), Parameter.Select( x => (AutoitParameterInfo) x.Clone() ).ToList(), Statements.Select( x => (IStatementNode) x.Clone() ).ToList() );
         }
 
         public override string ToString() {
@@ -53,13 +56,13 @@ namespace AutoJIT.Parser.AST
             return toReturn;
         }
 
-        public Function Update( string name, IEnumerable<AutoitParameterInfo> parameter, IEnumerable<IStatementNode> statements ) {
+        public Function Update( TokenNode name, List<AutoitParameterInfo> parameter, List<IStatementNode> statements ) {
             if ( Name == name &&
-                 Parameter == parameter &&
-                 Statements == statements ) {
+                 EnumerableEquals( Parameter ,parameter) &&
+                 EnumerableEquals(Statements, statements) ) {
                 return this;
             }
-            return new Function( name, Parameter ) { Statements = statements.ToList() };
+            return new Function( name, Parameter, statements);
         }
     }
 }

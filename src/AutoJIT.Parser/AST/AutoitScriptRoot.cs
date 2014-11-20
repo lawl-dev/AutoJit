@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.Parser.AST
@@ -9,13 +10,13 @@ namespace AutoJIT.Parser.AST
     {
         public readonly PragmaOptions PragmaOptions;
 
-        public AutoitScriptRoot( IEnumerable<Function> functions, Function main, PragmaOptions pragmaOptions ) {
+        public AutoitScriptRoot( IEnumerable<Function> functions, BlockStatement main, PragmaOptions pragmaOptions ) {
             PragmaOptions = pragmaOptions;
             Functions = functions;
             MainFunction = main;
         }
 
-        public Function MainFunction { get; set; }
+        public BlockStatement MainFunction { get; set; }
         public IEnumerable<Function> Functions { get; set; }
 
         public override IEnumerable<ISyntaxNode> Children {
@@ -43,15 +44,15 @@ namespace AutoJIT.Parser.AST
         }
 
         public override object Clone() {
-            return new AutoitScriptRoot( Functions.Select( x => (Function) x.Clone() ), (Function) MainFunction.Clone(), PragmaOptions );
+            return new AutoitScriptRoot( Functions.Select( x => (Function) x.Clone() ), (BlockStatement) MainFunction.Clone(), PragmaOptions );
         }
 
-        public AutoitScriptRoot Update( Function mainFunction, IEnumerable<Function> functions, PragmaOptions pragmaOptions ) {
+        public AutoitScriptRoot Update( BlockStatement mainFunction, IEnumerable<Function> functions, PragmaOptions pragmaOptions ) {
             if ( MainFunction == mainFunction &&
                  Functions == functions ) {
                 return this;
             }
-            var root = new AutoitScriptRoot( functions.Select( x=>(Function)x.Clone() ), (Function) mainFunction.Clone(), pragmaOptions );
+            var root = new AutoitScriptRoot( functions.Select( x=>(Function)x.Clone() ), (BlockStatement) mainFunction.Clone(), pragmaOptions );
             root.Initialize();
             return root;
         }

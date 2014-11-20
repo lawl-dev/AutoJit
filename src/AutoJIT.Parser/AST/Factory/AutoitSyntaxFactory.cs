@@ -75,7 +75,7 @@ namespace AutoJIT.Parser.AST.Factory
             return statement;
         }
 
-        public DoUntilStatement CreateDoUntilStatement( IExpressionNode condition, IEnumerable<IStatementNode> block ) {
+        public DoUntilStatement CreateDoUntilStatement( IExpressionNode condition, List<IStatementNode> block ) {
             if ( condition == null ) {
                 throw new ArgumentNullException( "condition" );
             }
@@ -89,7 +89,8 @@ namespace AutoJIT.Parser.AST.Factory
             return statement;
         }
 
-        public BlockStatement CreateBlockStatement( IEnumerable<IStatementNode> block ) {
+        public BlockStatement CreateBlockStatement(List<IStatementNode> block)
+        {
             var statement = new BlockStatement( block.ToList() );
             statement.Initialize();
             return statement;
@@ -132,9 +133,6 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("cases");
             }
 
-            if ( elseBlock == null ) {
-                throw new ArgumentNullException("elseBlock");
-            }
 
             var statement = new SwitchCaseStatement( condition, cases, elseBlock );
             statement.Initialize();
@@ -151,6 +149,11 @@ namespace AutoJIT.Parser.AST.Factory
             return statement;
         }
 
+
+        public Function CreateFunction( TokenNode name, List<AutoitParameterInfo> parameter, List<IStatementNode> functionStatements ) {
+            return new Function( name, parameter, functionStatements );
+        }
+
         public ExitloopStatement CreateExitloopStatement( TokenNode level ) {
             var statement = new ExitloopStatement( level );
             statement.Initialize();
@@ -163,7 +166,8 @@ namespace AutoJIT.Parser.AST.Factory
             return statement;
         }
 
-        public ForInStatement CreateForInStatement( VariableExpression variableName, IExpressionNode toEnumerate, IEnumerable<IStatementNode> block ) {
+        public ForInStatement CreateForInStatement(VariableExpression variableName, IExpressionNode toEnumerate, List<IStatementNode> block)
+        {
             if ( variableName == null ) {
                 throw new ArgumentNullException( "variableName" );
             }
@@ -181,7 +185,8 @@ namespace AutoJIT.Parser.AST.Factory
             return statement;
         }
 
-        public ForToNextStatement CreateForToNextStatement( VariableExpression variableExpression, IExpressionNode startExpression, IExpressionNode endExpression, IExpressionNode stepExpression, IEnumerable<IStatementNode> block ) {
+        public ForToNextStatement CreateForToNextStatement(VariableExpression variableExpression, IExpressionNode startExpression, IExpressionNode endExpression, IExpressionNode stepExpression, List<IStatementNode> block)
+        {
             if ( variableExpression == null ) {
                 throw new ArgumentNullException( "variableExpression" );
             }
@@ -281,7 +286,8 @@ namespace AutoJIT.Parser.AST.Factory
             return statement;
         }
 
-        public SelectCaseStatement CreateSelectStatement( IEnumerable<SelectCase> cases, IEnumerable<IStatementNode> elseStatements ) {
+        public SelectCaseStatement CreateSelectStatement(List<SelectCase> cases, List<IStatementNode> elseStatements)
+        {
             if ( cases == null ) {
                 throw new ArgumentNullException( "cases" );
             }
@@ -397,10 +403,6 @@ namespace AutoJIT.Parser.AST.Factory
         public CaseCondition CreateCaseCondition( IExpressionNode left, IExpressionNode right ) {
             if ( left == null ) {
                 throw new ArgumentNullException("left");
-            }
-
-            if ( right == null ) {
-                throw new ArgumentNullException("right");
             }
 
             var condition = new CaseCondition( left, right);
@@ -530,7 +532,8 @@ namespace AutoJIT.Parser.AST.Factory
             return literalExpression;
         }
 
-        public UserfunctionCallExpression CreateUserfunctionCallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter ) {
+        public UserfunctionCallExpression CreateUserfunctionCallExpression(TokenNode identifierName, List<IExpressionNode> parameter)
+        {
             if (identifierName == null)
             {
                 throw new ArgumentNullException("identifierName");
@@ -567,7 +570,8 @@ namespace AutoJIT.Parser.AST.Factory
             return expression;
         }
 
-        public VariableFunctionCallExpression CreateVariableFunctionCallExpression( VariableExpression variableExpression, IEnumerable<IExpressionNode> parameter ) {
+        public VariableFunctionCallExpression CreateVariableFunctionCallExpression(VariableExpression variableExpression, List<IExpressionNode> parameter)
+        {
             if ( variableExpression == null ) {
                 throw new ArgumentNullException("variableExpression");
             }
@@ -579,6 +583,10 @@ namespace AutoJIT.Parser.AST.Factory
             var expression = new VariableFunctionCallExpression( variableExpression, parameter.ToList() );
             expression.Initialize();
             return expression;
+        }
+
+        public AutoitScriptRoot CreateRoot( List<Function> functions, BlockStatement main, PragmaOptions pragmaOptions ) {
+            return new AutoitScriptRoot(  functions, main, pragmaOptions);
         }
 
         public TokenNode CreateTokenNode( int token ) {

@@ -13,12 +13,12 @@ namespace AutoJIT.Parser.AST.Factory
         ContinueCaseStatement CreateContinueCaseStatement();
         ContinueLoopStatement CreateContinueloopStatement( TokenNode level );
         DimStatement CreateDimStatement( VariableExpression variableExpression, IExpressionNode initExpression );
-        DoUntilStatement CreateDoUntilStatement( IExpressionNode condition, IEnumerable<IStatementNode> block );
+        DoUntilStatement CreateDoUntilStatement( IExpressionNode condition, List<IStatementNode> block );
         ExitloopStatement CreateExitloopStatement( TokenNode level );
         ExitStatement CreateExitStatement( IExpressionNode exitCode );
-        ForInStatement CreateForInStatement( VariableExpression variableName, IExpressionNode toEnumerate, IEnumerable<IStatementNode> block );
+        ForInStatement CreateForInStatement( VariableExpression variableName, IExpressionNode toEnumerate, List<IStatementNode> block );
 
-        ForToNextStatement CreateForToNextStatement( VariableExpression variableExpression, IExpressionNode startExpression, IExpressionNode endExpression, IExpressionNode stepExpression, IEnumerable<IStatementNode> block );
+        ForToNextStatement CreateForToNextStatement( VariableExpression variableExpression, IExpressionNode startExpression, IExpressionNode endExpression, IExpressionNode stepExpression, List<IStatementNode> block );
 
         FunctionCallStatement CreateFunctionCallStatement( CallExpression functionCallExpression );
         GlobalDeclarationStatement CreateGlobalDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression, bool isConst );
@@ -31,7 +31,7 @@ namespace AutoJIT.Parser.AST.Factory
 
         ReDimStatement CreateReDimStatement( ArrayExpression arrayExpression );
         ReturnStatement CreateReturnStatement( IExpressionNode returnExpression );
-        SelectCaseStatement CreateSelectStatement( IEnumerable<SelectCase> cases, IEnumerable<IStatementNode> elseStatements );
+        SelectCaseStatement CreateSelectStatement( List<SelectCase> cases, List<IStatementNode> elseStatements );
         WhileStatement CreateWhileStatement( IExpressionNode condition, List<IStatementNode> block );
         IStatementNode CreateStaticDeclarationStatement( VariableExpression variableExpression, IExpressionNode initExpression );
         ArrayExpression CreateArrayExpression( TokenNode identifierName, List<IExpressionNode> accessParameter );
@@ -52,15 +52,17 @@ namespace AutoJIT.Parser.AST.Factory
         TokenNode CreateTokenNode( Token token );
         TokenNode CreateTokenNode(string value);
         TrueLiteralExpression CreateTrueLiteralExpression();
-        UserfunctionCallExpression CreateUserfunctionCallExpression( TokenNode identifierName, IEnumerable<IExpressionNode> parameter );
+        UserfunctionCallExpression CreateUserfunctionCallExpression( TokenNode identifierName, List<IExpressionNode> parameter );
         UserfunctionExpression CreateUserfunctionExpression( TokenNode identifierName );
         VariableExpression CreateVariableExpression( TokenNode identifierName );
-        VariableFunctionCallExpression CreateVariableFunctionCallExpression( VariableExpression variableExpression, IEnumerable<IExpressionNode> parameter );
+        VariableFunctionCallExpression CreateVariableFunctionCallExpression( VariableExpression variableExpression, List<IExpressionNode> parameter );
         TokenNode CreateTokenNode( int token );
-        BlockStatement CreateBlockStatement( IEnumerable<IStatementNode> statementNodes );
+        BlockStatement CreateBlockStatement( List<IStatementNode> statementNodes );
         SelectCase CreateSelectCase( IExpressionNode caseCondition, BlockStatement blockStatement );
         SwitchCase CreateSwitchCase( List<CaseCondition> caseConditions, BlockStatement blockStatement );
         SwitchCaseStatement CreateSwitchCaseStatement( IExpressionNode condition, List<SwitchCase> cases, BlockStatement elseBlock );
         VariableFunctionCallStatement CreateVariableFunctionCallStatement( VariableFunctionCallExpression variableFunctionCallExpression );
+        Function CreateFunction( TokenNode name, List<AutoitParameterInfo> parameter, List<IStatementNode> functionStatements );
+        AutoitScriptRoot CreateRoot( List<Function> functions, BlockStatement main, PragmaOptions pragmaOptions );
     }
 }
