@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace AutoJIT.Parser.Exceptions
+namespace AutoJIT.Compiler
 {
     public class EmitException : Exception
     {

@@ -149,17 +149,14 @@
     <Compile Include="AutoitParameter.cs" />
     <Compile Include="Collection\TokenCollection.cs" />
     <Compile Include="Collection\TokenQueue.cs" />
-    <Compile Include="Exceptions\EmitException.cs" />
     <Compile Include="Exceptions\InvalidParseException.cs" />
     <Compile Include="Exceptions\SyntaxTreeException.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\ExpressionSyntaxExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\QueueExtensions.cs" />
     <Compile Include="Extensions\StackExtensions.cs" />
-    <Compile Include="Extensions\StatementSyntaxExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Keywords.cs" />

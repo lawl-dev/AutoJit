@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace AutoJIT.Parser.Extensions
+namespace AutoJIT.CSharpConverter.ConversionModule.Helper
 {
     public static class ExpressionSyntaxExtensions
     {

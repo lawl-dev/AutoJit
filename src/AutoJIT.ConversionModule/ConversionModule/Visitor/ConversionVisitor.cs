@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Contrib;
+using AutoJIT.CSharpConverter.ConversionModule.Helper;
 using AutoJIT.CSharpConverter.ConversionModule.StatementConverter.Interface;
 using AutoJIT.Parser;
 using AutoJIT.Parser.AST;

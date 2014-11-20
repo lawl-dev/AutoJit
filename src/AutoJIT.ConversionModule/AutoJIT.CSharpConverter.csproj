@@ -101,6 +101,9 @@
     <Compile Include="ConversionModule\Factory\ICSharpStatementFactory.cs" />
     <Compile Include="ConversionModule\Helper\CompilerHelper.cs" />
     <Compile Include="ConversionModule\Helper\CSharpParameterInfo.cs" />
+    <Compile Include="ConversionModule\Helper\EnumerableExtensions.cs" />
+    <Compile Include="ConversionModule\Helper\ExpressionSyntaxExtensions.cs" />
+    <Compile Include="ConversionModule\Helper\StatementSyntaxExtensions.cs" />
     <Compile Include="ConversionModule\IAutoitToCSharpConverter.cs" />
     <Compile Include="ConversionModule\IContext.cs" />
     <Compile Include="ConversionModule\IContextService.cs" />
