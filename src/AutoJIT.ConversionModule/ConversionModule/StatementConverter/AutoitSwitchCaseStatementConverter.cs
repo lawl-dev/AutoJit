@@ -37,7 +37,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.StatementConverter
                 ifs.Add( elseIf );
             }
 
-            if ( statement.Else.Block != null ) {
+            if ( statement.Else != null ) {
                 context.RegisterCase();
                 string continueCaseLabelName = context.GetContinueCaseLabelName();
 

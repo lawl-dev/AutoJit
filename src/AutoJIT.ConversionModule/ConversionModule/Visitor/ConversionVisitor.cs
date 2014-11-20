@@ -40,7 +40,6 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         }
 
         public override IEnumerable<CSharpSyntaxNode> VisitContinueLoopStatement( ContinueLoopStatement node ) {
-            return base.VisitContinueLoopStatement( node );
             return GetConverter<ContinueLoopStatement>().Convert( node, ContextService );
         }
 
@@ -136,7 +135,16 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             var memberList = new SyntaxList<MemberDeclarationSyntax>();
 
             ContextService.SetGlobalContext( true );
-            memberList = memberList.Add( (MemberDeclarationSyntax) node.MainFunction.Accept( this ).Single() );
+            var blockSyntax = (BlockSyntax) node.MainFunction.Accept( this ).Single();
+            blockSyntax = blockSyntax.AddStatements(
+                SyntaxFactory.ReturnStatement( SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( "0", 0 ) ) ) );
+
+            var main = SyntaxFactory.MethodDeclaration(SyntaxFactory.IdentifierName(typeof(Variant).Name), "Main").AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword)).WithBody(blockSyntax);
+
+
+            memberList = memberList.Add(main);
+
+
             ContextService.SetGlobalContext( false );
             memberList = memberList.AddRange( ContextService.PopGlobalVariables() );
             ContextService.ResetFunctionContext();
@@ -164,9 +172,14 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
 
             dotNetStatements = OrderDeclarations( dotNetStatements );
 
+            if ( !( dotNetStatements.Last() is ReturnStatementSyntax ) ) {
+                dotNetStatements.Add( SyntaxFactory.ReturnStatement( SyntaxFactory.LiteralExpression( SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal( "0", 0 ) ) ) );    
+            }
+
+
             BlockSyntax body = dotNetStatements.ToBlock();
 
-            return SyntaxFactory.MethodDeclaration( SyntaxFactory.IdentifierName( typeof (Variant).Name ), function.Name ).AddModifiers( SyntaxFactory.Token( SyntaxKind.PublicKeyword ) ).WithParameterList( SyntaxFactory.ParameterList( CreaterParameter( function.Parameter, context ).ToSeparatedSyntaxList() ) ).WithBody( body );
+            return SyntaxFactory.MethodDeclaration( SyntaxFactory.IdentifierName( typeof (Variant).Name ), function.Name.Token.Value.StringValue ).AddModifiers( SyntaxFactory.Token( SyntaxKind.PublicKeyword ) ).WithParameterList( SyntaxFactory.ParameterList( CreaterParameter( function.Parameter, context ).ToSeparatedSyntaxList() ) ).WithBody( body );
         }
 
         private IList<IStatementNode> DeclareParameter( IList<IStatementNode> statementNodes, IEnumerable<AutoitParameterInfo> parameter, IContextService context ) {
