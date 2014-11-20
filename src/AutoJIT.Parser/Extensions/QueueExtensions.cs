@@ -6,7 +6,7 @@ namespace AutoJIT.Parser.Extensions
 {
     internal static class QueueExtensions
     {
-        public static IEnumerable<T> DequeueWhile<T>( this Queue<T> queue, Func<T, bool> expression ) {
+        public static List<T> DequeueWhile<T>( this Queue<T> queue, Func<T, bool> expression ) {
             var list = new List<T>();
 
             if ( queue.Any() ) {
@@ -23,7 +23,7 @@ namespace AutoJIT.Parser.Extensions
             return list;
         }
 
-        public static IEnumerable<T> DequeueUntil<T>( this Queue<T> queue, Func<T, bool> expression, bool throwIfEmpty = true ) {
+        public static List<T> DequeueUntil<T>( this Queue<T> queue, Func<T, bool> expression, bool throwIfEmpty = true ) {
             var list = new List<T>();
 
             if ( queue.Any() ) {
@@ -45,7 +45,7 @@ namespace AutoJIT.Parser.Extensions
             return list;
         }
 
-        public static IEnumerable<T> Dequeue<T>( this Queue<T> queue, int count ) {
+        public static List<T> Dequeue<T>( this Queue<T> queue, int count ) {
             var list = new List<T>();
 
             for ( int i = 0; i < count; i++ ) {
@@ -54,7 +54,7 @@ namespace AutoJIT.Parser.Extensions
             return list;
         }
 
-        public static IEnumerable<T> DequeueWhile<T>( this Queue<T> queue, Func<T, int, bool> expression ) {
+        public static List<T> DequeueWhile<T>( this Queue<T> queue, Func<T, int, bool> expression ) {
             var list = new List<T>();
 
             if ( queue.Any() ) {

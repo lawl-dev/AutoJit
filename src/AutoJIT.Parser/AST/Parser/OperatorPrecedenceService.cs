@@ -30,7 +30,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         private TokenCollection AddParenthesesForOperator( IEnumerable<Token> block, params TokenType[] operatorKeywords ) {
-            var expressionToken = new TokenCollection( block.TakeWhile( x => x.Type != TokenType.NewLine ) );
+            var expressionToken = new TokenCollection( block.TakeWhile( x => x.Type != TokenType.NewLine ).ToList() );
             for ( int i = 0; i < expressionToken.Count; i++ ) {
                 var getToken = new Func<int, Token>(
                     index => {

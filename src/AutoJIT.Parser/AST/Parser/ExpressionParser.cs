@@ -174,7 +174,7 @@ namespace AutoJIT.Parser.AST.Parser
             VariableExpression expression = ParseVariableExpression( block );
             if ( block.Any() &&
                  block.Peek().Type == TokenType.Leftparen ) {
-                IEnumerable<IExpressionNode> parameter = GetFunctionParameterExpressionTrees( block );
+                var parameter = GetFunctionParameterExpressionTrees( block ).ToList();
                 toReturn = _autoitSyntaxFactory.CreateVariableFunctionCallExpression( expression, parameter );
             }
             else {

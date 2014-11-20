@@ -28,7 +28,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             ConsumeAndEnsure( block, TokenType.NewLine );
             var cases = new List<SwitchCase>();
 
-            IEnumerable<IStatementNode> @else = null;
+            List<IStatementNode> @else = null;
             ConsumeAndEnsure( block, Keywords.Case );
 
             while ( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
@@ -36,7 +36,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
                 var conditions = new List<TokenCollection>();
                 do {
-                    IEnumerable<Token> conditionToken = ExtractUntilNextDeclaration( line );
+                    List<Token> conditionToken = ExtractUntilNextDeclaration( line );
                     conditions.Add( new TokenCollection( conditionToken ) );
                 } while ( line.Any()
                           &&
@@ -61,7 +61,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 }
             }
             ConsumeAndEnsure( block, Keywords.EndSwitch );
-            return AutoitSyntaxFactory.CreateSwitchCaseStatement( condition, cases, AutoitSyntaxFactory.CreateBlockStatement( @else ) );
+            return AutoitSyntaxFactory.CreateSwitchCaseStatement(
+                condition, cases, @else == null
+                    ? null
+                    : AutoitSyntaxFactory.CreateBlockStatement( @else ) );
         }
 
         private CaseCondition ParseCaseCondition( TokenCollection line ) {

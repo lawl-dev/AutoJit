@@ -32,7 +32,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseWhileExpression( TokenQueue block ) {
-            var whileExpression = new TokenCollection( block.DequeueWhile( x => x.Type != TokenType.NewLine ).Where( x => x.Value.Keyword != Keywords.While ) );
+            var whileExpression = new TokenCollection( block.DequeueWhile( x => x.Type != TokenType.NewLine ).Where( x => x.Value.Keyword != Keywords.While ).ToList() );
 
             return whileExpression;
         }
@@ -48,11 +48,11 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseIfBlock( TokenQueue block ) {
-            IEnumerable<Token> ifblock = ParseIfBlockUntil( block );
+            List<Token> ifblock = ParseIfBlockUntil( block );
             return new TokenCollection( ifblock );
         }
 
-        protected IEnumerable<Token> ParseIfBlockUntil( TokenQueue block ) {
+        protected List<Token> ParseIfBlockUntil( TokenQueue block ) {
             int count = 1;
             bool nextIsCaseElse = false;
             var res = new TokenCollection(
@@ -107,12 +107,12 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected TokenCollection ParseElseIfBlock( TokenQueue block ) {
-            IEnumerable<Token> elseIfblock = ParseIfBlockUntil( block );
+            List<Token> elseIfblock = ParseIfBlockUntil( block );
             return new TokenCollection( elseIfblock );
         }
 
         protected TokenCollection ParseElseBlock( TokenQueue block ) {
-            IEnumerable<Token> elseIfblock = ParseIfBlockUntil( block );
+            List<Token> elseIfblock = ParseIfBlockUntil( block );
             return new TokenCollection( elseIfblock );
         }
 

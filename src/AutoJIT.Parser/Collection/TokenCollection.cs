@@ -6,7 +6,7 @@ namespace AutoJIT.Parser.Collection
 {
     public sealed class TokenCollection : List<Token>
     {
-        public TokenCollection( IEnumerable<Token> tokens ) : base( tokens ) {}
+        public TokenCollection( List<Token> tokens ) : base( tokens ) {}
 
         public TokenCollection() {}
 

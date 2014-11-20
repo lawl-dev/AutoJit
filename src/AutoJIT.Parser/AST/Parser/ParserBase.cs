@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.Collection;
@@ -163,6 +164,14 @@ namespace AutoJIT.Parser.AST.Parser
             block.Dequeue();
         }
 
+        protected static void Ensure(Func<bool> func)
+        {
+            if (!func.Invoke())
+            {
+                throw new SyntaxTreeException(string.Empty, 0, 0);
+            }
+        }
+
         protected static bool Consume( TokenQueue block, TokenType tokenType ) {
             if ( !block.Any() || block.Peek().Type != tokenType ) {
                 return false;
@@ -187,7 +196,7 @@ namespace AutoJIT.Parser.AST.Parser
             block.Dequeue();
         }
 
-        protected IEnumerable<Token> ExtractUntilNextDeclaration( TokenQueue block ) {
+        protected List<Token> ExtractUntilNextDeclaration( TokenQueue block ) {
             var toReturn = new List<Token>();
             bool isPartOfDeclaration;
             int iC = 0;
@@ -206,7 +215,7 @@ namespace AutoJIT.Parser.AST.Parser
                     iC--;
                 }
                 bool isInner = iC > 0;
-                isPartOfDeclaration = ( ( block.Peek().Type != TokenType.Comma ) || isInner ) && block.Peek().Type != TokenType.NewLine;
+                isPartOfDeclaration = isInner || ( block.Peek().Type != TokenType.Comma && block.Peek().Type != TokenType.NewLine );
 
                 if ( isPartOfDeclaration ) {
                     toReturn.Add( block.Dequeue() );

@@ -22,7 +22,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             ConsumeAndEnsure( block, TokenType.NewLine );
             var cases = new List<SelectCase>();
 
-            IEnumerable<IStatementNode> elseStatements = new List<IStatementNode>();
+            var elseStatements = new List<IStatementNode>();
             while ( block.Peek().Value.Keyword != Keywords.Endselect ) {
                 ConsumeAndEnsure( block, Keywords.Case );
 

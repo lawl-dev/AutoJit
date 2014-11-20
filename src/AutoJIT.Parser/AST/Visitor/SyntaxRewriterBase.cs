@@ -29,7 +29,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitAutoitScriptRoot( AutoitScriptRoot node ) {
-            var mainFunction = (Function) Visit( node.MainFunction );
+            var mainFunction = (BlockStatement) Visit( node.MainFunction );
             IEnumerable<Function> functions = node.Functions.Select( x => (Function) Visit( x ) );
             PragmaOptions pragmaOptions = node.PragmaOptions;
             return node.Update( mainFunction, functions, pragmaOptions );
@@ -130,9 +130,9 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitFunction( Function node ) {
-            string name = node.Name;
-            IEnumerable<AutoitParameterInfo> parameter = node.Parameter;
-            IEnumerable<IStatementNode> statements = node.Statements.Select( x => (IStatementNode) Visit( x ) );
+            var name = (TokenNode)Visit( node.Name );
+            var parameter = node.Parameter.Select( x => (AutoitParameterInfo) Visit( x ) ).ToList();
+            var statements = node.Statements.Select( x => (IStatementNode) Visit( x ) ).ToList();
             return node.Update( name, parameter, statements );
         }
 
