@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
@@ -6,6 +7,7 @@ using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
+using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Lex.Interface;
 
@@ -24,21 +26,27 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private IEnumerable<IStatementNode> ParseGlobal( TokenQueue block ) {
-            var toReturn = new List<IStatementNode>();
-            bool isConst = Consume( block, Keywords.Const );
+            var lineBlock = new TokenQueue( block.DequeueWhile( x=>x.Type != TokenType.NewLine ) );
 
-            while ( block.Peek().Type == TokenType.Variable ) {
-                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
+            var toReturn = new List<IStatementNode>();
+            bool isConst = Consume( lineBlock, Keywords.Const );
+
+            while (lineBlock.Any() && lineBlock.Peek().Type == TokenType.Variable)
+            {
+                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( lineBlock );
 
                 IExpressionNode initExpression = null;
-                if ( Consume( block, TokenType.Equal ) ) {
-                    initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
+                if ( Consume( lineBlock, TokenType.Equal ) ) {
+                    initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( lineBlock ) ), true );
                 }
 
                 toReturn.Add( AutoitSyntaxFactory.CreateGlobalDeclarationStatement( variableExpression, initExpression, isConst ) );
 
-                Consume( block, TokenType.Comma );
+                Consume( lineBlock, TokenType.Comma );
             }
+
+            Ensure(() => !lineBlock.Any());
+            ConsumeAndEnsure( block, TokenType.NewLine );
             return toReturn;
         }
     }

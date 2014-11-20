@@ -7,6 +7,7 @@ using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
+using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
@@ -20,23 +21,28 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private IEnumerable<IStatementNode> ParseLocal( TokenQueue block ) {
+            var lineBlock = new TokenQueue( block.DequeueWhile( x=>x.Type != TokenType.NewLine ) );
+
             var toReturn = new List<IStatementNode>();
 
-            bool isConst = Consume( block, Keywords.Const );
+            bool isConst = Consume(lineBlock, Keywords.Const);
 
-            while ( block.Any()
+            while ( lineBlock.Any()
                     &&
-                    block.Peek().Type == TokenType.Variable ) {
-                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
+                    lineBlock.Peek().Type == TokenType.Variable ) {
+                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( lineBlock );
 
                 IExpressionNode initExpression = null;
-                if ( Consume( block, TokenType.Equal ) ) {
-                    initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( block ) ), true );
+                if ( Consume( lineBlock, TokenType.Equal ) ) {
+                    initExpression = ExpressionParser.ParseBlock(new TokenCollection(ExtractUntilNextDeclaration(lineBlock)), true);
                 }
                 toReturn.Add( AutoitSyntaxFactory.CreateLocalDeclarationStatement( variableExpression, initExpression, isConst ) );
 
-                Consume( block, TokenType.Comma );
+                Consume( lineBlock, TokenType.Comma );
             }
+
+            Ensure(() => !lineBlock.Any());
+            ConsumeAndEnsure( block, TokenType.NewLine );
             return toReturn;
         }
     }
