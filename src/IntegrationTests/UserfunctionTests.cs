@@ -18,7 +18,6 @@ using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
-using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Lex.Interface;
@@ -201,9 +200,9 @@ namespace IntegrationTests
         public void Foo() {
             var parserBootStrapper = new ParserBootStrapper();
             var scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
-            string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\KDMemory.au3" );
+            string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\userfunctions\DES.au3" );
             AutoitScriptRoot autoitScriptRoot = scriptParser.ParseScript( script, new PragmaOptions() );
-            var rewriter = new Rewriter();
+            var rewriter = new LoggingRewriter();
             ISyntaxNode newTree = rewriter.Visit( autoitScriptRoot );
             Console.Write( newTree.ToSource() );
         }
@@ -405,31 +404,6 @@ namespace IntegrationTests
             public void SetPos( int xpos, int ypos ) {
                 XPOS = xpos;
                 YPOS = ypos;
-            }
-        }
-
-        private class Rewriter : SyntaxRewriterBase
-        {
-            private readonly IAutoitSyntaxFactory _syntaxFactory = new AutoitSyntaxFactory( new TokenFactory() );
-            private readonly ITokenFactory _tokenFactory = new TokenFactory();
-            private readonly Dictionary<string, string> _names = new Dictionary<string, string>();
-
-            public override ISyntaxNode Visit( ISyntaxNode node ) {
-                var node2 = base.Visit( node );
-                if ( node2 is AssignStatement ) {
-                    var assignStatement = (AssignStatement)node2;
-
-
-                    var source = node2.ToSource();
-                    var functionCallStatement = _syntaxFactory.CreateFunctionCallStatement( _syntaxFactory.CreateCallExpression( _syntaxFactory.CreateTokenNode( "ConsoleWrite" ), ((IExpressionNode)_syntaxFactory.CreateStringLiteralExpression( source )).ToEnumerable().ToList() ) );
-
-                    var exp = (VariableExpression)assignStatement.Variable.Clone();
-
-                    var callStatement = _syntaxFactory.CreateFunctionCallStatement( _syntaxFactory.CreateCallExpression( _syntaxFactory.CreateTokenNode( "ConsoleWrite"), new List<IExpressionNode>() { exp } ) );
-
-                    return new BlockStatement(new List<IStatementNode>() { (IStatementNode)node2, functionCallStatement, callStatement });
-                }
-                return node2;
             }
         }
     }

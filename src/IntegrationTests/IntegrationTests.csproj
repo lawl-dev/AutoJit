@@ -68,6 +68,7 @@
     <Compile Include="AutoitFunctionTestBase.cs" />
     <Compile Include="AutoitFunctionTests.cs" />
     <Compile Include="AutoitMacroTests.cs" />
+    <Compile Include="LoggingRewriter.cs" />
     <Compile Include="MarshalBridgeTests.cs" />
     <Compile Include="CompilerTests.cs" />
     <Compile Include="ExpressionParserTestsStatic.cs" />
