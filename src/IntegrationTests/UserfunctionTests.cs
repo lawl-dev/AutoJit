@@ -17,6 +17,7 @@ using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
+using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
@@ -411,19 +412,24 @@ namespace IntegrationTests
         {
             private readonly IAutoitSyntaxFactory _syntaxFactory = new AutoitSyntaxFactory( new TokenFactory() );
             private readonly ITokenFactory _tokenFactory = new TokenFactory();
-            private readonly Dictionary<string, string> _names = new Dictionary<string, string>(); 
+            private readonly Dictionary<string, string> _names = new Dictionary<string, string>();
 
-            public override ISyntaxNode VisitToken( TokenNode node ) {
-                if ( node.Parent.GetType() != typeof (VariableExpression) &&
-                     node.Parent.GetType() != typeof (ArrayExpression) ) {
-                    return base.VisitToken( node );
-                }
-                var name = node.Token.Value.StringValue;
+            public override ISyntaxNode Visit( ISyntaxNode node ) {
+                var node2 = base.Visit( node );
+                if ( node2 is AssignStatement ) {
+                    var assignStatement = (AssignStatement)node2;
 
-                if ( !_names.ContainsKey( name ) ) {
-                    _names.Add( name,Guid.NewGuid().ToString("N") );
+
+                    var source = node2.ToSource();
+                    var functionCallStatement = _syntaxFactory.CreateFunctionCallStatement( _syntaxFactory.CreateCallExpression( _syntaxFactory.CreateTokenNode( "ConsoleWrite" ), ((IExpressionNode)_syntaxFactory.CreateStringLiteralExpression( source )).ToEnumerable().ToList() ) );
+
+                    var exp = (VariableExpression)assignStatement.Variable.Clone();
+
+                    var callStatement = _syntaxFactory.CreateFunctionCallStatement( _syntaxFactory.CreateCallExpression( _syntaxFactory.CreateTokenNode( "ConsoleWrite"), new List<IExpressionNode>() { exp } ) );
+
+                    return new BlockStatement(new List<IStatementNode>() { (IStatementNode)node2, functionCallStatement, callStatement });
                 }
-                return _syntaxFactory.CreateTokenNode(_tokenFactory.CreateVariable(_names[name], -1, -1));
+                return node2;
             }
         }
     }

@@ -56,7 +56,9 @@ namespace AutoJIT.Parser.Lex
                 case TokenType.Variable:
                     return string.Format( "${0}", Value.StringValue );
                 case TokenType.String:
-                    return string.Format( "'{0}'", Value.StringValue );
+                    return Value.StringValue.Contains( "\"" )
+                        ? string.Format( "'{0}'", Value.StringValue )
+                        : string.Format( "\"{0}\"", Value.StringValue );
                 case TokenType.Function:
                 case TokenType.Userfunction:
                     return Value.StringValue;

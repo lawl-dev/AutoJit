@@ -62,7 +62,9 @@ namespace AutoJIT.Parser.AST.Factory
         SwitchCase CreateSwitchCase( List<CaseCondition> caseConditions, BlockStatement blockStatement );
         SwitchCaseStatement CreateSwitchCaseStatement( IExpressionNode condition, List<SwitchCase> cases, BlockStatement elseBlock );
         VariableFunctionCallStatement CreateVariableFunctionCallStatement( VariableFunctionCallExpression variableFunctionCallExpression );
-        Function CreateFunction( TokenNode name, List<AutoitParameterInfo> parameter, List<IStatementNode> functionStatements );
+        Function CreateFunction( TokenNode name, List<AutoitParameter> parameter, List<IStatementNode> functionStatements );
         AutoitScriptRoot CreateRoot( List<Function> functions, BlockStatement main, PragmaOptions pragmaOptions );
+        StringLiteralExpression CreateStringLiteralExpression(string literalToken);
+        AutoitParameter CreateParameter( Token name, IExpressionNode defaultExpression, bool isByRef, bool isConst );
     }
 }

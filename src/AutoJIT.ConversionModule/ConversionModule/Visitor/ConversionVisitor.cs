@@ -182,11 +182,11 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             return SyntaxFactory.MethodDeclaration( SyntaxFactory.IdentifierName( typeof (Variant).Name ), function.Name.Token.Value.StringValue ).AddModifiers( SyntaxFactory.Token( SyntaxKind.PublicKeyword ) ).WithParameterList( SyntaxFactory.ParameterList( CreaterParameter( function.Parameter, context ).ToSeparatedSyntaxList() ) ).WithBody( body );
         }
 
-        private IList<IStatementNode> DeclareParameter( IList<IStatementNode> statementNodes, IEnumerable<AutoitParameterInfo> parameter, IContextService context ) {
-            foreach (AutoitParameterInfo parameterInfo in parameter) {
-                context.RegisterLocal( parameterInfo.ParameterName );
+        private IList<IStatementNode> DeclareParameter( IList<IStatementNode> statementNodes, IEnumerable<AutoitParameter> parameter, IContextService context ) {
+            foreach (AutoitParameter parameterInfo in parameter) {
+                context.RegisterLocal( parameterInfo.ParameterName.Token.Value.StringValue );
                 if ( parameterInfo.DefaultValue != null ) {
-                    var statement = new InitDefaultParameterStatement( context.GetVariableName( parameterInfo.ParameterName ), parameterInfo.DefaultValue );
+                    var statement = new InitDefaultParameterStatement( context.GetVariableName( parameterInfo.ParameterName.Token.Value.StringValue ), parameterInfo.DefaultValue );
                     statement.Initialize();
                     statementNodes.Insert( 0, statement );
                 }
@@ -208,10 +208,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
             return nodes.OfType<StatementSyntax>().ToList();
         }
 
-        private IEnumerable<ParameterSyntax> CreaterParameter( IEnumerable<AutoitParameterInfo> parameters, IContextService context ) {
+        private IEnumerable<ParameterSyntax> CreaterParameter( IEnumerable<AutoitParameter> parameters, IContextService context ) {
             return parameters.Select(
                 p => {
-                    ParameterSyntax parameter = SyntaxFactory.Parameter( SyntaxFactory.Identifier( context.GetVariableName( p.ParameterName ) ) ).WithType( SyntaxFactory.IdentifierName( typeof (Variant).Name ) );
+                    ParameterSyntax parameter = SyntaxFactory.Parameter( SyntaxFactory.Identifier( context.GetVariableName( p.ParameterName.Token.Value.StringValue ) ) ).WithType( SyntaxFactory.IdentifierName( typeof (Variant).Name ) );
                     if ( p.DefaultValue != null ) {
                         parameter = parameter.WithDefault( SyntaxFactory.EqualsValueClause( SyntaxFactory.LiteralExpression( SyntaxKind.NullLiteralExpression ) ) );
                     }

@@ -11,14 +11,14 @@ namespace AutoJIT.Parser.AST
 {
     public sealed class Function : SyntaxNodeBase
     {
-        public Function( TokenNode name, List<AutoitParameterInfo> autoitParameterInfos, List<IStatementNode> statements ) {
+        public Function( TokenNode name, List<AutoitParameter> autoitParameterInfos, List<IStatementNode> statements ) {
             Name = name;
             Parameter = autoitParameterInfos;
             Statements = statements;
         }
 
         public TokenNode Name { get; private set; }
-        public List<AutoitParameterInfo> Parameter { get; private set; }
+        public List<AutoitParameter> Parameter { get; private set; }
         public List<IStatementNode> Statements { get; private set; }
 
         public override IEnumerable<ISyntaxNode> Children {
@@ -47,7 +47,7 @@ namespace AutoJIT.Parser.AST
         }
 
         public override object Clone() {
-            return new Function( (TokenNode) Name.Clone(), Parameter.Select( x => (AutoitParameterInfo) x.Clone() ).ToList(), Statements.Select( x => (IStatementNode) x.Clone() ).ToList() );
+            return new Function( (TokenNode) Name.Clone(), Parameter.Select( x => (AutoitParameter) x.Clone() ).ToList(), Statements.Select( x => (IStatementNode) x.Clone() ).ToList() );
         }
 
         public override string ToString() {
@@ -56,7 +56,7 @@ namespace AutoJIT.Parser.AST
             return toReturn;
         }
 
-        public Function Update( TokenNode name, List<AutoitParameterInfo> parameter, List<IStatementNode> statements ) {
+        public Function Update( TokenNode name, List<AutoitParameter> parameter, List<IStatementNode> statements ) {
             if ( Name == name &&
                  EnumerableEquals( Parameter ,parameter) &&
                  EnumerableEquals(Statements, statements) ) {

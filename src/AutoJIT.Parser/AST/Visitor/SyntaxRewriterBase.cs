@@ -131,7 +131,7 @@ namespace AutoJIT.Parser.AST.Visitor
 
         public override ISyntaxNode VisitFunction( Function node ) {
             var name = (TokenNode)Visit( node.Name );
-            var parameter = node.Parameter.Select( x => (AutoitParameterInfo) Visit( x ) ).ToList();
+            var parameter = node.Parameter.Select( x => (AutoitParameter) Visit( x ) ).ToList();
             var statements = node.Statements.Select( x => (IStatementNode) Visit( x ) ).ToList();
             return node.Update( name, parameter, statements );
         }
@@ -284,6 +284,12 @@ namespace AutoJIT.Parser.AST.Visitor
         public override ISyntaxNode VisitBlockStatement( BlockStatement node ) {
             IEnumerable<IStatementNode> block = node.Block.Select( x => (IStatementNode) Visit( x ) );
             return node.Update( block );
+        }
+
+        public override ISyntaxNode VisitAutoitParameter( AutoitParameter node ) {
+            var defaultValue = (IExpressionNode)Visit(node.DefaultValue);
+            var parameterName = (TokenNode)Visit( node.ParameterName );
+            return node.Update(parameterName, defaultValue, node.IsByRef, node.IsConst);
         }
 
         public override ISyntaxNode VisitToken( TokenNode node ) {

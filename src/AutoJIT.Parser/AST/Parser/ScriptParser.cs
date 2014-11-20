@@ -51,7 +51,7 @@ namespace AutoJIT.Parser.AST.Parser
         private List<FunctionToken> GetAutoJITScript( IEnumerable<Token> tokens ) {
             var tokenQueue = new TokenQueue( tokens );
 
-            var main = new FunctionToken( null, new List<AutoitParameterInfo>(), true );
+            var main = new FunctionToken( null, new List<AutoitParameter>(), true );
 
             var functions = new List<FunctionToken>();
             bool isFunctionBody = false;
@@ -86,9 +86,9 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
 
-        private IEnumerable<AutoitParameterInfo> ParseFunctionParameter( TokenQueue tokenQueue ) {
+        private IEnumerable<AutoitParameter> ParseFunctionParameter( TokenQueue tokenQueue ) {
             var parameterPart = new TokenQueue( ParseInner( tokenQueue, TokenType.Leftparen, TokenType.Rightparen ) );
-            var toReturn = new List<AutoitParameterInfo>();
+            var toReturn = new List<AutoitParameter>();
 
             if ( !parameterPart.Any() ) {
                 return toReturn;
@@ -100,15 +100,15 @@ namespace AutoJIT.Parser.AST.Parser
                 bool isConst = Consume( parameterPart, Keywords.Const );
                 bool isByRef = Consume( parameterPart, Keywords.ByRef );
 
-                string name = parameterPart.Dequeue().Value.StringValue;
+                Token name = parameterPart.Dequeue();
 
-                IExpressionNode initExpression = null;
+                IExpressionNode defaultExpression = null;
                 if ( parameterPart.Any()
                      &&
                      Consume( parameterPart, TokenType.Equal ) ) {
-                    initExpression = _expressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( parameterPart ) ), true );
+                    defaultExpression = _expressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( parameterPart ) ), true );
                 }
-                toReturn.Add( new AutoitParameterInfo( name, initExpression, isByRef, isConst ) );
+                toReturn.Add(_autoitSyntaxFactory.CreateParameter(name, defaultExpression, isByRef, isConst ) );
             } while ( parameterPart.Any()
                       &&
                       parameterPart.Peek().Type == TokenType.Comma );
@@ -118,12 +118,12 @@ namespace AutoJIT.Parser.AST.Parser
 
     internal class FunctionToken {
         public Token Name { get; private set; }
-        public List<AutoitParameterInfo> Parameter { get; private set; }
+        public List<AutoitParameter> Parameter { get; private set; }
         public bool IsMain { get; private set; }
         public Queue<Token> Tokens { get; private set; }
         
 
-        public FunctionToken( Token name, List<AutoitParameterInfo> parameter, bool isMain = false ) {
+        public FunctionToken( Token name, List<AutoitParameter> parameter, bool isMain = false ) {
             Name = name;
             Parameter = parameter;
             IsMain = isMain;

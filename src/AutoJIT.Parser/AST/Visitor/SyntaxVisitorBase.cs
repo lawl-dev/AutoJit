@@ -292,5 +292,9 @@ namespace AutoJIT.Parser.AST.Visitor
         public virtual TResult VisitToken( TokenNode node ) {
             return VisitDefault( node );
         }
+
+        public virtual TResult VisitAutoitParameter( AutoitParameter node ) {
+            return VisitDefault( node );
+        }
     }
 }

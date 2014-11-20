@@ -150,8 +150,10 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
 
-        public Function CreateFunction( TokenNode name, List<AutoitParameterInfo> parameter, List<IStatementNode> functionStatements ) {
-            return new Function( name, parameter, functionStatements );
+        public Function CreateFunction( TokenNode name, List<AutoitParameter> parameter, List<IStatementNode> functionStatements ) {
+            var function = new Function( name, parameter, functionStatements );
+            function.Initialize();
+            return function;
         }
 
         public ExitloopStatement CreateExitloopStatement( TokenNode level ) {
@@ -587,6 +589,18 @@ namespace AutoJIT.Parser.AST.Factory
 
         public AutoitScriptRoot CreateRoot( List<Function> functions, BlockStatement main, PragmaOptions pragmaOptions ) {
             return new AutoitScriptRoot(  functions, main, pragmaOptions);
+        }
+
+        public StringLiteralExpression CreateStringLiteralExpression( string literalToken ) {
+            return CreateStringLiteralExpression( CreateTokenNode( literalToken ) );
+        }
+
+        public AutoitParameter CreateParameter( Token name, IExpressionNode defaultExpression, bool isByRef, bool isConst ) {
+            if ( name == null ) {
+                throw new ArgumentNullException("name");
+            }
+
+            return new AutoitParameter( CreateTokenNode( name), defaultExpression, isByRef, isConst );
         }
 
         public TokenNode CreateTokenNode( int token ) {
