@@ -28,13 +28,13 @@ namespace AutoJIT.Parser.Lex
             for ( int i = tokenizedLines.Count-1; i >= 0; i-- ) {
                 if ( tokenizedLines[i].Any( x => x.Type == TokenType.ContinueLine ) ) {
                     tokenizedLines[i].RemoveAt( tokenizedLines[i].Count-1 );
-                    tokenizedLines[i].RemoveAt( tokenizedLines[i].Count-1 );
-                    tokenizedLines[i].AddRange( tokenizedLines[i+1] );
+                    tokenizedLines[i].AddRange( tokenizedLines[i+2] );
+                    tokenizedLines[i+2].Clear();
                     tokenizedLines[i+1].Clear();
                 }
             }
 
-            return new TokenCollection( tokenizedLines.SelectMany( x => x ) );
+            return new TokenCollection( tokenizedLines.SelectMany( x => x ).ToList() );
         }
 
         private IEnumerable<Token> LexLine( int lineNum, string line ) {
