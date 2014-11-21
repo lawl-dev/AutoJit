@@ -203,8 +203,12 @@ namespace IntegrationTests
             string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\userfunctions\DES.au3" );
             AutoitScriptRoot autoitScriptRoot = scriptParser.ParseScript( script, new PragmaOptions() );
             var rewriter = new LoggingRewriter();
-            ISyntaxNode newTree = rewriter.Visit( autoitScriptRoot );
-            Console.Write( newTree.ToSource() );
+            ISyntaxNode newTree = rewriter.Visit(autoitScriptRoot);
+            var functionObfuscatorRewriter = new FunctionObfuscatorRewriter();
+            var root = functionObfuscatorRewriter.Visit(newTree);
+            var variableObfuscatorRewriter = new VariableObfuscatorRewriter();
+            root = variableObfuscatorRewriter.Visit(root);
+            Console.Write(root.ToSource());
         }
 
         [Test]
