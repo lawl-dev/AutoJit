@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
+using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Collection;
@@ -62,7 +63,7 @@ namespace AutoJIT.Parser.AST
                  EnumerableEquals(Statements, statements) ) {
                 return this;
             }
-            return new Function( name, Parameter, statements);
+            return new Function( (TokenNode) name.Clone(), parameter.Select( x=>(AutoitParameter)x.Clone() ).ToList(), statements.Select( x=>(IStatementNode)x.Clone() ).ToList());
         }
     }
 }

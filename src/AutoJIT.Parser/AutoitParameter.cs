@@ -25,6 +25,7 @@ namespace AutoJIT.Parser
             get {
                 var nodes = new List<ISyntaxNode>();
                 nodes.Add( DefaultValue );
+                nodes.Add( ParameterName );
                 return nodes;
             }
         }

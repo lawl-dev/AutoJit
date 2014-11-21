@@ -10,14 +10,14 @@ namespace AutoJIT.Parser.AST
     {
         public readonly PragmaOptions PragmaOptions;
 
-        public AutoitScriptRoot( IEnumerable<Function> functions, BlockStatement main, PragmaOptions pragmaOptions ) {
+        public AutoitScriptRoot( List<Function> functions, BlockStatement main, PragmaOptions pragmaOptions ) {
             PragmaOptions = pragmaOptions;
             Functions = functions;
             MainFunction = main;
         }
 
         public BlockStatement MainFunction { get; set; }
-        public IEnumerable<Function> Functions { get; set; }
+        public List<Function> Functions { get; set; }
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
@@ -44,15 +44,15 @@ namespace AutoJIT.Parser.AST
         }
 
         public override object Clone() {
-            return new AutoitScriptRoot( Functions.Select( x => (Function) x.Clone() ), (BlockStatement) MainFunction.Clone(), PragmaOptions );
+            return new AutoitScriptRoot( Functions.Select( x => (Function) x.Clone() ).ToList(), (BlockStatement) MainFunction.Clone(), PragmaOptions );
         }
 
-        public AutoitScriptRoot Update( BlockStatement mainFunction, IEnumerable<Function> functions, PragmaOptions pragmaOptions ) {
+        public AutoitScriptRoot Update( BlockStatement mainFunction, List<Function> functions, PragmaOptions pragmaOptions ) {
             if ( MainFunction == mainFunction &&
                  Functions == functions ) {
                 return this;
             }
-            var root = new AutoitScriptRoot( functions.Select( x=>(Function)x.Clone() ), (BlockStatement) mainFunction.Clone(), pragmaOptions );
+            var root = new AutoitScriptRoot( functions.Select( x=>(Function)x.Clone() ).ToList(), (BlockStatement) mainFunction.Clone(), pragmaOptions );
             root.Initialize();
             return root;
         }

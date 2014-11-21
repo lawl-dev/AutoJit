@@ -36,7 +36,7 @@ namespace AutoJIT.Parser.AST.Expressions
             return toReturn;
         }
 
-        public ArrayExpression Update( TokenNode identifierName, IEnumerable<IExpressionNode> accessParameter ) {
+        public ArrayExpression Update( TokenNode identifierName, List<IExpressionNode> accessParameter ) {
             if ( identifierName == IdentifierName &&
                  EnumerableEquals(accessParameter, AccessParameter) ) {
                 return this;
