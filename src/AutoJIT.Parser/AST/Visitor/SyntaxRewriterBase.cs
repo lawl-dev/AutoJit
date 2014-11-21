@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
@@ -13,7 +14,7 @@ namespace AutoJIT.Parser.AST.Visitor
         public override ISyntaxNode VisitArrayExpression( ArrayExpression node ) {
             IEnumerable<IExpressionNode> accessParameter = node.AccessParameter.Select( x => (IExpressionNode) Visit( x ) );
             var identifierName = (TokenNode)Visit(node.IdentifierName);
-            return node.Update( identifierName, accessParameter );
+            return node.Update( identifierName, accessParameter.ToList() );
         }
 
         public override ISyntaxNode VisitArrayInitExpression( ArrayInitExpression node ) {
@@ -30,7 +31,7 @@ namespace AutoJIT.Parser.AST.Visitor
 
         public override ISyntaxNode VisitAutoitScriptRoot( AutoitScriptRoot node ) {
             var mainFunction = (BlockStatement) Visit( node.MainFunction );
-            IEnumerable<Function> functions = node.Functions.Select( x => (Function) Visit( x ) );
+            List<Function> functions = node.Functions.Select( x => (Function) Visit( x ) ).ToList();
             PragmaOptions pragmaOptions = node.PragmaOptions;
             return node.Update( mainFunction, functions, pragmaOptions );
         }
