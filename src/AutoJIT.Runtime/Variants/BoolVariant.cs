@@ -10,7 +10,7 @@ namespace AutoJITRuntime.Variants
             _value = @bool;
         }
 
-        protected override DataType DataType {
+        public override DataType DataType {
             get { return DataType.Bool; }
         }
 

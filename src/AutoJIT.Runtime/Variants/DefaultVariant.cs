@@ -4,7 +4,7 @@ namespace AutoJITRuntime.Variants
 {
     public sealed class DefaultVariant : Variant
     {
-        protected override DataType DataType {
+        public override DataType DataType {
             get { return DataType.Default; }
         }
 

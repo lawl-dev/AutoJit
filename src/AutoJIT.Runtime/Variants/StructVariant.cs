@@ -18,7 +18,7 @@ namespace AutoJITRuntime.Variants
             InitFieldInfoRecursiv( value );
         }
 
-        protected override DataType DataType {
+        public override DataType DataType {
             get { return DataType.Struct; }
         }
 

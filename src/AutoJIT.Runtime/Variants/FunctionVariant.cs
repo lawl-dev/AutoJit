@@ -16,7 +16,7 @@ namespace AutoJITRuntime.Variants
             _methodInfo = _instance.GetType().GetMethods().Single( x => x.Name.Equals( name, StringComparison.InvariantCultureIgnoreCase ) );
         }
 
-        protected override DataType DataType {
+        public override DataType DataType {
             get { return DataType.Function; }
         }
 

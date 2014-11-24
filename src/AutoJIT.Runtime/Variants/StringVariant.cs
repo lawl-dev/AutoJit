@@ -12,7 +12,7 @@ namespace AutoJITRuntime.Variants
             _value = @string;
         }
 
-        protected override DataType DataType {
+        public override DataType DataType {
             get { return DataType.String; }
         }
 

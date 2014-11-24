@@ -11,7 +11,7 @@ namespace AutoJITRuntime.Variants
             _value = value;
         }
 
-        protected override DataType DataType {
+        public override DataType DataType {
             get { return DataType.Binary; }
         }
 

@@ -73,7 +73,7 @@ namespace AutoJITRuntime
         }
         #endregion
 
-        protected abstract DataType DataType { get; }
+        public abstract DataType DataType { get; }
 
         public virtual bool IsInt32 {
             get { return false; }

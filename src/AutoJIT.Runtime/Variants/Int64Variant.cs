@@ -11,7 +11,7 @@ namespace AutoJITRuntime.Variants
             _value = int64;
         }
 
-        protected override DataType DataType {
+        public override DataType DataType {
             get { return DataType.Int64; }
         }
 

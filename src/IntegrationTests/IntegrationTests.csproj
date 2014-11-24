@@ -68,6 +68,8 @@
     <Compile Include="AutoitFunctionTestBase.cs" />
     <Compile Include="AutoitFunctionTests.cs" />
     <Compile Include="AutoitMacroTests.cs" />
+    <Compile Include="AutoitOptimizerRewriter.cs" />
+    <Compile Include="BinaryToStringRewriter.cs" />
     <Compile Include="LoggingRewriter.cs" />
     <Compile Include="MarshalBridgeTests.cs" />
     <Compile Include="CompilerTests.cs" />
@@ -81,9 +83,11 @@
     <Compile Include="NumberPerformanceTest.cs" />
     <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShadowDeobfuscator.cs" />
     <Compile Include="StatementTests.cs" />
     <Compile Include="OperatorPrecedenceServiceTests.cs" />
     <Compile Include="StatementTestsBase.cs" />
+    <Compile Include="TestDeobfuscator.cs" />
     <Compile Include="TestsByExitCode.cs" />
     <Compile Include="UserfunctionTests.cs" />
     <Compile Include="VariantTests.cs" />

@@ -10,7 +10,7 @@ namespace AutoJITRuntime.Variants
             _value = ptr;
         }
 
-        protected override DataType DataType {
+        public override DataType DataType {
             get { return DataType.IntPtr; }
         }
 
