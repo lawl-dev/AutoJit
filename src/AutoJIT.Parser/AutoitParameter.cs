@@ -24,7 +24,11 @@ namespace AutoJIT.Parser
         public override IEnumerable<ISyntaxNode> Children {
             get {
                 var nodes = new List<ISyntaxNode>();
-                nodes.Add( DefaultValue );
+
+                if ( DefaultValue != null ) {
+                    nodes.Add( DefaultValue );
+                }
+
                 nodes.Add( ParameterName );
                 return nodes;
             }

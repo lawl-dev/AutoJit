@@ -28,9 +28,12 @@ namespace AutoJIT.Parser.AST.Statements
                 var syntaxNodes = new List<ISyntaxNode> {
                     StartExpression,
                     EndExpression,
-                    StepExpression,
                     VariableExpression
                 };
+
+                if ( StepExpression != null ) {
+                    syntaxNodes.Add(StepExpression);
+                }
 
                 if ( Block != null ) {
                     syntaxNodes.Add( Block );

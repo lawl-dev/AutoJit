@@ -11,5 +11,6 @@ namespace AutoJIT.Parser.AST
         string ToSource();
         void Accept( ISyntaxVisitor visitor );
         TResult Accept<TResult>(ISyntaxVisitor<TResult> visitor);
+        IEnumerable<ISyntaxNode> Ancestors();
     }
 }

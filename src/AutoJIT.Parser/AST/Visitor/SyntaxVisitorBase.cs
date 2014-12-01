@@ -6,7 +6,7 @@ namespace AutoJIT.Parser.AST.Visitor
 {
     public abstract class SyntaxVisitorBase : ISyntaxVisitor
     {
-        public void Visit( ISyntaxNode node ) {
+        public virtual void Visit( ISyntaxNode node ) {
             node.Accept( this );
         }
 
@@ -41,9 +41,7 @@ namespace AutoJIT.Parser.AST.Visitor
         public virtual void VisitUserfunctionCallExpression( UserfunctionCallExpression node ) {}
 
         public virtual void VisitVariableExpression( VariableExpression node ) {}
-
-        public virtual void VisitAssignExpression( AssignStatement node ) {}
-
+        
         public virtual void VisitContinueCaseStatement( ContinueCaseStatement node ) {}
 
         public virtual void VisitContinueLoopStatement( ContinueLoopStatement node ) {}

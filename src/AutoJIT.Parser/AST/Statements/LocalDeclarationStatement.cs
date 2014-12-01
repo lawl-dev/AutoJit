@@ -20,10 +20,15 @@ namespace AutoJIT.Parser.AST.Statements
 
         public override IEnumerable<ISyntaxNode> Children {
             get {
-                return new List<ISyntaxNode> {
-                    VariableExpression,
-                    InitExpression
+                var nodes = new List<ISyntaxNode> {
+                    VariableExpression
                 };
+
+                if ( InitExpression != null ) {
+                    nodes.Add( InitExpression );
+                }
+
+                return nodes;
             }
         }
 

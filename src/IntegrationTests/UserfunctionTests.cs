@@ -18,6 +18,7 @@ using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
+using AutoJIT.Parser.AST.Visitor;
 using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
 using AutoJIT.Parser.Lex.Interface;
@@ -202,13 +203,8 @@ namespace IntegrationTests
             var scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
             string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\userfunctions\DES.au3" );
             AutoitScriptRoot autoitScriptRoot = scriptParser.ParseScript( script, new PragmaOptions() );
-            var rewriter = new LoggingRewriter();
-            ISyntaxNode newTree = rewriter.Visit(autoitScriptRoot);
-            var functionObfuscatorRewriter = new FunctionObfuscatorRewriter();
-            var root = functionObfuscatorRewriter.Visit(newTree);
-            var variableObfuscatorRewriter = new VariableObfuscatorRewriter();
-            root = variableObfuscatorRewriter.Visit(root);
-            Console.Write(root.ToSource());
+            new ConsoleDumpWalker().Visit( autoitScriptRoot );
+
         }
 
         [Test]
@@ -409,6 +405,21 @@ namespace IntegrationTests
                 XPOS = xpos;
                 YPOS = ypos;
             }
+        }
+    }
+
+    class ConsoleDumpWalker : SyntaxWalkerBase
+    {
+        public override void Visit( ISyntaxNode node ) {
+            int padding = node.Ancestors().Count();
+            //To identify leaf nodes vs nodes with children
+            string prepend = node.Children.Any() ? "[>]" : "[-]";
+            //Get the type of the node
+            string line = new String(' ', padding * 3) + prepend +
+                                    " " + node.GetType().ToString();
+            //Write the line
+            System.Console.WriteLine(line);
+            base.Visit(node);
         }
     }
 }

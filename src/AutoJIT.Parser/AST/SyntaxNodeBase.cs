@@ -14,7 +14,14 @@ namespace AutoJIT.Parser.AST
 
         public abstract void Accept( ISyntaxVisitor visitor );
         public abstract TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor );
-
+        
+        public IEnumerable<ISyntaxNode> Ancestors() {
+            for (var node = (ISyntaxNode)this; node != null; node = node.Parent)
+            {
+                yield return node;
+            }
+        }
+        
         public ISyntaxNode Parent {
             get { return _parent; }
             set {

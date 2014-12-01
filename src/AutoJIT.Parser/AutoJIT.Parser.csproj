@@ -146,6 +146,7 @@
     <Compile Include="AST\Visitor\ISyntaxVisitor.cs" />
     <Compile Include="AST\Visitor\SyntaxRewriterBase.cs" />
     <Compile Include="AST\Visitor\SyntaxVisitorBase.cs" />
+    <Compile Include="AST\Visitor\SyntaxWalkerBase.cs" />
     <Compile Include="AutoitParameter.cs" />
     <Compile Include="Collection\TokenCollection.cs" />
     <Compile Include="Collection\TokenQueue.cs" />
