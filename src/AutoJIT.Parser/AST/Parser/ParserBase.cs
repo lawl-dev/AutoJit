@@ -181,7 +181,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         protected bool Consume( TokenQueue block, Keywords tokenType ) {
-            if ( block.Peek().Value.Keyword != tokenType ) {
+            if (!block.Any() || block.Peek().Value.Keyword != tokenType ) {
                 return false;
             }
             block.Dequeue();

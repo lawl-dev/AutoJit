@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -51,6 +52,7 @@ namespace UniTests
                 Bind<IStatementParserStrategy<ContinueCaseStatement>, ContinueCaseStatementStrategy>();
                 Bind<IStatementParserStrategy<StaticDeclarationStatement>, StaticStatementParserStrategy>();
                 Bind<IStatementParserStrategy<VariableFunctionCallStatement>, VariableFunctionCallStatementParserStrategy>();
+                Bind<IStatementParserStrategy<PropertyDeclarationStatement>, PropertyDeclarationParserStrategy>();
                 Bind<IAutoitSyntaxFactory, AutoitSyntaxFactory>();
             }
         }
@@ -203,6 +205,29 @@ WEnd")]
             var tree = _statementParser.ParseBlock(token).Single();
             var res = tree.ToSource();
             Assert.AreEqual(@while, res);
+        }
+
+        [TestCase(@"$backendField = """"
+Property $Prop 
+	Get
+		Return 
+	EndGet
+	Set
+		$backendField = value;
+	EndSet
+EndProperty")]
+        public void TestComplexPropertyToSource( string property ) {
+            var token = _lexer.Lex( property );
+            var nodes = _statementParser.ParseBlock( token );
+            var @join = string.Join( Environment.NewLine, nodes.Select( x => x.ToSource() ) );
+            Assert.AreEqual( property, join );
+        }
+
+        [TestCase(@"Property $Prop")]
+        public void TestSimplePropertyToSource( string property ) {
+            var token = _lexer.Lex(property);
+            var node = _statementParser.ParseBlock(token).Single();
+            Assert.AreEqual(property, node.ToSource());
         }
     }
 }

@@ -144,6 +144,9 @@ namespace AutoJIT.Parser.AST.Parser
                     break;
                 case TokenType.Keyword:
                     switch (block.Peek().Value.Keyword) {
+                        case Keywords.Value:
+                            toReturn = ParseValue(block);
+                            break;
                         case Keywords.True:
                             toReturn = ParseTrueKeywordExpression( block );
                             break;
@@ -167,6 +170,11 @@ namespace AutoJIT.Parser.AST.Parser
                 return _autoitSyntaxFactory.CreateNegateExpression( toReturn );
             }
             return toReturn;
+        }
+
+        private ValueExpression ParseValue( TokenQueue block ) {
+            ConsumeAndEnsure( block, Keywords.Value );
+            return _autoitSyntaxFactory.CreateValueExpression();
         }
 
         private IExpressionNode ParseVariable( TokenQueue block ) {

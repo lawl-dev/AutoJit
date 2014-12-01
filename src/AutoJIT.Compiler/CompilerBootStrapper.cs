@@ -12,7 +12,7 @@ namespace AutoJIT.Compiler
             Bind<IContinueCaseMsilFixingService, ContinueCaseMsilFixingService>();
             Bind<IOptimizer, Optimizer>();
 
-            RegisterModule( new ParserBootStrapper() );
+            RegisterModule( new StandardParserBootStrapper() );
             RegisterModule( new ConversionBootStrapper() );
         }
     }

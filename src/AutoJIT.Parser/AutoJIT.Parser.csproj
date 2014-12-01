@@ -68,6 +68,7 @@
     <Compile Include="AST\Expressions\TrueLiteralExpression.cs" />
     <Compile Include="AST\Expressions\UserfunctionCallExpression.cs" />
     <Compile Include="AST\Expressions\UserfunctionExpression.cs" />
+    <Compile Include="AST\Expressions\ValueExpression.cs" />
     <Compile Include="AST\Expressions\VariableExpression.cs" />
     <Compile Include="AST\Expressions\VariableFunctionCallExpression.cs" />
     <Compile Include="AST\Factory\AutoitSyntaxFactory.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="AST\Parser\Strategy\ContinueLoopStatementStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\DimStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\DoUntilStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\EmptyStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\ExitLoopStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\ExitStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\ForInStatementParserStrategy.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="AST\Parser\Strategy\Interface\IStatementParserStrategyResolver.cs" />
     <Compile Include="AST\Parser\Strategy\LocalEnumParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\LocalStatementParserStrategy.cs" />
+    <Compile Include="AST\Parser\Strategy\PropertyDeclarationParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\RedimStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\ReturnStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\SelectStatementParserStrategy.cs" />
@@ -112,6 +115,8 @@
     <Compile Include="AST\Parser\Strategy\VariableFunctionCallStatementParserStrategy.cs" />
     <Compile Include="AST\Parser\Strategy\WhileStatementParserStrategy.cs" />
     <Compile Include="AST\PragmaOptions.cs" />
+    <Compile Include="AST\PropertyGetter.cs" />
+    <Compile Include="AST\PropertySetter.cs" />
     <Compile Include="AST\Statements\AssignStatement.cs" />
     <Compile Include="AST\Expressions\CaseCondition.cs" />
     <Compile Include="AST\Statements\BlockStatement.cs" />
@@ -119,6 +124,7 @@
     <Compile Include="AST\Statements\ContinueloopStatement.cs" />
     <Compile Include="AST\Statements\DimStatement.cs" />
     <Compile Include="AST\Statements\DoUntilStatement.cs" />
+    <Compile Include="AST\Statements\EmptyStatement.cs" />
     <Compile Include="AST\Statements\EnumDeclarationStatement.cs" />
     <Compile Include="AST\Statements\ExitloopStatement.cs" />
     <Compile Include="AST\Statements\ExitStatement.cs" />
@@ -133,6 +139,7 @@
     <Compile Include="AST\Statements\Interface\StatementBase.cs" />
     <Compile Include="AST\Statements\LocalDeclarationStatement.cs" />
     <Compile Include="AST\Statements\LocalEnumDeclarationStatement.cs" />
+    <Compile Include="AST\Statements\PropertyDeclarationStatement.cs" />
     <Compile Include="AST\Statements\ReDimStatement.cs" />
     <Compile Include="AST\Statements\ReturnStatement.cs" />
     <Compile Include="AST\Statements\SelectCase.cs" />
@@ -152,6 +159,7 @@
     <Compile Include="Collection\TokenQueue.cs" />
     <Compile Include="Exceptions\InvalidParseException.cs" />
     <Compile Include="Exceptions\SyntaxTreeException.cs" />
+    <Compile Include="ExtendedParserBootStrapper.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
@@ -170,7 +178,7 @@
     <Compile Include="Lex\TokenFactory.cs" />
     <Compile Include="Lex\TokenType.cs" />
     <Compile Include="Lex\TokenValue.cs" />
-    <Compile Include="ParserBootStrapper.cs" />
+    <Compile Include="StandardParserBootStrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

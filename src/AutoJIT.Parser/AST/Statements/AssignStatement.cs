@@ -46,7 +46,7 @@ namespace AutoJIT.Parser.AST.Statements
             return statement;
         }
 
-        public AssignStatement Update( VariableExpression variable, IExpressionNode expressionToAssign, TokenNode @operator ) {
+        public AssignStatement Update( IExpressionNode variable, IExpressionNode expressionToAssign, TokenNode @operator ) {
             if ( variable == Variable &&
                  expressionToAssign == ExpressionToAssign &&
                  Operator == @operator ) {

@@ -23,7 +23,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitAssignStatement( AssignStatement node ) {
-            var variable = (VariableExpression) Visit( node.Variable );
+            var variable = (VariableExpression)Visit( node.Variable );
             var expressionToAssign = (IExpressionNode) Visit( node.ExpressionToAssign );
             TokenNode @operator = (TokenNode)Visit(node.Operator);
             return node.Update( variable, expressionToAssign, @operator );
@@ -133,7 +133,7 @@ namespace AutoJIT.Parser.AST.Visitor
         public override ISyntaxNode VisitFunction( Function node ) {
             var name = (TokenNode)Visit( node.Name );
             var parameter = node.Parameter.Select( x => (AutoitParameter) Visit( x ) ).ToList();
-            var statements = node.Statements.Select( x => (IStatementNode) Visit( x ) ).ToList();
+            var statements = (BlockStatement)Visit(node.Statements);
             return node.Update( name, parameter, statements );
         }
 
@@ -283,7 +283,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitBlockStatement( BlockStatement node ) {
-            IEnumerable<IStatementNode> block = node.Block.Select( x => (IStatementNode) Visit( x ) );
+            List<IStatementNode> block = node.Block.Select( x => (IStatementNode) Visit( x ) ).ToList();
             return node.Update( block );
         }
 
@@ -291,6 +291,31 @@ namespace AutoJIT.Parser.AST.Visitor
             var defaultValue = (IExpressionNode)Visit(node.DefaultValue);
             var parameterName = (TokenNode)Visit( node.ParameterName );
             return node.Update(parameterName, defaultValue, node.IsByRef, node.IsConst);
+        }
+
+        public override ISyntaxNode VisitProperty( PropertyDeclarationStatement node ) {
+            var getter = (PropertyGetter)Visit(node.PropertyGetter);
+            var setter = (PropertySetter)Visit( node.PropertySetter );
+            var variable = (VariableExpression)Visit(node.VariableExpression);
+            return node.Update( variable, getter, setter );
+        }
+
+        public override ISyntaxNode VisitPropertyGetter( PropertyGetter node ) {
+            var block = (BlockStatement)Visit( node.StatementBlock );
+            return node.Update( block );
+        }
+
+        public override ISyntaxNode VisitPropertySetter( PropertySetter node ) {
+            var block = (BlockStatement)Visit(node.StatementBlock);
+            return node.Update(block);
+        }
+
+        public override ISyntaxNode VisitEmptyStatement( EmptyStatement node ) {
+            return node.Update();
+        }
+
+        public override ISyntaxNode VisitValueExpression( ValueExpression node ) {
+            return node.Update();
         }
 
         public override ISyntaxNode VisitToken( TokenNode node ) {

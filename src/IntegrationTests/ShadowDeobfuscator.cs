@@ -11,7 +11,7 @@ namespace IntegrationTests
         private readonly IScriptParser _scriptParser;
 
         public ShadowDeobfuscator() {
-            var parserBootStrapper = new ParserBootStrapper();
+            var parserBootStrapper = new StandardParserBootStrapper();
             _scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
         }
 

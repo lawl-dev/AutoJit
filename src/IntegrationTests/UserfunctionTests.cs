@@ -10,6 +10,7 @@ using System.Threading;
 using AutoJIT.Compiler;
 using AutoJIT.CompilerApplication;
 using AutoJIT.Contrib;
+using AutoJIT.ExtendIt;
 using AutoJIT.Parser;
 using AutoJIT.Parser.AST;
 using AutoJIT.Parser.AST.Expressions;
@@ -199,12 +200,13 @@ namespace IntegrationTests
 
         [Test]
         public void Foo() {
-            var parserBootStrapper = new ParserBootStrapper();
+            var parserBootStrapper = new StandardParserBootStrapper();
             var scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
-            string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\userfunctions\DES.au3" );
-            AutoitScriptRoot autoitScriptRoot = scriptParser.ParseScript( script, new PragmaOptions() );
-            new ConsoleDumpWalker().Visit( autoitScriptRoot );
+            string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\Extended\Properties.au3" );
 
+            var propertyImplementationService = new PropertyImplementationService();
+            var implementProperties = propertyImplementationService.ImplementProperties( script );
+            Debug.Write( implementProperties );
         }
 
         [Test]
@@ -295,7 +297,7 @@ namespace IntegrationTests
 
         [Test]
         public void Foo2() {
-            var parserBootStrapper = new ParserBootStrapper();
+            var parserBootStrapper = new StandardParserBootStrapper();
             var scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
             string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\Statements\test_all_the_things" );
             AutoitScriptRoot autoitScriptRoot = scriptParser.ParseScript( script, new PragmaOptions() );
@@ -411,6 +413,8 @@ namespace IntegrationTests
     class ConsoleDumpWalker : SyntaxWalkerBase
     {
         public override void Visit( ISyntaxNode node ) {
+            base.Visit(node);
+
             int padding = node.Ancestors().Count();
             //To identify leaf nodes vs nodes with children
             string prepend = node.Children.Any() ? "[>]" : "[-]";
@@ -419,7 +423,6 @@ namespace IntegrationTests
                                     " " + node.GetType().ToString();
             //Write the line
             System.Console.WriteLine(line);
-            base.Visit(node);
         }
     }
 }

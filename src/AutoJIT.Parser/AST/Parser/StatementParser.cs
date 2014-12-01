@@ -28,12 +28,6 @@ namespace AutoJIT.Parser.AST.Parser
             var statements = new List<IStatementNode>();
 
             while ( block.Any() ) {
-                ConsumeNewLine( block );
-
-                if ( !block.Any() ) {
-                    break;
-                }
-
                 Token current = block.Peek();
 
                 IStatementParserStrategy parser = GetParser( block, current );
@@ -47,6 +41,8 @@ namespace AutoJIT.Parser.AST.Parser
 
         private IStatementParserStrategy GetParser( TokenQueue block, Token current ) {
             switch (current.Type) {
+                case TokenType.NewLine:
+                    return ResolveStrategy<EmptyStatement>();
                 case TokenType.Variable:
                     bool isVariableFunctionCall = block.Skip( 1 ).First().Type == TokenType.Leftparen;
                     if ( isVariableFunctionCall ) {
@@ -65,6 +61,8 @@ namespace AutoJIT.Parser.AST.Parser
                             }
                             Consume( block, Keywords.Local );
                             return ResolveStrategy<StaticDeclarationStatement>();
+                        case Keywords.Property:
+                            return ResolveStrategy<PropertyDeclarationStatement>();
                         case Keywords.Global:
                             if ( Consume( block, Keywords.Enum ) ) {
                                 return ResolveStrategy<GlobalEnumDeclarationStatement>();

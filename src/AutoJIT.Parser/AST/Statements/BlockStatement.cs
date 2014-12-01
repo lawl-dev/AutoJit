@@ -48,7 +48,7 @@ namespace AutoJIT.Parser.AST.Statements
             return visitor.VisitBlockStatement( this );
         }
 
-        public BlockStatement Update( IEnumerable<IStatementNode> block ) {
+        public BlockStatement Update( List<IStatementNode> block ) {
             if ( EnumerableEquals( Block, block ) ) {
                 return this;
             }

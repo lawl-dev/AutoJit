@@ -166,7 +166,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.Visitor
         }
 
         protected MemberDeclarationSyntax Convert( Function function, IContextService context ) {
-            IList<IStatementNode> statementNodes = function.Statements;
+            IList<IStatementNode> statementNodes = function.Statements.Block;
             statementNodes = DeclareParameter( statementNodes, function.Parameter, context );
 
             List<StatementSyntax> dotNetStatements = ConvertStatements( statementNodes );

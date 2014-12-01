@@ -150,7 +150,7 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
 
-        public Function CreateFunction( TokenNode name, List<AutoitParameter> parameter, List<IStatementNode> functionStatements ) {
+        public Function CreateFunction( TokenNode name, List<AutoitParameter> parameter, BlockStatement functionStatements ) {
             var function = new Function( name, parameter, functionStatements );
             function.Initialize();
             return function;
@@ -588,7 +588,9 @@ namespace AutoJIT.Parser.AST.Factory
         }
 
         public AutoitScriptRoot CreateRoot( List<Function> functions, BlockStatement main, PragmaOptions pragmaOptions ) {
-            return new AutoitScriptRoot(  functions, main, pragmaOptions);
+            var root = new AutoitScriptRoot(  functions, main, pragmaOptions);
+            root.Initialize();
+            return root;
         }
 
         public StringLiteralExpression CreateStringLiteralExpression( string literalToken ) {
@@ -600,7 +602,52 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("name");
             }
 
-            return new AutoitParameter( CreateTokenNode( name), defaultExpression, isByRef, isConst );
+            var autoitParameter = new AutoitParameter( CreateTokenNode( name), defaultExpression, isByRef, isConst );
+            autoitParameter.Initialize();
+            return autoitParameter;
+        }
+
+        public ValueExpression CreateValueExpression() {
+            var valueExpression = new ValueExpression();
+            valueExpression.Initialize();
+            return valueExpression;
+        }
+
+        public PropertyGetter CreatePropertyGetter( BlockStatement statements ) {
+            if ( statements == null ) {
+                throw new ArgumentNullException("statements");
+            }
+
+            var getter = new PropertyGetter( statements );
+            getter.Initialize();
+            return getter;
+        }
+
+        public PropertySetter CreatePropertySetter( BlockStatement statements ) {
+            if (statements == null)
+            {
+                throw new ArgumentNullException("statements");
+            }
+
+            var statement = new PropertySetter( statements );
+            statement.Initialize();
+            return statement;
+        }
+
+        public PropertyDeclarationStatement CreateProperty( VariableExpression variableExpression, PropertyGetter propertyGetter, PropertySetter propertySetter ) {
+            if ( variableExpression == null ) {
+                throw new ArgumentNullException("variableExpression");
+            }
+
+            var statement = new PropertyDeclarationStatement(variableExpression, propertyGetter, propertySetter);
+            statement.Initialize();
+            return statement;
+        }
+
+        public EmptyStatement CreateEmptyStatement() {
+            var statement = new EmptyStatement();
+            statement.Initialize();
+            return statement;
         }
 
         public TokenNode CreateTokenNode( int token ) {

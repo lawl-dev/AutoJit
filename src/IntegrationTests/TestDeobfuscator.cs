@@ -28,7 +28,7 @@ namespace IntegrationTests
         private readonly IScriptParser _scriptParser;
 
         public AutoitOptimizer() {
-            var bootStrapper = new ParserBootStrapper();
+            var bootStrapper = new StandardParserBootStrapper();
             _scriptParser = bootStrapper.GetInstance<IScriptParser>();
         }
 

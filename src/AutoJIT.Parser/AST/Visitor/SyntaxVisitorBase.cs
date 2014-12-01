@@ -41,7 +41,7 @@ namespace AutoJIT.Parser.AST.Visitor
         public virtual void VisitUserfunctionCallExpression( UserfunctionCallExpression node ) {}
 
         public virtual void VisitVariableExpression( VariableExpression node ) {}
-        
+
         public virtual void VisitContinueCaseStatement( ContinueCaseStatement node ) {}
 
         public virtual void VisitContinueLoopStatement( ContinueLoopStatement node ) {}
@@ -108,6 +108,14 @@ namespace AutoJIT.Parser.AST.Visitor
         public virtual void VisitToken( TokenNode node ) {}
 
         public virtual void VisitAutoitParameter( AutoitParameter node ) {}
+        public virtual void VisitValueExpression( ValueExpression valueExpression ) {}
+
+        public virtual void VisitProperty( PropertyDeclarationStatement propertyDeclarationStatement ) {}
+
+        public virtual void VisitPropertyGetter( PropertyGetter propertyGetter ) {}
+
+        public virtual void VisitPropertySetter( PropertySetter propertySetter ) {}
+        public virtual void VisitEmptyStatement( EmptyStatement emptyStatement ) {}
     }
 
     public abstract class SyntaxVisitorBase<TResult> : ISyntaxVisitor<TResult>
@@ -319,6 +327,26 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public virtual TResult VisitAutoitParameter( AutoitParameter node ) {
+            return VisitDefault( node );
+        }
+
+        public virtual TResult VisitValueExpression( ValueExpression node ) {
+            return VisitDefault( node );
+        }
+
+        public virtual TResult VisitProperty( PropertyDeclarationStatement node ) {
+            return VisitDefault( node );
+        }
+
+        public virtual TResult VisitPropertyGetter( PropertyGetter node ) {
+            return VisitDefault( node );
+        }
+
+        public virtual TResult VisitPropertySetter( PropertySetter node ) {
+            return VisitDefault( node );
+        }
+
+        public virtual TResult VisitEmptyStatement( EmptyStatement node ) {
             return VisitDefault( node );
         }
     }

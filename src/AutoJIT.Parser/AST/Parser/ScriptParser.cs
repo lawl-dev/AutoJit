@@ -35,7 +35,7 @@ namespace AutoJIT.Parser.AST.Parser
             var functions = new List<Function>();
 
             foreach (FunctionToken function in functionToken.Where( x=>!x.IsMain )) {
-                var functionStatements = _statementParser.ParseBlock( new TokenQueue(function.Tokens) ).ToList();
+                var functionStatements = _autoitSyntaxFactory.CreateBlockStatement(_statementParser.ParseBlock( new TokenQueue(function.Tokens) ).ToList());
                 Function func = _autoitSyntaxFactory.CreateFunction( _autoitSyntaxFactory.CreateTokenNode( function.Name ), function.Parameter, functionStatements );
                 functions.Add( func );
             }
@@ -61,6 +61,7 @@ namespace AutoJIT.Parser.AST.Parser
 
                 if ( token.Value.Keyword == Keywords.Endfunc ) {
                     if ( isFunctionBody ) {
+                        ConsumeAndEnsure( tokenQueue, TokenType.NewLine );
                         isFunctionBody = false;
                     }
                     else {
@@ -76,6 +77,7 @@ namespace AutoJIT.Parser.AST.Parser
                     Token functionName = tokenQueue.Dequeue();
 
                     functions.Add(new FunctionToken(functionName, ParseFunctionParameter(tokenQueue).ToList()));
+                    ConsumeAndEnsure( tokenQueue, TokenType.NewLine );
                 }
                 else if ( token.Value.Keyword != Keywords.Endfunc ) {
                     main.Tokens.Enqueue( token );

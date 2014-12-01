@@ -8,6 +8,7 @@ using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Extensions;
+using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser.Strategy
 {
@@ -21,6 +22,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
         private ReturnStatement ParseReturn( TokenQueue block ) {
             TokenCollection returnExpressionTokenCollection = ParseUntilNewLine( block );
+            ConsumeAndEnsure( block, TokenType.NewLine );
 
             IExpressionNode returnExpression = null;
             if ( returnExpressionTokenCollection.Any() ) {

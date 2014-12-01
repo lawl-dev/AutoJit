@@ -22,7 +22,7 @@ namespace IntegrationTests
         private readonly IScriptParser _scriptParser;
 
         public AutoitLoggingVisitorWrapper() {
-            var parserBootStrapper = new ParserBootStrapper();
+            var parserBootStrapper = new StandardParserBootStrapper();
             _scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
         }
         public string Process( string autoitCode ) {
@@ -80,7 +80,7 @@ namespace IntegrationTests
 
         public AutoitSimpleVariableObfuscator()
         {
-            var parserBootStrapper = new ParserBootStrapper();
+            var parserBootStrapper = new StandardParserBootStrapper();
             _scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
         }
         public string Process(string autoitCode)
@@ -120,7 +120,7 @@ namespace IntegrationTests
 
         public AutoitFunctionObfuscator()
         {
-            var parserBootStrapper = new ParserBootStrapper();
+            var parserBootStrapper = new StandardParserBootStrapper();
             _scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
         }
         public string Process(string autoitCode)
@@ -154,11 +154,11 @@ namespace IntegrationTests
 
             var parameters = parameterNames.Select( x=>_syntaxFactory.CreateParameter( _tokenFactory.CreateVariable( x, 0 ,0 ), null, false, false ) ).ToList();
 
-            var returnStatement = _syntaxFactory.CreateReturnStatement( (IExpressionNode) assignStatement.ExpressionToAssign.Clone() );
+            var returnStatement = _syntaxFactory.CreateBlockStatement(new List<IStatementNode> { _syntaxFactory.CreateReturnStatement( (IExpressionNode) assignStatement.ExpressionToAssign.Clone() ) });
 
             var newFunctionName = string.Format( "_f{0}", Guid.NewGuid().ToString("N") );
 
-            var function = _syntaxFactory.CreateFunction( _syntaxFactory.CreateTokenNode( newFunctionName ), parameters, new List<IStatementNode>(){returnStatement} );
+            var function = _syntaxFactory.CreateFunction( _syntaxFactory.CreateTokenNode( newFunctionName ), parameters, returnStatement);
 
             _newFunctions.Add( function );
 

@@ -10,7 +10,7 @@ using AutoJIT.Parser.Lex.Interface;
 
 namespace AutoJIT.Parser
 {
-    public class ParserBootStrapper : ComponentContainerBase
+    public class StandardParserBootStrapper : ComponentContainerBase
     {
         protected override void Bind() {
             Bind<IPragmaParser, PragmaParser>();
@@ -25,7 +25,7 @@ namespace AutoJIT.Parser
             RegisterStatementParserStrategys();
         }
 
-        private void RegisterStatementParserStrategys() {
+        protected virtual void RegisterStatementParserStrategys() {
             Bind<IStatementParserStrategyResolver, StatementParserStrategyResolver>();
             Bind<IStatementParserStrategy<AssignStatement>, AssignStatementParserStrategy>();
             Bind<IStatementParserStrategy<ContinueLoopStatement>, ContinueLoopStatementStrategy>();
@@ -49,6 +49,7 @@ namespace AutoJIT.Parser
             Bind<IStatementParserStrategy<ContinueCaseStatement>, ContinueCaseStatementStrategy>();
             Bind<IStatementParserStrategy<StaticDeclarationStatement>, StaticStatementParserStrategy>();
             Bind<IStatementParserStrategy<VariableFunctionCallStatement>, VariableFunctionCallStatementParserStrategy>();
+            Bind<IStatementParserStrategy<EmptyStatement>, EmptyStatementParserStrategy>();
         }
     }
 }

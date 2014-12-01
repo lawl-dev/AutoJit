@@ -55,6 +55,11 @@ namespace AutoJIT.Parser.AST.Visitor
         void VisitBlockStatement(BlockStatement node);
         void VisitToken(TokenNode node);
         void VisitAutoitParameter(AutoitParameter node);
+        void VisitValueExpression( ValueExpression valueExpression );
+        void VisitProperty( PropertyDeclarationStatement propertyDeclarationStatement );
+        void VisitPropertyGetter( PropertyGetter propertyGetter );
+        void VisitPropertySetter( PropertySetter propertySetter );
+        void VisitEmptyStatement( EmptyStatement emptyStatement );
     }
 
     public interface ISyntaxVisitor<out TResult>
@@ -109,5 +114,10 @@ namespace AutoJIT.Parser.AST.Visitor
         TResult VisitBlockStatement( BlockStatement node );
         TResult VisitToken( TokenNode node );
         TResult VisitAutoitParameter( AutoitParameter node );
+        TResult VisitValueExpression( ValueExpression node );
+        TResult VisitProperty( PropertyDeclarationStatement node );
+        TResult VisitPropertyGetter( PropertyGetter node );
+        TResult VisitPropertySetter( PropertySetter node );
+        TResult VisitEmptyStatement( EmptyStatement node );
     }
 }

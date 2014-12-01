@@ -41,6 +41,13 @@ namespace AutoJIT.Parser
         Enum,
         Static,
         Import,
-        As
+        As,
+        Property,
+        EndProperty,
+        Get,
+        EndGet,
+        Set,
+        EndSet,
+        Value
     }
 }
