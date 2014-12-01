@@ -9,7 +9,11 @@ namespace AutoJIT.Parser.AST.Statements
     {
         public LocalEnumDeclarationStatement( VariableExpression variableExpression, IExpressionNode userInitExpression, IExpressionNode autoInitExpression ) : base( variableExpression, userInitExpression, autoInitExpression ) {}
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitLocalEnumDeclarationStatement(this);
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitLocalEnumDeclarationStatement( this );
         }
 

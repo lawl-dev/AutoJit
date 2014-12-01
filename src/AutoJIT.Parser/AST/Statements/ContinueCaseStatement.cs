@@ -11,7 +11,11 @@ namespace AutoJIT.Parser.AST.Statements
             get { return Enumerable.Empty<ISyntaxNode>(); }
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitContinueCaseStatement(this);
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitContinueCaseStatement( this );
         }
 

@@ -5,17 +5,11 @@ using AutoJIT.Parser.AST.Visitor;
 
 namespace AutoJIT.CSharpConverter.AutojitCheck
 {
-    public class SemanticCheckerVisitor : ISyntaxVisitor
+    public class SemanticCheckerVisitor : SyntaxVisitorBase
     {
         private readonly Dictionary<string, GlobalDeclarationStatement> _constGlobal = new Dictionary<string, GlobalDeclarationStatement>();
         private readonly Dictionary<string, List<LocalDeclarationStatement>> _constLocal = new Dictionary<string, List<LocalDeclarationStatement>>();
-
-        public void Visit( ISyntaxNode node ) {
-            Visit( (dynamic) node );
-        }
-
-        public void Visit( object o ) {}
-
+        
         public void Visit( GlobalDeclarationStatement global ) {
             if (_constGlobal.ContainsKey(global.VariableExpression.IdentifierName.Token.Value.StringValue))
             {

@@ -10,7 +10,11 @@ namespace AutoJIT.Parser.AST.Expressions
             get { return Enumerable.Empty<ISyntaxNode>(); }
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitTrueLiteralExpression(this);
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitTrueLiteralExpression( this );
         }
 

@@ -46,6 +46,10 @@ namespace AutoJIT.Parser
             return toReturn;
         }
 
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitAutoitParameter(this);
+        }
+
         public override object Clone() {
             var autoitParameter = new AutoitParameter(
                 (TokenNode) ParameterName.Clone(), DefaultValue != null
@@ -56,7 +60,7 @@ namespace AutoJIT.Parser
             return autoitParameter;
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitAutoitParameter(this);
         }
 

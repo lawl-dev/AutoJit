@@ -21,11 +21,15 @@ namespace AutoJIT.Parser.AST.Expressions
             return Token.ToString();
         }
 
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitToken(this);
+        }
+
         public override object Clone() {
             return new TokenNode( new Token { Col = Token.Col, Line = Token.Line, Type = Token.Type, Value = Token.Value } );
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitToken( this );
         }
 

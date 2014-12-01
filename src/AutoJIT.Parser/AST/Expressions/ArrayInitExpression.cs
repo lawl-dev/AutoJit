@@ -17,7 +17,11 @@ namespace AutoJIT.Parser.AST.Expressions
             get { return new List<ISyntaxNode>( ToAssign ); }
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitArrayInitExpression( this );
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitArrayInitExpression( this );
         }
 
@@ -31,7 +35,7 @@ namespace AutoJIT.Parser.AST.Expressions
             return initExpression;
         }
 
-        public ArrayInitExpression Update( IEnumerable<IExpressionNode> toAssign ) {
+        public ArrayInitExpression Update( List<IExpressionNode> toAssign ) {
             if ( EnumerableEquals(ToAssign, toAssign) ) {
                 return this;
             }

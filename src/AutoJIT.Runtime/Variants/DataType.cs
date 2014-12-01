@@ -13,6 +13,8 @@
         Null = 8,
         Struct = 9,
         Default = 10,
-        Function
+        Function,
+        Any,
+        None
     }
 }

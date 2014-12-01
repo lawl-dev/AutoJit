@@ -25,8 +25,12 @@ namespace AutoJIT.Parser.AST.Expressions
         public bool Negativ {
             get { return SignOperators != null && SignOperators.Count( x => x.Token.Type == TokenType.Minus ) % 2 != 0; }
         }
-        
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitNumericLiteralExpression(this);
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitNumericLiteralExpression( this );
         }
 

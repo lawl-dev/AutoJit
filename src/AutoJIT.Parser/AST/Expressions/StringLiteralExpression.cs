@@ -9,7 +9,11 @@ namespace AutoJIT.Parser.AST.Expressions
     {
         public StringLiteralExpression( TokenNode literalToken ) : base( literalToken ) {}
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitStringLiteralExpression(this);
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitStringLiteralExpression( this );
         }
 

@@ -23,7 +23,11 @@ namespace AutoJIT.Parser.AST.Expressions
             }
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitCallExpression(this);
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitCallExpression( this );
         }
 

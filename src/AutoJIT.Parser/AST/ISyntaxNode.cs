@@ -9,8 +9,7 @@ namespace AutoJIT.Parser.AST
         IEnumerable<ISyntaxNode> Children { get; }
         ISyntaxNode Parent { get; set; }
         string ToSource();
-        void AcceptSingle( ISyntaxVisitor visitor );
         void Accept( ISyntaxVisitor visitor );
-        TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor );
+        TResult Accept<TResult>(ISyntaxVisitor<TResult> visitor);
     }
 }

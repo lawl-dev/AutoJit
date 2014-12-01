@@ -10,20 +10,10 @@ namespace AutoJIT.Parser.AST
     {
         private ISyntaxNode _parent;
 
-        public void AcceptSingle( ISyntaxVisitor visitor ) {
-            visitor.Visit( this );
-        }
-
         public abstract IEnumerable<ISyntaxNode> Children { get; }
 
-        public void Accept( ISyntaxVisitor visitor ) {
-            foreach (ISyntaxNode child in Children) {
-                child.Accept( visitor );
-                visitor.Visit( child );
-            }
-        }
-
-        public abstract TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor );
+        public abstract void Accept( ISyntaxVisitor visitor );
+        public abstract TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor );
 
         public ISyntaxNode Parent {
             get { return _parent; }

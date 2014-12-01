@@ -59,6 +59,7 @@
     <Compile Include="Exceptions\AddressParameterIsNotAPointerException.cs" />
     <Compile Include="Exceptions\ElementOutOfRangeException.cs" />
     <Compile Include="MiscService.cs" />
+    <Compile Include="ReturnsAttribute.cs" />
     <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Exceptions\InvalidHexStringException.cs" />
     <Compile Include="Exceptions\IndexOutOfRangeException.cs" />

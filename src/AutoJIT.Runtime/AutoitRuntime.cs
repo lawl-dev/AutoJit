@@ -42,6 +42,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Double)]
         public Variant ACos( Variant expression ) {
             SetError( 0, 0, 0 );
 
@@ -54,6 +55,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Double)]
         public Variant ASin( Variant expression ) {
             SetError( 0, 0, 0 );
 
@@ -66,6 +68,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Double)]
         public Variant ATan( Variant expression ) {
             SetError( 0, 0, 0 );
 
@@ -78,6 +81,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Double)]
         public Variant Abs( Variant expression ) {
             SetError( 0, 0, 0 );
 
@@ -89,6 +93,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.Double)]
         public Variant AdlibRegister( Variant function, Variant time = null ) {
             SetError( 0, 0, 0 );
 
@@ -105,6 +110,7 @@ namespace AutoJITRuntime
             return true;
         }
 
+        [Returns(DataType.Double)]
         public Variant AdlibUnRegister( Variant function = null ) {
             SetError( 0, 0, 0 );
 
@@ -123,6 +129,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Int32)]
         public Variant Asc( Variant @char ) {
             SetError( 0, 0, 0 );
 
@@ -133,7 +140,8 @@ namespace AutoJITRuntime
                 return SetError( Variant.Create( ex.Error ), Variant.Create( ex.Extended ), Variant.Create( ex.Return ) );
             }
         }
-
+        
+        [Returns(DataType.Int32)]
         public Variant AscW( Variant @char ) {
             SetError( 0, 0, 0 );
 
@@ -145,34 +153,40 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.Int32)]
         public Variant Assign( Variant varname, Variant data, Variant flag = null ) {
             throw new NotSupportedException( "Function 'Assign' is not supported" );
         }
 
+        [Returns(DataType.Any)]
         public Variant Opt( Variant option, Variant param = null ) {
             SetError( 0, 0, 0 );
 
             return AutoItSetOption( option, param );
         }
 
+        [Returns(DataType.Any)]
         public Variant AutoItSetOption( Variant option, Variant param = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.String)]
         public Variant AutoItWinGetTitle() {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.None)]
         public Variant AutoItWinSetTitle( Variant newtitle ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant Beep( Variant Frequency = null, Variant Duration = null ) {
             SetError( 0, 0, 0 );
 
@@ -189,6 +203,7 @@ namespace AutoJITRuntime
             return 1;
         }
 
+        [Returns(DataType.Binary)]
         public Variant Binary( Variant expression ) {
             SetError( 0, 0, 0 );
 
@@ -200,6 +215,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.Int32)]
         public Variant BinaryLen( Variant binary ) {
             SetError( 0, 0, 0 );
 
@@ -211,6 +227,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.Binary)]
         public Variant BinaryMid( Variant binary, Variant start, Variant count = null ) {
             SetError( 0, 0, 0 );
 
@@ -222,6 +239,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.String)]
         public Variant BinaryToString( Variant expression, Variant flag = null ) {
             SetError( 0, 0, 0 );
 
@@ -238,6 +256,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Int32)]
         public Variant BitAND( Variant value1, Variant value2, params Variant[] valuen ) {
             SetError( 0, 0, 0 );
 
@@ -250,6 +269,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Int32)]
         public Variant BitNOT( Variant value ) {
             SetError( 0, 0, 0 );
 
@@ -262,6 +282,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Int32)]
         public Variant BitOR( Variant value1, Variant value2, params Variant[] valuen ) {
             SetError( 0, 0, 0 );
 
@@ -273,6 +294,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.Int32)]
         public Variant BitRotate( Variant value, Variant shift = null, Variant size = null ) {
             SetError( 0, 0, 0 );
 
@@ -280,6 +302,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Int32)]
         public Variant BitShift( Variant value, Variant shift ) {
             SetError( 0, 0, 0 );
 
@@ -292,6 +315,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Int32)]
         public Variant BitXOR( Variant value1, Variant value2, params Variant[] valuen ) {
             SetError( 0, 0, 0 );
 
@@ -303,6 +327,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.Int32)]
         public Variant BlockInput( Variant flag ) {
             SetError( 0, 0, 0 );
 
@@ -314,18 +339,21 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.None)]
         public Variant Break( Variant mode ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant CDTray( Variant drive, Variant status ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Any)]
         public Variant Call( Variant function, params Variant[] paramsN ) {
             SetError( 0, 0, 0 );
 
@@ -339,6 +367,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Int32)]
         public Variant Ceiling( Variant expression ) {
             SetError( 0, 0, 0 );
 
@@ -351,6 +380,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.String)]
         public Variant Chr( Variant ASCIIcode ) {
             SetError( 0, 0, 0 );
 
@@ -363,6 +393,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.String)]
         public Variant ChrW( Variant UNICODEcode ) {
             SetError( 0, 0, 0 );
 
@@ -374,6 +405,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.String)]
         public Variant ClipGet() {
             SetError( 0, 0, 0 );
 
@@ -385,6 +417,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.Int32)]
         public Variant ClipPut( Variant value ) {
             SetError( 0, 0, 0 );
 
@@ -396,6 +429,7 @@ namespace AutoJITRuntime
             }
         }
 
+        [Returns(DataType.Any)]
         public Variant ConsoleRead( Variant peek = null, Variant binary = null ) {
             SetError( 0, 0, 0 );
 
@@ -426,6 +460,7 @@ namespace AutoJITRuntime
                 } );
         }
 
+        [Returns(DataType.Int32)]
         public Variant ConsoleWrite( Variant data ) {
             SetError( 0, 0, 0 );
 
@@ -435,6 +470,7 @@ namespace AutoJITRuntime
             return @string.Length;
         }
 
+        [Returns(DataType.Int32)]
         public Variant ConsoleWriteError( Variant data ) {
             SetError( 0, 0, 0 );
 
@@ -448,96 +484,112 @@ namespace AutoJITRuntime
             return @string;
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlClick( Variant title, Variant text, Variant controlID, Variant button = null, Variant clicks = null, Variant x = null, Variant y = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Any)]
         public Variant ControlCommand( Variant title, Variant text, Variant controlID, Variant command, Variant option = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlDisable( Variant title, Variant text, Variant controlID ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlEnable( Variant title, Variant text, Variant controlID ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlFocus( Variant title, Variant text, Variant controlID ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.String)]
         public Variant ControlGetFocus( Variant title, Variant text = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.IntPtr)]
         public Variant ControlGetHandle( Variant title, Variant text, Variant controlID ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Array)]
         public Variant ControlGetPos( Variant title, Variant text, Variant controlID ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.String)]
         public Variant ControlGetText( Variant title, Variant text, Variant controlID ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlHide( Variant title, Variant text, Variant controlID ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Any)]
         public Variant ControlListView( Variant title, Variant text, Variant controlID, Variant command, params Variant[] optionN ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlMove( Variant title, Variant text, Variant controlID, Variant x, Variant y, Variant width = null, Variant height = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlSend( Variant title, Variant text, Variant controlID, Variant @string, Variant flag = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlSetText( Variant title, Variant text, Variant controlID, Variant newtext, Variant flag = null ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Int32)]
         public Variant ControlShow( Variant title, Variant text, Variant controlID ) {
             SetError( 0, 0, 0 );
 
             throw new NotImplementedException();
         }
 
+        [Returns(DataType.Any)]
         public Variant ControlTreeView( Variant title, Variant text, Variant controlID, Variant command, Variant option1 = null ) {
             SetError( 0, 0, 0 );
 
@@ -545,6 +597,7 @@ namespace AutoJITRuntime
         }
 
         [Inlineable]
+        [Returns(DataType.Double)]
         public Variant Cos( Variant expression ) {
             SetError( 0, 0, 0 );
 

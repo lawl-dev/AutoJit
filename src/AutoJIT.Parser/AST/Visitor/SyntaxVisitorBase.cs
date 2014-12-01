@@ -7,7 +7,7 @@ namespace AutoJIT.Parser.AST.Visitor
     public abstract class SyntaxVisitorBase : ISyntaxVisitor
     {
         public void Visit( ISyntaxNode node ) {
-            throw new NotImplementedException();
+            node.Accept( this );
         }
 
         public virtual void VisitArrayInitExpression( ArrayInitExpression node ) {}
@@ -83,6 +83,33 @@ namespace AutoJIT.Parser.AST.Visitor
         public virtual void VisitFunction( Function node ) {}
 
         public virtual void VisitAutoitScriptRoot( AutoitScriptRoot node ) {}
+        public virtual void VisitCaseCondition( CaseCondition node ) {}
+
+        public virtual void VisitFunctionExpression( FunctionExpression node ) {}
+
+        public virtual void VisitVariableFunctionCallExpression( VariableFunctionCallExpression node ) {}
+
+        public virtual void VisitAssignStatement( AssignStatement node ) {}
+
+        public virtual void VisitExitloopStatement( ExitloopStatement node ) {}
+
+        public virtual void VisitGlobalEnumDeclarationStatement( GlobalEnumDeclarationStatement node ) {}
+
+        public virtual void VisitLocalEnumDeclarationStatement( LocalEnumDeclarationStatement node ) {}
+
+        public virtual void VisitSelectCase( SelectCase node ) {}
+
+        public virtual void VisitSwitchCase( SwitchCase node ) {}
+
+        public virtual void VisitVariableFunctionCallStatement( VariableFunctionCallStatement node ) {}
+
+        public virtual void VisitStaticDeclarationStatement( StaticDeclarationStatement node ) {}
+
+        public virtual void VisitBlockStatement( BlockStatement node ) {}
+
+        public virtual void VisitToken( TokenNode node ) {}
+
+        public virtual void VisitAutoitParameter( AutoitParameter node ) {}
     }
 
     public abstract class SyntaxVisitorBase<TResult> : ISyntaxVisitor<TResult>

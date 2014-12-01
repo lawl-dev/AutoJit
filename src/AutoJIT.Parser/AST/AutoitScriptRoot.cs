@@ -29,7 +29,11 @@ namespace AutoJIT.Parser.AST
             }
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override void Accept( ISyntaxVisitor visitor ) {
+            throw new NotImplementedException();
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitAutoitScriptRoot( this );
         }
 

@@ -18,7 +18,7 @@ namespace AutoJIT.Parser.AST.Visitor
         }
 
         public override ISyntaxNode VisitArrayInitExpression( ArrayInitExpression node ) {
-            IEnumerable<IExpressionNode> toAssign = node.ToAssign.Select( x => (IExpressionNode) Visit( x ) );
+            List<IExpressionNode> toAssign = node.ToAssign.Select( x => (IExpressionNode) Visit( x ) ).ToList();
             return node.Update( toAssign );
         }
 

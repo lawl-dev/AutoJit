@@ -29,8 +29,12 @@ namespace AutoJIT.Parser.AST.Expressions
             }
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitBinaryExpression( this );
+        }
+        
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitBinaryExpression( this );
         }
 
         public override string ToSource() {

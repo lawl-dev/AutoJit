@@ -17,7 +17,11 @@ namespace AutoJIT.Parser.AST.Expressions
             get { return ExpressionNode.ToEnumerable(); }
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitNegateExpression(this);
+        }
+
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitNegateExpression( this );
         }
 

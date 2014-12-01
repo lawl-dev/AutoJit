@@ -34,13 +34,17 @@ namespace AutoJIT.Parser.AST.Statements
             return string.Empty;
         }
 
+        public override void Accept( ISyntaxVisitor visitor ) {
+            visitor.VisitBlockStatement(this);
+        }
+
         public override object Clone() {
             var statement = new BlockStatement( Block.Select( x => (IStatementNode) x.Clone() ).ToList() );
             statement.Initialize();
             return statement;
         }
 
-        public override TResult Accept<TResult>( SyntaxVisitorBase<TResult> visitor ) {
+        public override TResult Accept<TResult>( ISyntaxVisitor<TResult> visitor ) {
             return visitor.VisitBlockStatement( this );
         }
 
