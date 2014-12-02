@@ -22,7 +22,7 @@ namespace AutoJIT.Parser.AST.Parser
             _operatorPrecedenceService = operatorPrecedenceService;
             _autoitSyntaxFactory = autoitSyntaxFactory;
         }
-
+        
         public IExpressionNode ParseBlock( TokenCollection block, bool prepareExpression ) {
             TokenQueue queue = prepareExpression
                 ? new TokenQueue( _operatorPrecedenceService.PrepareOperatorPrecedence( block ) )
@@ -138,7 +138,7 @@ namespace AutoJIT.Parser.AST.Parser
                 case TokenType.Leftsubscript:
                     toReturn = ParseArrayInitializerExpression( block );
                     break;
-                case TokenType.NOT:
+                case TokenType.Not:
                     Token @operator = block.Dequeue();
                     toReturn = _autoitSyntaxFactory.CreateBooleanNegateExpression( ParseExpressionNode( block ), _autoitSyntaxFactory.CreateTokenNode( @operator ) );
                     break;
@@ -270,7 +270,7 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         private IEnumerable<IExpressionNode> GetFunctionParameterExpressionTrees( TokenQueue block ) {
-            var innerExpressionsBlock = new TokenQueue( ParseInner( block, TokenType.Leftparen, TokenType.Rightparen ) );
+            var innerExpressionsBlock = new TokenQueue( GetBetween( block, TokenType.Leftparen, TokenType.Rightparen ) );
 
             var @params = new List<TokenCollection>();
             @params.Add( new TokenCollection() );

@@ -26,27 +26,26 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private IEnumerable<IStatementNode> ParseGlobal( TokenQueue block ) {
-            var lineBlock = new TokenQueue( block.DequeueWhile( x=>x.Type != TokenType.NewLine ) );
+            var line = GetLine( block );
 
             var toReturn = new List<IStatementNode>();
-            bool isConst = Consume( lineBlock, Keywords.Const );
+            bool isConst = Consume( line, Keywords.Const );
 
-            while (lineBlock.Any() && lineBlock.Peek().Type == TokenType.Variable)
+            while (line.Any() && line.Peek().Type == TokenType.Variable)
             {
-                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( lineBlock );
+                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( line );
 
                 IExpressionNode initExpression = null;
-                if ( Consume( lineBlock, TokenType.Equal ) ) {
-                    initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( lineBlock ) ), true );
+                if ( Consume( line, TokenType.Equal ) ) {
+                    initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( line ) ), true );
                 }
 
                 toReturn.Add( AutoitSyntaxFactory.CreateGlobalDeclarationStatement( variableExpression, initExpression, isConst ) );
 
-                Consume( lineBlock, TokenType.Comma );
+                Consume( line, TokenType.Comma );
             }
 
-            Ensure(() => !lineBlock.Any());
-            ConsumeAndEnsure( block, TokenType.NewLine );
+            Ensure(() => !line.Any());
             return toReturn;
         }
     }

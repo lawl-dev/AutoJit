@@ -20,7 +20,7 @@ namespace AutoJIT.Parser
         Continueloop,
         Select,
         Case,
-        Endselect,
+        EndSelect,
         Dim,
         Redim,
         Local,
@@ -48,6 +48,7 @@ namespace AutoJIT.Parser
         EndGet,
         Set,
         EndSet,
-        Value
+        Value, 
+        Params
     }
 }

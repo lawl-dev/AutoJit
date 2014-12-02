@@ -19,11 +19,11 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private ExitStatement ParseExit( TokenQueue block ) {
-            TokenCollection exitExpression = ParseUntilNewLine( block );
+            var exitExpression = GetLine( block );
 
             IExpressionNode expressionNode = null;
             if ( exitExpression.Any() ) {
-                expressionNode = ExpressionParser.ParseBlock( exitExpression, true );
+                expressionNode = ExpressionParser.ParseBlock( new TokenCollection(exitExpression), true );
             }
 
             return AutoitSyntaxFactory.CreateExitStatement( expressionNode );

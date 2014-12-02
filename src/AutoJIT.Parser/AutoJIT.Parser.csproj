@@ -77,6 +77,7 @@
     <Compile Include="AST\ISyntaxNode.cs" />
     <Compile Include="AST\Parser\ExpressionParseBase.cs" />
     <Compile Include="AST\Parser\ExpressionParser.cs" />
+    <Compile Include="AST\Parser\FunctionToken.cs" />
     <Compile Include="AST\Parser\Interface\IExpressionParser.cs" />
     <Compile Include="AST\Parser\Interface\IOperatorPrecedenceService.cs" />
     <Compile Include="AST\Parser\Interface\IScriptParser.cs" />
@@ -159,7 +160,7 @@
     <Compile Include="Collection\TokenQueue.cs" />
     <Compile Include="Exceptions\InvalidParseException.cs" />
     <Compile Include="Exceptions\SyntaxTreeException.cs" />
-    <Compile Include="ExtendedParserBootStrapper.cs" />
+    <Compile Include="OOPParserBootStrapper.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />

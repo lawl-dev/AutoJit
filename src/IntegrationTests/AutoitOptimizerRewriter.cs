@@ -77,11 +77,11 @@ namespace IntegrationTests
                     return leftVariant < rightVariant;
                 case TokenType.LessEqual:
                     return leftVariant <= rightVariant;
-                case TokenType.AND:
+                case TokenType.And:
                     return leftVariant && rightVariant;
                 case TokenType.Notequal:
                     return leftVariant != rightVariant;
-                case TokenType.OR:
+                case TokenType.Or:
                     return leftVariant || rightVariant;
                 case TokenType.StringEqual:
                     return leftVariant.GetString() == rightVariant.GetString();

@@ -34,7 +34,7 @@ namespace AutoJIT.Parser.AST.Expressions
         }
 
         public override string ToSource() {
-            return string.Format( "Not {0}", Left.ToSource() );
+            return string.Format( "{0} {1}", TokenType.Not, Left.ToSource() );
         }
 
         public override object Clone() {

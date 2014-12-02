@@ -202,11 +202,10 @@ namespace IntegrationTests
         public void Foo() {
             var parserBootStrapper = new StandardParserBootStrapper();
             var scriptParser = parserBootStrapper.GetInstance<IScriptParser>();
-            string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\Extended\Properties.au3" );
+            string script = File.ReadAllText( @"C:\Users\Brunnmeier\Documents\PrivateGIT\OPENSOURCE\Autojit\src\IntegrationTests\testdata\KDMemory.au3" );
+            var autoitScriptRoot = scriptParser.ParseScript( script, new PragmaOptions() );
 
-            var propertyImplementationService = new PropertyImplementationService();
-            var implementProperties = propertyImplementationService.ImplementProperties( script );
-            Debug.Write( implementProperties );
+            Debug.Write( autoitScriptRoot.ToSource() );
         }
 
         [Test]

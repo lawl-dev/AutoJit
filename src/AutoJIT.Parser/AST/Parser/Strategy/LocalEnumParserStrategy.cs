@@ -27,26 +27,26 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private IEnumerable<IStatementNode> ParseEnum( TokenQueue block ) {
-            var lineBlock = new TokenQueue( block.DequeueWhile( x=>x.Type != TokenType.NewLine ) );
+            var line = GetLine( block );
 
             var toReturn = new List<IStatementNode>();
 
             Token @operator = _tokenFactory.CreatePlus( -1, -1 );
 
             IExpressionNode left = AutoitSyntaxFactory.CreateNumericLiteralExpression( AutoitSyntaxFactory.CreateTokenNode( 1 ), Constants.Array<TokenNode>.Empty.ToList() );
-            if ( Consume( lineBlock, Keywords.Step ) ) {
-                @operator = lineBlock.Dequeue();
-                left = ExpressionParser.ParseSingle<IExpressionNode>( lineBlock );
+            if ( Consume( line, Keywords.Step ) ) {
+                @operator = line.Dequeue();
+                left = ExpressionParser.ParseSingle<IExpressionNode>( line );
             }
 
             VariableExpression lastVariableExpression = null;
-            while (lineBlock.Any() && lineBlock.Peek().Type == TokenType.Variable)
+            while (line.Any() && line.Peek().Type == TokenType.Variable)
             {
-                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( lineBlock );
+                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( line );
 
                 IExpressionNode initExpression = null;
-                if ( Consume( lineBlock, TokenType.Equal ) ) {
-                    initExpression = ExpressionParser.ParseSingle<IExpressionNode>( new TokenCollection( ExtractUntilNextDeclaration( lineBlock ) ) );
+                if ( Consume( line, TokenType.Equal ) ) {
+                    initExpression = ExpressionParser.ParseSingle<IExpressionNode>( new TokenCollection( ExtractUntilNextDeclaration( line ) ) );
                 }
 
                 IExpressionNode autoInitExpression = lastVariableExpression == null
@@ -61,11 +61,10 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
                 lastVariableExpression = variableExpression;
 
-                Consume( lineBlock, TokenType.Comma );
+                Consume( line, TokenType.Comma );
             }
 
-            Ensure(() => !lineBlock.Any());
-            ConsumeAndEnsure( block, TokenType.NewLine );
+            Ensure(() => !line.Any());
             return toReturn;
         }
     }

@@ -20,15 +20,15 @@ namespace IntegrationTests
             _operatorPrecedenceService = standardAutoJITContainer.GetInstance<IOperatorPrecedenceService>();
         }
 
-        [TestCase( "NOT 1" )]
-        [TestCase( "1 OR (0 + 1)" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a')" )]
-        [TestCase( "IsNumber('1') OR IsNumber('123a')" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a')" )]
-        [TestCase( "1 OR (0 + 1) AND 2" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a') AND IsNumber('a')" )]
-        [TestCase( "IsNumber('1') OR IsNumber('123a') AND IsNumber('2')" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a') OR IsNumber(123)" )]
+        [TestCase( "Not 1" )]
+        [TestCase( "1 Or (0 + 1)" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a')" )]
+        [TestCase( "IsNumber('1') Or IsNumber('123a')" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a')" )]
+        [TestCase( "1 Or (0 + 1) And 2" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a') And IsNumber('a')" )]
+        [TestCase( "IsNumber('1') Or IsNumber('123a') And IsNumber('2')" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a') Or IsNumber(123)" )]
         [TestCase( "13123 + 312" )]
         [TestCase( "13123 + 312 * 3" )]
         [TestCase( "13123 + 312 * 3 - 4" )]
@@ -224,10 +224,10 @@ namespace IntegrationTests
             Assert.AreEqual( expected, result );
         }
 
-        [TestCase( "$a OR ($b + $c)" )]
-        [TestCase( "IsNumber($a) OR IsNumber($b + $c)" )]
-        [TestCase( "$a OR ($b + 1) AND $c" )]
-        [TestCase( "IsNumber($a) OR IsNumber($b) AND IsNumber($c)" )]
+        [TestCase( "$a Or ($b + $c)" )]
+        [TestCase( "IsNumber($a) Or IsNumber($b + $c)" )]
+        [TestCase( "$a Or ($b + 1) And $c" )]
+        [TestCase( "IsNumber($a) Or IsNumber($b) And IsNumber($c)" )]
         [TestCase( "$a + $b" )]
         [TestCase( "$a + $b * $c" )]
         [TestCase( "$a + 312 * 3 - 4" )]

@@ -379,7 +379,7 @@ namespace AutoJIT.Parser.AST.Factory
                 throw new ArgumentNullException("operator");
             }
 
-            if ( @operator.Token.Type != TokenType.NOT ) {
+            if ( @operator.Token.Type != TokenType.Not ) {
                 throw new ArgumentException("Invalid token", "@operator");
             }
 

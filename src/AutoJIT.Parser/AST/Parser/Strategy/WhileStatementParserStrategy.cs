@@ -18,13 +18,20 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private WhileStatement ParseWhile( TokenQueue block ) {
-            TokenCollection whileExpressionToken = ParseWhileExpression( block );
+            var conditionLine = GetLine( block );
+            ConsumeAndEnsure( conditionLine, Keywords.While );
+
             TokenCollection whileBlock = ParseWhileBlock( block );
 
-            IExpressionNode whileExpression = ExpressionParser.ParseBlock( whileExpressionToken, true );
+            IExpressionNode whileExpression = ExpressionParser.ParseBlock(new TokenCollection( conditionLine ), true);
             List<IStatementNode> whileBlockStatements = StatementParser.ParseBlock( whileBlock );
 
             return AutoitSyntaxFactory.CreateWhileStatement( whileExpression, whileBlockStatements );
+        }
+
+        private TokenCollection ParseWhileBlock(TokenQueue block)
+        {
+            return GetBetween(block, Keywords.While, Keywords.Wend, true);
         }
     }
 }

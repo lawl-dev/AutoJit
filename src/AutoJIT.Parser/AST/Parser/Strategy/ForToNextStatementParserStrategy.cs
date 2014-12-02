@@ -45,5 +45,28 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
             return AutoitSyntaxFactory.CreateForToNextStatement( variableExpression, startExpression, endExpression, stepExpressions, statements );
         }
+
+        private TokenCollection ParseForToStartExpression(TokenQueue block)
+        {
+            var toReturn = new TokenCollection(block.DequeueWhile(x => x.Value.Keyword != Keywords.To));
+            ConsumeAndEnsure(block, Keywords.To);
+            return toReturn;
+        }
+
+        private TokenCollection ParseForToStopExpression(TokenQueue block)
+        {
+            var toReturn = new TokenCollection(block.DequeueWhile(x => x.Value.Keyword != Keywords.Step && x.Type != TokenType.NewLine));
+            return toReturn;
+        }
+
+        private TokenCollection ParseForToStepExpression(TokenQueue block)
+        {
+            return new TokenCollection(block.DequeueWhile(x => x.Type != TokenType.NewLine));
+        }
+
+        private TokenCollection ParseForToStatements(TokenQueue block)
+        {
+            return GetBetween(block, Keywords.For, Keywords.Next, true);
+        }
     }
 }

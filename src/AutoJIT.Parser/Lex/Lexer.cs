@@ -296,9 +296,9 @@ namespace AutoJIT.Parser.Lex
 
         private bool IsSpecialTokenType( IEnumerable<char> line ) {
             var specialKeywords = new List<TokenType> {
-                TokenType.AND,
-                TokenType.OR,
-                TokenType.NOT,
+                TokenType.And,
+                TokenType.Or,
+                TokenType.Not,
                 TokenType.Null
             };
 

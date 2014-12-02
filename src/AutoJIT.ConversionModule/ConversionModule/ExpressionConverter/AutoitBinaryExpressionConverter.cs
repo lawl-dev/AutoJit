@@ -27,7 +27,7 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
         }
 
         private bool NeedsCompilerFunctionCall( Token @operator ) {
-            return @operator.Type == TokenType.StringEqual || @operator.Type == TokenType.Pow || @operator.Type == TokenType.AND || @operator.Type == TokenType.OR || @operator.Type == TokenType.Concat;
+            return @operator.Type == TokenType.StringEqual || @operator.Type == TokenType.Pow || @operator.Type == TokenType.And || @operator.Type == TokenType.Or || @operator.Type == TokenType.Concat;
         }
 
         private ExpressionSyntax CreateCompilerFunctionCall( BinaryExpression node, IContextService context ) {
@@ -47,10 +47,10 @@ namespace AutoJIT.CSharpConverter.ConversionModule.ExpressionConverter
                 case TokenType.StringEqual:
                     compilerFunctionName = CompilerHelper.GetCompilerMemberName( x => x.EqualString( null, null ) );
                     break;
-                case TokenType.AND:
+                case TokenType.And:
                     compilerFunctionName = CompilerHelper.GetCompilerMemberName( x => x.AND( null, null ) );
                     break;
-                case TokenType.OR:
+                case TokenType.Or:
                     compilerFunctionName = CompilerHelper.GetCompilerMemberName( x => x.OR( null, null ) );
                     break;
                 case TokenType.Concat:

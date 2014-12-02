@@ -10,7 +10,7 @@ namespace AutoJIT.Parser.AST.Parser
 {
     public abstract class ParserBase
     {
-        protected static TokenCollection ParseInner( TokenQueue block, TokenType s, TokenType e ) {
+        protected static TokenCollection GetBetween( TokenQueue block, TokenType s, TokenType e ) {
             ConsumeAndEnsure( block, s );
 
             int count = 1;
@@ -30,7 +30,7 @@ namespace AutoJIT.Parser.AST.Parser
             return new TokenCollection( innerExpressionsBlock );
         }
 
-        protected TokenCollection ParseInner( TokenQueue block, Keywords s, Keywords e, bool sOver = false ) {
+        protected TokenCollection GetBetween( TokenQueue block, Keywords s, Keywords e, bool sOver = false ) {
             if ( !sOver ) {
                 ConsumeAndEnsure( block, s );
             }
@@ -74,48 +74,6 @@ namespace AutoJIT.Parser.AST.Parser
             return res;
         }
 
-        protected TokenCollection ParseInnerUntil( TokenQueue block, Keywords s, IEnumerable<Keywords> e, bool sOver = false ) {
-            if ( !sOver ) {
-                ConsumeAndEnsure( block, s );
-            }
-
-            int count = 1;
-            var res = new TokenCollection(
-                block.DequeueWhile(
-                    delegate( Token token, int i ) {
-                        if ( token.Value.Keyword == s ) {
-                            count++;
-                        }
-                        else if ( e.Contains( token.Value.Keyword ) ) {
-                            count--;
-                        }
-                        return count != 0;
-                    } ) );
-
-            return res;
-        }
-
-        protected IEnumerable<Token> ParseInnerUntil( TokenQueue block, Keywords[] keywordses, Keywords[] keywordses1, bool sOver ) {
-            if ( !sOver ) {
-                keywordses.Any( x => Consume( block, x ) );
-            }
-
-            int count = 1;
-            var res = new TokenCollection(
-                block.DequeueWhile(
-                    delegate( Token token, int i ) {
-                        if ( keywordses.Contains( token.Value.Keyword ) ) {
-                            count++;
-                        }
-                        if ( keywordses1.Contains( token.Value.Keyword ) ) {
-                            count--;
-                        }
-                        return count != 0;
-                    } ) );
-
-            return res;
-        }
-
         protected IEnumerable<Token> ParseInnerUntil( TokenQueue block, Keywords[] keywordses, Keywords[] keywordses1, bool sOver, Keywords[] ignoreIfInner ) {
             if ( !sOver ) {
                 keywordses.Any( x => Consume( block, x ) );
@@ -141,20 +99,6 @@ namespace AutoJIT.Parser.AST.Parser
                     } ) );
 
             return res;
-        }
-
-        public Token ParseVariableAssign( TokenQueue block ) {
-            Token token = block.Peek();
-            if ( !token.IsMathExpression
-                 &&
-                 !token.IsNumberExpression
-                 &&
-                 !token.IsBooleanExpression
-                 &&
-                 !token.IsAssignExpression ) {
-                throw new SyntaxTreeException( string.Format( "Invalid Token in AssignExpression: {0}", token.Type ), token.Col, token.Line );
-            }
-            return block.Dequeue();
         }
 
         protected static void ConsumeAndEnsure( TokenQueue block, TokenType tokenType ) {
@@ -222,6 +166,16 @@ namespace AutoJIT.Parser.AST.Parser
                 }
             } while ( isPartOfDeclaration && block.Any() );
             return toReturn;
+        }
+
+        public TokenQueue GetLine( TokenQueue queue ) {
+            var token = queue.DequeueWhile( x=>x.Type != TokenType.NewLine );
+            ConsumeAndEnsure( queue, TokenType.NewLine );
+            return new TokenQueue(token);
+        }
+
+        protected bool ConsumeNewLine( TokenQueue queue ) {
+            return Consume( queue, TokenType.NewLine );
         }
     }
 }

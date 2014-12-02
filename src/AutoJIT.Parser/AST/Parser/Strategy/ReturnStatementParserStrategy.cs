@@ -21,18 +21,13 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private ReturnStatement ParseReturn( TokenQueue block ) {
-            TokenCollection returnExpressionTokenCollection = ParseUntilNewLine( block );
-            ConsumeAndEnsure( block, TokenType.NewLine );
-
+            var line = GetLine( block );
+            
             IExpressionNode returnExpression = null;
-            if ( returnExpressionTokenCollection.Any() ) {
-                returnExpression = ExpressionParser.ParseBlock( returnExpressionTokenCollection, true );
+            if ( line.Any() ) {
+                returnExpression = ExpressionParser.ParseBlock( new TokenCollection( line ), true );
             }
-
-            if ( returnExpression == null ) {
-                returnExpression = new NullExpression();
-            }
-
+            
             return AutoitSyntaxFactory.CreateReturnStatement( returnExpression );
         }
     }

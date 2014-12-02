@@ -8,37 +8,8 @@ namespace AutoJIT.Parser.AST.Parser
 {
     public abstract class StatementParserBase : ParserBase
     {
-        protected TokenCollection ParseForToStartExpression( TokenQueue block ) {
-            var toReturn = new TokenCollection( block.DequeueWhile( x => x.Value.Keyword != Keywords.To ) );
-            ConsumeAndEnsure( block, Keywords.To );
-            return toReturn;
-        }
-
-        protected TokenCollection ParseForToStopExpression( TokenQueue block ) {
-            var toReturn = new TokenCollection( block.DequeueWhile( x => x.Value.Keyword != Keywords.Step && x.Type != TokenType.NewLine ) );
-            return toReturn;
-        }
-
-        protected TokenCollection ParseForToStepExpression( TokenQueue block ) {
-            return new TokenCollection( block.DequeueWhile( x => x.Type != TokenType.NewLine ) );
-        }
-
-        protected TokenCollection ParseForToStatements( TokenQueue block ) {
-            return ParseInner( block, Keywords.For, Keywords.Next, true );
-        }
-
         protected TokenCollection ParseUntilNewLine( TokenQueue block ) {
             return new TokenCollection( block.DequeueWhile( x => x.Type != TokenType.NewLine ) );
-        }
-
-        protected TokenCollection ParseWhileExpression( TokenQueue block ) {
-            var whileExpression = new TokenCollection( block.DequeueWhile( x => x.Type != TokenType.NewLine ).Where( x => x.Value.Keyword != Keywords.While ).ToList() );
-
-            return whileExpression;
-        }
-
-        protected TokenCollection ParseWhileBlock( TokenQueue block ) {
-            return ParseInner( block, Keywords.While, Keywords.Wend, true );
         }
 
         protected TokenCollection ParseIfCondition( TokenQueue block ) {
@@ -116,47 +87,26 @@ namespace AutoJIT.Parser.AST.Parser
             return new TokenCollection( elseIfblock );
         }
 
-        protected List<TokenCollection> ParseFunctionParameter( TokenQueue block ) {
-            TokenCollection innerExpressionsBlock = ParseInner( block, TokenType.Leftparen, TokenType.Rightparen );
-
-            var list = new List<TokenCollection> {
-                new TokenCollection()
-            };
-            foreach (Token token in innerExpressionsBlock) {
-                if ( token.Type == TokenType.Comma ) {
-                    list.Add( new TokenCollection() );
-                }
-                else {
-                    list.Last().Add( token );
-                }
-            }
-
-            return list;
-        }
-
-        protected TokenCollection ParseVariableAssignExpression( TokenQueue block ) {
-            return new TokenCollection( block.DequeueUntil( x => x.Type == TokenType.NewLine ) );
-        }
 
         protected TokenCollection ParseInnerUntilSwitchSelect( TokenQueue block ) {
             int count = 1;
             var res = new TokenCollection(
                 block.DequeueWhile(
                     delegate( Token token, int i ) {
-                        if ( token.Value.Keyword == Keywords.Switch
-                             ||
-                             token.Value.Keyword == Keywords.Select ) {
-                            count++;
-                        }
-                        else if ( token.Value.Keyword == Keywords.Case
-                                  &&
-                                  count == 1 ) {
-                            count--;
-                        }
-                        else if ( token.Value.Keyword == Keywords.Endselect
-                                  ||
-                                  token.Value.Keyword == Keywords.EndSwitch ) {
-                            count--;
+                        switch (token.Value.Keyword) {
+                                case Keywords.Switch:
+                                case Keywords.Select:
+                                count++;
+                                break;
+                            case Keywords.EndSelect:
+                            case Keywords.EndSwitch:
+                                count--;
+                                break;
+                            case Keywords.Case:
+                                var hasNoAncestors = count == 1;
+                                if ( hasNoAncestors )
+                                    count--;
+                                break;
                         }
                         return count != 0;
                     } ) );

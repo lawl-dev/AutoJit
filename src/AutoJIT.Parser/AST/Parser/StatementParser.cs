@@ -7,7 +7,6 @@ using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Exceptions;
-using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
 
 namespace AutoJIT.Parser.AST.Parser
@@ -139,10 +138,6 @@ namespace AutoJIT.Parser.AST.Parser
             }
             block.Dequeue();
             return true;
-        }
-
-        private void ConsumeNewLine( TokenQueue block ) {
-            block.DequeueWhile( x => x.Type == TokenType.NewLine ).ToList();
         }
     }
 }

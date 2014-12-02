@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser.Interface;
-using AutoJIT.Parser.AST.Statements;
-using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
 using AutoJIT.Parser.Exceptions;
 using AutoJIT.Parser.Lex;
@@ -13,7 +10,7 @@ using AutoJIT.Parser.Lex.Interface;
 
 namespace AutoJIT.Parser.AST.Parser
 {
-    public sealed class ScriptParser : ParserBase, IScriptParser
+    public class ScriptParser : ParserBase, IScriptParser
     {
         private readonly IExpressionParser _expressionParser;
         private readonly ILexer _lexer;
@@ -89,7 +86,7 @@ namespace AutoJIT.Parser.AST.Parser
 
 
         private IEnumerable<AutoitParameter> ParseFunctionParameter( TokenQueue tokenQueue ) {
-            var parameterPart = new TokenQueue( ParseInner( tokenQueue, TokenType.Leftparen, TokenType.Rightparen ) );
+            var parameterPart = new TokenQueue( GetBetween( tokenQueue, TokenType.Leftparen, TokenType.Rightparen ) );
             var toReturn = new List<AutoitParameter>();
 
             if ( !parameterPart.Any() ) {
@@ -115,21 +112,6 @@ namespace AutoJIT.Parser.AST.Parser
                       &&
                       parameterPart.Peek().Type == TokenType.Comma );
             return toReturn;
-        }
-    }
-
-    internal class FunctionToken {
-        public Token Name { get; private set; }
-        public List<AutoitParameter> Parameter { get; private set; }
-        public bool IsMain { get; private set; }
-        public Queue<Token> Tokens { get; private set; }
-        
-
-        public FunctionToken( Token name, List<AutoitParameter> parameter, bool isMain = false ) {
-            Name = name;
-            Parameter = parameter;
-            IsMain = isMain;
-            Tokens = new Queue<Token>();
         }
     }
 }

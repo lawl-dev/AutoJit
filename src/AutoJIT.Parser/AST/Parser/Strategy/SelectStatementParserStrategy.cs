@@ -23,7 +23,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             var cases = new List<SelectCase>();
 
             var elseStatements = new List<IStatementNode>();
-            while ( block.Peek().Value.Keyword != Keywords.Endselect ) {
+            while ( block.Peek().Value.Keyword != Keywords.EndSelect ) {
                 ConsumeAndEnsure( block, Keywords.Case );
 
                 if ( block.Peek().Value.Keyword != Keywords.Else ) {
@@ -36,12 +36,12 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 }
                 else {
                     ConsumeAndEnsure( block, Keywords.Else );
-                    TokenCollection elseBlock = ParseInnerUntil( block, Keywords.Select, Keywords.Endselect, true );
+                    TokenCollection elseBlock = ParseInnerUntil( block, Keywords.Select, Keywords.EndSelect, true );
 
                     elseStatements = StatementParser.ParseBlock( elseBlock );
                 }
             }
-            ConsumeAndEnsure( block, Keywords.Endselect );
+            ConsumeAndEnsure( block, Keywords.EndSelect );
             return AutoitSyntaxFactory.CreateSelectStatement( cases, elseStatements );
         }
     }

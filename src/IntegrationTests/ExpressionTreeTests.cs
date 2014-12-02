@@ -21,15 +21,15 @@ namespace IntegrationTests
             _compiler = componentContainer.GetInstance<ICompiler>();
         }
 
-        [TestCase( "NOT 1" )]
-        [TestCase( "1 OR (0 + 1)" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a')" )]
-        [TestCase( "IsNumber('1') OR IsNumber('123a')" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a')" )]
-        [TestCase( "1 OR (0 + 1) AND 2" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a') AND IsNumber('a')" )]
-        [TestCase( "IsNumber('1') OR IsNumber('123a') AND IsNumber('2')" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a') OR IsNumber(123)" )]
+        [TestCase( "Not 1" )]
+        [TestCase( "1 Or (0 + 1)" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a')" )]
+        [TestCase( "IsNumber('1') Or IsNumber('123a')" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a')" )]
+        [TestCase( "1 Or (0 + 1) And 2" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a') And IsNumber('a')" )]
+        [TestCase( "IsNumber('1') Or IsNumber('123a') And IsNumber('2')" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a') Or IsNumber(123)" )]
         [TestCase( "13123 + 312" )]
         [TestCase( "13123 + 312 * 3" )]
         [TestCase( "13123 + 312 * 3 - 4" )]
@@ -209,7 +209,7 @@ namespace IntegrationTests
         [TestCase( "BitXOR(BitAND('1', 2, 3), BitNOT('1' + 2), BitXOR(1, 2, 3)) = -2" )]
         [TestCase( "String(BinaryMid(Binary('1ZcstHe5aWa95mCa6ba1'), 4, 5))" )]
         [TestCase( "IsInt(StringMid('awdawdawdawdawdawdawdawdawdawdawdawdawda', 4, 5))" )]
-        [TestCase( "1 OR ( 2 AND 3 ) OR ( NOT 4 AND NOT 5)" )]
+        [TestCase( "1 Or ( 2 And 3 ) Or ( Not 4 And Not 5)" )]
         [TestCase( "Null = Null" )]
         public void Test_Expressions( string expression ) {
             string script = string.Format( _scriptTemplate, expression );
@@ -225,7 +225,7 @@ namespace IntegrationTests
 
         [TestCase( "(1 * 2) == 0 ? 10 : 100" )]
         [TestCase( "SetError ( 1 ,  0 ,  - 1 )" )]
-        [TestCase( "@error OR NOT 1" )]
+        [TestCase( "@error Or Not 1" )]
         public void Test_ExpressionsTernary( string expression ) {
             string script = string.Format( _scriptTemplate, expression );
             byte[] assemblyBytes = _compiler.Compile( script, OutputKind.ConsoleApplication, false );
@@ -240,15 +240,15 @@ namespace IntegrationTests
             CompareResults( result, au3Result );
         }
 
-        [TestCase( "NOT 1" )]
-        [TestCase( "1 OR (0 + 1)" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a')" )]
-        [TestCase( "IsNumber('1') OR IsNumber('123a')" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a')" )]
-        [TestCase( "1 OR (0 + 1) AND 2" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a') AND IsNumber('a')" )]
-        [TestCase( "IsNumber('1') OR IsNumber('123a') AND IsNumber('2')" )]
-        [TestCase( "IsNumber(1) OR IsNumber('a123a') OR IsNumber(123)" )]
+        [TestCase( "Not 1" )]
+        [TestCase( "1 Or (0 + 1)" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a')" )]
+        [TestCase( "IsNumber('1') Or IsNumber('123a')" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a')" )]
+        [TestCase( "1 Or (0 + 1) And 2" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a') And IsNumber('a')" )]
+        [TestCase( "IsNumber('1') Or IsNumber('123a') And IsNumber('2')" )]
+        [TestCase( "IsNumber(1) Or IsNumber('a123a') Or IsNumber(123)" )]
         [TestCase( "13123 + 312" )]
         [TestCase( "13123 + 312 * 3" )]
         [TestCase( "13123 + 312 * 3 - 4" )]
@@ -434,10 +434,10 @@ namespace IntegrationTests
             CompareResults( result, au3Result );
         }
 
-        [TestCase( "$a OR ($b + $c)" )]
-        [TestCase( "IsNumber($a) OR IsNumber($b + $c)" )]
-        [TestCase( "$a OR ($b + 1) AND $c" )]
-        [TestCase( "IsNumber($a) OR IsNumber($b) AND IsNumber($c)" )]
+        [TestCase( "$a Or ($b + $c)" )]
+        [TestCase( "IsNumber($a) Or IsNumber($b + $c)" )]
+        [TestCase( "$a Or ($b + 1) And $c" )]
+        [TestCase( "IsNumber($a) Or IsNumber($b) And IsNumber($c)" )]
         [TestCase( "$a + $b" )]
         [TestCase( "$a + $b * $c" )]
         [TestCase( "$a + 312 * 3 - 4" )]

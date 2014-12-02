@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Factory;
 using AutoJIT.Parser.AST.Parser.Interface;
@@ -18,7 +19,11 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private FunctionCallStatement ParseFunctionCall( TokenQueue block ) {
-            var functionCallExpression = ExpressionParser.ParseSingle<CallExpression>( block );
+            var line = GetLine( block );
+
+            var functionCallExpression = ExpressionParser.ParseSingle<CallExpression>( line );
+
+            Ensure( () => !line.Any() );
 
             return AutoitSyntaxFactory.CreateFunctionCallStatement( functionCallExpression );
         }

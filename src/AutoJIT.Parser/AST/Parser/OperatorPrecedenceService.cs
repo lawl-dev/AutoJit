@@ -19,20 +19,22 @@ namespace AutoJIT.Parser.AST.Parser
         }
 
         public TokenCollection PrepareOperatorPrecedence( TokenCollection expression ) {
-            TokenCollection tokenList = AddParenthesesForOperator( expression, TokenType.NOT );
+            TokenCollection tokenList = AddParenthesesForOperator( expression, TokenType.Not );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Pow );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Mult, TokenType.Div );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Plus, TokenType.Minus );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Concat );
             tokenList = AddParenthesesForOperator( tokenList, TokenType.Greater, TokenType.GreaterEqual, TokenType.Less, TokenType.LessEqual, TokenType.Equal, TokenType.Notequal, TokenType.StringEqual );
-            tokenList = AddParenthesesForOperator( tokenList, TokenType.AND, TokenType.OR );
+            tokenList = AddParenthesesForOperator( tokenList, TokenType.And, TokenType.Or );
             return tokenList;
         }
 
         private TokenCollection AddParenthesesForOperator( IEnumerable<Token> block, params TokenType[] operatorKeywords ) {
             var expressionToken = new TokenCollection( block.TakeWhile( x => x.Type != TokenType.NewLine ).ToList() );
+
             for ( int i = 0; i < expressionToken.Count; i++ ) {
-                var getToken = new Func<int, Token>(
+
+                var tokenAt = new Func<int, Token>(
                     index => {
                         if ( index >= expressionToken.Count
                              ||
@@ -41,6 +43,7 @@ namespace AutoJIT.Parser.AST.Parser
                         }
                         return expressionToken[index];
                     } );
+
                 var insertRightParen = new Action<TokenCollection, int>( ( col, pos ) => col.Insert( pos, _tokenFactory.CreateRightparen( 0, 0 ) ) );
                 var insertLeftParen = new Action<TokenCollection, int>(
                     ( col, pos ) => {
@@ -48,24 +51,24 @@ namespace AutoJIT.Parser.AST.Parser
                         i++;
                     } );
 
-                if ( operatorKeywords.Contains( getToken( i ).Type )
+                if ( operatorKeywords.Contains( tokenAt( i ).Type )
                      &&
-                     getToken( i-1 ).Type != TokenType.None
+                     tokenAt( i-1 ).Type != TokenType.None
                      &&
-                     !getToken( i-1 ).IsNumberExpression
+                     !tokenAt( i-1 ).IsNumberExpression
                      &&
-                     !getToken( i-1 ).IsMathExpression
+                     !tokenAt( i-1 ).IsMathExpression
                      &&
-                     getToken( i-1 ).Type != TokenType.Leftparen
+                     tokenAt( i-1 ).Type != TokenType.Leftparen
                      &&
-                     getToken( i-1 ).Type != TokenType.Leftsubscript
+                     tokenAt( i-1 ).Type != TokenType.Leftsubscript
                      &&
-                     getToken( i-1 ).Type != TokenType.Comma
+                     tokenAt( i-1 ).Type != TokenType.Comma
                      &&
-                     getToken( i-1 ).Type != TokenType.QuestionMark
+                     tokenAt( i-1 ).Type != TokenType.QuestionMark
                      &&
-                     getToken( i-1 ).Type != TokenType.DoubleDot ) {
-                    switch (getToken( i ).Type) {
+                     tokenAt( i-1 ).Type != TokenType.DoubleDot ) {
+                    switch (tokenAt( i ).Type) {
                         case TokenType.Pow:
                         case TokenType.Mult:
                         case TokenType.Div:
@@ -79,14 +82,14 @@ namespace AutoJIT.Parser.AST.Parser
                         case TokenType.Equal:
                         case TokenType.StringEqual:
                         case TokenType.Notequal:
-                        case TokenType.AND:
-                        case TokenType.OR:
-                            int rparenIndex = GetIndexBehindNextToken( getToken, i );
-                            int lparenIndex = GetIndexBeforeLastToken( getToken, i ).ToNullIfLessNull();
+                        case TokenType.And:
+                        case TokenType.Or:
+                            int rparenIndex = GetIndexBehindNextToken( tokenAt, i );
+                            int lparenIndex = GetIndexBeforeLastToken( tokenAt, i ).ToNullIfLessNull();
 
-                            while ( ( getToken( lparenIndex-1 ).IsSignOperator && ( getToken( lparenIndex-2 ).IsSignOperator || getToken( lparenIndex-2 ).Type == TokenType.None ) )
+                            while ( ( tokenAt( lparenIndex-1 ).IsSignOperator && ( tokenAt( lparenIndex-2 ).IsSignOperator || tokenAt( lparenIndex-2 ).Type == TokenType.None ) )
                                     ||
-                                    ( getToken( lparenIndex-2 ).Type == TokenType.Leftparen || getToken( lparenIndex-2 ).Type == TokenType.Leftsubscript ) ) {
+                                    ( tokenAt( lparenIndex-2 ).Type == TokenType.Leftparen || tokenAt( lparenIndex-2 ).Type == TokenType.Leftsubscript ) ) {
                                 lparenIndex--;
                             }
 
@@ -94,24 +97,24 @@ namespace AutoJIT.Parser.AST.Parser
                             insertLeftParen( expressionToken, lparenIndex );
                             i += 2;
                             break;
-                        case TokenType.NOT:
-                            int lparenIndexNot = HandleParenthesesForNotExpression( getToken, i );
+                        case TokenType.Not:
+                            int lparenIndexNot = HandleParenthesesForNotExpression( tokenAt, i );
                             insertRightParen( expressionToken, lparenIndexNot );
                             insertLeftParen( expressionToken, i );
                             i += 2;
                             break;
                         default:
-                            throw new SyntaxTreeException( "Unexpected operator", getToken( i ).Col, getToken( i ).Line );
+                            throw new SyntaxTreeException( "Unexpected operator", tokenAt( i ).Col, tokenAt( i ).Line );
                     }
                 }
             }
             return expressionToken;
         }
 
-        private int GetIndexBeforeLastToken( Func<int, Token> currentToken, int i ) {
+        private int GetIndexBeforeLastToken( Func<int, Token> tokenAt, int i ) {
             int seperatorCount = 0;
             Func<bool> isInner = () => seperatorCount > 0;
-            switch (currentToken( --i ).Type) {
+            switch (tokenAt( --i ).Type) {
                 case TokenType.Int32:
                 case TokenType.Int64:
                 case TokenType.Double:
@@ -121,12 +124,12 @@ namespace AutoJIT.Parser.AST.Parser
                 case TokenType.Null:
                     return i;
                 case TokenType.Rightsubscript:
-                    while ( currentToken( i ).Type == TokenType.Rightsubscript ) {
+                    while ( tokenAt( i ).Type == TokenType.Rightsubscript ) {
                         do {
-                            if ( currentToken( i ).Type == TokenType.Rightsubscript ) {
+                            if ( tokenAt( i ).Type == TokenType.Rightsubscript ) {
                                 seperatorCount++;
                             }
-                            if ( currentToken( i ).Type == TokenType.Leftsubscript ) {
+                            if ( tokenAt( i ).Type == TokenType.Leftsubscript ) {
                                 seperatorCount--;
                             }
                             i--;
@@ -134,18 +137,18 @@ namespace AutoJIT.Parser.AST.Parser
                     }
                     return i;
                 case TokenType.Rightparen:
-                    while ( currentToken( i ).Type == TokenType.Rightparen ) {
+                    while ( tokenAt( i ).Type == TokenType.Rightparen ) {
                         do {
-                            if ( currentToken( i ).Type == TokenType.Rightparen ) {
+                            if ( tokenAt( i ).Type == TokenType.Rightparen ) {
                                 seperatorCount++;
                             }
-                            if ( currentToken( i ).Type == TokenType.Leftparen ) {
+                            if ( tokenAt( i ).Type == TokenType.Leftparen ) {
                                 seperatorCount--;
                             }
                             i--;
                         } while ( isInner() );
                     }
-                    switch (currentToken( i ).Type) {
+                    switch (tokenAt( i ).Type) {
                         case TokenType.Function:
                         case TokenType.Userfunction:
                             return i;
@@ -153,24 +156,24 @@ namespace AutoJIT.Parser.AST.Parser
                             return i+1;
                     }
             }
-            throw new SyntaxTreeException( "unexpected token", currentToken( i ).Col, currentToken( i ).Line );
+            throw new SyntaxTreeException( "unexpected token", tokenAt( i ).Col, tokenAt( i ).Line );
         }
 
         private int HandleParenthesesForNotExpression( Func<int, Token> currentToken, int i ) {
             return GetIndexBehindNextToken( currentToken, i );
         }
 
-        private int GetIndexBehindNextToken( Func<int, Token> currentToken, int i ) {
+        private int GetIndexBehindNextToken( Func<int, Token> tokenAt, int i ) {
             int seperatorCount = 0;
             Func<bool> isInner = () => seperatorCount > 0;
 
-            while ( currentToken( i+1 ).IsSignOperator ) {
+            while ( tokenAt( i+1 ).IsSignOperator ) {
                 i++;
             }
 
-            switch (currentToken( ++i ).Type) {
+            switch (tokenAt( ++i ).Type) {
                 case TokenType.Keyword:
-                    switch (currentToken( i ).Value.Keyword) {
+                    switch (tokenAt( i ).Value.Keyword) {
                         case Keywords.Default:
                         case Keywords.True:
                         case Keywords.False:
@@ -185,14 +188,14 @@ namespace AutoJIT.Parser.AST.Parser
                 case TokenType.Null:
                     return ++i;
                 case TokenType.Variable:
-                    switch (currentToken( ++i ).Type) {
+                    switch (tokenAt( ++i ).Type) {
                         case TokenType.Leftsubscript:
-                            while ( currentToken( i ).Type == TokenType.Leftsubscript ) {
+                            while ( tokenAt( i ).Type == TokenType.Leftsubscript ) {
                                 do {
-                                    if ( currentToken( i ).Type == TokenType.Leftsubscript ) {
+                                    if ( tokenAt( i ).Type == TokenType.Leftsubscript ) {
                                         seperatorCount++;
                                     }
-                                    if ( currentToken( i ).Type == TokenType.Rightsubscript ) {
+                                    if ( tokenAt( i ).Type == TokenType.Rightsubscript ) {
                                         seperatorCount--;
                                     }
                                     i++;
@@ -205,10 +208,10 @@ namespace AutoJIT.Parser.AST.Parser
                 case TokenType.Userfunction:
                     i++;
                     do {
-                        if ( currentToken( i ).Type == TokenType.Leftparen ) {
+                        if ( tokenAt( i ).Type == TokenType.Leftparen ) {
                             seperatorCount++;
                         }
-                        if ( currentToken( i ).Type == TokenType.Rightparen ) {
+                        if ( tokenAt( i ).Type == TokenType.Rightparen ) {
                             seperatorCount--;
                         }
                         i++;
@@ -216,17 +219,17 @@ namespace AutoJIT.Parser.AST.Parser
                     return i;
                 case TokenType.Leftparen:
                     do {
-                        if ( currentToken( i ).Type == TokenType.Leftparen ) {
+                        if ( tokenAt( i ).Type == TokenType.Leftparen ) {
                             seperatorCount++;
                         }
-                        if ( currentToken( i ).Type == TokenType.Rightparen ) {
+                        if ( tokenAt( i ).Type == TokenType.Rightparen ) {
                             seperatorCount--;
                         }
                         i++;
                     } while ( isInner() );
                     return i;
                 default:
-                    throw new SyntaxTreeException( "unexpected token", currentToken( i ).Col, currentToken( i ).Line );
+                    throw new SyntaxTreeException( "unexpected token", tokenAt( i ).Col, tokenAt( i ).Line );
             }
         }
     }

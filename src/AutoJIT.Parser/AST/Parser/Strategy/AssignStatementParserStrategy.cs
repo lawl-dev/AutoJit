@@ -6,6 +6,7 @@ using AutoJIT.Parser.AST.Parser.Interface;
 using AutoJIT.Parser.AST.Statements;
 using AutoJIT.Parser.AST.Statements.Interface;
 using AutoJIT.Parser.Collection;
+using AutoJIT.Parser.Exceptions;
 using AutoJIT.Parser.Extensions;
 using AutoJIT.Parser.Lex;
 
@@ -20,13 +21,31 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private AssignStatement ParseAssignStatement( TokenQueue block ) {
-            var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( block );
-            Token assignOperator = ParseVariableAssign( block );
-            TokenCollection variableAssignExpressionTokenCollection = ParseVariableAssignExpression( block );
+            var line = GetLine( block );
 
-            IExpressionNode variableAssignExpression = ExpressionParser.ParseBlock( variableAssignExpressionTokenCollection, true );
+            var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( line );
+            
+            Token assignOperator = GetAssignOperator( line );
+            
+            IExpressionNode variableAssignExpression = ExpressionParser.ParseBlock( new TokenCollection( line ), true );
 
             return AutoitSyntaxFactory.CreateAssignStatement( variableExpression, variableAssignExpression, assignOperator );
+        }
+
+        public Token GetAssignOperator(TokenQueue block)
+        {
+            Token token = block.Peek();
+            if (!token.IsMathExpression
+                 &&
+                 !token.IsNumberExpression
+                 &&
+                 !token.IsBooleanExpression
+                 &&
+                 !token.IsAssignExpression)
+            {
+                throw new SyntaxTreeException(string.Format("Invalid Token in AssignExpression: {0}", token.Type), token.Col, token.Line);
+            }
+            return block.Dequeue();
         }
     }
 }

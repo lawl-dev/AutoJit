@@ -102,15 +102,15 @@ namespace AutoJIT.Parser.Lex
         }
 
         public Token CreateOr( int pos, int line ) {
-            return CreateToken( TokenType.OR, pos, line );
+            return CreateToken( TokenType.Or, pos, line );
         }
 
         public Token CreateAnd( int pos, int line ) {
-            return CreateToken( TokenType.AND, pos, line );
+            return CreateToken( TokenType.And, pos, line );
         }
 
         public Token CreateNot( int pos, int line ) {
-            return CreateToken( TokenType.NOT, pos, line );
+            return CreateToken( TokenType.Not, pos, line );
         }
 
         public Token CreateInt( int value, int pos, int line ) {

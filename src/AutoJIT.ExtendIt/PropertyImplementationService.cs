@@ -15,7 +15,7 @@ namespace AutoJIT.ExtendIt
 
         public PropertyImplementationService()
         {
-            _scriptParser = new ExtendedParserBootStrapper().GetInstance<IScriptParser>();
+            _scriptParser = new OOPParserBootStrapper().GetInstance<IScriptParser>();
         }
         
         public string ImplementProperties( string autoitCode ) {

@@ -26,28 +26,27 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private IEnumerable<IStatementNode> ParseLocal( TokenQueue block ) {
-            var lineBlock = new TokenQueue( block.DequeueWhile( x=>x.Type != TokenType.NewLine ) );
+            var line = GetLine( block );
 
 
             var toReturn = new List<IStatementNode>();
 
-            while ( lineBlock.Any()
+            while ( line.Any()
                     &&
-                    lineBlock.Peek().Type == TokenType.Variable ) {
-                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( lineBlock );
+                    line.Peek().Type == TokenType.Variable ) {
+                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>( line );
 
                 IExpressionNode initExpression = null;
-                if ( Consume( lineBlock, TokenType.Equal ) ) {
+                if ( Consume( line, TokenType.Equal ) ) {
                     initExpression = ExpressionParser.ParseBlock( new TokenCollection( ExtractUntilNextDeclaration( 
-                        lineBlock ) ), true );
+                        line ) ), true );
                 }
                 toReturn.Add( AutoitSyntaxFactory.CreateStaticDeclarationStatement( variableExpression, initExpression ) );
 
-                Consume( lineBlock, TokenType.Comma );
+                Consume( line, TokenType.Comma );
             }
 
-            Ensure(() => !lineBlock.Any());
-            ConsumeAndEnsure( block, TokenType.NewLine );
+            Ensure(() => !line.Any());
             return toReturn;
         }
     }

@@ -4,7 +4,7 @@ using AutoJIT.Parser.AST.Statements;
 
 namespace AutoJIT.Parser
 {
-    public class ExtendedParserBootStrapper : StandardParserBootStrapper
+    public class OOPParserBootStrapper : StandardParserBootStrapper
     {
         protected override void RegisterStatementParserStrategys() {
             base.RegisterStatementParserStrategys();

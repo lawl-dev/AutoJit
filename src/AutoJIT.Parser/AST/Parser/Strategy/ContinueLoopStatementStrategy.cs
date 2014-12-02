@@ -20,13 +20,14 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private ContinueLoopStatement ParseContinueloop( TokenQueue block ) {
-            Token expressionPart = block.DequeueWhile( x => x.Type != TokenType.NewLine ).SingleOrDefault();
+            var line = GetLine( block );
+            
+            Ensure( () => line.Count == 0 || line.Count == 1 );
 
-            TokenNode level = expressionPart != null
-                ? new TokenNode( expressionPart )
+            TokenNode level = line.Count == 1
+                ? new TokenNode( line.Single() )
                 : AutoitSyntaxFactory.CreateTokenNode( 1 );
-
-            ConsumeAndEnsure( block, TokenType.NewLine );
+            
 
             return AutoitSyntaxFactory.CreateContinueloopStatement( level );
         }

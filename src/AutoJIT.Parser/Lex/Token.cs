@@ -28,7 +28,7 @@ namespace AutoJIT.Parser.Lex
         }
 
         public bool IsBooleanExpression {
-            get { return Type == TokenType.OR || Type == TokenType.AND || Type == TokenType.NOT; }
+            get { return Type == TokenType.Or || Type == TokenType.And || Type == TokenType.Not; }
         }
 
         public bool IsAssignExpression {
@@ -86,12 +86,12 @@ namespace AutoJIT.Parser.Lex
                     return "<>";
                 case TokenType.Mult:
                     return "*";
-                case TokenType.AND:
-                    return "AND";
-                case TokenType.OR:
-                    return "OR";
-                case TokenType.NOT:
-                    return "NOT";
+                case TokenType.And:
+                    return "And";
+                case TokenType.Or:
+                    return "Or";
+                case TokenType.Not:
+                    return "Not";
                 case TokenType.Pow:
                     return "^";
                 case TokenType.Rightsubscript:

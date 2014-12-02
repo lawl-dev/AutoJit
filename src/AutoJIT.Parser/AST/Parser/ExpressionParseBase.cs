@@ -8,7 +8,7 @@ namespace AutoJIT.Parser.AST.Parser
     public abstract class ExpressionParseBase : ParserBase
     {
         protected static TokenCollection GetInnerExpression( TokenQueue block ) {
-            return ParseInner( block, TokenType.Leftparen, TokenType.Rightparen );
+            return GetBetween( block, TokenType.Leftparen, TokenType.Rightparen );
         }
 
         protected static IEnumerable<TokenCollection> GetArrayIndexExpressionTrees( TokenQueue block ) {
@@ -17,7 +17,7 @@ namespace AutoJIT.Parser.AST.Parser
             while ( block.Any()
                     &&
                     block.Peek().Type == TokenType.Leftsubscript ) {
-                TokenCollection arrayIndexExpressionTree = ParseInner( block, TokenType.Leftsubscript, TokenType.Rightsubscript );
+                TokenCollection arrayIndexExpressionTree = GetBetween( block, TokenType.Leftsubscript, TokenType.Rightsubscript );
                 list.Add( new TokenCollection( arrayIndexExpressionTree ) );
             }
             return list;

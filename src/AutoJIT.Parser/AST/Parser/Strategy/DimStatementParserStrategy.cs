@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using AutoJIT.Parser.AST.Expressions;
 using AutoJIT.Parser.AST.Expressions.Interface;
 using AutoJIT.Parser.AST.Factory;
@@ -23,24 +24,25 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         private IEnumerable<DimStatement> ParseDim( TokenQueue block ) {
             var toReturn = new List<DimStatement>();
 
-            var lineBlock = new TokenQueue(block.DequeueWhile( x => x.Type != TokenType.NewLine ));
+            var line = GetLine( block );
 
-            while (lineBlock.Any() && lineBlock.Peek().Type == TokenType.Variable)
+            while (!ConsumeNewLine( line ))
             {
-                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>(lineBlock);
+                var variableExpression = ExpressionParser.ParseSingle<VariableExpression>(line);
 
                 IExpressionNode initExpression = null;
-                if (Consume(lineBlock, TokenType.Equal))
+                if (Consume(line, TokenType.Equal))
                 {
-                    initExpression = ExpressionParser.ParseBlock(new TokenCollection(ExtractUntilNextDeclaration(lineBlock)), true);
+                    initExpression = ExpressionParser.ParseBlock(new TokenCollection(ExtractUntilNextDeclaration(line)), true);
                 }
 
                 toReturn.Add( AutoitSyntaxFactory.CreateDimStatement( variableExpression, initExpression ) );
 
-                Consume( lineBlock, TokenType.Comma );
+                Consume( line, TokenType.Comma );
             }
 
-            ConsumeAndEnsure( block, TokenType.NewLine );
+            Ensure( () => !line.Any() );
+
             return toReturn;
         }
     }

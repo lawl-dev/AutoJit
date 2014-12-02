@@ -34,7 +34,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 ConsumeAndEnsure(propertyToken, TokenType.NewLine);
 
                 if (Consume(propertyToken, Keywords.Get)) {
-                    var getStatementToken = new TokenQueue( ParseInner( propertyToken, Keywords.Get, Keywords.EndGet, true ) );
+                    var getStatementToken = new TokenQueue( GetBetween( propertyToken, Keywords.Get, Keywords.EndGet, true ) );
                     ConsumeAndEnsure( getStatementToken, TokenType.NewLine );
                     var getStatementNodes = StatementParser.ParseBlock(getStatementToken);
                     propertyGetter = AutoitSyntaxFactory.CreatePropertyGetter(AutoitSyntaxFactory.CreateBlockStatement(getStatementNodes));
@@ -42,7 +42,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
                 }
 
                 if (Consume(propertyToken, Keywords.Set)) {
-                    var setStatementToken = new TokenQueue( ParseInner( propertyToken, Keywords.Set, Keywords.EndSet, true ) );
+                    var setStatementToken = new TokenQueue( GetBetween( propertyToken, Keywords.Set, Keywords.EndSet, true ) );
                     ConsumeAndEnsure( setStatementToken, TokenType.NewLine );
                     var setStatementNodes = StatementParser.ParseBlock(setStatementToken);
                     propertySetter = AutoitSyntaxFactory.CreatePropertySetter(AutoitSyntaxFactory.CreateBlockStatement(setStatementNodes));
