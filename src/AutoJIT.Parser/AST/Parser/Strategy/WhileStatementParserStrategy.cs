@@ -22,9 +22,11 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
             ConsumeAndEnsure( conditionLine, Keywords.While );
 
             TokenCollection whileBlock = ParseWhileBlock( block );
-
+            
             IExpressionNode whileExpression = ExpressionParser.ParseBlock(new TokenCollection( conditionLine ), true);
             List<IStatementNode> whileBlockStatements = StatementParser.ParseBlock( whileBlock );
+
+            ConsumeNewLine(block);
 
             return AutoitSyntaxFactory.CreateWhileStatement( whileExpression, whileBlockStatements );
         }

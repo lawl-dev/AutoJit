@@ -22,17 +22,18 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         }
 
         private SwitchCaseStatement ParseSwitch( TokenQueue block ) {
-            TokenCollection expression = ParseUntilNewLine( block );
+            var expression = GetLine( block );
 
-            IExpressionNode condition = ExpressionParser.ParseBlock( expression, true );
-            ConsumeAndEnsure( block, TokenType.NewLine );
+            IExpressionNode condition = ExpressionParser.ParseBlock( new TokenCollection( expression ), true );
+            
             var cases = new List<SwitchCase>();
 
             List<IStatementNode> @else = null;
+
             ConsumeAndEnsure( block, Keywords.Case );
 
             while ( block.Peek().Value.Keyword != Keywords.EndSwitch ) {
-                var line = new TokenQueue( ParseUntilNewLine( block ) );
+                var line = GetLine( block );
 
                 var conditions = new List<TokenCollection>();
                 do {

@@ -35,13 +35,7 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
         public Token GetAssignOperator(TokenQueue block)
         {
             Token token = block.Peek();
-            if (!token.IsMathExpression
-                 &&
-                 !token.IsNumberExpression
-                 &&
-                 !token.IsBooleanExpression
-                 &&
-                 !token.IsAssignExpression)
+            if (!token.IsAssignExpression)
             {
                 throw new SyntaxTreeException(string.Format("Invalid Token in AssignExpression: {0}", token.Type), token.Col, token.Line);
             }
