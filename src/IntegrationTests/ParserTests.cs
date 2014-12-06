@@ -1,6 +1,10 @@
 using System;
 using System.IO;
 using AutoJIT.Compiler;
+using AutoJIT.Parser;
+using AutoJIT.Parser.AST;
+using AutoJIT.Parser.AST.Parser.Interface;
+using AutoJIT.Parser.Lex.Interface;
 using Microsoft.CodeAnalysis;
 using NUnit.Framework;
 
@@ -8,11 +12,13 @@ namespace IntegrationTests
 {
     public class ParserTests
     {
-        private readonly ICompiler _compiler;
+        private readonly IScriptParser _scriptParser;
+        private IPragmaParser _pragmaParser;
 
         public ParserTests() {
-            var standardAutoJITContainer = new CompilerBootStrapper();
-            _compiler = standardAutoJITContainer.GetInstance<ICompiler>();
+            var standardAutoJITContainer = new StandardParserBootStrapper();
+            _scriptParser = standardAutoJITContainer.GetInstance<IScriptParser>();
+            _pragmaParser = standardAutoJITContainer.GetInstance<IPragmaParser>();
         }
 
         [TestCase( "APIComConstants.au3" )]
@@ -153,7 +159,8 @@ namespace IntegrationTests
             string path = string.Format( "{0}..\\..\\..\\testdata\\ParserTests\\{1}", Environment.CurrentDirectory, file );
             string script = File.ReadAllText( path );
 
-            Assert.DoesNotThrow( () => _compiler.Compile( script, OutputKind.DynamicallyLinkedLibrary, false ) );
+            script = _pragmaParser.IncludeDependenciesAndResolvePragmas( script, new PragmaOptions() );
+            Assert.DoesNotThrow( () => _scriptParser.ParseScript( script, new PragmaOptions()));
         }
     }
 }

@@ -19,7 +19,6 @@ namespace AutoJIT.Parser.AST.Parser.Strategy
 
         private WhileStatement ParseWhile( TokenQueue block ) {
             var conditionLine = GetLine( block );
-            ConsumeAndEnsure( conditionLine, Keywords.While );
 
             TokenCollection whileBlock = ParseWhileBlock( block );
             
